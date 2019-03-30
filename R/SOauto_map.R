@@ -2,8 +2,7 @@ mid_point <- function (p, fold = FALSE)
   {
   gc <- "+proj=geocent"
   lc <- "+proj=longlat +datum=WGS84"
-   reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),
-                  target = lc, source = gc)[1L, 1:2, drop = FALSE]
+   reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
 
   }
 
@@ -168,7 +167,7 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
       }
 
     } else {
-      mp <- mid_point(cbind(x, y))
+      mp <- mid_point(p=cbind(x, y))
     if (is.null(centre_lon)) {
         #centre_lon <- zapsmall(round(mean(xlim), digits = 2))
         centre_lon <- mp[1]
