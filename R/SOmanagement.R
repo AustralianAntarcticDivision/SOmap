@@ -57,6 +57,8 @@
 #' Color for IWC boundaries; Default is blue.
 #' @param domcol
 #' Color for the Domain boundaries. Default is magenta.
+#' @param x
+#' Optional SOmap or SOautomap object.
 #'
 #' @return
 #' Produces at the very base a round bathymetry map of the southern hemisphere.
@@ -99,7 +101,7 @@ SOmanagement <- function(CCAMLR = FALSE,
                          eezcol = "maroon",
                          mpacol = "yellow",
                          iwccol = "blue",
-                         domcol = "magenta") {
+                         domcol = "magenta",x) {
     ## data
     SOmap_data <- NULL
     Bathy <- NULL
@@ -238,6 +240,13 @@ SOmanagement <- function(CCAMLR = FALSE,
     }
     structure(out, class = "SOmap_management")
 }
+
+if (!missing(x) && !inherits("SOmap"||"SOauto_map")){
+  stop("x must be a SOmap or SOauto_map object")}
+
+if (!missing(x) && inherits("SOmap"||"SOauto_map")){
+
+  }
 
 #' @method plot SOmap_management
 #' @export
