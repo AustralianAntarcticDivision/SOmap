@@ -21,7 +21,7 @@
 #' optional data to be included
 #'
 #' @return
-#' Produces at the very base a round bathymetry map of the southern hemisphere.
+#' Reprojects the given data object to polar projection. Works with Points, spatial, raster, SOmap, sf and sfc objects.
 #'
 #' @examples
 #' \dontrun{
