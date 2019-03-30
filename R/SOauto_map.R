@@ -1,6 +1,6 @@
 mid_point <- function (p, fold = FALSE)
   {
-  gc <- "+proj=geocent"
+  gc <- "+proj=geocent +datum=WGS84"
   lc <- "+proj=longlat +datum=WGS84"
    reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
 
