@@ -101,7 +101,7 @@ SOmanagement <- function(CCAMLR = FALSE,
                          eezcol = "maroon",
                          mpacol = "yellow",
                          iwccol = "blue",
-                         domcol = "magenta",x) {
+                         domcol = "magenta",basemap) {
     ## data
     SOmap_data <- NULL
     Bathy <- NULL
@@ -238,15 +238,13 @@ SOmanagement <- function(CCAMLR = FALSE,
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_planning_domains")
     }
-    structure(out, class = "SOmap_management")
-}
 
-if (!missing(x) && !inherits("SOmap"||"SOauto_map")){
-  stop("x must be a SOmap or SOauto_map object")}
-
-if (!missing(x) && inherits("SOmap"||"SOauto_map")){
-
+ if (!missing(basemap)){message("Nice try idiot")
+   for(i in names(out)[3:length(names(out))]){
+   out[[i]]$plotargs$x<-SOauto_crop(layer = out[[i]]$plotargs$x, x=basemap)
+    }
   }
+    structure(out, class = "SOmap_management")}
 
 #' @method plot SOmap_management
 #' @export
