@@ -111,7 +111,8 @@ SOmanagement <- function(CCAMLR = FALSE,
     ## CCAMLR Labels
     cclabs<-c("88.3", "48.4", "88.2", "48.2", "48.3", "58.4.3a", "58.4.3b", "58.5.2", "48.5", "48.6", "58.4.1", "88.1", "58.4.4a", "58.7", "58.6", "58.5.1", "58.4.4b")
 
-    out <- list(projection = raster::projection(Bathy), plot_sequence = NULL)
+    if(!missing(basemap)){out <- list(projection = basemap$projection, plot_sequence = NULL)}else(
+    out <- list(projection = raster::projection(Bathy), plot_sequence = NULL))
 
     if (IWC) {
         out$iwc <- list(as_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-170, Trim), c(-170, -78.40)), out$projection), col = iwccol)),
