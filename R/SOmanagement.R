@@ -243,11 +243,13 @@ SOmanagement <- function(CCAMLR = FALSE,
         for (i in setdiff(names(out), c("projection", "plot_sequence"))) {
             ## out[[i]] is either a list containing plotfun and plotargs, or a list of such lists, in which case we need to iterate over its elements
             ## should perhaps enforce the latter format for all components of the object, to simplify things, but for now cope with both:
-            if ("plotfun" %in% names(out[[i]])) {
+            if ("plotargs" %in% names(out[[i]])) {
                 out[[i]]$plotargs$x <- SOauto_crop(layer = out[[i]]$plotargs$x, x = basemap)
             } else {
                 for (subi in seq_along(out[[i]])) {
-                    out[[i]][[subi]]$plotargs$x <- SOauto_crop(layer = out[[i]][[subi]]$plotargs$x, x = basemap)
+                    if ("plotargs" %in% names(out[[i]][[subi]])) {
+                        out[[i]][[subi]]$plotargs$x <- SOauto_crop(layer = out[[i]][[subi]]$plotargs$x, x = basemap)
+                    }
                 }
             }
         }
