@@ -241,7 +241,7 @@ SOmanagement <- function(CCAMLR = FALSE,
     }
 
     if (!missing(basemap)) {
-        for (i in setdiff(names(out), c("projection", "plot_sequence"))) {
+        for (i in setdiff(names(out), c("projection", "plot_sequence", "iwc", "SPRFMORB"))) {
             ## out[[i]] is either a list containing plotfun and plotargs, or a list of such lists, in which case we need to iterate over its elements
             ## should perhaps enforce the latter format for all components of the object, to simplify things, but for now cope with both:
             if ("plotargs" %in% names(out[[i]])) {
