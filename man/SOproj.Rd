@@ -20,7 +20,7 @@ SOproj(x, y = NULL, target = NULL, data, ..., source = NULL)
 \item{source}{starting projection (default = longlat)}
 }
 \value{
-Produces at the very base a round bathymetry map of the southern hemisphere.
+Reprojects the given data object to polar projection. Works with Points, spatial, raster, SOmap, sf and sfc objects.
 }
 \description{
 Function for reprojecting data.

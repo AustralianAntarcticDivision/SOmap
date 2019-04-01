@@ -11,7 +11,7 @@ SOmanagement(CCAMLR = FALSE, CCAMLRlab = FALSE, SSRU = FALSE,
   IWClab = FALSE, Domains = FALSE, Domainslab = FALSE,
   rbcol = "green", sprfmocol = "grey50", ccamlrcol = "red",
   ssrucol = "grey50", ssmucol = "grey70", eezcol = "maroon",
-  mpacol = "yellow", iwccol = "blue", domcol = "magenta")
+  mpacol = "yellow", iwccol = "blue", domcol = "magenta", basemap)
 }
 \arguments{
 \item{CCAMLR}{Insert the CCAMLR boundaries.}
@@ -67,6 +67,8 @@ SOmanagement(CCAMLR = FALSE, CCAMLRlab = FALSE, SSRU = FALSE,
 \item{iwccol}{Color for IWC boundaries; Default is blue.}
 
 \item{domcol}{Color for the Domain boundaries. Default is magenta.}
+
+\item{x}{Optional SOmap or SOautomap object.}
 }
 \value{
 Produces at the very base a round bathymetry map of the southern hemisphere.
