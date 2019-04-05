@@ -249,5 +249,25 @@ print.SOmap_legend <- function(x, ...) {
     invisible(x)
 }
 
+#Notes for further development.
+#If we use raster::plot(x$ticks$data[x$ticks$data$id %in% c(1:(length(x$ticks$data$id)-1))], add = TRUE, col = x$ticks$col) we should be able to remove the mask2 option.
 
+#We should rewrite this using the curvy graticule function that Mike wrote which works better for low counts in discrete legends.
 
+# curvy_g <- function(lons, lats, proj = NULL, incr = 1) {
+#   if (is.null(proj)) stop("'proj' must be supplied")
+#   r <- raster::raster(raster::extent(range(lons), range(lats)),
+#                       ncols = length(lons) - 1, nrows = length(lats) - 1)
+#   r[] <- 0
+#   ll_crs <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0"
+#   out <- sf::as_Spatial(sf::st_segmentize( spex::polygonize(r), dfMaxLength = incr))
+#   sp::proj4string(out) <- sp::CRS(ll_crs)
+#   sp::spTransform(out, proj)
+# }
+#
+# prj <- projection(Bathy)
+# g <- curvy_g(lons = c(95, 135, 175),
+#              lats = c(-42, -39),
+#              proj = prj
+# )
+#plot(g, col=rainbow(10))
