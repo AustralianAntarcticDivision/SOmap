@@ -1,7 +1,7 @@
 #' Generate a ggplot2 representation of an SOmap object
 #'
 #' Note: this function is still experimental! Use at your own risk.
-#' 
+#'
 #' @param x SOmap: object as returned by \code{SOmap} or \code{SOmap2}
 #'
 #' @return A ggplot object
@@ -23,7 +23,7 @@ SOgg <- function(x) {
     p <- ggplot(data = bdf, aes_string(x = "x", y = "y")) + geom_raster(aes_string(fill = "Depth"))
     p <- p + coord_sf(default = TRUE) ## default = TRUE makes this the default coordinate system for geom_sf objects
     if (!is.null(x$bathy_legend)) {
-        p <- p + scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00")
+        p <- p +  scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE)#scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00")
 ##        raster::plot(x$bathy_legend$mask$graticule, border = x$bathy_legend$mask$border, col = x$bathy_legend$mask$col, add = TRUE) ## white mask
 ##        raster::plot(x$bathy_legend$ticks$ticks, add = TRUE, col = x$bathy_legend$ticks$col)
 ##        raster::plot(x$bathy_legend$legend$legend, lwd = x$bathy_legend$legend$lwd, add = TRUE)
@@ -32,9 +32,20 @@ SOgg <- function(x) {
 ##        this$fill <- x$bathy_legend$legend$col[as.numeric(this$id)]
   ## nb, would have to draw each of these polygons in turn, with a fixed (non-aesthetic) fill specification? otherwise it will interfere with the scale_fill_gradientn
 ##        raster::plot(x$bathy_legend$graticules$graticules, border = x$bathy_legend$graticules$border, col = x$bathy_legend$graticules$col, add = TRUE)
-##        text(x$bathy_legend$labels$data, labels = x$bathy_legend$labels$labels, cex = x$bathy_legend$labels$cex, adj = x$bathy_legend$labels$adj)
-    } else {
-        p <- p + scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = NULL)
+##        text(x$bathy_legend$labels$data, labels = x$bathy_legend$labels$labels, cex = x$bathy_legend$labels$cex, adj = x$bathy_legend$labels$adj)if (!is.null(x$border)) {
+        suppressMessages(thecolors <- fortify(x$bathy_legend$plotargs$legend$legend))
+        theticks<-x$bathy_legend$plotargs$ticks$ticks[x$bathy_legend$plotargs$ticks$ticks$ID %in% c(1:8),]
+        suppressMessages(theticks <- fortify(theticks))
+        suppressMessages(themask <- fortify(x$bathy_legend$plotargs$graticules$graticules))
+        thecolors$cols <- (as.numeric(thecolors$id))
+        p <- p + geom_line(data = theticks, aes_string(x = "long", y = "lat", group = "group"), col = "black", size=1)
+        p <- p + geom_polygon(data = thecolors, aes_string(x = "long", y = "lat", group = "group"),  fill=NA,col = "black", size=1)
+
+      for (ii in seq_along(x$bathy_legend$plotargs$legend$col)) {
+        p <- p + geom_polygon(data = thecolors[thecolors$cols == ii, ], aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend$plotargs$legend$col[ii], col =NA)        }
+      p <- p + geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x="lon", y="lat", label="a"),size=x$bathy_legend$labels$cex)
+           } else {
+        p <- p + scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE)
     }
 
     ## buffer to use for cropping things back to our extent of interest
