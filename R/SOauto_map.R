@@ -362,7 +362,7 @@ plot_graticule <- function(g) {
   plot(as(g, "Spatial"), add = TRUE, col = "grey")
   # points(g$x_start, g$y_start, col = 'red')
   #points(g$x_end, g$y_end, col = 'blue')
-
+op <- par(xpd = NA)
   invisible(lapply(seq_len(nrow(g)), function(i) {
     if (g$type[i] == "N" && g$x_start[i] - min(g$x_start) < 1000)
       text(g[i,"x_start"], g[i,"y_start"], labels = parse(text = g[i,"degree_label"]),
@@ -377,6 +377,7 @@ plot_graticule <- function(g) {
       text(g[i,"x_end"], g[i,"y_end"], labels = parse(text = g[i,"degree_label"]),
            srt = g$angle_end[i] - 90, pos = 3, cex = .7)
   }))
+  par(op)
   invisible(NULL)
 }
 
