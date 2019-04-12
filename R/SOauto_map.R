@@ -359,7 +359,7 @@ print.SOauto_map <- function(x,main=NULL, ...) {
 ## from ?sf::st_graticule
 plot_graticule <- function(g) {
   #plot(sf::st_geometry(g), add = TRUE, col = 'grey', reset = FALSE)
-  plot(sf::as(g, "Spatial"), add = TRUE, col = "grey")
+  plot(sf::as_Spatial(g), add = TRUE, col = "grey")
   # points(g$x_start, g$y_start, col = 'red')
   #points(g$x_end, g$y_end, col = 'blue')
 op <- par(xpd = NA)
