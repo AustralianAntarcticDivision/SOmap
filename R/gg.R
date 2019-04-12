@@ -43,7 +43,7 @@ SOgg <- function(x) {
 
       for (ii in seq_along(x$bathy_legend$plotargs$legend$col)) {
         p <- p + geom_polygon(data = thecolors[thecolors$cols == ii, ], aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend$plotargs$legend$col[ii], col =NA)        }
-      p <- p + geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x="lon", y="lat", label="a"),size=x$bathy_legend$labels$cex)
+      p <- p + geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x="lon", y="lat", label="a"), size=2)
            } else {
         p <- p + scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE)
     }
