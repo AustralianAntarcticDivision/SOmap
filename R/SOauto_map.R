@@ -42,6 +42,8 @@ mid_point <- function (p, fold = FALSE)
 #' @param llwd set line width
 #' @param lcol set line color
 #' @param bathyleg optional bathymetry legend (default=FALSE). Note when \code{bathyleg} is \code{FALSE}, plotting is done with \code{raster::image}, but when \code{bathyleg} is \code{TRUE} plotting uses \code{raster::plot}
+#' @param gratlon longitude values for graticule meridians
+#' @param gratlat latitude values for graticule parallels
 #' @param sample_type create random input data from a 'polar' or 'lonlat' domain
 #' @return An object of class SOauto_map, containing the data and other details required to generate the map. Printing or plotting the object will cause it to be plotted.
 #' @export
@@ -63,6 +65,7 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
                        contours = TRUE, levels = c(-500, -1000, -2000),
                        trim_background = TRUE,
                        mask = FALSE, ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
+                       gratlon = NULL, gratlat = NULL,
                        sample_type = sample(c("polar", "lonlat"), 1L)) {
     ## check inputs
     assert_that(is.flag(contours), !is.na(contours))
@@ -274,7 +277,8 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
     if (input_points || input_lines) xy <- rgdal::project(cbind(x, y), prj)
 
     if (graticule) {
-        graticule <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)), crs = raster::projection(target))
+        graticule <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
+                                      crs = raster::projection(target), lon = gratlon, lat = gratlat)
     } else {
         graticule <- NULL
     }
