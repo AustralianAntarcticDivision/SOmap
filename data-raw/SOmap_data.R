@@ -106,10 +106,10 @@ notANT <- sf::st_buffer(notANT, 0)
 ##buf <- sf::st_sf(a = 1, geometry = sf::st_sfc(sf::st_buffer(sf::st_point(cbind(0, 0)), 111111 * (90-abs(q+3)))), crs = psproj)
 antonly <- quantarcticR::qa_get("ADD Coastlines (low)", verbose = TRUE, cache = "persistent")
 antonly <- sf::st_as_sf(antonly)
-coast_ice <- antonly$geometry[antonly$SURFACE != "land"] ## ice shelves, tongues, rumples, etc
-coast_land <- sf::st_union(antonly$geometry[antonly$SURFACE == "land"]) ## collapse down
-coast_land <- sf::st_union(c(coast_land, st_geometry(notANT))) ## join with the not-Antarctic land
-## then we can plot coast_ice with appropriate col (fill colour) and border (line colour) separately to coast_land with its own fill and border
+ant_coast_ice <- antonly$geometry[antonly$SURFACE != "land"] ## ice shelves, tongues, rumples, etc
+ant_coast_land <- sf::st_union(antonly$geometry[antonly$SURFACE == "land"]) ## collapse down
+##coast_land <- sf::st_union(c(ant_coast_land, st_geometry(notANT))) ## join with the not-Antarctic land
+## then we can plot ant_coast_ice with appropriate col (fill colour) and border (line colour) separately to coast_land with its own fill and border
 ## NB if we wanted to keep non-Antarctic land separate from Antarctic land, we could do that here, and then they could be potentially plotted in different colours (or handled differently in other ways)
 
 
@@ -197,7 +197,8 @@ SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR
                    continent = continent, fronts_orsi = fronts_orsi,
                    seaice_feb = seaice_feb, seaice_oct = seaice_oct,
                    mirounga_leonina = mirounga_leonina,
-                   EEZ = EEZ1, ADD_coastline_med = ADD_coastline_med, GSHHS_i_L1 = GSHHS_i_L1)
+                   EEZ = EEZ1, ADD_coastline_med = ADD_coastline_med, GSHHS_i_L1 = GSHHS_i_L1,
+                   ant_coast_land = ant_coast_land, ant_coast_ice = ant_coast_ice)
 
 usethis::use_data(SOmap_data, overwrite = TRUE, compress = "xz")
 
