@@ -39,5 +39,12 @@
 
 SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE){
   SObj <- SOproj(x = x, y= y, target = target, source = source, ...)
-  plot(SObj, add=add, ...)
+  #everything <- par(no.readonly = TRUE)
+  if (add && (is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
+    points(SObj, ...)
+  } else {
+    plot(SObj, add=add, ...)
+  }
+  #par(everything)
+  invisible(NULL)
 }

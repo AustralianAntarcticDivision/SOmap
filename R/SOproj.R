@@ -42,6 +42,12 @@ SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
   ## shortcut out, we have an object
   if (is.null(y) && !missing(x)) {
     if (is.null(target)) target <- SOcrs()
+    source <- raster::projection(x)
+    if (is.na(source)) {
+      warning("assuming generic data is in longitude,latitude")
+      source <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    }
+    #browser()
     return(reproj(x, target = target, source = source))
 
   }
@@ -71,6 +77,7 @@ SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
       message("No projection provided, assuming longlat")
       source <- "+proj=longlat +datum=WGS84"
     }
+    browser()
     xy0 <- reproj::reproj(cbind(x, y), target = target, source = source)
     out <- data.frame(x = xy0[,1], y = xy0[,2], data = data)
     sp::coordinates(out) <- c("x", "y")
