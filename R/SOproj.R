@@ -77,7 +77,7 @@ SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
       message("No projection provided, assuming longlat")
       source <- "+proj=longlat +datum=WGS84"
     }
-    browser()
+    #browser()
     xy0 <- reproj::reproj(cbind(x, y), target = target, source = source)
     out <- data.frame(x = xy0[,1], y = xy0[,2], data = data)
     sp::coordinates(out) <- c("x", "y")
