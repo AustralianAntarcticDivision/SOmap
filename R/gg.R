@@ -110,9 +110,8 @@ SOgg <- function(x) {
         p <- p + geom_sf(data = this, col = x$eez$plotargs$border, fill = x$eez$plotargs$col, inherit.aes = FALSE)
         if (!is.null(x$eez$labels)) {
             this <- x$eez$labels$plotargs$x
-            this$lab <- x$eez$labels$plotargs$labels
             this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-            p <- p + geom_sf_text(data = this, aes_string(label = "lab"), parse = FALSE, col = x$eez$labels$plotargs$col, inherit.aes = FALSE)##, cex = x$eez$labels$cex, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
+            p <- p + geom_sf_text(data = this, aes_string(label = "ShortLabel"), parse = FALSE,size=2, col = x$eez$labels$plotargs$col, inherit.aes = FALSE)##, cex = x$eez$labels$cex, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
         }
     }
 
