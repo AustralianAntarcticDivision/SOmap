@@ -45,6 +45,7 @@ mid_point <- function (p, fold = FALSE)
 #' @param gratlon longitude values for graticule meridians
 #' @param gratlat latitude values for graticule parallels
 #' @param sample_type create random input data from a 'polar' or 'lonlat' domain
+#' @param gratpos positions (sides) of graticule labels
 #' @return An object of class SOauto_map, containing the data and other details required to generate the map. Printing or plotting the object will cause it to be plotted.
 #' @export
 #' @examples
@@ -65,7 +66,7 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
                        contours = TRUE, levels = c(-500, -1000, -2000),
                        trim_background = TRUE,
                        mask = FALSE, ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
-                       gratlon = NULL, gratlat = NULL,
+                       gratlon = NULL, gratlat = NULL, gratpos="all",
                        sample_type = sample(c("polar", "lonlat"), 1L)) {
     ## check inputs
     assert_that(is.flag(contours), !is.na(contours))
@@ -299,7 +300,7 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
                    ppch = ppch, pcol = pcol, pcex = pcex,
                    llty = llty, llwd = llwd, lcol = lcol,
                    contours = contours, levels = levels, contour_colour = "black",
-                   graticule = graticule, crs = prj),
+                   graticule = graticule, crs = prj, gratpos=gratpos),
               class = "SOauto_map")
 
 }
@@ -350,32 +351,43 @@ print.SOauto_map <- function(x,main=NULL, ...) {
     if (!is.null(x$lines_data)) lines(x$lines_data, lty = x$llty, lwd = x$llwd, col = x$lcol)
 
     if (!is.null(x$graticule)) {
-        plot_graticule(x$graticule)
+        plot_graticule(x$graticule, GratPos=x$gratpos)
     }
     par(op)
     invisible(x)
 }
 
+'%notin%'<-Negate('%in%')
+
 ## from ?sf::st_graticule
-plot_graticule <- function(g) {
+plot_graticule <- function(g, GratPos=gratpos) {
+  gratopts<-c("all", "left", "right", "top", "bottom")
+  if(GratPos[1] %notin% gratopts) stop("gratpos must be one of: all, left, right, top, bottom.")
   #plot(sf::st_geometry(g), add = TRUE, col = 'grey', reset = FALSE)
   plot(sf::as_Spatial(g), add = TRUE, col = "grey")
   # points(g$x_start, g$y_start, col = 'red')
   #points(g$x_end, g$y_end, col = 'blue')
 op <- par(xpd = NA)
   invisible(lapply(seq_len(nrow(g)), function(i) {
-    if (g$type[i] == "N" && g$x_start[i] - min(g$x_start) < 1000)
+    if(GratPos=="all" || "left" %in% GratPos){
+      if (g$type[i] == "N" && g$x_start[i] - min(g$x_start) < 1000){
       text(g[i,"x_start"], g[i,"y_start"], labels = parse(text = g[i,"degree_label"]),
-           srt = g$angle_start[i], pos = 2, cex = .7) #bottom
-    if (g$type[i] == "E" && g$y_start[i] - min(g$y_start) < 1000)
+           srt = g$angle_start[i], pos = 2, cex = .7)}} #left
+
+    if(GratPos=="all" || "bottom" %in% GratPos){
+      if (g$type[i] == "E" && g$y_start[i] - min(g$y_start) < 1000){
       text(g[i,"x_start"], g[i,"y_start"], labels = parse(text = g[i,"degree_label"]),
-           srt = g$angle_start[i] - 90, pos = 1, cex = .7) #left
-    if (g$type[i] == "N" && g$x_end[i] - max(g$x_end) > -1000)
+            srt = g$angle_start[i] - 90, pos = 1, cex = .7)}} #bottom
+
+    if(GratPos=="all" || "right" %in% GratPos ){
+    if (g$type[i] == "N" && g$x_end[i] - max(g$x_end) > -1000){
+       text(g[i,"x_end"], g[i,"y_end"], labels = parse(text = g[i,"degree_label"]),
+            srt = g$angle_end[i], pos = 4, cex = .7)}} #right
+
+    if(GratPos=="all" || "top" %in% GratPos ){
+    if (g$type[i] == "E" && g$y_end[i] - max(g$y_end) > -1000){
       text(g[i,"x_end"], g[i,"y_end"], labels = parse(text = g[i,"degree_label"]),
-           srt = g$angle_end[i], pos = 4, cex = .7) #top
-    if (g$type[i] == "E" && g$y_end[i] - max(g$y_end) > -1000)
-      text(g[i,"x_end"], g[i,"y_end"], labels = parse(text = g[i,"degree_label"]),
-           srt = g$angle_end[i] - 90, pos = 3, cex = .7) #right
+           srt = g$angle_end[i] - 90, pos = 3, cex = .7)}} #top
   }))
   par(op)
   invisible(NULL)
