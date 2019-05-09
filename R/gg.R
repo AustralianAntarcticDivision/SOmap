@@ -58,17 +58,17 @@ SOgg <- function(x) {
         this <- suppressWarnings(sf::st_intersection(buf, x$coastline$plotargs$x))
         p <- p + geom_sf(data = this, fill = x$coastline$plotargs$col, col = x$coastline$plotargs$border, inherit.aes = FALSE)
     }
-#    if (!is.null(x$iwc)) {
-#        for (ii in seq_len(length(x$iwc$data))) {
-#            this <- as.data.frame(x$iwc$data[[ii]])
-#            names(this) <- c("x", "y")
-#            p <- p + geom_path(data = this, col = x$iwc$col)
-#        }
-#        if (!is.null(x$iwc$labels)) {
-#            this <- as.data.frame(x$iwc$labels$data)
-#            p <- p + geom_text(data = this, aes_string(x = "lon", y = "lat", label = "a"), col = x$iwc$labels$col)##, cex = x$iwc$labels$cex, pos = x$iwc$labels$pos, offset = x$iwc$labels$offset)
-#        }
-#    }
+   # if (!is.null(x$iwc)) {
+   #     for (ii in seq_len(length(x$iwc$data))) {
+   #         this <- as.data.frame(x$iwc$data[[ii]])
+   #         names(this) <- c("x", "y")
+   #         p <- p + geom_path(data = this, col = x$iwc$col)
+   #     }
+   #     if (!is.null(x$iwc$labels)) {
+   #         this <- as.data.frame(x$iwc$labels$data)
+   #         p <- p + geom_text(data = this, aes_string(x = "lon", y = "lat", label = "a"), col = x$iwc$labels$col)##, cex = x$iwc$labels$cex, pos = x$iwc$labels$pos, offset = x$iwc$labels$offset)
+   #     }
+   # }
 
     ## fronts
     if (!is.null(x$fronts)) {
@@ -121,11 +121,12 @@ SOgg <- function(x) {
         p <- p + geom_sf(data = this, col = x$mpa$plotargs$border, fill = x$mpa$plotargs$col, inherit.aes = FALSE)
         if (!is.null(x$mpa$labels)) {
             this <- x$mpa$labels$plotargs$x
-            this$lab <- x$mpa$labels$plotargs$labels
             this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-            p <- p + geom_sf_text(data = this, aes_string(label = "lab"), parse = TRUE, col = x$mpa$labels$plotargs$col, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
     }
+
+    geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x="lon", y="lat", label="a"), size=2)
 
     if (!is.null(x$ccamlr_planning_domains)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_planning_domains$plotargs$x)))
