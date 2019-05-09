@@ -105,7 +105,29 @@ SOgg <- function(x) {
 ##    plot_ccamlr_areas(x$ccamlr_statistical_areas)
 
     ## NOTE, parse args to geom_text and geom_sf_text seem fragile, need better user control
-    if (!is.null(x$eez)) {
+    # if (!is.null(x$ccamlr_statistical_areas)) {
+    #   this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_statistical_areas$plotargs$x)))
+    #   p <- p + geom_sf(data = this, col = x$ccamlr_statistical_areas$plotargs$border,  inherit.aes = FALSE)#fill = x$ccamlr_statistical_areas$plotargs$col)
+    #   if (!is.null(x$ccamlr_statistical_areas$labels)) {
+    #     this <- x$ccamlr_statistical_areas$plotargs$x
+    #     this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+    #     p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = TRUE, col = x$ccamlr_statistical_areas$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+    #   }
+    # }
+
+    if (!is.null(x$ccamlr_ssru)) {
+      if(is.null(x$ccamlr_ssru$plotargs$col)){x$ccamlr_ssru$plotargs$col<-NA}
+      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssru$plotargs$x)))
+      p <- p + geom_sf(data = this, col = x$ccamlr_ssru$plotargs$border, fill = x$ccamlr_ssru$plotargs$col, inherit.aes = FALSE)
+      if (!is.null(x$ccamlr_ssru$labels)) {
+        this <- x$ccamlr_ssru$labels$plotargs$x
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "Name"), parse = TRUE, col = x$ccamlr_ssru$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+      }
+    }
+
+
+        if (!is.null(x$eez)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$eez$plotargs$x)))
         p <- p + geom_sf(data = this, col = x$eez$plotargs$border, fill = x$eez$plotargs$col, inherit.aes = FALSE)
         if (!is.null(x$eez$labels)) {
