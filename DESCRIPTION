@@ -21,7 +21,7 @@ Imports:
     proj4,
     rgdal,
     rgeos,
-    sf,
+    sf (>= 0.7-3),
     spbabel,
     spex,
     tabularaster,
