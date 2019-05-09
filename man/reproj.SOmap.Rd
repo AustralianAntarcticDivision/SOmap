@@ -15,7 +15,7 @@
 
 \item{target}{target specification (PROJ.4 string or epsg code)}
 
-\item{...}{arguments passed to \code{\link[proj4:ptransform]{proj4::ptransform()}}}
+\item{...}{arguments passed to \code{\link{ptransform}}}
 
 \item{source}{source specification (PROJ.4 string or epsg code)}
 }

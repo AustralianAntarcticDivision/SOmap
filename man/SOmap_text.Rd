@@ -11,6 +11,8 @@ SOmap_text(x, labelcol, ...)
 \item{x}{data.frame or Spatial data.frame: data to pass to \code{text}}
 
 \item{labelcol}{string: name of the column in \code{x} to use for text labels}
+
+\item{...}{other plot arguements}
 }
 \value{
 as for \code{text}

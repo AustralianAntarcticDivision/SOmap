@@ -68,7 +68,7 @@ SOmanagement(CCAMLR = FALSE, CCAMLRlab = FALSE, SSRU = FALSE,
 
 \item{domcol}{Color for the Domain boundaries. Default is magenta.}
 
-\item{x}{Optional SOmap or SOautomap object.}
+\item{basemap}{Optional SOmap or SOautomap object.}
 }
 \value{
 Produces at the very base a round bathymetry map of the southern hemisphere.

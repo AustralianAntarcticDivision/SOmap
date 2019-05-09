@@ -360,7 +360,7 @@ print.SOauto_map <- function(x,main=NULL, ...) {
 '%notin%'<-Negate('%in%')
 
 ## from ?sf::st_graticule
-plot_graticule <- function(g, GratPos=gratpos) {
+plot_graticule <- function(g, GratPos) {
   gratopts<-c("all", "left", "right", "top", "bottom")
   if(GratPos[1] %notin% gratopts) stop("gratpos must be one of: all, left, right, top, bottom.")
   #plot(sf::st_geometry(g), add = TRUE, col = 'grey', reset = FALSE)

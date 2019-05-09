@@ -57,7 +57,7 @@
 #' Color for IWC boundaries; Default is blue.
 #' @param domcol
 #' Color for the Domain boundaries. Default is magenta.
-#' @param x
+#' @param basemap
 #' Optional SOmap or SOautomap object.
 #'
 #' @return
@@ -277,6 +277,7 @@ print.SOmap_management <- function(x, ...) {
 #'
 #' @param x data.frame or Spatial data.frame: data to pass to \code{text}
 #' @param labelcol string: name of the column in \code{x} to use for text labels
+#' @param ... other plot arguements
 #'
 #' @return as for \code{text}
 #'

@@ -11,8 +11,8 @@ SOauto_map(x, y, centre_lon = NULL, centre_lat = NULL,
   contours = TRUE, levels = c(-500, -1000, -2000),
   trim_background = TRUE, mask = FALSE, ppch = 19, pcol = 2,
   pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
-  gratlon = NULL, gratlat = NULL, sample_type = sample(c("polar",
-  "lonlat"), 1L))
+  gratlon = NULL, gratlat = NULL, gratpos = "all",
+  sample_type = sample(c("polar", "lonlat"), 1L))
 }
 \arguments{
 \item{x}{optional input data longitudes}
@@ -66,6 +66,8 @@ SOauto_map(x, y, centre_lon = NULL, centre_lat = NULL,
 \item{gratlon}{longitude values for graticule meridians}
 
 \item{gratlat}{latitude values for graticule parallels}
+
+\item{gratpos}{positions (sides) of graticule labels}
 
 \item{sample_type}{create random input data from a 'polar' or 'lonlat' domain}
 }
