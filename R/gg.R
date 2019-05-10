@@ -122,7 +122,7 @@ SOgg <- function(x) {
       if (!is.null(x$ccamlr_ssru$labels)) {
         this <- x$ccamlr_ssru$labels$plotargs$x
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "Name"), parse = TRUE, col = x$ccamlr_ssru$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
       }
     }
 
