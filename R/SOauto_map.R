@@ -315,7 +315,7 @@ plot.SOauto_map <- function (x, y, ...) {
 
 #' @method print SOauto_map
 #' @export
-print.SOauto_map <- function(x,main=NULL, ...) {
+print.SOauto_map <- function(x,main=NULL, ..., set_clip = TRUE) {
   base_mar <- c(5.1, 4.1, 4.1, 2.1)
     aspect <- if (raster::isLonLat(x$target)) 1/cos(mean(c(raster::xmin(x$target), raster::xmax(x$target))) * pi/180) else 1
     if (is.null(main)) {
@@ -330,7 +330,6 @@ print.SOauto_map <- function(x,main=NULL, ...) {
     #on.exit(par(pp))
     ## record current crs
     SOcrs(x$projection)
-    newextent <- raster::extent(par("usr"))
 
     if(!is.null(main)){graphics::title(main = main)}
     op <- par(xpd = FALSE)
@@ -354,6 +353,9 @@ print.SOauto_map <- function(x,main=NULL, ...) {
         plot_graticule(x$graticule, GratPos=x$gratpos)
     }
     par(op)
+    if (set_clip) graphics::clip(raster::xmin(x$target), raster::xmax(x$target),
+                                 raster::ymin(x$target), raster::ymax(x$target))
+
     invisible(x)
 }
 
