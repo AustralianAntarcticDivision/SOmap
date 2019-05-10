@@ -130,6 +130,28 @@ SOgg <- function(x) {
       }
     }
 
+    # if (!is.null(x$iwc)) {
+    #   for (ii in seq_len(length(x$iwc$data))) {
+    #     this <- as.data.frame(x$iwc$data[[ii]])
+    #     names(this) <- c("x", "y")
+    #     p <- p + geom_path(data = this, col = x$iwc$col)
+    #   }
+    # if (!is.null(x$ccamlr_planning_domains$labels)) {
+    #   this <- x$ccamlr_planning_domains$labels[[1]]$plotargs$x$labs1
+    #   that <- x$ccamlr_planning_domains$labels[[2]]$plotargs$x$labs2
+    #   then <- x$ccamlr_planning_domains$labels[[3]]$plotargs$x$labs7
+    #
+    #   this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+    #   that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(that)))
+    #   then <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(then)))
+    #
+    #   p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[1]]$plotargs$col, size=2, inherit.aes = FALSE)+
+    #     geom_sf_text(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[2]]$plotargs$col, size=2, inherit.aes = FALSE)+
+    #     geom_sf_text(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[3]]$plotargs$col, size=2, inherit.aes = FALSE)
+    # }
+    # }
+
+
     if (!is.null(x$research_blocks)) {
       if(is.null(x$research_blocks$plotargs$col)){x$research_blocks$plotargs$col<-NA}
       this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
@@ -213,14 +235,3 @@ SOgg <- function(x) {
 ## NOTE, parse args to geom_text and geom_sf_text seem fragile, need better user control
 
 
-# if (!is.null(x$iwc)) {
-#     for (ii in seq_len(length(x$iwc$data))) {
-#         this <- as.data.frame(x$iwc$data[[ii]])
-#         names(this) <- c("x", "y")
-#         p <- p + geom_path(data = this, col = x$iwc$col)
-#     }
-#     if (!is.null(x$iwc$labels)) {
-#         this <- as.data.frame(x$iwc$labels$data)
-#         p <- p + geom_text(data = this, aes_string(x = "lon", y = "lat", label = "a"), col = x$iwc$labels$col)##, cex = x$iwc$labels$cex, pos = x$iwc$labels$pos, offset = x$iwc$labels$offset)
-#     }
-# }
