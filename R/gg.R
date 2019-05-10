@@ -58,17 +58,7 @@ SOgg <- function(x) {
         this <- suppressWarnings(sf::st_intersection(buf, x$coastline$plotargs$x))
         p <- p + geom_sf(data = this, fill = x$coastline$plotargs$col, col = x$coastline$plotargs$border, inherit.aes = FALSE)
     }
-   # if (!is.null(x$iwc)) {
-   #     for (ii in seq_len(length(x$iwc$data))) {
-   #         this <- as.data.frame(x$iwc$data[[ii]])
-   #         names(this) <- c("x", "y")
-   #         p <- p + geom_path(data = this, col = x$iwc$col)
-   #     }
-   #     if (!is.null(x$iwc$labels)) {
-   #         this <- as.data.frame(x$iwc$labels$data)
-   #         p <- p + geom_text(data = this, aes_string(x = "lon", y = "lat", label = "a"), col = x$iwc$labels$col)##, cex = x$iwc$labels$cex, pos = x$iwc$labels$pos, offset = x$iwc$labels$offset)
-   #     }
-   # }
+
 
     ## fronts
     if (!is.null(x$fronts)) {
@@ -98,22 +88,24 @@ SOgg <- function(x) {
                             panel.border = element_blank(),
                             panel.background = element_blank())
 
-##    plot_research_blocks(x$research_blocks)
-##    plot_sprfmo(x$sprfmo_research_blocks)
-##    plot_ssru(x$ccamlr_ssru)
-##    plot_ssmu(x$ccamlr_ssmu)
-##    plot_ccamlr_areas(x$ccamlr_statistical_areas)
+    if (!is.null(x$ccamlr_statistical_areas)) {
+      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_statistical_areas$plotargs$x)))
+      p <- p + geom_sf(data = this, col = x$ccamlr_statistical_areas$plotargs$border,  inherit.aes = FALSE, fill=NA)#fill = x$ccamlr_statistical_areas$plotargs$col)
+      if (!is.null(x$ccamlr_statistical_areas$labels)) {
+        this <- x$ccamlr_statistical_areas$labels[[1]]$plotargs$x
+        that <- x$ccamlr_statistical_areas$labels[[2]]$plotargs$x
+        then <- x$ccamlr_statistical_areas$labels[[3]]$plotargs$x
 
-    ## NOTE, parse args to geom_text and geom_sf_text seem fragile, need better user control
-    # if (!is.null(x$ccamlr_statistical_areas)) {
-    #   this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_statistical_areas$plotargs$x)))
-    #   p <- p + geom_sf(data = this, col = x$ccamlr_statistical_areas$plotargs$border,  inherit.aes = FALSE)#fill = x$ccamlr_statistical_areas$plotargs$col)
-    #   if (!is.null(x$ccamlr_statistical_areas$labels)) {
-    #     this <- x$ccamlr_statistical_areas$plotargs$x
-    #     this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-    #     p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = TRUE, col = x$ccamlr_statistical_areas$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
-    #   }
-    # }
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+        that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(that)))
+        then <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(then)))
+
+        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[1]]$plotargs$col, size=2, inherit.aes = FALSE)+
+          geom_sf_text(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[2]]$plotargs$col, size=2, inherit.aes = FALSE)+
+          geom_sf_text(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[3]]$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+      }
+    }
+
 
     if (!is.null(x$ccamlr_ssru)) {
       if(is.null(x$ccamlr_ssru$plotargs$col)){x$ccamlr_ssru$plotargs$col<-NA}
@@ -126,6 +118,35 @@ SOgg <- function(x) {
       }
     }
 
+
+    if (!is.null(x$ccamlr_ssmu)) {
+      if(is.null(x$ccamlr_ssmu$plotargs$col)){x$ccamlr_ssmu$plotargs$col<-NA}
+      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssmu$plotargs$x)))
+      p <- p + geom_sf(data = this, col = x$ccamlr_ssmu$plotargs$border, fill = x$ccamlr_ssmu$plotargs$col, inherit.aes = FALSE)
+      if (!is.null(x$ccamlr_ssmu$labels)) {
+        this <- x$ccamlr_ssmu$plotargs$x
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$plotargs$border, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+      }
+    }
+
+    if (!is.null(x$research_blocks)) {
+      if(is.null(x$research_blocks$plotargs$col)){x$research_blocks$plotargs$col<-NA}
+      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
+      p <- p + geom_sf(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)
+      if (!is.null(x$research_blocks$labels)) {
+        this <- x$research_blocks$labels$plotargs$x
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+      }
+    }
+
+    if (!is.null(x$sprfmo_research_blocks)) {
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$sprfmo_research_blocks[[1]]$plotargs$x)))
+        that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$sprfmo_research_blocks[[2]]$plotargs$x)))
+      p <- p + geom_sf(data = this, col = x$sprfmo_research_blocks[[1]]$plotargs$col,  inherit.aes = FALSE)+geom_sf(data = that, col = x$sprfmo_research_blocks[[2]]$plotargs$col,  inherit.aes = FALSE)
+
+    }
 
         if (!is.null(x$eez)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$eez$plotargs$x)))
@@ -176,3 +197,30 @@ SOgg <- function(x) {
     }
     p
 }
+
+
+
+
+
+
+
+##    plot_research_blocks(x$research_blocks)
+##    plot_sprfmo(x$sprfmo_research_blocks)
+##    plot_ssru(x$ccamlr_ssru)
+##    plot_ssmu(x$ccamlr_ssmu)
+##    plot_ccamlr_areas(x$ccamlr_statistical_areas)
+
+## NOTE, parse args to geom_text and geom_sf_text seem fragile, need better user control
+
+
+# if (!is.null(x$iwc)) {
+#     for (ii in seq_len(length(x$iwc$data))) {
+#         this <- as.data.frame(x$iwc$data[[ii]])
+#         names(this) <- c("x", "y")
+#         p <- p + geom_path(data = this, col = x$iwc$col)
+#     }
+#     if (!is.null(x$iwc$labels)) {
+#         this <- as.data.frame(x$iwc$labels$data)
+#         p <- p + geom_text(data = this, aes_string(x = "lon", y = "lat", label = "a"), col = x$iwc$labels$col)##, cex = x$iwc$labels$cex, pos = x$iwc$labels$pos, offset = x$iwc$labels$offset)
+#     }
+# }
