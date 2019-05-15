@@ -30,11 +30,12 @@ SOgg <- function(x) {
   }
 
   p <- p  + theme(axis.title = element_blank(),
-                  panel.border = element_blank(),
+                  panel.border = element_rect(color = "black", fill=NA),
                   panel.background = element_blank(),
                   axis.text.x = element_text(angle = 90, vjust=0.5))+
             scale_x_continuous(expand = c(0,0))+
-            scale_y_continuous(expand = c(0,0))}
+            scale_y_continuous(expand = c(0,0))
+  }
 
 p
 
