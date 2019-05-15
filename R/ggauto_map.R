@@ -37,7 +37,3 @@ SOgg <- function(x) {
             scale_y_continuous(expand = c(0,0))
   }
 
-p
-
-
-SOgg(x)
