@@ -129,8 +129,11 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
         ## we have some kind of object
         if (inherits(testx, "BasicRaster")) {
             warning("input 'x' is a raster, converting to an extent for a simple plot of input_points/input_lines")
-            x <- spex::spex(testx)
+          #dim(testx) <- c(15, 15)
+          #x <- spex::qm_rasterToPolygons_sp(testx)
+           x <- spex::spex(testx)
             do_midpoint <- TRUE
+            #browser()
         }
         testx <- try(spbabel::sptable(x))  ##
 
@@ -245,6 +248,8 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
     if (isTRUE(coast)) {
         suppressWarnings({
             coastline <- try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(SOmap_data$continent), prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial"), silent = TRUE)
+
+            coastline <- NULL
             if (inherits(coastline, "try-error")) {
                 coast <- FALSE
                 warning("no coastline within region, cannot be plotted")
@@ -344,7 +349,7 @@ print.SOauto_map <- function(x,main=NULL, ..., set_clip = TRUE) {
     ## nlevels = 1
     if (x$contours && !is.null(x$bathy)) contour(x$bathy, levels = x$levels, col = x$contour_colour, add = TRUE)
 
-    if (!is.null(x$coastline)) plot(x$coastline$data, col = x$coastline$fillcol, border = x$coastline$linecol, add = TRUE)
+    if (!is.null(x$coastline$data)) plot(x$coastline$data, col = x$coastline$fillcol, border = x$coastline$linecol, add = TRUE)
 
     if (!is.null(x$points_data)) points(x$points_data, pch = x$ppch, cex = x$pcex, col = x$pcol)
     if (!is.null(x$lines_data)) lines(x$lines_data, lty = x$llty, lwd = x$llwd, col = x$lcol)
