@@ -114,18 +114,21 @@ projection.SOauto_map <- function(x, asText = TRUE) {
 #' @importFrom reproj reproj
 #' @importFrom raster projectRaster raster
 #' @examples
-#' set.seed(27)
-#' amap <- SOauto_map()
-#' reproj(amap, "+proj=moll")
-#' reproj(amap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
+#' \dontrun{
+#'   set.seed(27)
+#'   amap <- SOauto_map()
+#'   reproj(amap, "+proj=moll")
+#'   reproj(amap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
 #'
-#' bmap <- SOmap(Trim = -35)
+#'   bmap <- SOmap(Trim = -35)
 #'
-#' ## works great!
-#' reproj(bmap, "+proj=stere +lat_0=-90 +lon_0=147 +lat_ts=-71 +datum=WGS84")
-#' ## these aren't exactly ideal
-#' reproj(bmap, "+proj=ortho +lat_0=-70")
-#' reproj(bmap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
+#'   ## works great!
+#'   reproj(bmap, "+proj=stere +lat_0=-90 +lon_0=147 +lat_ts=-71 +datum=WGS84")
+#'
+#'   ## these aren't exactly ideal
+#'   reproj(bmap, "+proj=ortho +lat_0=-70")
+#'   reproj(bmap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
+#' }
 reproj.SOmap <- function(x, target, ..., source = NULL) {
   if (missing(target)) stop("'target' projection string required")
   if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
