@@ -132,12 +132,11 @@ SOgg_notauto <- function(x) {
     if (!is.null(x$iwc)) {
         pidx <- seq_along(x$iwc)
         if (!is.null(names(x$iwc))) pidx <- pidx[!names(x$iwc) %in% c("labels")] ## not labels here
-        for (ii in pidx) {
-            this <- as.data.frame(x$iwc[[ii]]$plotargs$x)
-            names(this) <- c("x", "y")
-            p <- p + geom_path(data = this, aes_string(x = "x", y = "y"), col = x$iwc[[ii]]$plotargs$col, inherit.aes = FALSE)
+        if (length(pidx) > 0) {
+            this <- do.call(rbind, lapply(pidx, function(z) { out <- as.data.frame(x$iwc[[z]]$plotargs$x); out$id <- z; out}))
+            names(this) <- c("x", "y", "id")
+            p <- p + geom_path(data = this, aes_string(x = "x", y = "y", group = "id"), col = x$iwc[[pidx[1]]]$plotargs$col, inherit.aes = FALSE)
         }
-        ## NOTE - that won't work properly if the map doesn't extend to the default latitude, the lines need trimming/extending
         if (!is.null(x$iwc$labels)) {
             this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$iwc$labels$plotargs$x)))
             p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "a.1"), parse = FALSE, col = x$iwc$labels$plotargs$col, size = 2, inherit.aes = FALSE)
