@@ -15,7 +15,7 @@ expect_s3_class(tst, "SOauto_map")
     expect_s3_class(x, "SOauto_map")
     nms <- sort(c("projection", "bathy", "bathyleg", "bathy_palette",
                   "coastline", "target", "lines_data", "points_data",
-                  "ppch", "pcol", "pcex", "llty", "llwd", "lcol", "contours", "levels", "contour_colour", "graticule", "crs"))
+                  "ppch", "pcol", "pcex", "llty", "llwd", "lcol", "contours", "levels", "contour_colour", "graticule", "gratpos", "crs"))
     expect_identical(sort(names(x)), nms)
 
 
