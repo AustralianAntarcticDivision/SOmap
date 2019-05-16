@@ -7,7 +7,7 @@
 SOgg(x)
 }
 \arguments{
-\item{x}{SOmap: object as returned by \code{SOmap} or \code{SOmap2}}
+\item{x}{SOmap or SOauto_map: object as returned by \code{SOmap}, \code{SOmap2}, or \code{SOauto_map}}
 }
 \value{
 A ggplot object
