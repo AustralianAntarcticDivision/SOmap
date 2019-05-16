@@ -162,7 +162,7 @@ SOmanagement <- function(CCAMLR = FALSE,
     if (SSMU) {
         out$ccamlr_ssmu <- as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_SSMU, border = ssmucol, add = TRUE))
         if (SSMUlab) {
-            out$ccamlr_ssru$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_SSMU, labelcol = "ShortLabel", col = ssmucol, cex = 0.5, pos = 1, offset = 0.6))
+            out$ccamlr_ssmu$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_SSMU, labelcol = "ShortLabel", col = ssmucol, cex = 0.5, pos = 1, offset = 0.6))
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssmu")
     }
