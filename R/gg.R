@@ -129,38 +129,31 @@ SOgg_notauto <- function(x) {
         }
     }
 
-                                        # if (!is.null(x$iwc)) {
-                                        #   for (ii in seq_len(length(x$iwc$data))) {
-                                        #     this <- as.data.frame(x$iwc$data[[ii]])
-                                        #     names(this) <- c("x", "y")
-                                        #     p <- p + geom_path(data = this, col = x$iwc$col)
-                                        #   }
-                                        # if (!is.null(x$ccamlr_planning_domains$labels)) {
-                                        #   this <- x$ccamlr_planning_domains$labels[[1]]$plotargs$x$labs1
-                                        #   that <- x$ccamlr_planning_domains$labels[[2]]$plotargs$x$labs2
-                                        #   then <- x$ccamlr_planning_domains$labels[[3]]$plotargs$x$labs7
-                                        #
-                                        #   this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-                                        #   that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(that)))
-                                        #   then <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(then)))
-                                        #
-                                        #   p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[1]]$plotargs$col, size = 2, inherit.aes = FALSE)+
-                                        #     geom_sf_text(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[2]]$plotargs$col, size = 2, inherit.aes = FALSE)+
-                                        #     geom_sf_text(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[3]]$plotargs$col, size = 2, inherit.aes = FALSE)
-                                        # }
-                                        # }
-
-
-    if (!is.null(x$research_blocks)) {
-        if (is.null(x$research_blocks$plotargs$col)) x$research_blocks$plotargs$col <- NA
-        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
-        p <- p + geom_sf(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)
-        if (!is.null(x$research_blocks$labels)) {
-            this <- x$research_blocks$labels$plotargs$x
-            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+    if (!is.null(x$iwc)) {
+        pidx <- seq_along(x$iwc)
+        if (!is.null(names(x$iwc))) pidx <- pidx[!names(x$iwc) %in% c("labels")] ## not labels here
+        for (ii in pidx) {
+            this <- as.data.frame(x$iwc[[ii]]$plotargs$x)
+            names(this) <- c("x", "y")
+            p <- p + geom_path(data = this, aes_string(x = "x", y = "y"), col = x$iwc[[ii]]$plotargs$col, inherit.aes = FALSE)
+        }
+        ## NOTE - that won't work properly if the map doesn't extend to the default latitude, the lines need trimming/extending
+        if (!is.null(x$iwc$labels)) {
+            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$iwc$labels$plotargs$x)))
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "a.1"), parse = FALSE, col = x$iwc$labels$plotargs$col, size = 2, inherit.aes = FALSE)
         }
     }
+
+    ##if (!is.null(x$research_blocks)) {
+    ##    if (is.null(x$research_blocks$plotargs$col)) x$research_blocks$plotargs$col <- NA
+    ##    this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
+    ##    p <- p + geom_sf(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)
+    ##    if (!is.null(x$research_blocks$labels)) {
+    ##        this <- x$research_blocks$labels$plotargs$x
+    ##        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+    ##        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+    ##    }
+    ##}
 
     if (!is.null(x$sprfmo_research_blocks)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$sprfmo_research_blocks[[1]]$plotargs$x)))
@@ -199,7 +192,7 @@ SOgg_notauto <- function(x) {
             ## this is horrible code
             crds <- as.data.frame(sp::coordinates(x$ccamlr_planning_domains$labels[[1]]$plotargs$x))
             names(crds) <- c("x", "y")
-            for (ii in seq_len(length(x$ccamlr_planning_domains$labels))) {
+            for (ii in seq_along(x$ccamlr_planning_domains$labels)) {
                                         #            this <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$x
                                         #            this$lab <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$labels
                 crds$lab <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$labels
