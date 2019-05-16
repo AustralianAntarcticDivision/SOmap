@@ -86,13 +86,16 @@ Try families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous
 Using `mask = TRUE` does not work well when the pole is included, so it's `FALSE` by default.
 }
 \examples{
-SOauto_map(c(0, 50), c(-70, -50))
-SOauto_map(runif(10, 130, 200), runif(10, -80, -10))
-SOplot(c(147, 180), c(-42, -60), pch = 19, cex = 2,col = "firebrick")
-SOauto_map(runif(10, 130, 200), runif(10, -85, -60))
-## save the result to explore later!
-protomap <- SOauto_map(runif(10, 60, 160), runif(10, -73, -50))
+\dontrun{
+  SOauto_map(c(0, 50), c(-70, -50))
+  SOauto_map(runif(10, 130, 200), runif(10, -80, -10))
+  SOplot(c(147, 180), c(-42, -60), pch = 19, cex = 2,col = "firebrick")
+  SOauto_map(runif(10, 130, 200), runif(10, -85, -60))
 
-SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "laea", centre_lat = -15,
-              input_lines = FALSE)
+  ## save the result to explore later!
+  protomap <- SOauto_map(runif(10, 60, 160), runif(10, -73, -50))
+
+  SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "laea", centre_lat = -15,
+                input_lines = FALSE)
+}
 }
