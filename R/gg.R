@@ -191,13 +191,16 @@ SOgg_notauto <- function(x) {
             ## this is horrible code
             crds <- as.data.frame(sp::coordinates(x$ccamlr_planning_domains$labels[[1]]$plotargs$x))
             names(crds) <- c("x", "y")
-            for (ii in seq_along(x$ccamlr_planning_domains$labels)) {
-                                        #            this <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$x
-                                        #            this$lab <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$labels
-                crds$lab <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$labels
-                                        #            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-                p <- p + geom_text(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[ii]]$plotargs$col, inherit.aes = FALSE)##, cex = x$ccamlr_planning_domains$labels[[ii]]$cex, pos = x$ccamlr_planning_domains$labels[[ii]]$pos, offset = x$ccamlr_planning_domains$labels[[ii]]$offset)
-            }
+            crds$lab <- x$ccamlr_planning_domains$labels[[1]]$plotargs$x$labs
+            p <- p + geom_text(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[1]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1)
+            crds$lab <- x$ccamlr_planning_domains$labels[[2]]$plotargs$x$labs1
+            p <- p + geom_text(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[2]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 0)
+            crds$lab <- x$ccamlr_planning_domains$labels[[3]]$plotargs$x$labs2
+            p <- p + geom_text(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[3]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1)
+            crds$lab <- x$ccamlr_planning_domains$labels[[4]]$plotargs$x$labs7
+            p <- p + geom_text(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[4]]$plotargs$col, inherit.aes = FALSE, hjust = 0, vjust = 0.5)
+            ## the hjust/vjust settings here are a rough attempt to position the labels more nicely
+            ## needs work
         }
     }
 
