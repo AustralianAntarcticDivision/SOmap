@@ -93,6 +93,6 @@ SOauto_map(runif(10, 130, 200), runif(10, -85, -60))
 ## save the result to explore later!
 protomap <- SOauto_map(runif(10, 60, 160), runif(10, -73, -50))
 
-SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "aea", centre_lat = -15,
+SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "laea", centre_lat = -15,
               input_lines = FALSE)
 }

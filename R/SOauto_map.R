@@ -56,7 +56,7 @@ mid_point <- function (p, fold = FALSE)
 #' ## save the result to explore later!
 #' protomap <- SOauto_map(runif(10, 60, 160), runif(10, -73, -50))
 #'
-#' SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "aea", centre_lat = -15,
+#' SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "laea", centre_lat = -15,
 #'               input_lines = FALSE)
 SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "stere",
                        expand = TRUE,
