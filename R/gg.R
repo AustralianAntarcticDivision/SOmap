@@ -32,30 +32,22 @@ SOgg_notauto <- function(x) {
     names(bdf)[3] <- "Depth"
     p <- ggplot(data = bdf, aes_string(x = "x", y = "y")) + geom_raster(aes_string(fill = "Depth"))
     p <- p + coord_sf(default = TRUE) ## default = TRUE makes this the default coordinate system for geom_sf objects
+    p <- p + scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE)
     if (!is.null(x$bathy_legend)) {
-        p <- p +  scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE)#scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00")
-##        raster::plot(x$bathy_legend$mask$graticule, border = x$bathy_legend$mask$border, col = x$bathy_legend$mask$col, add = TRUE) ## white mask
-##        raster::plot(x$bathy_legend$ticks$ticks, add = TRUE, col = x$bathy_legend$ticks$col)
-##        raster::plot(x$bathy_legend$legend$legend, lwd = x$bathy_legend$legend$lwd, add = TRUE)
-##        raster::plot(x$bathy_legend$legend$legend, border = x$bathy_legend$legend$border, col = x$bathy_legend$legend$col, add = TRUE)
-##        suppressMessages(this <- fortify(x$bathy_legend$legend$legend))
-##        this$fill <- x$bathy_legend$legend$col[as.numeric(this$id)]
-  ## nb, would have to draw each of these polygons in turn, with a fixed (non-aesthetic) fill specification? otherwise it will interfere with the scale_fill_gradientn
-##        raster::plot(x$bathy_legend$graticules$graticules, border = x$bathy_legend$graticules$border, col = x$bathy_legend$graticules$col, add = TRUE)
-##        text(x$bathy_legend$labels$data, labels = x$bathy_legend$labels$labels, cex = x$bathy_legend$labels$cex, adj = x$bathy_legend$labels$adj)if (!is.null(x$border)) {
         suppressMessages(thecolors <- fortify(x$bathy_legend$plotargs$legend$legend))
-        theticks<-x$bathy_legend$plotargs$ticks$ticks[x$bathy_legend$plotargs$ticks$ticks$ID %in% c(1:8),]
+        ## exclude the last two entries here, they are the outer (long) borders
+        theticks <- x$bathy_legend$plotargs$ticks$ticks
+        theticks <- theticks[seq_len(nrow(theticks)-2), ]
         suppressMessages(theticks <- fortify(theticks))
         suppressMessages(themask <- fortify(x$bathy_legend$plotargs$graticules$graticules))
-        thecolors$cols <- (as.numeric(thecolors$id))
-        p <- p + geom_line(data = theticks, aes_string(x = "long", y = "lat", group = "group"), col = "black", size=1)
-        p <- p + geom_polygon(data = thecolors, aes_string(x = "long", y = "lat", group = "group"),  fill=NA,col = "black", size=1)
+        thecolors$cols <- as.numeric(thecolors$id)
+        p <- p + geom_line(data = theticks, aes_string(x = "long", y = "lat", group = "group"), col = x$bathy_legend$plotargs$ticks$col, size = 1)
+        p <- p + geom_polygon(data = thecolors, aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$bathy_legend$plotargs$ticks$col, size = 1)
 
-      for (ii in seq_along(x$bathy_legend$plotargs$legend$col)) {
-        p <- p + geom_polygon(data = thecolors[thecolors$cols == ii, ], aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend$plotargs$legend$col[ii], col =NA)        }
-      p <- p + geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x="lon", y="lat", label="a"), size=2)
-           } else {
-        p <- p + scale_fill_gradientn(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE)
+        for (ii in seq_along(x$bathy_legend$plotargs$legend$col)) {
+            p <- p + geom_polygon(data = thecolors[thecolors$cols == ii, ], aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend$plotargs$legend$col[ii], col = NA)
+        }
+        p <- p + geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x = "lon", y = "lat", label = "a"), size = 2)
     }
 
     ## buffer to use for cropping things back to our extent of interest
@@ -99,94 +91,91 @@ SOgg_notauto <- function(x) {
                             panel.background = element_blank())
 
     if (!is.null(x$ccamlr_statistical_areas)) {
-      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_statistical_areas$plotargs$x)))
-      p <- p + geom_sf(data = this, col = x$ccamlr_statistical_areas$plotargs$border,  inherit.aes = FALSE, fill=NA)#fill = x$ccamlr_statistical_areas$plotargs$col)
-      if (!is.null(x$ccamlr_statistical_areas$labels)) {
-        this <- x$ccamlr_statistical_areas$labels[[1]]$plotargs$x
-        that <- x$ccamlr_statistical_areas$labels[[2]]$plotargs$x
-        then <- x$ccamlr_statistical_areas$labels[[3]]$plotargs$x
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_statistical_areas$plotargs$x)))
+        p <- p + geom_sf(data = this, col = x$ccamlr_statistical_areas$plotargs$border,  inherit.aes = FALSE, fill = NA)#fill = x$ccamlr_statistical_areas$plotargs$col)
+        if (!is.null(x$ccamlr_statistical_areas$labels)) {
+            this <- x$ccamlr_statistical_areas$labels[[1]]$plotargs$x
+            that <- x$ccamlr_statistical_areas$labels[[2]]$plotargs$x
+            then <- x$ccamlr_statistical_areas$labels[[3]]$plotargs$x
 
-        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-        that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(that)))
-        then <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(then)))
+            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+            that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(that)))
+            then <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(then)))
 
-        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[1]]$plotargs$col, size=2, inherit.aes = FALSE)+
-          geom_sf_text(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[2]]$plotargs$col, size=2, inherit.aes = FALSE)+
-          geom_sf_text(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[3]]$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
-      }
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[1]]$plotargs$col, size = 2, inherit.aes = FALSE)+
+                geom_sf_text(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[2]]$plotargs$col, size = 2, inherit.aes = FALSE)+
+                geom_sf_text(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[3]]$plotargs$col, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+        }
     }
 
-
     if (!is.null(x$ccamlr_ssru)) {
-      if(is.null(x$ccamlr_ssru$plotargs$col)){x$ccamlr_ssru$plotargs$col<-NA}
-      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssru$plotargs$x)))
-      p <- p + geom_sf(data = this, col = x$ccamlr_ssru$plotargs$border, fill = x$ccamlr_ssru$plotargs$col, inherit.aes = FALSE)
-      if (!is.null(x$ccamlr_ssru$labels)) {
-        this <- x$ccamlr_ssru$labels$plotargs$x
-        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
-      }
+        if (is.null(x$ccamlr_ssru$plotargs$col)) x$ccamlr_ssru$plotargs$col <- NA
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssru$plotargs$x)))
+        p <- p + geom_sf(data = this, col = x$ccamlr_ssru$plotargs$border, fill = x$ccamlr_ssru$plotargs$col, inherit.aes = FALSE)
+        if (!is.null(x$ccamlr_ssru$labels)) {
+            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssru$labels$plotargs$x)))
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+        }
     }
 
 
     if (!is.null(x$ccamlr_ssmu)) {
-      if(is.null(x$ccamlr_ssmu$plotargs$col)){x$ccamlr_ssmu$plotargs$col<-NA}
-      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssmu$plotargs$x)))
-      p <- p + geom_sf(data = this, col = x$ccamlr_ssmu$plotargs$border, fill = x$ccamlr_ssmu$plotargs$col, inherit.aes = FALSE)
-      if (!is.null(x$ccamlr_ssmu$labels)) {
-        this <- x$ccamlr_ssmu$plotargs$x
-        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$plotargs$border, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
-      }
+        if (is.null(x$ccamlr_ssmu$plotargs$col)) x$ccamlr_ssmu$plotargs$col <- NA
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssmu$plotargs$x)))
+        p <- p + geom_sf(data = this, col = x$ccamlr_ssmu$plotargs$border, fill = x$ccamlr_ssmu$plotargs$col, inherit.aes = FALSE)
+        if (!is.null(x$ccamlr_ssmu$labels)) {
+            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_ssmu$plotargs$x)))
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$plotargs$border, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+        }
     }
 
-    # if (!is.null(x$iwc)) {
-    #   for (ii in seq_len(length(x$iwc$data))) {
-    #     this <- as.data.frame(x$iwc$data[[ii]])
-    #     names(this) <- c("x", "y")
-    #     p <- p + geom_path(data = this, col = x$iwc$col)
-    #   }
-    # if (!is.null(x$ccamlr_planning_domains$labels)) {
-    #   this <- x$ccamlr_planning_domains$labels[[1]]$plotargs$x$labs1
-    #   that <- x$ccamlr_planning_domains$labels[[2]]$plotargs$x$labs2
-    #   then <- x$ccamlr_planning_domains$labels[[3]]$plotargs$x$labs7
-    #
-    #   this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-    #   that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(that)))
-    #   then <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(then)))
-    #
-    #   p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[1]]$plotargs$col, size=2, inherit.aes = FALSE)+
-    #     geom_sf_text(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[2]]$plotargs$col, size=2, inherit.aes = FALSE)+
-    #     geom_sf_text(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[3]]$plotargs$col, size=2, inherit.aes = FALSE)
-    # }
-    # }
+                                        # if (!is.null(x$iwc)) {
+                                        #   for (ii in seq_len(length(x$iwc$data))) {
+                                        #     this <- as.data.frame(x$iwc$data[[ii]])
+                                        #     names(this) <- c("x", "y")
+                                        #     p <- p + geom_path(data = this, col = x$iwc$col)
+                                        #   }
+                                        # if (!is.null(x$ccamlr_planning_domains$labels)) {
+                                        #   this <- x$ccamlr_planning_domains$labels[[1]]$plotargs$x$labs1
+                                        #   that <- x$ccamlr_planning_domains$labels[[2]]$plotargs$x$labs2
+                                        #   then <- x$ccamlr_planning_domains$labels[[3]]$plotargs$x$labs7
+                                        #
+                                        #   this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+                                        #   that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(that)))
+                                        #   then <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(then)))
+                                        #
+                                        #   p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[1]]$plotargs$col, size = 2, inherit.aes = FALSE)+
+                                        #     geom_sf_text(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[2]]$plotargs$col, size = 2, inherit.aes = FALSE)+
+                                        #     geom_sf_text(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[3]]$plotargs$col, size = 2, inherit.aes = FALSE)
+                                        # }
+                                        # }
 
 
     if (!is.null(x$research_blocks)) {
-      if(is.null(x$research_blocks$plotargs$col)){x$research_blocks$plotargs$col<-NA}
-      this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
-      p <- p + geom_sf(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)
-      if (!is.null(x$research_blocks$labels)) {
-        this <- x$research_blocks$labels$plotargs$x
-        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
-      }
+        if (is.null(x$research_blocks$plotargs$col)) x$research_blocks$plotargs$col <- NA
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
+        p <- p + geom_sf(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)
+        if (!is.null(x$research_blocks$labels)) {
+            this <- x$research_blocks$labels$plotargs$x
+            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+        }
     }
 
     if (!is.null(x$sprfmo_research_blocks)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$sprfmo_research_blocks[[1]]$plotargs$x)))
         that <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$sprfmo_research_blocks[[2]]$plotargs$x)))
-      p <- p + geom_sf(data = this, col = x$sprfmo_research_blocks[[1]]$plotargs$col,  inherit.aes = FALSE)+geom_sf(data = that, col = x$sprfmo_research_blocks[[2]]$plotargs$col,  inherit.aes = FALSE)
+        p <- p + geom_sf(data = this, col = x$sprfmo_research_blocks[[1]]$plotargs$col,  inherit.aes = FALSE) + geom_sf(data = that, col = x$sprfmo_research_blocks[[2]]$plotargs$col,  inherit.aes = FALSE)
 
     }
 
-        if (!is.null(x$eez)) {
+    if (!is.null(x$eez)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$eez$plotargs$x)))
         p <- p + geom_sf(data = this, col = x$eez$plotargs$border, fill = x$eez$plotargs$col, inherit.aes = FALSE)
         if (!is.null(x$eez$labels)) {
             this <- x$eez$labels$plotargs$x
             this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-            p <- p + geom_sf_text(data = this, aes_string(label = "ShortLabel"), parse = FALSE,size=2, col = x$eez$labels$plotargs$col, inherit.aes = FALSE)##, cex = x$eez$labels$cex, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
+            p <- p + geom_sf_text(data = this, aes_string(label = "ShortLabel"), parse = FALSE,size = 2, col = x$eez$labels$plotargs$col, inherit.aes = FALSE)##, cex = x$eez$labels$cex, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
         }
     }
 
@@ -196,11 +185,11 @@ SOgg_notauto <- function(x) {
         if (!is.null(x$mpa$labels)) {
             this <- x$mpa$labels$plotargs$x
             this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size=2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
     }
 
-    geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x="lon", y="lat", label="a"), size=2)
+    geom_text(data = as.data.frame(x$bathy_legend$plotargs$labels$data), aes_string(x="lon", y="lat", label="a"), size = 2)
 
     if (!is.null(x$ccamlr_planning_domains)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$ccamlr_planning_domains$plotargs$x)))
@@ -211,10 +200,10 @@ SOgg_notauto <- function(x) {
             crds <- as.data.frame(sp::coordinates(x$ccamlr_planning_domains$labels[[1]]$plotargs$x))
             names(crds) <- c("x", "y")
             for (ii in seq_len(length(x$ccamlr_planning_domains$labels))) {
-    #            this <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$x
-    #            this$lab <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$labels
+                                        #            this <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$x
+                                        #            this$lab <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$labels
                 crds$lab <- x$ccamlr_planning_domains$labels[[ii]]$plotargs$labels
-    #            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+                                        #            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
                 p <- p + geom_text(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[ii]]$plotargs$col, inherit.aes = FALSE)##, cex = x$ccamlr_planning_domains$labels[[ii]]$cex, pos = x$ccamlr_planning_domains$labels[[ii]]$pos, offset = x$ccamlr_planning_domains$labels[[ii]]$offset)
             }
         }
@@ -230,17 +219,6 @@ SOgg_notauto <- function(x) {
     p
 }
 
-
-
-
-
-
-
-##    plot_research_blocks(x$research_blocks)
-##    plot_sprfmo(x$sprfmo_research_blocks)
-##    plot_ssru(x$ccamlr_ssru)
-##    plot_ssmu(x$ccamlr_ssmu)
-##    plot_ccamlr_areas(x$ccamlr_statistical_areas)
 
 ## NOTE, parse args to geom_text and geom_sf_text seem fragile, need better user control
 
