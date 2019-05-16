@@ -38,8 +38,8 @@ SOgg <- function(x) {
         suppressMessages(theticks <- fortify(theticks))
         suppressMessages(themask <- fortify(x$bathy_legend$plotargs$graticules$graticules))
         thecolors$cols <- (as.numeric(thecolors$id))
-        p <- p + ggplot2::geom_line(data = theticks, aes_string(x = "long", y = "lat", group = "group"), col = "black", size=1)
-        p <- p + ggplot2::geom_polygon(data = thecolors, aes_string(x = "long", y = "lat", group = "group"),  fill=NA,col = "black", size=1)
+        p <- p + geom_line(data = theticks, aes_string(x = "long", y = "lat", group = "group"), col = "black", size=1)
+        p <- p + geom_polygon(data = thecolors, aes_string(x = "long", y = "lat", group = "group"),  fill=NA,col = "black", size=1)
 
       for (ii in seq_along(x$bathy_legend$plotargs$legend$col)) {
         p <- p + geom_polygon(data = thecolors[thecolors$cols == ii, ], aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend$plotargs$legend$col[ii], col =NA)        }
