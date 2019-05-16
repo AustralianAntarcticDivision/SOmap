@@ -143,16 +143,16 @@ SOgg_notauto <- function(x) {
         }
     }
 
-    ##if (!is.null(x$research_blocks)) {
-    ##    if (is.null(x$research_blocks$plotargs$col)) x$research_blocks$plotargs$col <- NA
-    ##    this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
-    ##    p <- p + geom_sf(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)
-    ##    if (!is.null(x$research_blocks$labels)) {
-    ##        this <- x$research_blocks$labels$plotargs$x
-    ##        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
-    ##        p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
-    ##    }
-    ##}
+    if (!is.null(x$research_blocks)) {
+        if (is.null(x$research_blocks$plotargs$col)) x$research_blocks$plotargs$col <- NA
+        this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$research_blocks$plotargs$x)))
+        p <- p + geom_sf(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)
+        if (!is.null(x$research_blocks$labels)) {
+            this <- x$research_blocks$labels$plotargs$x
+            this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(this)))
+            p <- p + geom_sf_text(data = as.data.frame(this), aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)
+        }
+    }
 
     if (!is.null(x$sprfmo_research_blocks)) {
         this <- suppressWarnings(sf::st_intersection(buf, sf::st_as_sf(x$sprfmo_research_blocks[[1]]$plotargs$x)))
