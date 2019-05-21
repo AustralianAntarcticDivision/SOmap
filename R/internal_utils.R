@@ -25,7 +25,7 @@ insert_into_sequence <- function(sequence, ins, after) {
 ## internal plotting routine, called by SOmap and SOmanagement
 ## iterate through the object's plot_sequence vector, running the plotfun with plotargs for each
 plot_all <- function(x) {
-    assert_that(inherits(x, c("SOmap_management", "SOmap")))
+    assert_that(inherits(x, c("SOmap_management", "SOmap", "SOthing")))
     ## interate through each plottable element in turn
     for (toplot in intersect(x$plot_sequence, names(x))) {
         allpf <- x[[toplot]] ## all the stuff to plot for this element

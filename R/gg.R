@@ -221,6 +221,7 @@ SOgg_notauto <- function(x) {
 ##SOgg2 <- function(x) {
 ## this can be passed one or more objects (e.g. a SOmap object and a SOmap_management object) and it will combine- and gg-ify them
 ## TODO: rather than gg-ifying then merging, do the merge then gg-ify. That function would probably be useful to users in its own right
+##  (see https://github.com/AustralianAntarcticDivision/SOmap/issues/45
 SOgg2 <- function(...) {
     x <- list(...)
     if (length(x) == 1) {
