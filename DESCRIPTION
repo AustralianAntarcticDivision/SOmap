@@ -23,7 +23,7 @@ Imports:
     rgeos,
     sf (>= 0.7-3),
     spbabel,
-    spex,
+    spex (>= 0.5.0.9002),
     tabularaster,
     reproj
 Suggests:
