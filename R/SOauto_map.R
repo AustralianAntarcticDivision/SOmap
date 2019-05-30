@@ -203,7 +203,8 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
     target <- raster::projectExtent(raster::raster(raster::extent(xlim, ylim), crs = "+init=epsg:4326"), prj)
     if (trim_background) {
       #browser()
-      target <- crop(target, extent(rgdal::project(cbind(xlim, ylim), prj)))
+      target <- crop(target, extent(rgdal::project(cbind(x, y), prj)))
+      #target <- crop(target, extent(rgdal::project(cbind(xlim, ylim), prj)))
     }
     dim(target) <- dimXY
     ## extend projected bounds by the buffer
