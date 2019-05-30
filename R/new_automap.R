@@ -33,23 +33,48 @@ mesh_points <- function(x) {
 
 #  then build *a template raster with projection and extent and dimensions*
 
-# 1. *-* Create automap_maker() to build template raster from various inputs
-# 2. Create automap_nothing()  for automap_maker() to use when x/y both NULL
-# 3. Replace inner logic of SOauto_map() with automap_maker()
-# 4. Profit.
+# 1. *+* Create automap_maker() to build template raster from various inputs
+# 2. *+* Create automap_nothing()  for automap_maker() to use when x/y both NULL
+# 3. * * Replace inner logic of SOauto_map() with automap_maker()
+# 4. * * Profit.
 
 ## WIP copy logic from SOauto_map for no inputs to here
-automap_nothing <- function(centre_lon = NULL, centre_lat = NULL, target = "stere",
-                            sample_type = sample(c("polar", "lonlat"), 1L)) {
+automap_nothing <- function(sample_type = "polar") {
+  stopifnot(sample_type %in% c("lonlat", "polar"))
+    nsample <- runif(1, 15, 35)
+    if (sample_type == "polar") {
+      ## sample from Bathy
+      rr <- raster(Bathy)
+      raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
+      xy <- rgdal::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)),
+                           raster::projection(rr), inv = TRUE)
+      xy <- xy[xy[,2] < -40, ]
+      if (length(xy) == 2) xy <- jitter(rbind(xy, xy), amount = 10)
+    }
+    if (sample_type == "lonlat") {
+      xlim <- sort(runif(2, -359, 359))
+      ylim <- sort(runif(2, -89, -20))
 
+      x <- runif(nsample, xlim[1], xlim[2])
+      y <- runif(nsample, ylim[1], ylim[2])
+      xy <- cbind(x, y)
+
+    }
+    xy <- xy[order(xy[, 1], xy[,2]), ]
+    xy
 }
 #' @param x a raster, stars, spatial sf, or numeric vector ('y' must also be present if 'x' is numeric, or NULL if x is a matrix)
 #' @param target defaults to a projection family "stere", if set to NULL uses the projection of 'x'
 automap_maker <-
   function(x, y = NULL, centre_lon = NULL, centre_lat = NULL, target = "stere",
            expand = TRUE,
-           dimXY = c(300, 300)) {
+           dimXY = c(300, 300),
 
+           ## remove sample_type?
+           sample_type = sample(c("polar", "lonlat"), 1L), ...) {
+    if (missing(x) && is.null(y)) {
+      x <- automap_nothing(sample_type = sample_type)
+    }
     ## check args
     if ("family" %in% names(list(...))) warning("'family' argument is defunct, please use 'target'")
 

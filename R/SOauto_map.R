@@ -81,6 +81,7 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
     data("SOmap_data", package = "SOmap", envir = environment())
     data("Bathy", package = "SOmap", envir = environment())
 
+## automap_nothing ----
     if (missing(x) && missing(y)) {
       stopifnot(sample_type %in% c("lonlat", "polar"))
       nsample <- runif(1, 15, 35)
@@ -105,6 +106,7 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
         x <- xy[,1]
         y <- xy[,2]
     }
+## END automap_nothing ----
 
     if (is.numeric(x) && is.numeric(y)) {
         testx <- cbind(x, y)
