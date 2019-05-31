@@ -4,12 +4,23 @@
 # sp, sf object
 # raster, stars object
 # file
+ramp2 <- grDevices::colorRampPalette(c("#54A3D1","#60B3EB","#78C8F0","#98D1F5","#B5DCFF","#BDE1F0","#CDEBFA","#D6EFFF","#EBFAFF","grey92","grey94","grey96", "white"))
+bluepal <- ramp2(45)
+
 
 set.seed(1)
 plot(automap_maker()[[1]])
 set.seed(1)
 
-aaargh
+
+runfun <- function(input) {
+  am <- automap_maker(input);
+  plot(am$target, col = bluepal);
+  points(am$xy);
+  SOplot(input, col = viridis::viridis(20))
+  invisible(am)
+}
+
 plot(automap_maker(target = "+proj=laea +lat_0=-20")[[1]])
 
 llx <-  c(100, 120)
@@ -36,3 +47,6 @@ image(ice, add = TRUE)
 sst <- raadtools::readsst(xylim = extent(-180, 180, -90, -30))
 plot(automap_maker(sst, target = "laea", centre_lon = 147, centre_lat = -42)[[1]])
 SOplot(sst, col = palr::sstPal(100))
+
+
+

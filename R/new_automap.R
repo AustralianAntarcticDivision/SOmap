@@ -83,7 +83,9 @@ automap_maker <-
 
     tgt_raster <- NULL
     tgt_prj <- NULL
-    if (substr(trimws(target, which = "left"), 1, 1) == "+") {
+    xy <- NULL
+    llxy <- NULL
+    if (!is.null(target) && substr(trimws(target, which = "left"), 1, 1) == "+") {
       ## whoa we have an actual PROJ.4 string
       if (!is.null(centre_lon) || !is.null(centre_lat)) {
         warning("'target' provided looks like a PROJ so centre_lon/centre_lat ignored")
@@ -94,6 +96,7 @@ automap_maker <-
     }
 
     if (inherits(x, "BasicRaster")) {
+
       src_extent <- raster::extent(x)
       src_prj <- raster::projection(x)
       dimXY <- dim(x)[1:2]
@@ -127,13 +130,13 @@ automap_maker <-
 
 
       src_extent <- raster::extent(range(llxy[,1]), range(llxy[,2]))
+
     }
 
     if (is.null(tgt_prj) && (!is.null(target) || (!is.null(centre_lon) || !is.null(centre_lat)))) {
       tgt_prj <- family_proj(target, centre_lon, centre_lat, true_scale = tscale)
-    } else {
-      tgt_prj <- src_prj
     }
+
     if (is.null(tgt_raster)) {
       src_raster <- raster::raster(src_extent, nrows = dimXY[1], ncols = dimXY[2],
                                    crs = src_prj)
@@ -141,9 +144,10 @@ automap_maker <-
       dim(tgt_raster)<- dimXY
 
     }
+    if (!is.null(llxy)) xy <- reproj::reproj(llxy, tgt_prj, source = llproj)[, 1:2, drop = FALSE]
     bathymetry <- stars:::st_as_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
                                                                  stars::st_as_stars(tgt_raster)))
     SOcrs(projection(bathymetry))
 
-    return(list(bathymetry))
+    return(list(target = bathymetry, xy = xy))
   }

@@ -83,153 +83,16 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
 
 ## automap_nothing ----
     if (missing(x) && missing(y)) {
-      stopifnot(sample_type %in% c("lonlat", "polar"))
-      nsample <- runif(1, 15, 35)
-      if (sample_type == "polar") {
-       ## sample from Bathy
-       rr <- raster(Bathy)
-       raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
-       xy <- rgdal::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)), raster::projection(rr), inv = TRUE)
-       xy <- xy[xy[,2] < -40, ]
-       if (length(xy) == 2) xy <- jitter(rbind(xy, xy), amount = 10)
-      }
-      if (sample_type == "lonlat") {
-      xlim <- sort(runif(2, -359, 359))
-      ylim <- sort(runif(2, -89, -20))
-
-       x <- runif(nsample, xlim[1], xlim[2])
-       y <- runif(nsample, ylim[1], ylim[2])
-       xy <- cbind(x, y)
-
-      }
-        xy <- xy[order(xy[, 1], xy[,2]), ]
+        xy <- automap_nothing()
         x <- xy[,1]
         y <- xy[,2]
     }
 ## END automap_nothing ----
 
-    if (is.numeric(x) && is.numeric(y)) {
-        testx <- cbind(x, y)
-    } else {
-        testx <- x  ## assume we have some kind of object
-    }
-    ## ignore y
-    if (is.matrix(testx)) {
-        if (nrow(testx) ==2 ) {
-            testx <- rbind(testx, testx)  ## because raster::extent(cbind(145:146, -42:-43))
-        }
-        if (!raster::couldBeLonLat(testx, warnings = FALSE)) {
-            warning("'x' doesn't look like longlat data")
-        }
-    } else {
-        do_midpoint <- FALSE
-
-        if (inherits(x, "SpatialPoints")) {
-          input_lines <- FALSE
-        }
-        if (inherits(x, "SpatialLines") || inherits(x, "SpatialPolygons")) {
-          input_points <- FALSE
-        }
-
-        ## we have some kind of object
-        if (inherits(testx, "BasicRaster")) {
-            warning("input 'x' is a raster, converting to an extent for a simple plot of input_points/input_lines")
-          #dim(testx) <- c(15, 15)
-          #x <- spex::qm_rasterToPolygons_sp(testx)
-           x <- spex::spex(testx)
-            do_midpoint <- TRUE
-            #browser()
-        }
-        testx <- try(spbabel::sptable(x))  ##
-
-
-        if (inherits(testx, "try-error")) stop("don't understand how to get lon,lat from 'x'")
-        ## split on branch
-
-        testx <- head(do.call(rbind, lapply(split(testx, paste(testx$object_, testx$branch_, sep = ":")), function(x) rbind(x, NA))), -1)
-        testx <- as.matrix(testx[c("x_", "y_")])
-        if (!raster::isLonLat(raster::projection(x))) {
-            testx <- rgdal::project(testx, raster::projection(x), inv = TRUE)
-            midpoint <- NULL
-            if (do_midpoint) {
-                midpoint <- cbind(mean(range(testx[,1L])), mean(range(testx[,2L])))
-                midpoint <- rgdal::project(midpoint, raster::projection(x), inv = TRUE)
-            }
-            ## add the midpoint for good measure
-            testx <- rbind(testx,midpoint)
-        }
-        x <- testx[,1]
-        y <- testx[,2]
-    }
-
-    stopifnot(length(x) > 1)
-    stopifnot(length(y) > 1)
-
-
-    xlim <- range(x, na.rm = TRUE)
-    ylim <- range(y, na.rm = TRUE)
-    if (ylim[1] < -90) {ylim[1] <- -90}
-    if (ylim[2] > 90) {ylim[2] <- 90}
-
-    if (grepl("\\+proj", family)) {
-      ## ignore the above and take the string as given
-      prj <- family
-      if (!is.null(centre_lon) || !is.null(centre_lat)) {
-        warning("centre_lon and centre_lat are ignored if 'family' is a full PROJ string")
-      }
-
-    } else {
-      mp <- mid_point(p=cbind(x, y))
-    if (is.null(centre_lon)) {
-        #centre_lon <- zapsmall(round(mean(xlim), digits = 2))
-        centre_lon <- mp[1]
-    }
-    if (is.null(centre_lat)) {
-        #centre_lat <-  zapsmall(round(mean(ylim), digits = 2))
-      centre_lat <- mp[2]
-    }
-
-
-    template <- "+proj=%s +lon_0=%f +lat_0=%f +datum=WGS84"
-    if (family == "stere") {
-        ## won't generalize to northern hemisphere
-        template <- "+proj=%s +lon_0=%f +lat_0=%f +lat_ts=-71 +datum=WGS84"
-    }
-    if (family %in% c("aea", "lcc")) {
-        template <- paste("+proj=%s +lon_0=%f +lat_0=%f +datum=WGS84", sprintf("+lat_0=%f +lat_1=%f", ylim[1], ylim[2]))
-    }
-    prj <- sprintf(template, family, centre_lon, centre_lat)
-
-    }
-
-    target <- raster::projectExtent(raster::raster(raster::extent(xlim, ylim), crs = "+init=epsg:4326"), prj)
-    if (trim_background) {
-      #browser()
-      target <- crop(target, extent(rgdal::project(cbind(x, y), prj)))
-      #target <- crop(target, extent(rgdal::project(cbind(xlim, ylim), prj)))
-    }
-    dim(target) <- dimXY
-    ## extend projected bounds by the buffer
-    xxlim <- c(raster::xmin(target), raster::xmax(target))
-    xxlim <- xxlim + diff(range(xxlim)) * c(-buffer, buffer)
-    yylim <- c(raster::ymin(target), raster::ymax(target))
-    yylim <- yylim + diff(range(yylim)) * c(-buffer, buffer)
-    middle <- rgdal::project(cbind(mean(xxlim), mean(yylim)), raster::projection(target),
-                             inv = TRUE)
-    if (is.null(centre_lon)) centre_lon <- middle[1L]
-    if (is.null(centre_lat)) centre_lat <- middle[2L]
-    target <- extend(target, extent(xxlim, yylim))
     if (expand) {
-
-        centre_line <- rgdal::project(cbind(centre_lon, centre_lat), prj)
-        ## we need the largest of the difference from centre to target boundary
-        xhalf <- max(abs(centre_line[1] - c(raster::xmin(target), raster::xmax(target))))
-        yhalf <- max(abs(centre_line[2] - c(raster::ymin(target), raster::ymax(target))))
-        exp_xlim <- centre_line[1] + c(-xhalf, xhalf)
-        exp_ylim <- centre_line[2] + c(-yhalf, yhalf)
-
-        target <- extend(target, extent(exp_xlim[1], exp_xlim[2], exp_ylim[1], exp_ylim[2]))
-    }
+      ## TODO: use buffer value
+      warning("'expand does nothing atm'")
+  }
     dim(target) <- dimXY
     bathymetry <- coastline <- NULL
     if (isTRUE(bathy)) {            ## insert your local bathy-getter here
