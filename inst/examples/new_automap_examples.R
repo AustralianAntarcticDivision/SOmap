@@ -5,7 +5,13 @@
 # raster, stars object
 # file
 
+set.seed(1)
 plot(automap_maker()[[1]])
+set.seed(1)
+
+aaargh
+plot(automap_maker(target = "+proj=laea +lat_0=-20")[[1]])
+
 llx <-  c(100, 120)
 lly <- c(-60, -30)
 plot(automap_maker(llx, lly)[[1]])

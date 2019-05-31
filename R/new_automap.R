@@ -35,10 +35,10 @@ mesh_points <- function(x) {
 
 # 1. *+* Create automap_maker() to build template raster from various inputs
 # 2. *+* Create automap_nothing()  for automap_maker() to use when x/y both NULL
-# 3. * * Replace inner logic of SOauto_map() with automap_maker()
-# 4. * * Profit.
-
-## WIP copy logic from SOauto_map for no inputs to here
+# 3.
+# 4. * * Allow 'target' to be a full PROJ string (ignore centre_lon/lat if given).
+# 5. * * Replace inner logic of SOauto_map() with automap_maker()
+# 6. * * Refactor inner and outer arguments (Trim, expand, etc.)
 automap_nothing <- function(sample_type = "polar") {
   stopifnot(sample_type %in% c("lonlat", "polar"))
     nsample <- runif(1, 15, 35)
@@ -67,7 +67,6 @@ automap_nothing <- function(sample_type = "polar") {
 #' @param target defaults to a projection family "stere", if set to NULL uses the projection of 'x'
 automap_maker <-
   function(x, y = NULL, centre_lon = NULL, centre_lat = NULL, target = "stere",
-           expand = TRUE,
            dimXY = c(300, 300),
 
            ## remove sample_type?
@@ -78,19 +77,22 @@ automap_maker <-
     ## check args
     if ("family" %in% names(list(...))) warning("'family' argument is defunct, please use 'target'")
 
+
+
     llproj <- "+init=epsg:4326"
-
-    # lonrange, latrange
-    # lonvec, latvec
-    # sp, sf object
-    # raster, stars object
-    # file
-
-    ## mid_point in lon,lat
-    ## target mesh
 
     tgt_raster <- NULL
     tgt_prj <- NULL
+    if (substr(trimws(target, which = "left"), 1, 1) == "+") {
+      ## whoa we have an actual PROJ.4 string
+      if (!is.null(centre_lon) || !is.null(centre_lat)) {
+        warning("'target' provided looks like a PROJ so centre_lon/centre_lat ignored")
+        centre_lon <- centre_lat <- NULL
+      }
+      tgt_prj <- target
+      target <- "notanyknownprojection"
+    }
+
     if (inherits(x, "BasicRaster")) {
       src_extent <- raster::extent(x)
       src_prj <- raster::projection(x)
