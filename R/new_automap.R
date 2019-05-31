@@ -1,3 +1,22 @@
+# see inst/examples/new_automap_examples.R
+
+# accept inputs like
+#* nothing  TODO
+#* lonrange, latrange
+#* lonvec, latvec
+#* sp, sf object
+#* raster, stars object
+
+#  then build *a template raster with projection and extent and dimensions*
+
+# 1. *+* Create automap_maker() to build template raster from various inputs
+# 2. *+* Create automap_nothing()  for automap_maker() to use when x/y both NULL
+# 3. *+* Allow 'target' to be a full PROJ string (ignore centre_lon/lat if given).
+# 4. * * Replace inner logic of SOauto_map() with automap_maker()
+# 5. * * Refactor inner and outer arguments (Trim, expand, etc.)
+
+
+
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
   if (is.null(family)) family <- "stere"
@@ -23,22 +42,6 @@ mesh_points <- function(x) {
 
 
 
-# accept inputs like
-
-#* nothing  TODO
-#* lonrange, latrange
-#* lonvec, latvec
-#* sp, sf object
-#* raster, stars object
-
-#  then build *a template raster with projection and extent and dimensions*
-
-# 1. *+* Create automap_maker() to build template raster from various inputs
-# 2. *+* Create automap_nothing()  for automap_maker() to use when x/y both NULL
-# 3.
-# 4. * * Allow 'target' to be a full PROJ string (ignore centre_lon/lat if given).
-# 5. * * Replace inner logic of SOauto_map() with automap_maker()
-# 6. * * Refactor inner and outer arguments (Trim, expand, etc.)
 automap_nothing <- function(sample_type = "polar") {
   stopifnot(sample_type %in% c("lonlat", "polar"))
     nsample <- runif(1, 15, 35)
