@@ -106,7 +106,13 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
       dim(target) <- dimXY
       target <- crunch_bathy(target)
 
-  }
+    }
+
+    ## we have target, and we have performed expansion so xlim and ylim are ready
+    xlim <- spex::xlim(target)
+    ylim <- spex::ylim(target)
+
+
     bathymetry <- coastline <- NULL
     if (isTRUE(bathy)) {            ## insert your local bathy-getter here
         bathymetry <- target
@@ -125,8 +131,6 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     if (isTRUE(coast)) {
         suppressWarnings({
             coastline <- try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(SOmap_data$continent), prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial"), silent = TRUE)
-
-            coastline <- NULL
             if (inherits(coastline, "try-error")) {
                 coast <- FALSE
                 warning("no coastline within region, cannot be plotted")
@@ -145,23 +149,28 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
   # projection(poly) <- projection(target)
   # g <- graticule(xlim, ylim, proj = projection(target),nverts=10, tiles=TRUE)}
 
+    grat <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
+                             crs = raster::projection(target), lon = gratlon, lat = gratlat)
+
     if (mask) {
-        gratmask <- graticule::graticule(seq(xlim[1], xlim[2], length = 30),
-                                         seq(ylim[1], ylim[2], length = 5), proj = raster::projection(target), tiles = TRUE)
+        #gratmask <- graticule::graticule(seq(xlim[1], xlim[2], length = 30),
+        #                                 seq(ylim[1], ylim[2], length = 5), proj = raster::projection(target), tiles = TRUE)
+
+
         if (bathy) {
-            bathymetry <- fast_mask(bathymetry, gratmask)
+            bathymetry <- fast_mask(bathymetry, grat)
         }
         if (coast) {
             suppressWarnings({
-                coastline <- as(sf::st_union(sf::st_intersection(sf::st_as_sf(coastline), sf::st_buffer(sf::st_as_sf(gratmask), 0))), "Spatial")
+                coastline <- as(sf::st_union(sf::st_intersection(sf::st_as_sf(coastline),
+                                      sf::st_buffer(sf::st_as_sf(grat), 0))), "Spatial")
             })
         }
     }
 
     if (graticule) {
-        graticule <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
-                                      crs = raster::projection(target), lon = gratlon, lat = gratlat)
-    } else {
+      graticule <- grat
+  } else {
         graticule <- NULL
     }
 

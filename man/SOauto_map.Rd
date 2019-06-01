@@ -5,14 +5,13 @@
 \title{Default Southern Ocean map}
 \usage{
 SOauto_map(x, y, centre_lon = NULL, centre_lat = NULL,
-  family = "stere", expand = TRUE, dimXY = c(300, 300),
-  bathy = TRUE, coast = TRUE, input_points = TRUE,
-  input_lines = TRUE, graticule = TRUE, buffer = 0.05,
-  contours = TRUE, levels = c(-500, -1000, -2000),
-  trim_background = TRUE, mask = FALSE, ppch = 19, pcol = 2,
-  pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
-  gratlon = NULL, gratlat = NULL, gratpos = "all",
-  sample_type = sample(c("polar", "lonlat"), 1L))
+  target = "stere", dimXY = c(300, 300), bathy = TRUE,
+  coast = TRUE, input_points = TRUE, input_lines = TRUE,
+  graticule = TRUE, expand = 0.05, contours = TRUE,
+  levels = c(-500, -1000, -2000), trim_background = TRUE,
+  mask = FALSE, ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE,
+  llty = 1, llwd = 1, lcol = 1, gratlon = NULL, gratlat = NULL,
+  gratpos = "all")
 }
 \arguments{
 \item{x}{optional input data longitudes}
@@ -23,9 +22,7 @@ SOauto_map(x, y, centre_lon = NULL, centre_lat = NULL,
 
 \item{centre_lat}{as per `centre_lon`}
 
-\item{family}{optional projection family (default is `stere`ographic), or full PROJ string (see Details)}
-
-\item{expand}{re-compute range of plot to incorporate centre_lon and centre_lat with the data as a natural middle}
+\item{target}{optional projection family (default is `stere`ographic), or full PROJ string (see Details)}
 
 \item{dimXY}{dimensions of background bathmetry (if used) default is 300x300}
 
@@ -39,7 +36,7 @@ SOauto_map(x, y, centre_lon = NULL, centre_lat = NULL,
 
 \item{graticule}{flag to add a basic graticule}
 
-\item{buffer}{fraction to expand plot range from that calculated (either from data, or from centre_lon/centre_lat _and_ data if `expand = TRUE`)}
+\item{expand}{fraction to expand plot range (default is 0.05, set to zero for no buffer, may be negative)}
 
 \item{contours}{logical: add contours?}
 
@@ -68,8 +65,6 @@ SOauto_map(x, y, centre_lon = NULL, centre_lat = NULL,
 \item{gratlat}{latitude values for graticule parallels}
 
 \item{gratpos}{positions (sides) of graticule labels}
-
-\item{sample_type}{create random input data from a 'polar' or 'lonlat' domain}
 }
 \value{
 An object of class SOauto_map, containing the data and other details required to generate the map. Printing or plotting the object will cause it to be plotted.
@@ -81,7 +76,7 @@ to run the function without any inputs at all and it will provide a random defau
 \details{
 To input your data, use input locations as `x` (longitude) and `y` (latitude) values, there must be at least two locations.
 
-Try families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
+Try `target` families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
 
 Using `mask = TRUE` does not work well when the pole is included, so it's `FALSE` by default.
 }
