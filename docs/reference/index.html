@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9001</span>
       </span>
     </div>
 
@@ -77,6 +77,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/many-automap-examples.html">many-automap-examples</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -126,6 +138,12 @@
           <p><code><a href="Bathy.html">Bathy</a></code> </p>
         </td>
         <td><p>Bathymetric data for maps</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="SOauto_crop.html">SOauto_crop()</a></code> </p>
+        </td>
+        <td><p>Reproject and crop Spatial Polygons to SOmap objects</p></td>
       </tr><tr>
         
         <td>
@@ -183,6 +201,13 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="SOmap_text.html">SOmap_text()</a></code> </p>
+        </td>
+        <td><p>Helper function for labels
+This is basically a thin wrapper around <code>text</code>, that passes <code>x[[labelcol]]</code> to <code>text</code> as the <code>labels</code> parameter</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="SOplot.html">SOplot()</a></code> </p>
         </td>
         <td><p>Southern Ocean plot</p></td>
@@ -219,7 +244,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="reproj.SOmap.html">reproj(<i>&lt;SOmap&gt;</i>)</a></code> <code><a href="reproj.SOmap.html">reproj(<i>&lt;SOauto_map&gt;</i>)</a></code> </p>
+          <p><code><a href="reproj.html">reproj(<i>&lt;SOmap&gt;</i>)</a></code> <code><a href="reproj.html">reproj(<i>&lt;SOauto_map&gt;</i>)</a></code> <code><a href="reproj.html">reproj(<i>&lt;BasicRaster&gt;</i>)</a></code> <code><a href="reproj.html">reproj(<i>&lt;Spatial&gt;</i>)</a></code> <code><a href="reproj.html">reproj(<i>&lt;sf&gt;</i>)</a></code> <code><a href="reproj.html">reproj(<i>&lt;sfc&gt;</i>)</a></code> </p>
         </td>
         <td><p>Reproject SOmap</p></td>
       </tr>

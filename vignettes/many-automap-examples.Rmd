@@ -3,8 +3,10 @@ title: "many-automap-examples"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{many-automap-examples}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -19,7 +21,7 @@ library(SOmap)
 ```
 
 
-```{r examples}
+```{r examples, eval = FALSE}
   library(SOmap)
 
 # lonrange, latrange
@@ -31,90 +33,69 @@ library(SOmap)
 
 set.seed(1)
 SOauto_map()
+```
 
+```{r examples1, eval = FALSE}
 SOauto_map(target = "+proj=laea +lat_0=-20")
+```
 
+```{r examples2, eval = FALSE}
 llx <-  c(100, 120)
 lly <- c(-60, -30)
 SOauto_map(llx, lly)
+```
 
+```{r examples3, eval = FALSE}
 SOauto_map(llx, lly, target = NULL)
+```
+
+```{r examples4, eval = FALSE}
 SOauto_map(cbind(llx, lly), target = NULL)
+```
 
+```{r examples5, eval = FALSE}
 SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = "laea")
+```
 
+```{r examples6, eval = FALSE}
 SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, centre_lon = 147)
+```
+
+```{r examples7, eval = FALSE}
+
 SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = NULL)
+```
+
+```{r examples8, eval = FALSE}
+
 SOauto_map(ice)
+```
 
-sst <- raadtools::readsst(xylim = extent(-180, 180, -90, -30))
-SOauto_map(sst, target = "laea", centre_lon = 147, centre_lat = -42)
-SOplot(sst, col = palr::sstPal(100))
 
-SOauto_map(sst, centre_lon = 147, centre_lat = -42)
-SOplot(sst, col = palr::sstPal(100))
-
-SOauto_map(sst, target = "merc", centre_lon = 147, centre_lat = -42)
-SOplot(sst, col = palr::sstPal(100))
-
-## FAIL
-#SOauto_map(sst, target = "longlat", centre_lon = 147, centre_lat = -42)
-#SOplot(sst, col = palr::sstPal(100))
+```{r examples13, eval=FALSE}
 
 SOauto_map(ice, target = "laea", centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::icePal(100))
+```
+
+```{r examples14, eval = FALSE}
 
 SOauto_map(ice, centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::icePal(100))
+```
+
+```{r examples15, eval = FALSE}
 
 SOauto_map(ice, target = "merc", centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::icePal(100))
+```
 
-ramp2 <- grDevices::colorRampPalette(c("#54A3D1","#60B3EB","#78C8F0","#98D1F5","#B5DCFF","#BDE1F0","#CDEBFA","#D6EFFF","#EBFAFF","grey92","grey94","grey96", "white"))
-bluepal <- ramp2(45)
-
-
-set.seed(1)
-plot(automap_maker()[[1]])
-set.seed(1)
-
-
-runfun <- function(input) {
-  am <- automap_maker(input);
-  plot(am$target, col = bluepal);
-  points(am$xy);
-  SOplot(input, col = viridis::viridis(20))
-  invisible(am)
-}
-
-plot(automap_maker(target = "+proj=laea +lat_0=-20")[[1]])
-
-llx <-  c(100, 120)
-lly <- c(-60, -30)
-plot(automap_maker(llx, lly)[[1]])
-points(reproj(expand.grid(llx, lly), SOcrs()))
-plot(automap_maker(llx, lly, target = NULL)[[1]])
-points(reproj(expand.grid(llx, lly), SOcrs()))
-plot(automap_maker(cbind(llx, lly), target = NULL)[[1]])
-points(reproj(expand.grid(llx, lly), SOcrs()))
-
-plot(automap_maker(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = "laea")[[1]])
-points(reproj(cbind(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat), SOcrs()))
-
-plot(automap_maker(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, centre_lon = 147)[[1]])
-points(reproj(cbind(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat), SOcrs()))
-
-plot(automap_maker(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = NULL)[[1]])
-points(reproj(cbind(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat), SOcrs()))
-
-plot(automap_maker(ice)[[1]])
-image(ice, add = TRUE)
-
-sst <- raadtools::readsst(xylim = extent(-180, 180, -90, -30))
-plot(automap_maker(sst, target = "laea", centre_lon = 147, centre_lat = -42)[[1]])
-SOplot(sst, col = palr::sstPal(100))
+```{r examples16, eval = FALSE}
 
 SOauto_map(x=c(10,60), y=c(-40,-70), mask=T)
+```
+
+```{r examples17, eval = FALSE}
 
 SOauto_map(x=c(10,60), y=c(-40,-70), mask=T, trim_background = FALSE)
 

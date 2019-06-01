@@ -32,7 +32,7 @@ Suggests:
     testthat,
     vdiffr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    palr
 VignetteBuilder: knitr
 Remotes: hypertidy/reproj
-

@@ -132,7 +132,7 @@ is used only for its extent.)
 ``` r
 ## use the bundled fronts data as an example
 mydata <- SOmap_data$fronts_orsi
-SOauto_map(mydata, family = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
+SOauto_map(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
 ```
 
 <img src="man/figures/README-automap-spatial-1.png" width="100%" />
@@ -144,7 +144,7 @@ care about our experience” and so there are some easy ways to work with
 projections, and <quote>just map it\!</quote>.
 
 ``` r
-set.seed(25)
+set.seed(1)
 amap <- SOauto_map(input_points = FALSE, input_lines = FALSE)
 amap
 ```
@@ -178,24 +178,25 @@ The projection *currently in use* is always available by running
 
 ``` r
 SOcrs()
-#> [1] "+proj=stere +lon_0=82.346436 +lat_0=-72.542740 +lat_ts=-71 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+#> [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 ```
 
 Many objects can be reprojected with `SOproj()`, including the map
 objects themselves.
 
 ``` r
+
 prj <- "+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"
 ## reproject a raster
 SOproj(ice, target = prj)
-#> class       : RasterLayer 
-#> dimensions  : 342, 326, 111492  (nrow, ncol, ncell)
-#> resolution  : 32837.52, 31606.02  (x, y)
-#> extent      : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)
-#> coord. ref. : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
-#> data source : in memory
-#> names       : nt_20181015_f18_nrt_s.bin 
-#> values      : 1.015509, 100  (min, max)
+#> class      : RasterLayer 
+#> dimensions : 342, 326, 111492  (nrow, ncol, ncell)
+#> resolution : 32837.52, 31606.02  (x, y)
+#> extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)
+#> crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
+#> source     : memory
+#> names      : nt_20181015_f18_nrt_s.bin 
+#> values     : 1.015509, 100  (min, max)
 
 ## reproject a SOmap
 reproj(amap, prj)
@@ -205,6 +206,8 @@ reproj(amap, prj)
 
 Note that we must assume raw input is “longitude/latitude”, and the
 function will issue a warning.
+
+-----
 
 Please note that the SOmap project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you

@@ -129,6 +129,7 @@ projection.SOauto_map <- function(x, asText = TRUE) {
 #'   reproj(bmap, "+proj=ortho +lat_0=-70")
 #'   reproj(bmap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
 #' }
+#' @name reproj
 reproj.SOmap <- function(x, target, ..., source = NULL) {
   if (missing(target)) stop("'target' projection string required")
   if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
@@ -145,7 +146,7 @@ reproj.SOmap <- function(x, target, ..., source = NULL) {
   x
 }
 #' @export
-#' @name reproj.SOmap
+#' @name reproj
 reproj.SOauto_map <- function(x, target, ..., source = NULL) {
   if (missing(target)) stop("'target' projection string required")
   if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")

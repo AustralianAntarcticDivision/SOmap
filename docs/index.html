@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9001</span>
       </span>
     </div>
 
@@ -45,6 +45,18 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/many-automap-examples.html">many-automap-examples</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -146,14 +158,14 @@
 <p>Objects from <code>sf</code> or <code>sp</code> may also be used. (If a “raster” is given it is used only for its extent.)</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">## use the bundled fronts data as an example</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">mydata &lt;-<span class="st"> </span>SOmap_data<span class="op">$</span>fronts_orsi</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="reference/SOauto_map.html">SOauto_map</a></span>(mydata, <span class="dt">family =</span> <span class="st">"laea"</span>, <span class="dt">centre_lon =</span> <span class="dv">147</span>, <span class="dt">input_points =</span> <span class="ot">FALSE</span>, <span class="dt">lcol =</span> <span class="dv">2</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="reference/SOauto_map.html">SOauto_map</a></span>(mydata, <span class="dt">target =</span> <span class="st">"laea"</span>, <span class="dt">centre_lon =</span> <span class="dv">147</span>, <span class="dt">input_points =</span> <span class="ot">FALSE</span>, <span class="dt">lcol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-automap-spatial-1.png" width="100%"></p>
 </div>
 <div id="easy-projections" class="section level2">
 <h2 class="hasAnchor">
 <a href="#easy-projections" class="anchor"></a>Easy projections</h2>
 <p><code>SOmap</code> goes with the philosophy “we actually rather like ourselves, and care about our experience” and so there are some easy ways to work with projections, and <quote>just map it!</quote>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">25</span>)</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">amap &lt;-<span class="st"> </span><span class="kw"><a href="reference/SOauto_map.html">SOauto_map</a></span>(<span class="dt">input_points =</span> <span class="ot">FALSE</span>, <span class="dt">input_lines =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3">amap</a></code></pre></div>
 <p><img src="reference/figures/README-auto-setup-1.png" width="100%"></p>
@@ -168,24 +180,26 @@
 <p><img src="reference/figures/README-add-it-1.png" width="100%"></p>
 <p>The projection <em>currently in use</em> is always available by running <code><a href="reference/SOcrs.html">SOcrs()</a></code>.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="reference/SOcrs.html">SOcrs</a></span>()</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; [1] "+proj=stere +lon_0=82.346436 +lat_0=-72.542740 +lat_ts=-71 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></a></code></pre></div>
 <p>Many objects can be reprojected with <code><a href="reference/SOproj.html">SOproj()</a></code>, including the map objects themselves.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">prj &lt;-<span class="st"> "+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"</span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">## reproject a raster</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="kw"><a href="reference/SOproj.html">SOproj</a></span>(ice, <span class="dt">target =</span> prj)</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; class       : RasterLayer </span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; dimensions  : 342, 326, 111492  (nrow, ncol, ncell)</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; resolution  : 32837.52, 31606.02  (x, y)</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; extent      : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; coord. ref. : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; data source : in memory</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; names       : nt_20181015_f18_nrt_s.bin </span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; values      : 1.015509, 100  (min, max)</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">## reproject a SOmap</span></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="kw"><a href="reference/reproj.SOmap.html">reproj</a></span>(amap, prj)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">prj &lt;-<span class="st"> "+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">## reproject a raster</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="kw"><a href="reference/SOproj.html">SOproj</a></span>(ice, <span class="dt">target =</span> prj)</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; class      : RasterLayer </span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; dimensions : 342, 326, 111492  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; resolution : 32837.52, 31606.02  (x, y)</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; source     : memory</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; names      : nt_20181015_f18_nrt_s.bin </span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; values     : 1.015509, 100  (min, max)</span></a>
+<a class="sourceLine" id="cb14-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">## reproject a SOmap</span></a>
+<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="kw"><a href="reference/reproj.html">reproj</a></span>(amap, prj)</a></code></pre></div>
 <p><img src="reference/figures/README-raster-1.png" width="100%"></p>
 <p>Note that we must assume raw input is “longitude/latitude”, and the function will issue a warning.</p>
+<hr>
 <p>Please note that the SOmap project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>

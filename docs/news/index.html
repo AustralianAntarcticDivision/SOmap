@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9001</span>
       </span>
     </div>
 
@@ -77,6 +77,18 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/many-automap-examples.html">many-automap-examples</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -106,9 +118,20 @@
       <small>Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="somap-0139000" class="section level1">
+    <div id="somap-0-2-1-9001" class="section level1">
 <h1 class="page-header">
-<a href="#somap-0139000" class="anchor"></a>SOmap 0.1.3.9000</h1>
+<a href="#somap-0-2-1-9001" class="anchor"></a>SOmap 0.2.1.9001</h1>
+<ul>
+<li><p>Argument <code>buffer</code> removed from <code><a href="../reference/SOauto_map.html">SOauto_map()</a></code>, changed <code>expand</code> to numeric fraction (<code>expand = 0</code> equivalent to old <code>expand = FALSE</code>).</p></li>
+<li><p>Argument <code>sample_type</code> to <code><a href="../reference/SOauto_map.html">SOauto_map()</a></code> moved to internal function <code>automap_nothing()</code>.</p></li>
+<li><p>New internal functions to become the engine behind <code><a href="../reference/SOauto_map.html">SOauto_map()</a></code>, <code>automap_maker()</code> to create a background extent from disparate inputs, and <code>automap_nothing()</code> to create a background by random data.</p></li>
+<li><p>New auto extent logic for <code><a href="../reference/SOauto_map.html">SOauto_map()</a></code> to address <a href='https://github.com/AustralianAntarcticDivision/SOmap/issues/30'>#30</a>.</p></li>
+<li><p>New <code><a href="https://www.rdocumentation.org/packages/reproj/topics/reproj">reproj::reproj</a></code> methods for <code>SOauto_map</code> and <code>SOmap</code> classes.</p></li>
+</ul>
+</div>
+    <div id="somap-0-1-3-9000" class="section level1">
+<h1 class="page-header">
+<a href="#somap-0-1-3-9000" class="anchor"></a>SOmap 0.1.3.9000</h1>
 <ul>
 <li><p>Added control to <code>SOauto_map</code> to draw sp lines as lines, points as points correctly.</p></li>
 <li><p>Added a <code>NEWS.md</code> file to track changes to the package.</p></li>
@@ -120,7 +143,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#somap-0139000">0.1.3.9000</a></li>
+        <li><a href="#somap-0-2-1-9001">0.2.1.9001</a></li>
+        <li><a href="#somap-0-1-3-9000">0.1.3.9000</a></li>
       </ul>
     </div>
   </div>

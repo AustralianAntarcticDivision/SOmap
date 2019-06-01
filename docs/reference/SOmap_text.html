@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Latitude mask for polar rasters. — latmask • SOmap</title>
+<title>Helper function for labels
+This is basically a thin wrapper around <code>text</code>, that passes <code>x[[labelcol]]</code> to <code>text</code> as the <code>labels</code> parameter — SOmap_text • SOmap</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +31,11 @@
 
 
 
-<meta property="og:title" content="Latitude mask for polar rasters. — latmask" />
+<meta property="og:title" content="Helper function for labels
+This is basically a thin wrapper around <code>text</code>, that passes <code>x[[labelcol]]</code> to <code>text</code> as the <code>labels</code> parameter — SOmap_text" />
 
-<meta property="og:description" content="Latitude mask for polar projections; written by M.D. Sumner and part of the spex package." />
+<meta property="og:description" content="Helper function for labels
+This is basically a thin wrapper around text, that passes x[[labelcol]] to text as the labels parameter" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -116,50 +119,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Latitude mask for polar rasters.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/latmask.R'><code>R/latmask.R</code></a></small>
-    <div class="hidden name"><code>latmask.Rd</code></div>
+    <h1>Helper function for labels
+This is basically a thin wrapper around <code>text</code>, that passes <code>x[[labelcol]]</code> to <code>text</code> as the <code>labels</code> parameter</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/SOmanagement.R'><code>R/SOmanagement.R</code></a></small>
+    <div class="hidden name"><code>SOmap_text.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Latitude mask for polar projections; written by M.D. Sumner and part of the spex package.</p>
+    <p>Helper function for labels
+This is basically a thin wrapper around <code>text</code>, that passes <code>x[[labelcol]]</code> to <code>text</code> as the <code>labels</code> parameter</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>latmask</span>(<span class='no'>x</span>, <span class='kw'>latitude</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>southern</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>SOmap_text</span>(<span class='no'>x</span>, <span class='no'>labelcol</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A raster layer.</p></td>
+      <td><p>data.frame or Spatial data.frame: data to pass to <code>text</code></p></td>
     </tr>
     <tr>
-      <th>latitude</th>
-      <td><p>maximum latitude (effectively a minimum latitude if southern = FALSE)</p></td>
+      <th>labelcol</th>
+      <td><p>string: name of the column in <code>x</code> to use for text labels</p></td>
     </tr>
     <tr>
-      <th>southern</th>
-      <td><p>flag for whether south-polar context is used, default is TRUE</p></td>
+      <th>...</th>
+      <td><p>other plot arguements</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## assumes that you have already defined a raster object called 'ice'</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>latmask</span>(<span class='no'>ice</span>, -<span class='fl'>60</span>))
-<span class='co'># }</span></pre>
+    <p>as for <code>text</code></p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/graphics/topics/text'>text</a></code></p></div>
+    
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

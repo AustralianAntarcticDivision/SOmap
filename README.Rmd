@@ -164,6 +164,7 @@ SOcrs()
 Many objects can be reprojected with `SOproj()`, including the map objects themselves. 
 
 ```{r raster}
+
 prj <- "+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"
 ## reproject a raster
 SOproj(ice, target = prj)
@@ -174,5 +175,7 @@ reproj(amap, prj)
 
 
 Note that we must assume raw input is "longitude/latitude", and the function will issue a warning. 
+
+---
 
 Please note that the SOmap project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

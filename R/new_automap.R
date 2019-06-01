@@ -22,7 +22,10 @@ mesh_points <- function(x) {
   sp::coordinates(raster::raster(raster::extent(x), nrows = 15, ncols = 15))
 }
 
+#' Internal SOmap
+#'
 #' @noRd
+#' @keywords internal
 #' @param sample_type create random input data from a 'polar' or 'lonlat' domain
 automap_nothing <- function(sample_type = "polar") {
   stopifnot(sample_type %in% c("lonlat", "polar"))
@@ -58,6 +61,7 @@ crunch_raster <- function(source_raster, target_raster) {
                                       stars::st_as_stars(target_raster)))
 
 }
+#' @noRd
 #' @param x a raster, stars, spatial sf, or numeric vector ('y' must also be present if 'x' is numeric, or NULL if x is a matrix)
 #' @param target defaults to a projection family "stere", if set to NULL uses the projection of 'x'
 automap_maker <-

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Latitude mask for polar rasters. — latmask • SOmap</title>
+<title>Reproject and crop Spatial Polygons to SOmap objects — SOauto_crop • SOmap</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Latitude mask for polar rasters. — latmask" />
+<meta property="og:title" content="Reproject and crop Spatial Polygons to SOmap objects — SOauto_crop" />
 
-<meta property="og:description" content="Latitude mask for polar projections; written by M.D. Sumner and part of the spex package." />
+<meta property="og:description" content="Reproject and crop Spatial Polygons to SOmap objects" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -116,48 +116,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Latitude mask for polar rasters.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/latmask.R'><code>R/latmask.R</code></a></small>
-    <div class="hidden name"><code>latmask.Rd</code></div>
+    <h1>Reproject and crop Spatial Polygons to SOmap objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/SOauto_crop.r'><code>R/SOauto_crop.r</code></a></small>
+    <div class="hidden name"><code>SOauto_crop.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Latitude mask for polar projections; written by M.D. Sumner and part of the spex package.</p>
+    <p>Reproject and crop Spatial Polygons to SOmap objects</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>latmask</span>(<span class='no'>x</span>, <span class='kw'>latitude</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>southern</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>SOauto_crop</span>(<span class='no'>layer</span>, <span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>layer</th>
+      <td><p>A SpatialPolygonsDataFrame.</p></td>
+    </tr>
+    <tr>
       <th>x</th>
-      <td><p>A raster layer.</p></td>
-    </tr>
-    <tr>
-      <th>latitude</th>
-      <td><p>maximum latitude (effectively a minimum latitude if southern = FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>southern</th>
-      <td><p>flag for whether south-polar context is used, default is TRUE</p></td>
+      <td><p>A SOmap or SOauto_map object.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>reprojected and cropped version of layer</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>## assumes that you have already defined a raster object called 'ice'</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>latmask</span>(<span class='no'>ice</span>, -<span class='fl'>60</span>))
-<span class='co'># }</span></pre>
+<span class='no'>a</span><span class='kw'>&lt;-</span><span class='fu'><a href='SOauto_map.html'>SOauto_map</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>70</span>, -<span class='fl'>50</span>))
+<span class='no'>x</span><span class='kw'>&lt;-</span><span class='fu'>SOauto_crop</span>(<span class='no'>SOmap_data</span>$<span class='no'>fronts_orsi</span>,  <span class='no'>a</span>)
+<span class='no'>a</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#value">Value</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
