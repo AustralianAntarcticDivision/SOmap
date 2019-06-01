@@ -1,22 +1,3 @@
-# see inst/examples/new_automap_examples.R
-
-# accept inputs like
-#* nothing  TODO
-#* lonrange, latrange
-#* lonvec, latvec
-#* sp, sf object
-#* raster, stars object
-
-#  then build *a template raster with projection and extent and dimensions*
-
-# 1. *+* Create automap_maker() to build template raster from various inputs
-# 2. *+* Create automap_nothing()  for automap_maker() to use when x/y both NULL
-# 3. *+* Allow 'target' to be a full PROJ string (ignore centre_lon/lat if given).
-# 4. *+* Replace inner logic of SOauto_map() with automap_maker()
-# 5. * * Fix mask logic
-# 6. * * Refactor inner and outer arguments (Trim, expand, etc.)
-
-
 
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
@@ -41,7 +22,7 @@ mesh_points <- function(x) {
   sp::coordinates(raster::raster(raster::extent(x), nrows = 15, ncols = 15))
 }
 
-#' @NoRd
+#' @noRd
 #' @param sample_type create random input data from a 'polar' or 'lonlat' domain
 automap_nothing <- function(sample_type = "polar") {
   stopifnot(sample_type %in% c("lonlat", "polar"))
@@ -145,7 +126,7 @@ automap_maker <-
       if (!is.null(target) && target == "stere" && !grepl(target, src_prj)) tscale <- -71 * sign(centre_lat)
 
 
-      src_extent <- raster::extent(range(llxy[,1]), range(llxy[,2]))
+      src_extent <- raster::extent(range(llxy[,1], na.rm = TRUE), range(llxy[,2], na.rm = TRUE))
 
     }
 

@@ -25,9 +25,14 @@ Imports:
     spbabel,
     spex (>= 0.5.0.9002),
     tabularaster,
-    reproj
+    reproj (>= 0.3.0.9002)
 Suggests:
     adehabitatLT,
     covr,
     testthat,
-    vdiffr
+    vdiffr,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Remotes: hypertidy/reproj
+

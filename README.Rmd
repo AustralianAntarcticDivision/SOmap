@@ -127,7 +127,7 @@ Objects from `sf` or `sp` may also be used.  (If a "raster" is given it is used 
 ```{r automap-spatial, fig.height = 5, fig.width = 5}
 ## use the bundled fronts data as an example
 mydata <- SOmap_data$fronts_orsi
-SOauto_map(mydata, family = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
+SOauto_map(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
 
 ```
 
@@ -136,7 +136,7 @@ SOauto_map(mydata, family = "laea", centre_lon = 147, input_points = FALSE, lcol
 `SOmap` goes with the philosophy "we actually rather like ourselves, and care about our experience" and so there are some easy ways to work with projections, and <quote>just map it!</quote>. 
 
 ```{r auto-setup}
-set.seed(25)
+set.seed(1)
 amap <- SOauto_map(input_points = FALSE, input_lines = FALSE)
 amap
 ```

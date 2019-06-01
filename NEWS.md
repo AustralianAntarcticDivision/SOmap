@@ -1,4 +1,4 @@
-# dev
+# SOmap 0.2.1.9001
 
 * Argument `buffer` removed from `SOauto_map()`, changed `expand` to numeric fraction (`expand = 0` equivalent to old `expand = FALSE`). 
 
