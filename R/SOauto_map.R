@@ -14,7 +14,7 @@ mid_point <- function (p, fold = FALSE)
 #'
 #' To input your data, use input locations as `x` (longitude) and `y` (latitude) values, there must be at least two locations.
 #'
-#' Try families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
+#' Try `target` families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
 #'
 #' Using `mask = TRUE` does not work well when the pole is included, so it's `FALSE` by default.
 #'
@@ -22,15 +22,14 @@ mid_point <- function (p, fold = FALSE)
 #' @param y optional input data latitudes
 #' @param centre_lon optional centre longitude (of the map projection, also used to for plot range if `expand = TRUE`)
 #' @param centre_lat as per `centre_lon`
-#' @param family optional projection family (default is `stere`ographic), or full PROJ string (see Details)
-#' @param expand re-compute range of plot to incorporate centre_lon and centre_lat with the data as a natural middle
+#' @param target optional projection family (default is `stere`ographic), or full PROJ string (see Details)
 #' @param dimXY dimensions of background bathmetry (if used) default is 300x300
 #' @param bathy logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{raster} object
 #' @param coast logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object
 #' @param input_points add points to plot (of x, y)
 #' @param input_lines add lines to plot   (of x, y)
 #' @param graticule flag to add a basic graticule
-#' @param buffer fraction to expand plot range from that calculated (either from data, or from centre_lon/centre_lat _and_ data if `expand = TRUE`)
+#' @param expand fraction to expand plot range (default is 0.05, set to zero for no buffer, may be negative)
 #' @param contours logical: add contours?
 #' @param levels numeric: contour levels to use if \code{contours} is \code{TRUE}
 #' @param trim_background crop the resulting bathymetry to its margin of valid values
@@ -44,7 +43,6 @@ mid_point <- function (p, fold = FALSE)
 #' @param bathyleg optional bathymetry legend (default=FALSE). Note when \code{bathyleg} is \code{FALSE}, plotting is done with \code{raster::image}, but when \code{bathyleg} is \code{TRUE} plotting uses \code{raster::plot}
 #' @param gratlon longitude values for graticule meridians
 #' @param gratlat latitude values for graticule parallels
-#' @param sample_type create random input data from a 'polar' or 'lonlat' domain
 #' @param gratpos positions (sides) of graticule labels
 #' @return An object of class SOauto_map, containing the data and other details required to generate the map. Printing or plotting the object will cause it to be plotted.
 #' @export
@@ -61,26 +59,24 @@ mid_point <- function (p, fold = FALSE)
 #'   SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "laea", centre_lat = -15,
 #'                 input_lines = FALSE)
 #' }
-SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "stere",
-                       expand = TRUE,
+SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "stere",
                        dimXY = c(300, 300),
                        bathy = TRUE, coast = TRUE, input_points = TRUE, input_lines = TRUE,
-                       graticule = TRUE, buffer = 0.05,
+                       graticule = TRUE, expand = 0.05,
                        contours = TRUE, levels = c(-500, -1000, -2000),
                        trim_background = TRUE,
                        mask = FALSE, ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
-                       gratlon = NULL, gratlat = NULL, gratpos="all",
-                       sample_type = sample(c("polar", "lonlat"), 1L)) {
+                       gratlon = NULL, gratlat = NULL, gratpos="all") {
     ## check inputs
     assert_that(is.flag(contours), !is.na(contours))
     assert_that(is.numeric(levels), length(levels) > 0)
-
+    assert_that(is.numeric(expand), msg = "'expand' must be numeric, changed behaviour in SOmap > 0.2.1")
     ## data
     SOmap_data <- NULL
     Bathy <- NULL
     data("SOmap_data", package = "SOmap", envir = environment())
     data("Bathy", package = "SOmap", envir = environment())
-
+    if (missing(y)) y <- NULL
 ## automap_nothing ----
     if (missing(x) && missing(y)) {
         xy <- automap_nothing()
@@ -89,22 +85,34 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
     }
 ## END automap_nothing ----
 
-    if (expand) {
-      ## TODO: use buffer value
-      warning("'expand does nothing atm'")
+    ## automap_maker ----
+    amap <- automap_maker(x, y = y,
+                          centre_lon = centre_lon,
+                          centre_lat = centre_lat,
+                          target = target, dimXY = dimXY)
+    xy <- amap$xy
+    target <- amap$target
+    prj <- raster::projection(target)
+
+    ## END automap_maker
+
+    if (abs(expand) > 0) {
+      xl <- spex::xlim(target)
+      yl <- spex::ylim(target)
+
+      xl <- xl + c(-1, 1) * expand * diff(xl)
+      yl <- yl + c(-1, 1) * expand * diff(yl)
+      raster::extent(target) <- raster::extent(xl, yl)
+      dim(target) <- dimXY
+      target <- crunch_bathy(target)
+
   }
-    dim(target) <- dimXY
     bathymetry <- coastline <- NULL
     if (isTRUE(bathy)) {            ## insert your local bathy-getter here
-        ##if (!exists("topo")) topo <- raster::aggregate(raadtools::readtopo("etopo2", xylim = extent(-180, 180, -90, 0)), fact = 10)
-        bathymetry <- raster::projectRaster(Bathy, target)
-        if (trim_background) {
-            bathymetry <- raster::trim(bathymetry)
-            target <- crop(target, bathymetry)
-        }
+        bathymetry <- target
     } else {
         if (inherits(bathy, "BasicRaster")) {
-            bathymetry <- raster::projectRaster(bathy[[1]], target, method = "ngb")
+            bathymetry <- crunch_raster(bathy, target)
             bathy <- TRUE
             if (trim_background) {
                 bathymetry <- raster::trim(bathymetry)
@@ -149,7 +157,6 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
             })
         }
     }
-    if (input_points || input_lines) xy <- rgdal::project(cbind(x, y), prj)
 
     if (graticule) {
         graticule <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),

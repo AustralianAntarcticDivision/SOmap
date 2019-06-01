@@ -12,8 +12,9 @@
 # 1. *+* Create automap_maker() to build template raster from various inputs
 # 2. *+* Create automap_nothing()  for automap_maker() to use when x/y both NULL
 # 3. *+* Allow 'target' to be a full PROJ string (ignore centre_lon/lat if given).
-# 4. * * Replace inner logic of SOauto_map() with automap_maker()
-# 5. * * Refactor inner and outer arguments (Trim, expand, etc.)
+# 4. *+* Replace inner logic of SOauto_map() with automap_maker()
+# 5. * * Fix mask logic
+# 6. * * Refactor inner and outer arguments (Trim, expand, etc.)
 
 
 
@@ -40,8 +41,8 @@ mesh_points <- function(x) {
   sp::coordinates(raster::raster(raster::extent(x), nrows = 15, ncols = 15))
 }
 
-
-
+#' @NoRd
+#' @param sample_type create random input data from a 'polar' or 'lonlat' domain
 automap_nothing <- function(sample_type = "polar") {
   stopifnot(sample_type %in% c("lonlat", "polar"))
     nsample <- runif(1, 15, 35)
@@ -66,16 +67,28 @@ automap_nothing <- function(sample_type = "polar") {
     xy <- xy[order(xy[, 1], xy[,2]), ]
     xy
 }
+crunch_bathy <- function(target_raster) {
+  stars:::st_as_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
+                                                    stars::st_as_stars(target_raster)))
+
+}
+crunch_raster <- function(source_raster, target_raster) {
+  stars:::st_as_raster(stars::st_warp(stars::st_as_stars(source_raster),
+                                      stars::st_as_stars(target_raster)))
+
+}
 #' @param x a raster, stars, spatial sf, or numeric vector ('y' must also be present if 'x' is numeric, or NULL if x is a matrix)
 #' @param target defaults to a projection family "stere", if set to NULL uses the projection of 'x'
 automap_maker <-
   function(x, y = NULL, centre_lon = NULL, centre_lat = NULL, target = "stere",
-           dimXY = c(300, 300),
-
-           ## remove sample_type?
-           sample_type = sample(c("polar", "lonlat"), 1L), ...) {
+           dimXY = c(300, 300), ...) {
     if (missing(x) && is.null(y)) {
       x <- automap_nothing(sample_type = sample_type)
+    }
+    if (!is.null(dim(x)) && is.null(y)) {
+      x <- as.matrix(x)
+      y <- x[,2, drop = TRUE]
+      x <- x[,1, drop = TRUE]
     }
     ## check args
     if ("family" %in% names(list(...))) warning("'family' argument is defunct, please use 'target'")
@@ -148,8 +161,8 @@ automap_maker <-
 
     }
     if (!is.null(llxy)) xy <- reproj::reproj(llxy, tgt_prj, source = llproj)[, 1:2, drop = FALSE]
-    bathymetry <- stars:::st_as_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
-                                                                 stars::st_as_stars(tgt_raster)))
+    bathymetry <- crunch_bathy(tgt_raster)
+
     SOcrs(projection(bathymetry))
 
     return(list(target = bathymetry, xy = xy))

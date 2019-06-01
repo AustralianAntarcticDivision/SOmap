@@ -4,6 +4,37 @@
 # sp, sf object
 # raster, stars object
 # file
+
+
+set.seed(1)
+SOauto_map()
+
+SOauto_map(target = "+proj=laea +lat_0=-20")
+
+llx <-  c(100, 120)
+lly <- c(-60, -30)
+SOauto_map(llx, lly)
+
+SOauto_map(llx, lly, target = NULL)
+SOauto_map(cbind(llx, lly), target = NULL)
+
+SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = "laea")
+
+SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, centre_lon = 147)
+SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = NULL)
+SOauto_map(ice)
+
+sst <- raadtools::readsst(xylim = extent(-180, 180, -90, -30))
+SOauto_map(sst, target = "laea", centre_lon = 147, centre_lat = -42)
+SOplot(sst, col = palr::sstPal(100))
+
+
+
+
+
+
+
+
 ramp2 <- grDevices::colorRampPalette(c("#54A3D1","#60B3EB","#78C8F0","#98D1F5","#B5DCFF","#BDE1F0","#CDEBFA","#D6EFFF","#EBFAFF","grey92","grey94","grey96", "white"))
 bluepal <- ramp2(45)
 
