@@ -83,9 +83,9 @@ automap_maker <-
   function(x, y = NULL, centre_lon = NULL, centre_lat = NULL, target = "stere",
            dimXY = c(300, 300), ...) {
     if (missing(x) && is.null(y)) {
-      x <- automap_nothing(sample_type = sample_type)
+      x <- automap_nothing(sample_type = "polar")
     }
-    if (!is.null(dim(x)) && is.null(y)) {
+    if (is.numeric(x) && !is.null(dim(x)) && is.null(y)) {
       x <- as.matrix(x)
       y <- x[,2, drop = TRUE]
       x <- x[,1, drop = TRUE]

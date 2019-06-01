@@ -28,12 +28,24 @@ sst <- raadtools::readsst(xylim = extent(-180, 180, -90, -30))
 SOauto_map(sst, target = "laea", centre_lon = 147, centre_lat = -42)
 SOplot(sst, col = palr::sstPal(100))
 
+SOauto_map(sst, centre_lon = 147, centre_lat = -42)
+SOplot(sst, col = palr::sstPal(100))
 
+SOauto_map(sst, target = "merc", centre_lon = 147, centre_lat = -42)
+SOplot(sst, col = palr::sstPal(100))
 
+## FAIL
+#SOauto_map(sst, target = "longlat", centre_lon = 147, centre_lat = -42)
+#SOplot(sst, col = palr::sstPal(100))
 
+SOauto_map(ice, target = "laea", centre_lon = 147, centre_lat = -42)
+SOplot(ice, col = palr::icePal(100))
 
+SOauto_map(ice, centre_lon = 147, centre_lat = -42)
+SOplot(ice, col = palr::icePal(100))
 
-
+SOauto_map(ice, target = "merc", centre_lon = 147, centre_lat = -42)
+SOplot(ice, col = palr::icePal(100))
 
 ramp2 <- grDevices::colorRampPalette(c("#54A3D1","#60B3EB","#78C8F0","#98D1F5","#B5DCFF","#BDE1F0","#CDEBFA","#D6EFFF","#EBFAFF","grey92","grey94","grey96", "white"))
 bluepal <- ramp2(45)
