@@ -255,10 +255,10 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, family = "ste
         suppressWarnings({
             coastline <- try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(SOmap_data$continent), prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial"), silent = TRUE)
 
-            coastline <- NULL
             if (inherits(coastline, "try-error")) {
                 coast <- FALSE
                 warning("no coastline within region, cannot be plotted")
+                coastline <- NULL
             }
         })
     } else {
