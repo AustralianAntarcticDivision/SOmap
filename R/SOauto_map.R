@@ -33,7 +33,7 @@ mid_point <- function (p, fold = FALSE)
 #' @param contours logical: add contours?
 #' @param levels numeric: contour levels to use if \code{contours} is \code{TRUE}
 #' @param trim_background crop the resulting bathymetry to its margin of valid values
-#' @param mask logical: if \code{TRUE}, mask the raster and coastline to the graticule
+#' @param mask NOW DEPRECATED, DOES NOTHING if \code{TRUE}, mask the raster and coastline to the graticule
 #' @param ppch set point character (default=19)
 #' @param pcol set point color (default=19)
 #' @param pcex set point cex (default=1)
@@ -155,19 +155,16 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
                              crs = raster::projection(target), lon = gratlon, lat = gratlat)
 
     if (mask) {
-        #gratmask <- graticule::graticule(seq(xlim[1], xlim[2], length = 30),
-        #                                 seq(ylim[1], ylim[2], length = 5), proj = raster::projection(target), tiles = TRUE)
-
-
-        if (bathy) {
-            bathymetry <- fast_mask(bathymetry, grat)
-        }
-        if (coast) {
-            suppressWarnings({
-                coastline <- as(sf::st_union(sf::st_intersection(sf::st_as_sf(coastline),
-                                      sf::st_buffer(sf::st_as_sf(grat), 0))), "Spatial")
-            })
-        }
+       warning("mask is deprecated, ignoring")
+        # if (bathy) {
+        #     bathymetry <- fast_mask(bathymetry, st_cast(grat, "POLYGON"))
+        # }
+        # if (coast) {
+        #     suppressWarnings({
+        #         coastline <- as(sf::st_union(sf::st_intersection(sf::st_as_sf(coastline),
+        #                               sf::st_buffer(sf::st_as_sf(grat), 0))), "Spatial")
+        #     })
+        # }
     }
 
     if (graticule) {

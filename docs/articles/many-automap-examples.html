@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9002</span>
       </span>
     </div>
 
@@ -110,31 +110,44 @@
 <a class="sourceLine" id="cb2-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>()</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples-1.png" width="700"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(<span class="dt">target =</span> <span class="st">"+proj=laea +lat_0=-20"</span>)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples1-1.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">llx &lt;-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">100</span>, <span class="dv">120</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">lly &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">60</span>, <span class="dv">-30</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(llx, lly)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples2-1.png" width="700"></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(llx, lly, <span class="dt">target =</span> <span class="ot">NULL</span>)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples3-1.png" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(llx, lly), <span class="dt">target =</span> <span class="ot">NULL</span>)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples4-1.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lon, SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lat, <span class="dt">target =</span> <span class="st">"laea"</span>)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples5-1.png" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lon, SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lat, <span class="dt">centre_lon =</span> <span class="dv">147</span>)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples6-1.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lon, SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lat, <span class="dt">target =</span> <span class="ot">NULL</span>)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples7-1.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(ice)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples8-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(ice, <span class="dt">target =</span> <span class="st">"laea"</span>, <span class="dt">centre_lon =</span> <span class="dv">147</span>, <span class="dt">centre_lat =</span> <span class="dv">-42</span>)</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="../reference/SOplot.html">SOplot</a></span>(ice, <span class="dt">col =</span> palr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/palr/topics/icePal">icePal</a></span>(<span class="dv">100</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(ice, <span class="dt">centre_lon =</span> <span class="dv">147</span>, <span class="dt">centre_lat =</span> <span class="dv">-42</span>)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw"><a href="../reference/SOplot.html">SOplot</a></span>(ice, <span class="dt">col =</span> palr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/palr/topics/icePal">icePal</a></span>(<span class="dv">100</span>))</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples14-1.png" width="700"></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(ice, <span class="dt">target =</span> <span class="st">"merc"</span>, <span class="dt">centre_lon =</span> <span class="dv">147</span>, <span class="dt">centre_lat =</span> <span class="dv">-42</span>)</a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw"><a href="../reference/SOplot.html">SOplot</a></span>(ice, <span class="dt">col =</span> palr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/palr/topics/icePal">icePal</a></span>(<span class="dv">100</span>))</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples15-1.png" width="700"></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(<span class="dt">x=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">60</span>), <span class="dt">y=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">40</span>,<span class="op">-</span><span class="dv">70</span>), <span class="dt">mask=</span>T)</a></code></pre></div>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(<span class="dt">x=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">60</span>), <span class="dt">y=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">40</span>,<span class="op">-</span><span class="dv">70</span>))</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples16-1.png" width="700"></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(<span class="dt">x=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">60</span>), <span class="dt">y=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">40</span>,<span class="op">-</span><span class="dv">70</span>), <span class="dt">mask=</span>T, <span class="dt">trim_background =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/SOauto_map.html">SOauto_map</a></span>(<span class="dt">x=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">60</span>), <span class="dt">y=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="op">-</span><span class="dv">40</span>,<span class="op">-</span><span class="dv">70</span>), <span class="dt">trim_background =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="many-automap-examples_files/figure-html/examples17-1.png" width="700"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

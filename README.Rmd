@@ -170,7 +170,7 @@ prj <- "+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"
 SOproj(ice, target = prj)
 
 ## reproject a SOmap
-reproj(amap, prj)
+SOproj(amap, target = prj)
 ```
 
 

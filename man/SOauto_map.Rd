@@ -44,7 +44,7 @@ SOauto_map(x, y, centre_lon = NULL, centre_lat = NULL,
 
 \item{trim_background}{crop the resulting bathymetry to its margin of valid values}
 
-\item{mask}{logical: if \code{TRUE}, mask the raster and coastline to the graticule}
+\item{mask}{NOW DEPRECATED, DOES NOTHING if \code{TRUE}, mask the raster and coastline to the graticule}
 
 \item{ppch}{set point character (default=19)}
 

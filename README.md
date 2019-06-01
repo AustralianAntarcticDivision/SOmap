@@ -199,7 +199,11 @@ SOproj(ice, target = prj)
 #> values     : 1.015509, 100  (min, max)
 
 ## reproject a SOmap
-reproj(amap, prj)
+SOproj(amap, target = prj)
+#> Warning in SOproj(amap, target = prj): assuming generic data is in
+#> longitude,latitude
+#> Warning in reproj.SOauto_map(x, target = target, source = source): source
+#> ignored, should be NULL for SOmap objects
 ```
 
 <img src="man/figures/README-raster-1.png" width="100%" />

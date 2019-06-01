@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.9002</span>
       </span>
     </div>
 
@@ -196,7 +196,11 @@
 <a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; values     : 1.015509, 100  (min, max)</span></a>
 <a class="sourceLine" id="cb14-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">## reproject a SOmap</span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="kw"><a href="reference/reproj.html">reproj</a></span>(amap, prj)</a></code></pre></div>
+<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="kw"><a href="reference/SOproj.html">SOproj</a></span>(amap, <span class="dt">target =</span> prj)</a>
+<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; Warning in SOproj(amap, target = prj): assuming generic data is in</span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; longitude,latitude</span></a>
+<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt; Warning in reproj.SOauto_map(x, target = target, source = source): source</span></a>
+<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt; ignored, should be NULL for SOmap objects</span></a></code></pre></div>
 <p><img src="reference/figures/README-raster-1.png" width="100%"></p>
 <p>Note that we must assume raw input is “longitude/latitude”, and the function will issue a warning.</p>
 <hr>
