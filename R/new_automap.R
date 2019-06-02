@@ -32,6 +32,10 @@ automap_nothing <- function(sample_type = "polar") {
     nsample <- runif(1, 15, 35)
     if (sample_type == "polar") {
       ## sample from Bathy
+
+      Bathy <- NULL
+      data("Bathy", package = "SOmap", envir = environment())
+
       rr <- raster(Bathy)
       raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
       xy <- rgdal::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)),
@@ -52,12 +56,12 @@ automap_nothing <- function(sample_type = "polar") {
     xy
 }
 crunch_bathy <- function(target_raster) {
-  stars:::st_as_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
+  stars_to_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
                                                     stars::st_as_stars(target_raster)))
 
 }
 crunch_raster <- function(source_raster, target_raster) {
-  stars:::st_as_raster(stars::st_warp(stars::st_as_stars(source_raster),
+  stars_to_raster(stars::st_warp(stars::st_as_stars(source_raster),
                                       stars::st_as_stars(target_raster)))
 
 }
@@ -148,7 +152,7 @@ automap_maker <-
     if (!is.null(llxy)) xy <- reproj::reproj(llxy, tgt_prj, source = llproj)[, 1:2, drop = FALSE]
     bathymetry <- crunch_bathy(tgt_raster)
 
-    SOcrs(projection(bathymetry))
+    SOcrs(raster::projection(bathymetry))
 
     return(list(target = bathymetry, xy = xy))
   }

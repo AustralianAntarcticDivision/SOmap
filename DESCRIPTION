@@ -26,7 +26,8 @@ Imports:
     spex (>= 0.6.0),
     stars,
     tabularaster,
-    reproj (>= 0.4.0)
+    reproj (>= 0.4.0),
+    glue
 Suggests:
     adehabitatLT,
     covr,
@@ -36,4 +37,3 @@ Suggests:
     rmarkdown,
     palr
 VignetteBuilder: knitr
-

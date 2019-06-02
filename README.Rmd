@@ -178,4 +178,4 @@ Note that we must assume raw input is "longitude/latitude", and the function wil
 
 ---
 
-Please note that the SOmap project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the SOmap project is released with a [Contributor Code of Conduct](https://australianantarcticdivision.github.io/SOmap/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

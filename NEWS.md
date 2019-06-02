@@ -1,4 +1,4 @@
-# SOmap 0.2.1.9002
+# SOmap 0.2.1.9003
 
 * Argument `mask` is now deprecated, it doesn't do anything (was causing crashes, so needs review). 
 
