@@ -36,4 +36,4 @@ Suggests:
     rmarkdown,
     palr
 VignetteBuilder: knitr
-Remotes: mdsumner/spex
+
