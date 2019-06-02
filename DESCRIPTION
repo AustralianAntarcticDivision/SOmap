@@ -36,4 +36,4 @@ Suggests:
     rmarkdown,
     palr
 VignetteBuilder: knitr
-Remotes: hypertidy/reproj
+Remotes: hypertidy/reproj, mdsumner/spex
