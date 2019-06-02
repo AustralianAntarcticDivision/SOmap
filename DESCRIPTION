@@ -26,7 +26,7 @@ Imports:
     spex (>= 0.5.0.9002),
     stars,
     tabularaster,
-    reproj (>= 0.3.0.9002)
+    reproj (>= 0.4.0)
 Suggests:
     adehabitatLT,
     covr,
@@ -36,4 +36,4 @@ Suggests:
     rmarkdown,
     palr
 VignetteBuilder: knitr
-Remotes: hypertidy/reproj, mdsumner/spex
+Remotes: mdsumner/spex
