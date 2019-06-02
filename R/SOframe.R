@@ -6,7 +6,7 @@ SOframe <- function(lon, lat) {
   suppressWarnings({
    out <- spex::spex(raster::extent(as.matrix(expand.grid(lon, lat))))
   })
- #raster::projection(out) <- "+proj=longlat +datum=WGS84"
+  raster::projection(out) <- "+proj=longlat +datum=WGS84"
 out
 }
 
@@ -20,6 +20,15 @@ SOmask.BasicRaster <- function(x, mask, ...)  {
   ## find height
   ## determine delta x, y
   ## segmentize the mask
+  lon <- spex::xlim(mask)  ## assume longlat
+  lat <- spex::ylim(mask)
+
+  dy <- spDistsN1(cbind(lon[1], lat[1]), cbind(lon[1], lat[2]), longlat = TRUE) / 111111.12
+  dx <- spDistsN1(cbind(lon[1], lat[2]), cbind(lon[2], lat[2]), longlat = TRUE) / 111111.12
+
+  dx <- max(c(dy, dx)) * 1000 / 24
+  raster::projection(mask) <- "+proj=longlat +datum=WGS84"
+  mask <- sf::st_set_crs(sf::st_segmentize(sf::st_set_crs(sf::st_as_sf(mask), NA), dx), sf::st_crs(mask))
 
   raster::mask(x, SOproj(mask, target = raster::projection(x)))
 }
