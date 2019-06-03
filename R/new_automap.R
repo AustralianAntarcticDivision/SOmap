@@ -9,7 +9,7 @@ family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NU
   if (family %in% c("aea", "lcc")) {
     if (is.null(secant_range)) secant_range <- clat + c(-10, 10)
     secant_range[1] <- max(c(secant_range[1], -90))
-    secant_range[2] <- min(c(secant_range[1], 90))
+    secant_range[2] <- min(c(secant_range[2], 90))
     y0 <- secant_range[1]
     y1 <- secant_range[2]
     secant <- glue::glue(" +lat_1={y0} +lat_2={y1}")
