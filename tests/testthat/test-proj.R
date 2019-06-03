@@ -33,3 +33,5 @@ test_that("auto nothing works", {
                                                                                        c("x", "y"))),
                     tolerance = 0.001)
 })
+
+
