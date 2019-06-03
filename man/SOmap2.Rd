@@ -4,90 +4,91 @@
 \alias{SOmap2}
 \title{Southern Ocean Map 2}
 \usage{
-SOmap2(Bathleg = TRUE, land = TRUE, CCAMLR = FALSE,
-  CCAMLRlab = FALSE, SSRU = FALSE, SSRUlab = FALSE, SSMU = FALSE,
-  SSMUlab = FALSE, RB = FALSE, RBlab = FALSE, SPRFMORB = FALSE,
-  Border = TRUE, Trim = -45, Grats = FALSE, EEZ = FALSE,
-  EEZlab = FALSE, MPA = FALSE, MPAlab = FALSE, Domains = FALSE,
-  Domainslab = FALSE, IWC = FALSE, IWClab = FALSE,
-  straight = FALSE, fronts = FALSE, frontcols = c("hotpink",
-  "orchid", "plum"), rbcol = 3, sprfmocol = "grey50", ccamlrcol = 2,
-  ssrucol = "grey50", ssmucol = "grey70", eezcol = "maroon",
-  mpacol = "yellow", bordercol = c("white", "black"),
-  gratcol = "grey70", iwccol = "blue", domcol = "magenta")
+SOmap2(bathy_legend = TRUE, land = TRUE, ccamlr = FALSE,
+  ccamlr_labels = FALSE, ssru = FALSE, ssru_labels = FALSE,
+  ssmu = FALSE, ssmu_labels = FALSE, rb = FALSE, rb_labels = FALSE,
+  sprfmorb = FALSE, border = TRUE, trim = -45, graticules = FALSE,
+  eez = FALSE, eez_labels = FALSE, mpa = FALSE, mpa_labels = FALSE,
+  domains = FALSE, domains_labels = FALSE, iwc = FALSE,
+  iwc_labels = FALSE, straight = FALSE, fronts = FALSE,
+  fronts_col = c("hotpink", "orchid", "plum"), rb_col = 3,
+  sprfmo_col = "grey50", ccamlr_col = 2, ssru_col = "grey50",
+  ssmu_col = "grey70", eez_col = "maroon", mpa_col = "yellow",
+  border_col = c("white", "black"), graticules_col = "grey70",
+  iwc_col = "blue", domains_col = "magenta")
 }
 \arguments{
-\item{Bathleg}{Insert the bathymetry legend.}
+\item{bathy_legend}{Insert the bathymetry legend.}
 
 \item{land}{Plot land boundary}
 
-\item{CCAMLR}{Insert the CCAMLR boundaries.}
+\item{ccamlr}{Insert the CCAMLR boundaries.}
 
-\item{CCAMLRlab}{Insert the CCAMLR labels.}
+\item{ccamlr_labels}{Insert the CCAMLR labels.}
 
-\item{SSRU}{Insert the CCAMLR small scale research unit boundaries.}
+\item{ssru}{Insert the CCAMLR small scale research unit boundaries.}
 
-\item{SSRUlab}{Insert the CCAMLR small scale research unit labels.}
+\item{ssru_labels}{Insert the CCAMLR small scale research unit labels.}
 
-\item{SSMU}{Insert the CCAMLR small scale management unit boundaries.}
+\item{ssmu}{Insert the CCAMLR small scale management unit boundaries.}
 
-\item{SSMUlab}{Insert the CCAMLR small scale management unit labels.}
+\item{ssmu_labels}{Insert the CCAMLR small scale management unit labels.}
 
-\item{RB}{Insert the CCAMLR research block boundaries.}
+\item{rb}{Insert the CCAMLR research block boundaries.}
 
-\item{RBlab}{Insert the CCAMLR research block labels.}
+\item{rb_labels}{Insert the CCAMLR research block labels.}
 
-\item{SPRFMORB}{Insert the SPRFMO toothfish research block boundaries.}
+\item{sprfmorb}{Insert the SPRFMO toothfish research block boundaries.}
 
-\item{Border}{Insert longitude border.}
+\item{border}{Insert longitude border.}
 
-\item{Trim}{Longitude to trim map to.}
+\item{trim}{Longitude to trim map to.}
 
-\item{Grats}{Insert graticule grid.}
+\item{graticules}{Insert graticule grid.}
 
-\item{EEZ}{Insert Exclusive Economic Zones.}
+\item{eez}{Insert Exclusive Economic Zones.}
 
-\item{EEZlab}{Insert Exclusive Economic Zone labels.}
+\item{eez_labels}{Insert Exclusive Economic Zone labels.}
 
-\item{MPA}{Insert CCAMLE Marine Protected Areas.}
+\item{mpa}{Insert CCAMLR Marine Protected Areas.}
 
-\item{MPAlab}{Insert CCAMLE Marine Protected Area labels.}
+\item{mpa_labels}{Insert CCAMLR Marine Protected Area labels.}
 
-\item{Domains}{Insert CCAMLR Marine Protected Areas planning Domains.}
+\item{domains}{Insert CCAMLR Marine Protected Areas planning domains.}
 
-\item{Domainslab}{Insert CCAMLR Marine Protected Area planning Domains labels.}
+\item{domains_labels}{Insert CCAMLR Marine Protected Area planning domains labels.}
 
-\item{IWC}{Insert International Whaling Commission boundaries.}
+\item{iwc}{Insert International Whaling Commission boundaries.}
 
-\item{IWClab}{Insert International Whaling Commission labels.}
+\item{iwc_labels}{Insert International Whaling Commission labels.}
 
 \item{straight}{Do you need a blank space on the side for a straight legend.}
 
 \item{fronts}{Plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front}
 
-\item{frontcols}{colors for fronts}
+\item{fronts_col}{colors for fronts}
 
-\item{rbcol}{Color for CCAMLR research blocks.}
+\item{rb_col}{Color for CCAMLR research blocks.}
 
-\item{sprfmocol}{Color for SPRFMO toothfish research blocks}
+\item{sprfmo_col}{Color for SPRFMO toothfish research blocks}
 
-\item{ccamlrcol}{Color for CCAMLR boundaries}
+\item{ccamlr_col}{Color for CCAMLR boundaries}
 
-\item{ssrucol}{Color for CCAMLR small scale research units.}
+\item{ssru_col}{Color for CCAMLR small scale research units.}
 
-\item{ssmucol}{Color for CCAMLR small scale management units.}
+\item{ssmu_col}{Color for CCAMLR small scale management units.}
 
-\item{eezcol}{Color for Exclusive Economic Zone boundaries; Default is maroon.}
+\item{eez_col}{Color for Exclusive Economic Zone boundaries; Default is maroon.}
 
-\item{mpacol}{Color for CCAMLR Marine Protected Areas; Default is yellow.}
+\item{mpa_col}{Color for CCAMLR Marine Protected Areas; Default is yellow.}
 
-\item{bordercol}{Colors for longitude border; Default is c("black","white").}
+\item{border_col}{Colors for longitude border; Default is c("black","white").}
 
-\item{gratcol}{Color for graticule grid; Default is grey.}
+\item{graticules_col}{Color for graticule grid; Default is grey.}
 
-\item{iwccol}{Color for IWC boundaries; Default is blue.}
+\item{iwc_col}{Color for IWC boundaries; Default is blue.}
 
-\item{domcol}{Color for the Domain boundaries. Default is magenta.}
+\item{domains_col}{Color for the CCAMLR planning domains boundaries. Default is magenta.}
 }
 \value{
 Produces at the very base a round bathymetry map of the southern hemisphere.
@@ -97,6 +98,6 @@ Function for creating round Southern Ocean maps with inbuild base layers.
 }
 \examples{
 \dontrun{
-SOmap2(CCAMLR = TRUE, MPA = TRUE, Trim = -45)
+SOmap2(ccamlr = TRUE, mpa = TRUE, trim = -45)
 }
 }

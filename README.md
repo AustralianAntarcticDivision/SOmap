@@ -47,15 +47,15 @@ added map layers.
 spiritedMedium <- colorRampPalette(c("#4D4140", "#596F7E", "#168B98", "#ED5B67", "#E27766", "#DAAD50", "#EAC3A6"))
 spirited <- spiritedMedium(80)
 
-SOmap(Trim = -40)
+SOmap(trim = -40)
 ## add an example sea ice raster, which is bundled with SOmap
 plot(ice, col = spirited, add = TRUE, legend = FALSE, alpha = 0.95)
 SOleg(ice, position = "topright", col = spirited, ticks = 6,
       tlabs = c("0", "20", "40", "60", "80", "100"),
-      Trim = -40, label = "Sea Ice", type = "continuous")
+      trim = -40, label = "Sea Ice", type = "continuous")
 
 ## add the exclusive economic zones management layer
-SOmanagement(EEZ = TRUE)
+SOmanagement(eez = TRUE)
 ```
 
 <img src="man/figures/README-management-1.png" width="100%" />

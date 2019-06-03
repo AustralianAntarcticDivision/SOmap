@@ -120,7 +120,7 @@ projection.SOauto_map <- function(x, asText = TRUE) {
 #'   reproj(amap, "+proj=moll")
 #'   reproj(amap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
 #'
-#'   bmap <- SOmap(Trim = -35)
+#'   bmap <- SOmap(trim = -35)
 #'
 #'   ## works great!
 #'   reproj(bmap, "+proj=stere +lat_0=-90 +lon_0=147 +lat_ts=-71 +datum=WGS84")

@@ -3,149 +3,149 @@
 #' @description
 #' Function for creating round Southern Ocean maps with inbuild base layers.
 #'
-#' @param Bathleg
+#' @param bathy_legend
 #' Insert the bathymetry legend.
-#' @param CCAMLR
+#' @param ccamlr
 #' Insert the CCAMLR boundaries.
-#' @param CCAMLRlab
+#' @param ccamlr_labels
 #' Insert the CCAMLR labels.
-#' @param SSRU
+#' @param ssru
 #' Insert the CCAMLR small scale research unit boundaries.
-#' @param SSRUlab
+#' @param ssru_labels
 #' Insert the CCAMLR small scale research unit labels.
-#' @param SSMU
+#' @param ssmu
 #' Insert the CCAMLR small scale management unit boundaries.
-#' @param SSMUlab
+#' @param ssmu_labels
 #' Insert the CCAMLR small scale management unit labels.
-#' @param RB
+#' @param rb
 #' Insert the CCAMLR research block boundaries.
-#' @param RBlab
+#' @param rb_labels
 #' Insert the CCAMLR research block labels.
-#' @param SPRFMORB
+#' @param sprfmorb
 #' Insert the SPRFMO toothfish research block boundaries.
-#' @param Border
+#' @param border
 #' Insert longitude border.
-#' @param Trim
+#' @param trim
 #' Longitude to trim map to.
-#' @param Grats
+#' @param graticules
 #' Insert graticule grid.
-#' @param EEZ
+#' @param eez
 #' Insert Exclusive Economic Zones.
-#' @param EEZlab
+#' @param eez_labels
 #' Insert Exclusive Economic Zone labels.
-#' @param MPA
-#' Insert CCAMLE Marine Protected Areas.
-#' @param MPAlab
-#' Insert CCAMLE Marine Protected Area labels.
-#' @param Domains
-#' Insert CCAMLR Marine Protected Areas planning Domains.
-#' @param Domainslab
-#' Insert CCAMLR Marine Protected Area planning Domains labels.
-#' @param IWC
+#' @param mpa
+#' Insert CCAMLR Marine Protected Areas.
+#' @param mpa_labels
+#' Insert CCAMLR Marine Protected Area labels.
+#' @param domains
+#' Insert CCAMLR Marine Protected Areas planning domains.
+#' @param domains_labels
+#' Insert CCAMLR Marine Protected Area planning domains labels.
+#' @param iwc
 #' Insert International Whaling Commission boundaries.
-#' @param IWClab
+#' @param iwc_labels
 #' Insert International Whaling Commission labels.
-#' @param rbcol
+#' @param rb_col
 #' Color for CCAMLR research blocks.
-#' @param sprfmocol
+#' @param sprfmo_col
 #' Color for SPRFMO toothfish research blocks
-#' @param ccamlrcol
+#' @param ccamlr_col
 #' Color for CCAMLR boundaries
-#' @param ssrucol
+#' @param ssru_col
 #' Color for CCAMLR small scale research units.
-#' @param ssmucol
+#' @param ssmu_col
 #' Color for CCAMLR small scale management units.
-#' @param eezcol
+#' @param eez_col
 #' Color for Exclusive Economic Zone boundaries; Default is maroon.
-#' @param mpacol
+#' @param mpa_col
 #' Color for CCAMLR Marine Protected Areas; Default is yellow.
-#' @param bordercol
+#' @param border_col
 #' Colors for longitude border; Default is c("black","white").
-#' @param gratcol
+#' @param graticules_col
 #' Color for graticule grid; Default is grey.
-#' @param iwccol
+#' @param iwc_col
 #' Color for IWC boundaries; Default is blue.
-#' @param domcol
-#' Color for the Domain boundaries. Default is magenta.
+#' @param domains_col
+#' Color for the CCAMLR planning domains boundaries. Default is magenta.
 #' @param straight
 #' Do you need a blank space on the side for a straight legend.
 #' @param land
 #' Plot land boundary
-#' @param frontcols
-#' colors for fronts
 #' @param fronts
 #' Plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front
+#' @param fronts_col
+#' colors for fronts
 #'
 #' @return
 #' Produces at the very base a round bathymetry map of the southern hemisphere.
 #'
 #' @examples
 #' \dontrun{
-#' SOmap2(CCAMLR = TRUE, MPA = TRUE, Trim = -45)
+#' SOmap2(ccamlr = TRUE, mpa = TRUE, trim = -45)
 #' }
 #' @export
 #'
 
-SOmap2<-function(Bathleg=TRUE,
+SOmap2<-function(bathy_legend=TRUE,
                  land=TRUE,
-                 CCAMLR= FALSE,
-                 CCAMLRlab= FALSE,
-                 SSRU= FALSE,
-                 SSRUlab = FALSE,
-                 SSMU= FALSE,
-                 SSMUlab= FALSE,
-                 RB= FALSE,
-                 RBlab= FALSE,
-                 SPRFMORB= FALSE,
-                 Border= TRUE,
-                 Trim= -45,
-                 Grats= FALSE,
-                 EEZ=FALSE,
-                 EEZlab=FALSE,
-                 MPA=FALSE,
-                 MPAlab=FALSE,
-                 Domains=FALSE,
-                 Domainslab=FALSE,
-                 IWC=FALSE,
-                 IWClab=FALSE,
+                 ccamlr= FALSE,
+                 ccamlr_labels= FALSE,
+                 ssru= FALSE,
+                 ssru_labels = FALSE,
+                 ssmu= FALSE,
+                 ssmu_labels= FALSE,
+                 rb= FALSE,
+                 rb_labels= FALSE,
+                 sprfmorb= FALSE,
+                 border= TRUE,
+                 trim= -45,
+                 graticules= FALSE,
+                 eez=FALSE,
+                 eez_labels=FALSE,
+                 mpa=FALSE,
+                 mpa_labels=FALSE,
+                 domains=FALSE,
+                 domains_labels=FALSE,
+                 iwc=FALSE,
+                 iwc_labels=FALSE,
                  straight=FALSE,
                  fronts=FALSE,
-                 frontcols=c("hotpink","orchid","plum"),
-                 rbcol=3,
-                 sprfmocol='grey50',
-                 ccamlrcol=2,
-                 ssrucol="grey50",
-                 ssmucol="grey70",
-                 eezcol="maroon",
-                 mpacol= "yellow",
-                 bordercol=c("white","black"),
-                 gratcol="grey70",
-                 iwccol="blue",
-                 domcol="magenta") {
+                 fronts_col=c("hotpink","orchid","plum"),
+                 rb_col=3,
+                 sprfmo_col='grey50',
+                 ccamlr_col=2,
+                 ssru_col="grey50",
+                 ssmu_col="grey70",
+                 eez_col="maroon",
+                 mpa_col= "yellow",
+                 border_col=c("white","black"),
+                 graticules_col="grey70",
+                 iwc_col="blue",
+                 domains_col="magenta") {
 
-    out <- SOmap(Bathleg = Bathleg, Border = Border, Trim = Trim, Grats = Grats, straight = straight, land = land, fronts = fronts, frontcols = frontcols, bordercol = bordercol, gratcol = gratcol)
+    out <- SOmap(bathy_legend = bathy_legend, border = border, trim = trim, graticules = graticules, straight = straight, land = land, fronts = fronts, fronts_col = fronts_col, border_col = border_col, graticules_col = graticules_col)
     ## data
     SOmap_data <- NULL
     data("SOmap_data", package = "SOmap", envir = environment())
 
     ## get the management layer details from SOmanagement
-    mx <- SOmanagement(CCAMLR = CCAMLR, CCAMLRlab = CCAMLRlab, ccamlrcol = ccamlrcol,
-                       SSRU = SSRU, SSRUlab = SSRUlab, ssrucol = ssrucol,
-                       SSMU = SSMU, SSMUlab = SSMUlab, ssmucol = ssmucol,
-                       RB = RB, RBlab = RBlab, rbcol = rbcol,
-                       SPRFMORB = SPRFMORB, sprfmocol = sprfmocol,
-                       Trim = Trim,
-                       EEZ = EEZ, EEZlab = EEZlab, eezcol = eezcol,
-                       MPA = MPA, MPAlab = MPAlab, mpacol= mpacol,
-                       Domains = Domains, Domainslab = Domainslab, domcol = domcol,
-                       IWC = IWC, IWClab = IWClab, iwccol = iwccol)
+    mx <- SOmanagement(ccamlr = ccamlr, ccamlr_labels = ccamlr_labels, ccamlr_col = ccamlr_col,
+                       ssru = ssru, ssru_labels = ssru_labels, ssru_col = ssru_col,
+                       ssmu = ssmu, ssmu_labels = ssmu_labels, ssmu_col = ssmu_col,
+                       rb = rb, rb_labels = rb_labels, rb_col = rb_col,
+                       sprfmorb = sprfmorb, sprfmo_col = sprfmo_col,
+                       trim = trim,
+                       eez = eez, eez_labels = eez_labels, eez_col = eez_col,
+                       mpa = mpa, mpa_labels = mpa_labels, mpa_col= mpa_col,
+                       domains = domains, domains_labels = domains_labels, domains_col = domains_col,
+                       iwc = iwc, iwc_labels = iwc_labels, iwc_col = iwc_col)
 
     if (land) {
-        if (CCAMLR) {
+        if (ccamlr) {
             ## change coastline data
             notANT <- sf::st_as_sf(SOmap_data$continent[SOmap_data$continent$continent != "Antarctica",])
             notANT <- sf::st_buffer(notANT, 0)
-            buf <- make_buf(Trim, proj = out$projection)
+            buf <- make_buf(trim, proj = out$projection)
             out$coastline$plotargs$x <- suppressWarnings(sf::st_intersection(buf, notANT)$geometry)
         }
     }

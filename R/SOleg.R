@@ -13,7 +13,7 @@
 #' Tick labels. Needed for type='discrete' optonal for type='continuous' if x is given
 #' @param breaks
 #' Numeric vector to create legend ticks for type='continuous' if x is given eg breaks<-c(1,2,3)
-#' @param Trim
+#' @param trim
 #' Trim that was used to create the SOmap.
 #' @param label
 #' Legend label.
@@ -31,7 +31,7 @@
 #' Size of the title text. default=1
 #' @param rnd
 #' optional rounding factor for continuous legends using the round() function. default = NULL.
-#' @param borderwidth numeric: thickness (in degrees of latitude) of the border
+#' @param border_width numeric: thickness (in degrees of latitude) of the border
 #'
 #' @return
 #' Creates rounded legends
@@ -46,7 +46,7 @@
 #' SOleg(position="topleft",
 #'       col=viridis::viridis(5),
 #'       tlabs = c("a","b","c","d", "e"),
-#'       Trim=-45,
+#'       trim=-45,
 #'       label="Species")
 #'
 #' #Continuous Legend
@@ -59,7 +59,7 @@
 #'       position="topright",
 #'       col=viridis::viridis(80),
 #'       breaks=brks
-#'       Trim=-45,
+#'       trim=-45,
 #'       label="Species"
 #'       rnd=1,
 #'       type="continuous")
@@ -72,7 +72,7 @@ SOleg <-function(x = NULL,
                  ticks = NULL,
                  tlabs = NULL,
                  breaks = NULL,
-                 Trim = -45,
+                 trim = -45,
                  type = "discrete",
                  label = "",
                  ladj = 0.5,
@@ -81,7 +81,7 @@ SOleg <-function(x = NULL,
                  tadj = 0.5,
                  tcex = 1,
                  rnd = NULL,
-                 borderwidth = 2) {
+                 border_width = 2) {
 
     if (is.null(col)) col <- c("#440154FF", "#3E4A89FF", "#26828EFF", "#35B779FF", "#B4DE2CFF")
 
@@ -198,22 +198,22 @@ SOleg <-function(x = NULL,
     }
 
     ## Graticule for colors
-    bleg  <- graticule::graticule(lons = bllons,lats = c(Trim+borderwidth+1, Trim+borderwidth+3), tiles = TRUE, proj = raster::projection(Bathy))
+    bleg  <- graticule::graticule(lons = bllons,lats = c(trim+border_width+1, trim+border_width+3), tiles = TRUE, proj = raster::projection(Bathy))
     ## Graticule for ticks
-    btick <- graticule::graticule(lons = btlons ,lats = c(Trim+borderwidth+2, Trim+borderwidth+5),  proj = raster::projection(Bathy), tiles = FALSE)
+    btick <- graticule::graticule(lons = btlons ,lats = c(trim+border_width+2, trim+border_width+5),  proj = raster::projection(Bathy), tiles = FALSE)
     ## Graticule for masks
 
-    k <- graticule::graticule(lons = jklons, lats = c(Trim+borderwidth+8, Trim+borderwidth+4.75), tiles = TRUE, proj = raster::projection(Bathy))
-    j <- graticule::graticule(lons = jklons, lats = c(Trim+15, Trim+2), tiles = TRUE, proj = raster::projection(Bathy))
+    k <- graticule::graticule(lons = jklons, lats = c(trim+border_width+8, trim+border_width+4.75), tiles = TRUE, proj = raster::projection(Bathy))
+    j <- graticule::graticule(lons = jklons, lats = c(trim+15, trim+2), tiles = TRUE, proj = raster::projection(Bathy))
 
     ## Tick labels
-    df2 <- data.frame(a = tlabs,lon = btlons, lat=rep(Trim+9, length(tlabs))) ## Create dataframe with labels and locations.
+    df2 <- data.frame(a = tlabs,lon = btlons, lat=rep(trim+9, length(tlabs))) ## Create dataframe with labels and locations.
     sp::coordinates(df2) <- c("lon", "lat") ## Assign the current coordinate type
     raster::projection(df2) <- "+init=epsg:4326" ## Assign the current projection type
     lab_pos2 <- sp::spTransform(df2, raster::crs(raster::projection(Bathy))) ## Reproject to the polar map coordinates.
 
     ## Legend label
-    df3 <- data.frame(a = label,lon = lablon, lat = rep(Trim+12.5))
+    df3 <- data.frame(a = label,lon = lablon, lat = rep(trim+12.5))
     sp::coordinates(df3) <- c("lon", "lat")
     raster::projection(df3) <- "+init=epsg:4326"
     lab_pos3 <- sp::spTransform(df3, raster::crs(raster::projection(Bathy)))

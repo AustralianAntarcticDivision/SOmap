@@ -4,19 +4,20 @@
 \alias{SOmap}
 \title{Southern Ocean Map}
 \usage{
-SOmap(Bathleg = TRUE, Border = TRUE, Trim = -45, Grats = FALSE,
-  straight = FALSE, land = TRUE, fronts = FALSE,
-  frontcols = c("hotpink", "orchid", "plum"), bordercol = c("white",
-  "black"), borderwidth = 2, gratcol = "grey70")
+SOmap(bathy_legend = TRUE, border = TRUE, trim = -45,
+  graticules = FALSE, straight = FALSE, land = TRUE,
+  fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"),
+  border_col = c("white", "black"), border_width = 2,
+  graticules_col = "grey70")
 }
 \arguments{
-\item{Bathleg}{logical: if \code{TRUE}, insert the bathymetry legend}
+\item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend}
 
-\item{Border}{logical: if \code{TRUE}, insert longitude border}
+\item{border}{logical: if \code{TRUE}, insert longitude border}
 
-\item{Trim}{numeric: latitude to trim map to, set to -10 for effectively no trim}
+\item{trim}{numeric: latitude to trim map to, set to -10 for effectively no trim}
 
-\item{Grats}{logical: if \code{TRUE}, insert graticule grid}
+\item{graticules}{logical: if \code{TRUE}, insert graticule grid}
 
 \item{straight}{logical: if \code{TRUE}, leave a blank space on the side for a straight legend}
 
@@ -24,13 +25,13 @@ SOmap(Bathleg = TRUE, Border = TRUE, Trim = -45, Grats = FALSE,
 
 \item{fronts}{logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front)}
 
-\item{frontcols}{character: colours for fronts}
+\item{fronts_col}{character: colours for fronts}
 
-\item{bordercol}{character: colours for longitude border}
+\item{border_col}{character: colours for longitude border}
 
-\item{borderwidth}{numeric: thickness (in degrees of latitude) of the border}
+\item{border_width}{numeric: thickness (in degrees of latitude) of the border}
 
-\item{gratcol}{string: colour for graticule grid}
+\item{graticules_col}{string: colour for graticule grid}
 }
 \value{
 Produces at the very least a round bathymetry map of the southern hemisphere.
@@ -40,11 +41,11 @@ Function for creating round Southern Ocean maps.
 }
 \examples{
 \dontrun{
-tfile <- tempfile("SOmap", fileext = ".png")
-png(tfile, width=22, height=20, units='cm', res=600)
-SOmap(Trim=-45, Grats=TRUE)
-dev.off()
-unlink(tfile)
- SOmap(Trim = -45, Grats = TRUE)
+  tfile <- tempfile("SOmap", fileext = ".png")
+  png(tfile, width = 22, height = 20, units = "cm", res = 600)
+  SOmap(trim = -45, graticules = TRUE)
+  dev.off()
+  unlink(tfile)
+  SOmap(trim = -45, graticules = TRUE)
 }
 }

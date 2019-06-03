@@ -3,33 +3,33 @@
 #' @description
 #' Function for creating round Southern Ocean maps.
 #'
-#' @param Bathleg logical: if \code{TRUE}, insert the bathymetry legend
-#' @param Border logical: if \code{TRUE}, insert longitude border
-#' @param Trim numeric: latitude to trim map to, set to -10 for effectively no trim
-#' @param Grats logical: if \code{TRUE}, insert graticule grid
-#' @param bordercol character: colours for longitude border
-#' @param borderwidth numeric: thickness (in degrees of latitude) of the border
-#' @param gratcol string: colour for graticule grid
+#' @param bathy_legend logical: if \code{TRUE}, insert the bathymetry legend
+#' @param border logical: if \code{TRUE}, insert longitude border
+#' @param trim numeric: latitude to trim map to, set to -10 for effectively no trim
+#' @param graticules logical: if \code{TRUE}, insert graticule grid
+#' @param border_col character: colours for longitude border
+#' @param border_width numeric: thickness (in degrees of latitude) of the border
+#' @param graticules_col string: colour for graticule grid
 #' @param straight logical: if \code{TRUE}, leave a blank space on the side for a straight legend
 #' @param land logical: if \code{TRUE}, plot coastline
 #' @param fronts logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front)
-#' @param frontcols character: colours for fronts
+#' @param fronts_col character: colours for fronts
 #'
 #' @return Produces at the very least a round bathymetry map of the southern hemisphere.
 #'
 #' @examples
 #' \dontrun{
-#' tfile <- tempfile("SOmap", fileext = ".png")
-#' png(tfile, width=22, height=20, units='cm', res=600)
-#' SOmap(Trim=-45, Grats=TRUE)
-#' dev.off()
-#' unlink(tfile)
-#'  SOmap(Trim = -45, Grats = TRUE)
+#'   tfile <- tempfile("SOmap", fileext = ".png")
+#'   png(tfile, width = 22, height = 20, units = "cm", res = 600)
+#'   SOmap(trim = -45, graticules = TRUE)
+#'   dev.off()
+#'   unlink(tfile)
+#'   SOmap(trim = -45, graticules = TRUE)
 #' }
 #' @export
 #'
 
-SOmap <- function(Bathleg = TRUE, Border = TRUE, Trim = -45, Grats = FALSE, straight = FALSE, land = TRUE, fronts = FALSE, frontcols = c("hotpink", "orchid", "plum"), bordercol = c("white", "black"), borderwidth = 2, gratcol = "grey70") {
+SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = FALSE, straight = FALSE, land = TRUE, fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"), border_col = c("white", "black"), border_width = 2, graticules_col = "grey70") {
     ## data
     SOmap_data <- NULL
     Bathy <- NULL
@@ -41,43 +41,43 @@ SOmap <- function(Bathleg = TRUE, Border = TRUE, Trim = -45, Grats = FALSE, stra
     bluepal <- ramp2(100)
     bluepal2 <- ramp2(80)
     ## fix trim without legend
-    if (!Border) borderwidth <- 0
+    if (!border) border_width <- 0
 
     #bathy legend
-    if (Bathleg) {
+    if (bathy_legend) {
         ## White Mask
-        mask_graticule <- graticule::graticule(lons = seq(-180, 180, by = 1),lats = c(Trim+borderwidth+11.5, Trim+borderwidth), tiles = TRUE, proj = raster::projection(Bathy))
+        mask_graticule <- graticule::graticule(lons = seq(-180, 180, by = 1),lats = c(trim+border_width+11.5, trim+border_width), tiles = TRUE, proj = raster::projection(Bathy))
 
         ## Legend
         ## Colored legend
-        bleg <- graticule::graticule(lons = seq(185, 265, by = 1),lats = c(Trim+borderwidth+1, Trim+borderwidth+3), tiles = TRUE, proj = raster::projection(Bathy))
+        bleg <- graticule::graticule(lons = seq(185, 265, by = 1),lats = c(trim+border_width+1, trim+border_width+3), tiles = TRUE, proj = raster::projection(Bathy))
 
-        btick <- graticule::graticule(lats = c(Trim+borderwidth+2, Trim+borderwidth+5), lons = seq(190, 260, by = 11.666), proj = raster::projection(Bathy), tiles = FALSE)
+        btick <- graticule::graticule(lats = c(trim+border_width+2, trim+border_width+5), lons = seq(190, 260, by = 11.666), proj = raster::projection(Bathy), tiles = FALSE)
 
-        spud <- graticule::graticule(lons = seq(-180, 180, by = 1), lats = c(Trim+borderwidth+8, Trim+borderwidth+4.75), tiles = TRUE, proj = raster::projection(Bathy))
+        spud <- graticule::graticule(lons = seq(-180, 180, by = 1), lats = c(trim+border_width+8, trim+border_width+4.75), tiles = TRUE, proj = raster::projection(Bathy))
         df2 <- data.frame(a = c("-8000", "-6000", "-4000", "-2000", "0", "2000", "4000"),
                           lon = seq(190, 260, by = 11.666),
-                          lat=rep(Trim+borderwidth+7, 7))
+                          lat=rep(trim+border_width+7, 7))
         sp::coordinates(df2) <- c("lon", "lat")
         raster::projection(df2) <- "+init=epsg:4326"
         lab_pos2 <- sp::spTransform(df2, raster::crs(raster::projection(Bathy)))
     }
     ## Graticule dots #
     xx <- c(0, 45, 90, 135, 180, 225, 270, 315, 360)
-    yy <- c(seq(from = -90, to = Trim-1, by = 15), Trim)
+    yy <- c(seq(from = -90, to = trim-1, by = 15), trim)
     grat <- graticule::graticule(xx, yy, proj = raster::projection(Bathy))
     gratlab <- graticule::graticule_labels(lons = 180,lats = c(-45, -30, -60, -75), xline = 180, yline = -15, proj = raster::projection(Bathy))
 
     ## crop bathy raster depending on legend yes or no
-    q <- ifelse(Bathleg, Trim+borderwidth+11, Trim+borderwidth)
+    q <- ifelse(bathy_legend, trim+border_width+11, trim+border_width)
     Bathy <- raster::trim(SOmap::latmask(Bathy, latitude = q))
-    out <- list(projection = raster::projection(Bathy), target = raster::raster(Bathy), straight = straight, trim = Trim)
+    out <- list(projection = raster::projection(Bathy), target = raster::raster(Bathy), straight = straight, trim = trim)
     out$bathy <- as_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1))
     if (straight) out$bathy$plotargs$legend <- FALSE
 
     out$box <- as_plotter(plotfun = "graphics::box", plotargs = list(col = "white"))
     out$plot_sequence <- c("bathy", "box")
-    buf <- make_buf(Trim+borderwidth, proj = out$projection)
+    buf <- make_buf(trim+border_width, proj = out$projection)
     if (land) {
       xland <-sf::st_as_sf(SOmap::SOmap_data$continent)
       xland <- sf::st_buffer(xland, 0)
@@ -88,19 +88,19 @@ SOmap <- function(Bathleg = TRUE, Border = TRUE, Trim = -45, Grats = FALSE, stra
     ## fronts
     if (fronts) {
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
-      out$fronts <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = frontcols, add = TRUE))
+      out$fronts <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
     }
 
     ## Graticule grid
-    if (Grats) {
-        out$graticule <- as_plotter(plotfun = "plot", plotargs = list(x = grat, col = gratcol, lty = 3, add = TRUE))
-        out$graticule$labels <- list(plotfun = "text", plotargs = list(x = gratlab, labels = parse(text = gratlab$lab), col = gratcol, cex = 0.5))
+    if (graticules) {
+        out$graticule <- as_plotter(plotfun = "plot", plotargs = list(x = grat, col = graticules_col, lty = 3, add = TRUE))
+        out$graticule$labels <- list(plotfun = "text", plotargs = list(x = gratlab, labels = parse(text = gratlab$lab), col = graticules_col, cex = 0.5))
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
 
     ## Legend
-    if (Bathleg) {
+    if (bathy_legend) {
         ## TODO split this into multiple plot functions?
         out$bathy_legend <- as_plotter(
             plotfun = function(mask, ticks, legend, graticules, labels) {
@@ -119,9 +119,9 @@ SOmap <- function(Bathleg = TRUE, Border = TRUE, Trim = -45, Grats = FALSE, stra
                             ))
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
-    if (Border) {
-        bord <- graticule::graticule(lons = seq(-180, 180, by = 15), lats = c(Trim+borderwidth, Trim), tiles = TRUE, proj = raster::projection(Bathy))
-        out$border <- as_plotter(plotfun = "plot", plotargs = list(x = bord, col = bordercol, border = "black", add = TRUE))
+    if (border) {
+        bord <- graticule::graticule(lons = seq(-180, 180, by = 15), lats = c(trim+border_width, trim), tiles = TRUE, proj = raster::projection(Bathy))
+        out$border <- as_plotter(plotfun = "plot", plotargs = list(x = bord, col = border_col, border = "black", add = TRUE))
         out$plot_sequence <- c(out$plot_sequence, "border")
     }
     structure(out, class = "SOmap")

@@ -1,6 +1,6 @@
 ## internal function to construct buffer to use for trimming
 ## e.g.
-##  buf <- make_buf(Trim+borderwidth, proj = raster::projection(Bathy))
+##  buf <- make_buf(trim+border_width, proj = raster::projection(Bathy))
 ##  suppressWarnings(sf::st_intersection(buf, some_object))
 make_buf <- function(trim_to_latitude, proj) {
     bufrad <- 90-abs(trim_to_latitude) ## radius in degrees latitude

@@ -5,9 +5,9 @@
 \title{SOleg creating rounded legends for SOmap}
 \usage{
 SOleg(x = NULL, position = "topright", col = NULL, ticks = NULL,
-  tlabs = NULL, breaks = NULL, Trim = -45, type = "discrete",
+  tlabs = NULL, breaks = NULL, trim = -45, type = "discrete",
   label = "", ladj = 0.5, lsrt = 0, lcex = 0.75, tadj = 0.5,
-  tcex = 1, rnd = NULL, borderwidth = 2)
+  tcex = 1, rnd = NULL, border_width = 2)
 }
 \arguments{
 \item{x}{Object to obtain min and max values from for type='continuous' default=NULL}
@@ -22,7 +22,7 @@ SOleg(x = NULL, position = "topright", col = NULL, ticks = NULL,
 
 \item{breaks}{Numeric vector to create legend ticks for type='continuous' if x is given eg breaks<-c(1,2,3)}
 
-\item{Trim}{Trim that was used to create the SOmap.}
+\item{trim}{Trim that was used to create the SOmap.}
 
 \item{type}{Type of legend to be plotted 'discrete' or 'continuous' default='discrete'}
 
@@ -40,7 +40,7 @@ SOleg(x = NULL, position = "topright", col = NULL, ticks = NULL,
 
 \item{rnd}{optional rounding factor for continuous legends using the round() function. default = NULL.}
 
-\item{borderwidth}{numeric: thickness (in degrees of latitude) of the border}
+\item{border_width}{numeric: thickness (in degrees of latitude) of the border}
 }
 \value{
 Creates rounded legends
@@ -56,7 +56,7 @@ SOmap()
 SOleg(position="topleft",
       col=viridis::viridis(5),
       tlabs = c("a","b","c","d", "e"),
-      Trim=-45,
+      trim=-45,
       label="Species")
 
 #Continuous Legend
@@ -69,7 +69,7 @@ SOleg(x=nums,
       position="topright",
       col=viridis::viridis(80),
       breaks=brks
-      Trim=-45,
+      trim=-45,
       label="Species"
       rnd=1,
       type="continuous")

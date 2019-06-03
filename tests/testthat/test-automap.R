@@ -46,7 +46,7 @@ test_that("SOmap plots", {
 })
 
 #SOmap2
-disp_somap2 <- function() SOmap2(CCAMLR=TRUE)
+disp_somap2 <- function() SOmap2(ccamlr = TRUE)
 test_that("SOmap2 plots", {
     skip("skipping vdiffr tests temporarily")
     vdiffr::expect_doppelganger("Somap2 basemap",
@@ -65,7 +65,7 @@ test_that("SOmap legends", {
 
 #SOmanagement
 disp_soman <- function() {SOmap()
-    SOmanagement(CCAMLR = TRUE)}
+    SOmanagement(ccamlr = TRUE)}
 test_that("SOmap management", {
     skip("skipping vdiffr tests temporarily")
     vdiffr::expect_doppelganger("SOmap management",

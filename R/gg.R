@@ -8,8 +8,8 @@
 #'
 #' @examples
 #' \dontrun{
-#'   p <- SOmap2(Trim = -45, IWC = TRUE, IWClab = TRUE, Grats = TRUE, fronts = TRUE,
-#'               MPA = TRUE, MPAlab = TRUE)
+#'   p <- SOmap2(trim = -45, iwc = TRUE, iwc_labels = TRUE, graticules = TRUE, fronts = TRUE,
+#'               mpa = TRUE, mpa_labels = TRUE)
 #'   SOgg(p)
 #' }
 #'

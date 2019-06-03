@@ -45,7 +45,7 @@ xr <- rasterFromXYZ(x)
 projection(xr) <- "+proj=longlat +datum=WGS84"
 
 ## create the map object that we'll then modify
-p <- SOmap(Trim = -40, Bathleg = FALSE, borderwidth = 0.5)
+p <- SOmap(trim = -40, bathy_legend = FALSE, border_width = 0.5)
 ## replace the bathymetry data with the regionalisation
 p$bathy$plotargs$x <- projectRaster(xr, crs = p$projection, method = "ngb")
 ## replace the colour map

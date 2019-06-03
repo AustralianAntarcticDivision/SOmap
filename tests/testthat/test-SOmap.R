@@ -1,5 +1,5 @@
 context("test SOmap")
-p <- SOmap(Trim = -45, Grats = TRUE, fronts = TRUE)
+p <- SOmap(trim = -45, graticules = TRUE, fronts = TRUE)
 
 test_that("SOmap returns a SOmap object", {
  expect_s3_class(p, "SOmap")
