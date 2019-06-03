@@ -170,14 +170,14 @@ load(tfile)
 mirounga_leonina <- ellie
 
 ## Antarctic Digital Database coastline medium poly
-cm_url <- "https://add.data.bas.ac.uk/repository/entry/get/Coastline_medium_res_polygon.zip?entryid=synth%3Af477219b-9121-44d6-afa6-d8552762dc45%3AL2NvYXN0bGluZXMvc2hwL0NvYXN0bGluZV9tZWRpdW1fcmVzX3BvbHlnb24uemlw"
-fname <- tempfile(fileext = ".zip")
-ok <- curl::curl_download(cm_url, destfile = fname)
-exdir <- tempfile()
-outfiles <- unzip(fname, exdir = exdir)
-
-ADD_coastline_med <- shapefile(outfiles[grepl("shp$", outfiles)])
-if (!identical(psproj, projection(ADD_coastline_med))) stop("ADD needs reprojecting")
+##cm_url <- "https://add.data.bas.ac.uk/repository/entry/get/Coastline_medium_res_polygon.zip?entryid=synth%3Af477219b-9121-44d6-afa6-d8552762dc45%3AL2NvYXN0bGluZXMvc2hwL0NvYXN0bGluZV9tZWRpdW1fcmVzX3BvbHlnb24uemlw"
+##fname <- tempfile(fileext = ".zip")
+##ok <- curl::curl_download(cm_url, destfile = fname)
+##exdir <- tempfile()
+##outfiles <- unzip(fname, exdir = exdir)
+##
+##ADD_coastline_med <- shapefile(outfiles[grepl("shp$", outfiles)])
+##if (!identical(psproj, projection(ADD_coastline_med))) stop("ADD needs reprojecting")
 
 ## GSHHG data for non-Antarctica
 gshhg_url <- "http://www.soest.hawaii.edu/pwessel/gshhg/gshhg-shp-2.3.7.zip"
@@ -197,7 +197,8 @@ SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR
                    continent = continent, fronts_orsi = fronts_orsi,
                    seaice_feb = seaice_feb, seaice_oct = seaice_oct,
                    mirounga_leonina = mirounga_leonina,
-                   EEZ = EEZ1, ADD_coastline_med = ADD_coastline_med, GSHHS_i_L1 = GSHHS_i_L1,
+                   EEZ = EEZ1, ##ADD_coastline_med = ADD_coastline_med,
+                   GSHHS_i_L1 = GSHHS_i_L1,
                    ant_coast_land = ant_coast_land, ant_coast_ice = ant_coast_ice)
 
 usethis::use_data(SOmap_data, overwrite = TRUE, compress = "xz")
