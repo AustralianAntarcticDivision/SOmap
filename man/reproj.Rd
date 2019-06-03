@@ -3,7 +3,7 @@
 \name{reproj}
 \alias{reproj}
 \alias{reproj.SOmap}
-\alias{reproj.SOauto_map}
+\alias{reproj.SOmap_auto}
 \alias{reproj.BasicRaster}
 \alias{reproj.Spatial}
 \alias{reproj.sf}
@@ -12,7 +12,7 @@
 \usage{
 \method{reproj}{SOmap}(x, target, ..., source = NULL)
 
-\method{reproj}{SOauto_map}(x, target, ..., source = NULL)
+\method{reproj}{SOmap_auto}(x, target, ..., source = NULL)
 
 \method{reproj}{BasicRaster}(x, target, ..., source = NULL)
 
@@ -45,7 +45,7 @@ So many ...
 \examples{
 \dontrun{
   set.seed(27)
-  amap <- SOauto_map()
+  amap <- SOmap_auto()
   reproj(amap, "+proj=moll")
   reproj(amap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
 

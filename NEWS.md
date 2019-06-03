@@ -1,16 +1,22 @@
-# SOmap 0.2.1.9003
+# SOmap 0.2.1.9005
 
-* Argument `mask` is now deprecated, it doesn't do anything (was causing crashes, so needs review). 
+## BREAKING
 
-* Argument `buffer` removed from `SOauto_map()`, changed `expand` to numeric fraction (`expand = 0` equivalent to old `expand = FALSE`). 
+* `SOauto_map()` function and class is now defunct, replaced by `SOmap_auto()`.
 
-* Argument `sample_type` to `SOauto_map()` moved to internal function `automap_nothing()`. 
- 
-* New internal functions to become the engine behind `SOauto_map()`,  `automap_maker()` to create a background extent from disparate inputs, and `automap_nothing()` to create a background by random data. 
- 
-* New auto extent logic for `SOauto_map()` to address #30. 
+## CHANGES
 
-* New `reproj::reproj` methods for `SOauto_map` and `SOmap` classes. 
+* Arguments `mask` and `trim_background`  now removed from `SOmap_auto()`.
+
+* Argument `buffer` removed from `SOmap_auto()`, changed `expand` to numeric fraction (`expand = 0` equivalent to old `expand = FALSE`).
+
+* Argument `sample_type` to `SOmap_auto()` moved to internal function `automap_nothing()`.
+
+* New internal functions to become the engine behind `SOmap_auto()`,  `automap_maker()` to create a background extent from disparate inputs, and `automap_nothing()` to create a background by random data.
+
+* New auto extent logic for `SOmap_auto()` to address #30.
+
+* New `reproj::reproj` methods for `SOmap_auto` and `SOmap` classes.
 
 # SOmap 0.1.3.9000
 

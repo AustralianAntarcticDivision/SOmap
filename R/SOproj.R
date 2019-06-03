@@ -95,7 +95,7 @@ SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
 projection.SOmap <- function(x, asText = TRUE) {
  raster::projection(x$projection, asText = asText)
 }
-projection.SOauto_map <- function(x, asText = TRUE) {
+projection.SOmap_auto <- function(x, asText = TRUE) {
   raster::projection(x$projection, asText = asText)
 }
 #' Reproject SOmap
@@ -110,13 +110,13 @@ projection.SOauto_map <- function(x, asText = TRUE) {
 #' @inheritParams reproj::reproj
 #' @export
 #' @export reproj
-#' @aliases reproj reproj.SOauto_map
+#' @aliases reproj reproj.SOmap_auto
 #' @importFrom reproj reproj
 #' @importFrom raster projectRaster raster
 #' @examples
 #' \dontrun{
 #'   set.seed(27)
-#'   amap <- SOauto_map()
+#'   amap <- SOmap_auto()
 #'   reproj(amap, "+proj=moll")
 #'   reproj(amap, "+proj=laea +lat_0=-55 +lon_0=154 +datum=WGS84")
 #'
@@ -147,7 +147,7 @@ reproj.SOmap <- function(x, target, ..., source = NULL) {
 }
 #' @export
 #' @name reproj
-reproj.SOauto_map <- function(x, target, ..., source = NULL) {
+reproj.SOmap_auto <- function(x, target, ..., source = NULL) {
   if (missing(target)) stop("'target' projection string required")
   if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
   if (!is.null(x$bathy)) {

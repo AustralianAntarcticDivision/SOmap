@@ -32,8 +32,6 @@ mid_point <- function (p, fold = FALSE)
 #' @param expand fraction to expand plot range (default is 0.05, set to zero for no buffer, may be negative)
 #' @param contours logical: add contours?
 #' @param levels numeric: contour levels to use if \code{contours} is \code{TRUE}
-#' @param trim_background crop the resulting bathymetry to its margin of valid values
-#' @param mask NOW DEPRECATED, DOES NOTHING if \code{TRUE}, mask the raster and coastline to the graticule
 #' @param ppch set point character (default=19)
 #' @param pcol set point color (default=19)
 #' @param pcex set point cex (default=1)
@@ -44,33 +42,39 @@ mid_point <- function (p, fold = FALSE)
 #' @param gratlon longitude values for graticule meridians
 #' @param gratlat latitude values for graticule parallels
 #' @param gratpos positions (sides) of graticule labels
-#' @return An object of class SOauto_map, containing the data and other details required to generate the map. Printing or plotting the object will cause it to be plotted.
+#' @return An object of class SOmap_auto, containing the data and other details required to generate the map. Printing or plotting the object will cause it to be plotted.
+#' @param ... reserved, checked for defunct and deprecated usage
 #' @export
 #' @examples
 #' \dontrun{
-#'   SOauto_map(c(0, 50), c(-70, -50))
-#'   SOauto_map(runif(10, 130, 200), runif(10, -80, -10))
+#'   SOmap_auto(c(0, 50), c(-70, -50))
+#'   SOmap_auto(runif(10, 130, 200), runif(10, -80, -10))
 #'   SOplot(c(147, 180), c(-42, -60), pch = 19, cex = 2,col = "firebrick")
-#'   SOauto_map(runif(10, 130, 200), runif(10, -85, -60))
+#'   SOmap_auto(runif(10, 130, 200), runif(10, -85, -60))
 #'
 #'   ## save the result to explore later!
-#'   protomap <- SOauto_map(runif(10, 60, 160), runif(10, -73, -50))
+#'   protomap <- SOmap_auto(runif(10, 60, 160), runif(10, -73, -50))
 #'
-#'   SOauto_map(runif(50, 40, 180), runif(50, -73, -10), family = "laea", centre_lat = -15,
+#'   SOmap_auto(runif(50, 40, 180), runif(50, -73, -10), family = "laea", centre_lat = -15,
 #'                 input_lines = FALSE)
 #' }
-SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "stere",
+SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "stere",
                        dimXY = c(300, 300),
                        bathy = TRUE, coast = TRUE, input_points = TRUE, input_lines = TRUE,
                        graticule = TRUE, expand = 0.05,
-                       contours = TRUE, levels = c(-500, -1000, -2000),
-                       trim_background = TRUE,
-                       mask = FALSE, ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
-                       gratlon = NULL, gratlat = NULL, gratpos="all") {
+                       contours = FALSE, levels = c(-500, -1000, -2000),
+                       ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
+                       gratlon = NULL, gratlat = NULL, gratpos="all", ...) {
     ## check inputs
     assert_that(is.flag(contours), !is.na(contours))
     assert_that(is.numeric(levels), length(levels) > 0)
     assert_that(is.numeric(expand), msg = "'expand' must be numeric, changed behaviour in SOmap > 0.2.1")
+
+    dots <- list(...)
+    if ("mask" %in% names(dots)) warning("'mask' argument to SOmap() is defunct")
+    if ("trim_background" %in% names(dots)) warning("'trim_background' argument to SOmap() is defunct")
+
+
     ## data
     SOmap_data <- NULL
     Bathy <- NULL
@@ -146,26 +150,10 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
 
     }
 
-  # if (croptograt){
-  # poly <- as(extent(target), "SpatialPolygons")
-  # projection(poly) <- projection(target)
-  # g <- graticule(xlim, ylim, proj = projection(target),nverts=10, tiles=TRUE)}
 
     grat <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
                              crs = raster::projection(target), lon = gratlon, lat = gratlat)
 
-    if (mask) {
-       warning("mask is deprecated, ignoring")
-        # if (bathy) {
-        #     bathymetry <- fast_mask(bathymetry, st_cast(grat, "POLYGON"))
-        # }
-        # if (coast) {
-        #     suppressWarnings({
-        #         coastline <- as(sf::st_union(sf::st_intersection(sf::st_as_sf(coastline),
-        #                               sf::st_buffer(sf::st_as_sf(grat), 0))), "Spatial")
-        #     })
-        # }
-    }
 
     if (graticule) {
       graticule <- grat
@@ -177,11 +165,7 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     bluepal <- ramp2(45)
     ## bk <- c(-10353,-8000,-5000,-4000,-3000,-2000,-1500,-1000,-500,-1,0,1500, 5850)
 
-  # if (croptograt){
-  # plot(erase(poly, g), add = TRUE, col = "white")
-  # invisible(list(bathy = bathymetry, coastline = coastline, target = target))
-  # } else {
-    if (!exists("xy")) xy <- NULL
+   if (!exists("xy")) xy <- NULL
     structure(list(projection = raster::projection(target),
                    bathy = bathymetry, bathyleg = bathyleg, bathy_palette = bluepal,
                    coastline = list(data = coastline, fillcol = NA, linecol = "black"), target = target, ##data = xy,
@@ -190,21 +174,21 @@ SOauto_map <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
                    llty = llty, llwd = llwd, lcol = lcol,
                    contours = contours, levels = levels, contour_colour = "black",
                    graticule = graticule, crs = prj, gratpos=gratpos),
-              class = "SOauto_map")
+              class = "SOmap_auto")
 
 }
 
 
-#' @method plot SOauto_map
+#' @method plot SOmap_auto
 #' @export
-plot.SOauto_map <- function (x, y, ...) {
+plot.SOmap_auto <- function (x, y, ...) {
     print(x)
     invisible()
 }
 
-#' @method print SOauto_map
+#' @method print SOmap_auto
 #' @export
-print.SOauto_map <- function(x,main=NULL, ..., set_clip = TRUE) {
+print.SOmap_auto <- function(x,main=NULL, ..., set_clip = TRUE) {
   base_mar <- c(5.1, 4.1, 4.1, 2.1)
     aspect <- if (raster::isLonLat(x$target)) 1/cos(mean(c(raster::xmin(x$target), raster::xmax(x$target))) * pi/180) else 1
     if (is.null(main)) {
@@ -309,12 +293,20 @@ fast_mask <- function(ras, poly) {
   ras
 }
 
-#' Deprecated function
+#' Defunct function
 #'
-#' Deprecated from SOmap
+#' Removed from SOmap
 #' @param ... all arguments passed to new function
 #'
 #' @export
+#' @name SOmap-defunct
 default_somap <- function(...) {
-  .Deprecated("SOauto_map")
+  .Defunct("SOmap_autoo")
 }
+
+#' @export
+#' @name SOmap-defunct
+SOauto_map <- function(...) {
+  .Defunct("SOmap_autoo")
+}
+
