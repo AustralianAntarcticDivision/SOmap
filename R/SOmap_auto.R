@@ -124,10 +124,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
         if (inherits(bathy, "BasicRaster")) {
             bathymetry <- crunch_raster(bathy, target)
             bathy <- TRUE
-            if (trim_background) {
-                bathymetry <- raster::trim(bathymetry)
-                target <- crop(target, bathymetry)
-            }
+
         }
 
     }
@@ -301,12 +298,12 @@ fast_mask <- function(ras, poly) {
 #' @export
 #' @name SOmap-defunct
 default_somap <- function(...) {
-  .Defunct("SOmap_autoo")
+  .Defunct("SOmap_auto")
 }
 
 #' @export
 #' @name SOmap-defunct
 SOauto_map <- function(...) {
-  .Defunct("SOmap_autoo")
+  .Defunct("SOmap_auto")
 }
 

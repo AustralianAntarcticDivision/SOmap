@@ -23,8 +23,8 @@ SOmask.BasicRaster <- function(x, mask, ...)  {
   lon <- spex::xlim(mask)  ## assume longlat
   lat <- spex::ylim(mask)
 
-  dy <- spDistsN1(cbind(lon[1], lat[1]), cbind(lon[1], lat[2]), longlat = TRUE) / 111111.12
-  dx <- spDistsN1(cbind(lon[1], lat[2]), cbind(lon[2], lat[2]), longlat = TRUE) / 111111.12
+  dy <- sp::spDistsN1(cbind(lon[1], lat[1]), cbind(lon[1], lat[2]), longlat = TRUE) / 111111.12
+  dx <- sp::spDistsN1(cbind(lon[1], lat[2]), cbind(lon[2], lat[2]), longlat = TRUE) / 111111.12
 
   dx <- max(c(dy, dx)) * 1000 / 24
   raster::projection(mask) <- "+proj=longlat +datum=WGS84"

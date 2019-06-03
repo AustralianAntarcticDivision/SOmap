@@ -80,16 +80,16 @@ SOleg(centroids,position = "topright", col = spirited8, ticks = 8,
 ```
 
 
-An **automatic** plot function `SOmap_aut()` will take any data in the form of longitude and latitude vectors and create a guess at a map.
+An **automatic** plot function `SOmap_auto()` will take any data in the form of longitude and latitude vectors and create a guess at a map.
 
 ```{r automap, fig.height = 5, fig.width = 5}
 ellie <- SOmap_data$mirounga_leonina
 
 ## construct and plot the map
-SOmap_aut(ellie$lon, ellie$lat)
+SOmap_auto(ellie$lon, ellie$lat)
 ```
 
-The `SOmap_aut`, `SOmap`, and `SOmap2` functions return the data used to make the map so that further customization can be made. Plotting or printing the returned object will cause the map to be displayed in the graphics device.
+The `SOmap_auto()`, `SOmap()`, and `SOmap2()` functions return the data used to make the map so that further customization can be made. Plotting or printing the returned object will cause the map to be displayed in the graphics device.
 
 ```{r automap2, fig.height = 5, fig.width = 5} 
 data("albatross", package = "adehabitatLT")
@@ -97,7 +97,7 @@ data("albatross", package = "adehabitatLT")
 albatrack <- do.call(rbind, lapply(albatross, function(z) rgdal::project(rbind(as.matrix(z[, c("x", "y")]), NA), "+proj=utm +zone=42 +south +datum=WGS84", inv = TRUE)))
 
 ## construct the map and return it, but don't plot it
-alb_map <- SOmap_aut(albatrack[, 1], albatrack[, 2])
+alb_map <- SOmap_auto(albatrack[, 1], albatrack[, 2])
 
 ```
 
@@ -127,7 +127,7 @@ Objects from `sf` or `sp` may also be used.  (If a "raster" is given it is used 
 ```{r automap-spatial, fig.height = 5, fig.width = 5}
 ## use the bundled fronts data as an example
 mydata <- SOmap_data$fronts_orsi
-SOmap_aut(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
+SOmap_auto(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
 
 ```
 
@@ -137,7 +137,7 @@ SOmap_aut(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol 
 
 ```{r auto-setup}
 set.seed(1)
-amap <- SOmap_aut(input_points = FALSE, input_lines = FALSE)
+amap <- SOmap_auto(input_points = FALSE, input_lines = FALSE)
 amap
 ```
 

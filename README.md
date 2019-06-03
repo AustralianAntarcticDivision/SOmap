@@ -73,22 +73,22 @@ SOleg(centroids,position = "topright", col = spirited8, ticks = 8,
 
 <img src="man/figures/README-SOleg-1.png" width="100%" />
 
-An **automatic** plot function `SOauto_map()` will take any data in the
+An **automatic** plot function `SOmap_auto()` will take any data in the
 form of longitude and latitude vectors and create a guess at a map.
 
 ``` r
 ellie <- SOmap_data$mirounga_leonina
 
 ## construct and plot the map
-SOauto_map(ellie$lon, ellie$lat)
+SOmap_auto(ellie$lon, ellie$lat)
 ```
 
 <img src="man/figures/README-automap-1.png" width="100%" />
 
-The `SOauto_map`, `SOmap`, and `SOmap2` functions return the data used
-to make the map so that further customization can be made. Plotting or
-printing the returned object will cause the map to be displayed in the
-graphics device.
+The `SOmap_auto()`, `SOmap()`, and `SOmap2()` functions return the data
+used to make the map so that further customization can be made. Plotting
+or printing the returned object will cause the map to be displayed in
+the graphics device.
 
 ``` r
 data("albatross", package = "adehabitatLT")
@@ -96,7 +96,7 @@ data("albatross", package = "adehabitatLT")
 albatrack <- do.call(rbind, lapply(albatross, function(z) rgdal::project(rbind(as.matrix(z[, c("x", "y")]), NA), "+proj=utm +zone=42 +south +datum=WGS84", inv = TRUE)))
 
 ## construct the map and return it, but don't plot it
-alb_map <- SOauto_map(albatrack[, 1], albatrack[, 2])
+alb_map <- SOmap_auto(albatrack[, 1], albatrack[, 2])
 ```
 
 Modifying this map object is currently a rather experimental process
@@ -132,7 +132,7 @@ is used only for its extent.)
 ``` r
 ## use the bundled fronts data as an example
 mydata <- SOmap_data$fronts_orsi
-SOauto_map(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
+SOmap_auto(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
 ```
 
 <img src="man/figures/README-automap-spatial-1.png" width="100%" />
@@ -145,7 +145,7 @@ projections, and <quote>just map it\!</quote>.
 
 ``` r
 set.seed(1)
-amap <- SOauto_map(input_points = FALSE, input_lines = FALSE)
+amap <- SOmap_auto(input_points = FALSE, input_lines = FALSE)
 amap
 ```
 
@@ -202,7 +202,7 @@ SOproj(ice, target = prj)
 SOproj(amap, target = prj)
 #> Warning in SOproj(amap, target = prj): assuming generic data is in
 #> longitude,latitude
-#> Warning in reproj.SOauto_map(x, target = target, source = source): source
+#> Warning in reproj.SOmap_auto(x, target = target, source = source): source
 #> ignored, should be NULL for SOmap objects
 ```
 
@@ -214,5 +214,6 @@ function will issue a warning.
 -----
 
 Please note that the SOmap project is released with a [Contributor Code
-of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
-agree to abide by its terms.
+of
+Conduct](https://australianantarcticdivision.github.io/SOmap/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.

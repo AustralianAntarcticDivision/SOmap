@@ -1,25 +1,25 @@
 context("test-automap")
 
-disp_auto_map <- function() plot(SOauto_map(c(100:110), c(-70:-60)))
+disp_auto_map <- function() plot(SOmap_auto(c(100:110), c(-70:-60)))
 
 test_that("auto map works", {
 
   ## works with no input
-   tst <- SOauto_map()
-expect_s3_class(tst, "SOauto_map")
+   tst <- SOmap_auto()
+expect_s3_class(tst, "SOmap_auto")
    ## works with sp input
-   SOauto_map(SOmap_data$seaice_feb) %>% expect_s3_class("SOauto_map")
+   SOmap_auto(SOmap_data$seaice_feb) %>% expect_s3_class("SOmap_auto")
 
-   SOauto_map(ice) %>% expect_s3_class("SOauto_map")
-    x <- SOauto_map(c(100:110), c(-70:-60))
-    expect_s3_class(x, "SOauto_map")
+   SOmap_auto(ice) %>% expect_s3_class("SOmap_auto")
+    x <- SOmap_auto(c(100:110), c(-70:-60))
+    expect_s3_class(x, "SOmap_auto")
     nms <- sort(c("projection", "bathy", "bathyleg", "bathy_palette",
                   "coastline", "target", "lines_data", "points_data",
                   "ppch", "pcol", "pcex", "llty", "llwd", "lcol", "contours", "levels", "contour_colour", "graticule", "gratpos", "crs"))
     expect_identical(sort(names(x)), nms)
 
 
-    expect_s3_class(rx <- reproj(x, "+proj=laea +lat_0=-40 +lon_0=110 +datum=WGS84"), "SOauto_map")
+    expect_s3_class(rx <- reproj(x, "+proj=laea +lat_0=-40 +lon_0=110 +datum=WGS84"), "SOmap_auto")
     expect_identical(sort(names(rx)), nms)
     expect_true(grepl("laea", rx$projection))
 
@@ -28,13 +28,13 @@ expect_s3_class(tst, "SOauto_map")
     expect_silent(SOplot(SOmap_data$continent))
     expect_silent(SOplot(SOmap_data$seaice_oct))
     skip("skipping vdiffr tests temporarily")
-    vdiffr::expect_doppelganger("Soauto_map basic", disp_auto_map)
+    vdiffr::expect_doppelganger("SOmap_auto basic", disp_auto_map)
 })
 
-disp_resblocks <- function() plot(SOauto_map(SOmap_data$CCAMLR_research_blocks[c(1, 4, 5), ]))
+disp_resblocks <- function() plot(SOmap_auto(SOmap_data$CCAMLR_research_blocks[c(1, 4, 5), ]))
 test_that("auto map plots polygons", {
     skip("skipping vdiffr tests temporarily")
-    vdiffr::expect_doppelganger("Soauto_map research blocks", disp_resblocks)
+    vdiffr::expect_doppelganger("SOmap_auto research blocks", disp_resblocks)
 })
 
 #SOmap
