@@ -2,7 +2,7 @@
 #' Southern Ocean plot
 #'
 #' @description
-#' Reproject and add point layers to either SOmap or SOauto_map layers.
+#' Reproject and add point layers to either SOmap or SOmap_auto layers.
 #'
 #' @param x
 #' longitude vector, or object with coordinates
@@ -29,7 +29,7 @@
 #' \dontrun{
 #'  x<-c(-70, -60,-50, -90)
 #'  y<-c(-50, -75, -45, -60)
-#'  map<-SOauto_map(x,y, input_lines = FALSE)
+#'  map<-SOmap_auto(x,y, input_lines = FALSE)
 #'  map
 #'  SOplot(x = x, y = y, target = map$projection,pch=19,col=6)
 #' }

@@ -23,13 +23,13 @@ SOplot(x, y = NULL, target = NULL, ..., source = NULL, add = TRUE)
 Produces at the very base a round bathymetry map of the southern hemisphere.
 }
 \description{
-Reproject and add point layers to either SOmap or SOauto_map layers.
+Reproject and add point layers to either SOmap or SOmap_auto layers.
 }
 \examples{
 \dontrun{
  x<-c(-70, -60,-50, -90)
  y<-c(-50, -75, -45, -60)
- map<-SOauto_map(x,y, input_lines = FALSE)
+ map<-SOmap_auto(x,y, input_lines = FALSE)
  map
  SOplot(x = x, y = y, target = map$projection,pch=19,col=6)
 }

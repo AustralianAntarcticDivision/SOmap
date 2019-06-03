@@ -35,72 +35,72 @@ library(SOmap)
 
 
 set.seed(1)
-SOauto_map()
+SOmap_auto()
 ```
 
 ```{r examples1, eval = TRUE}
-SOauto_map(target = "+proj=laea +lat_0=-20")
+SOmap_auto(target = "+proj=laea +lat_0=-20")
 ```
 
 ```{r examples2, eval = TRUE}
 llx <-  c(100, 120)
 lly <- c(-60, -30)
-SOauto_map(llx, lly)
+SOmap_auto(llx, lly)
 ```
 
 ```{r examples3, eval = TRUE}
-SOauto_map(llx, lly, target = NULL)
+SOmap_auto(llx, lly, target = NULL)
 ```
 
 ```{r examples4, eval = TRUE}
-SOauto_map(cbind(llx, lly), target = NULL)
+SOmap_auto(cbind(llx, lly), target = NULL)
 ```
 
 ```{r examples5, eval = TRUE}
-SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = "laea")
+SOmap_auto(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = "laea")
 ```
 
 ```{r examples6, eval = TRUE}
-SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, centre_lon = 147)
+SOmap_auto(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, centre_lon = 147)
 ```
 
 ```{r examples7, eval = TRUE}
 
-SOauto_map(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = NULL)
+SOmap_auto(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = NULL)
 ```
 
 ```{r examples8, eval = TRUE}
 
-SOauto_map(ice)
+SOmap_auto(ice)
 ```
 
 
 ```{r examples13, eval=FALSE}
 
-SOauto_map(ice, target = "laea", centre_lon = 147, centre_lat = -42)
+SOmap_auto(ice, target = "laea", centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::icePal(100))
 ```
 
 ```{r examples14, eval = TRUE}
 
-SOauto_map(ice, centre_lon = 147, centre_lat = -42)
+SOmap_auto(ice, centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::icePal(100))
 ```
 
 ```{r examples15, eval = TRUE}
 
-SOauto_map(ice, target = "merc", centre_lon = 147, centre_lat = -42)
+SOmap_auto(ice, target = "merc", centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::icePal(100))
 ```
 
 ```{r examples16, eval = TRUE}
 
-SOauto_map(x=c(10,60), y=c(-40,-70))
+SOmap_auto(x=c(10,60), y=c(-40,-70))
 ```
 
 ```{r examples17, eval = TRUE}
 
-SOauto_map(x=c(10,60), y=c(-40,-70), trim_background = FALSE)
+SOmap_auto(x=c(10,60), y=c(-40,-70), trim_background = FALSE)
 
 
 
