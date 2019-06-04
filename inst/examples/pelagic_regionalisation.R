@@ -1,8 +1,5 @@
 ## example plot of the pelagic regionalisation clusters
 
-## if needed
-##remotes::install_github("AustralianAntarcticDivision/SOmap")
-
 library(raster)
 library(SOmap)
 
@@ -51,7 +48,5 @@ p$bathy$plotargs$x <- projectRaster(xr, crs = p$projection, method = "ngb")
 ## replace the colour map
 p$bathy$plotargs$col <- cmap
 plot(p)
-## add ice shelves
-plot(SOmap_data$ant_coast_ice, add = TRUE)
-## and a legend
+## add a legend
 legend(x = "right", legend = as.character(1:20), fill = cmap)
