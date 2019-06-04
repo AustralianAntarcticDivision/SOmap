@@ -71,6 +71,9 @@
 #' Do you need a blank space on the side for a straight legend.
 #' @param land
 #' Plot land boundary
+#' @param land_col character: colour to use for coastline
+#' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)
+#' @param ice_col character: colour to use for ice features
 #' @param fronts
 #' Plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front
 #' @param fronts_col
@@ -85,14 +88,14 @@
 #' @export
 #'
 
-SOmap2 <- function(bathy_legend = TRUE, land = TRUE, ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE, ssru_labels = FALSE,
+SOmap2 <- function(bathy_legend = TRUE, land = TRUE, ice = TRUE, ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE, ssru_labels = FALSE,
                    ssmu = FALSE, ssmu_labels = FALSE, rb = FALSE, rb_labels = FALSE, sprfmorb = FALSE, border = TRUE, trim = -45,
                    graticules = FALSE, eez = FALSE, eez_labels = FALSE, mpa = FALSE, mpa_labels = FALSE, domains = FALSE, domains_labels = FALSE,
                    iwc = FALSE, iwc_labels = FALSE, straight = FALSE, fronts = FALSE, fronts_col = c("hotpink","orchid","plum"),
-                   rb_col = 3, sprfmo_col = 'grey50', ccamlr_col = 2, ssru_col = "grey50", ssmu_col = "grey70", eez_col = "maroon",
+                   land_col = "black", ice_col = "black", rb_col = 3, sprfmo_col = 'grey50', ccamlr_col = 2, ssru_col = "grey50", ssmu_col = "grey70", eez_col = "maroon",
                    mpa_col = "yellow", border_col = c("white","black"), graticules_col = "grey70", iwc_col = "blue", domains_col = "magenta") {
 
-    out <- SOmap(bathy_legend = bathy_legend, border = border, trim = trim, graticules = graticules, straight = straight, land = land, fronts = fronts, fronts_col = fronts_col, border_col = border_col, graticules_col = graticules_col)
+    out <- SOmap(bathy_legend = bathy_legend, border = border, trim = trim, graticules = graticules, straight = straight, land = land, land_col = land_col, ice = ice, ice_col = ice_col, fronts = fronts, fronts_col = fronts_col, border_col = border_col, graticules_col = graticules_col)
     ## data
     SOmap_data <- NULL
     data("SOmap_data", package = "SOmap", envir = environment())
@@ -109,19 +112,17 @@ SOmap2 <- function(bathy_legend = TRUE, land = TRUE, ccamlr = FALSE, ccamlr_labe
                        domains = domains, domains_labels = domains_labels, domains_col = domains_col,
                        iwc = iwc, iwc_labels = iwc_labels, iwc_col = iwc_col)
 
-    if (land) {
-        if (ccamlr) {
-            ## change coastline data
-            notANT <- sf::st_as_sf(SOmap_data$continent[SOmap_data$continent$continent != "Antarctica",])
-            notANT <- sf::st_buffer(notANT, 0)
-            buf <- make_buf(trim, proj = out$projection)
-            out$coastline$plotargs$x <- suppressWarnings(sf::st_intersection(buf, notANT)$geometry)
-        }
+    if (land && ccamlr) {
+        ## change coastline data
+        notANT <- sf::st_as_sf(SOmap_data$continent[SOmap_data$continent$continent != "Antarctica",])
+        notANT <- sf::st_buffer(notANT, 0)
+        buf <- make_buf(trim, proj = out$projection)
+        out$coastline$plotargs$x <- suppressWarnings(sf::st_intersection(buf, notANT)$geometry)
     }
 
     ## copy management layers into out
     out[mx$plot_sequence] <- mx[mx$plot_sequence]
-    out$plot_sequence <- insert_into_sequence(out$plot_sequence, ins = mx$plot_sequence, after = c("bathy", "box", "coastline", "fronts", "graticule"))
+    out$plot_sequence <- insert_into_sequence(out$plot_sequence, ins = mx$plot_sequence, after = c("bathy", "box", "coastline", "ice", "fronts", "graticule"))
     out
 }
 

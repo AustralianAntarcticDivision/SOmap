@@ -6,6 +6,7 @@
 \usage{
 SOmap(bathy_legend = TRUE, border = TRUE, trim = -45,
   graticules = FALSE, straight = FALSE, land = TRUE,
+  land_col = "black", ice = TRUE, ice_col = "black",
   fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"),
   border_col = c("white", "black"), border_width = 2,
   graticules_col = "grey70")
@@ -22,6 +23,12 @@ SOmap(bathy_legend = TRUE, border = TRUE, trim = -45,
 \item{straight}{logical: if \code{TRUE}, leave a blank space on the side for a straight legend}
 
 \item{land}{logical: if \code{TRUE}, plot coastline}
+
+\item{land_col}{character: colour to use for coastline}
+
+\item{ice}{logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)}
+
+\item{ice_col}{character: colour to use for ice features}
 
 \item{fronts}{logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front)}
 

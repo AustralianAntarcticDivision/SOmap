@@ -12,6 +12,9 @@
 #' @param graticules_col string: colour for graticule grid
 #' @param straight logical: if \code{TRUE}, leave a blank space on the side for a straight legend
 #' @param land logical: if \code{TRUE}, plot coastline
+#' @param land_col character: colour to use for coastline
+#' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)
+#' @param ice_col character: colour to use for ice features
 #' @param fronts logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front)
 #' @param fronts_col character: colours for fronts
 #'
@@ -29,7 +32,7 @@
 #' @export
 #'
 
-SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = FALSE, straight = FALSE, land = TRUE, fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"), border_col = c("white", "black"), border_width = 2, graticules_col = "grey70") {
+SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = FALSE, straight = FALSE, land = TRUE, land_col = "black", ice = TRUE, ice_col = "black", fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"), border_col = c("white", "black"), border_width = 2, graticules_col = "grey70") {
     ## data
     SOmap_data <- NULL
     Bathy <- NULL
@@ -81,8 +84,14 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     if (land) {
       xland <-sf::st_as_sf(SOmap::SOmap_data$continent)
       xland <- sf::st_buffer(xland, 0)
-      out$coastline <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = "black", add = TRUE))
+      out$coastline <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = land_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "coastline")
+    }
+
+    if (ice) {
+      xice <- sf::st_buffer(SOmap::SOmap_data$ant_coast_ice, 0)
+      out$ice <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xice)$geometry), col = NA, border = ice_col, add = TRUE))
+      out$plot_sequence <- c(out$plot_sequence, "ice")
     }
 
     ## fronts

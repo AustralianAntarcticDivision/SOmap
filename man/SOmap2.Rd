@@ -4,23 +4,27 @@
 \alias{SOmap2}
 \title{Southern Ocean Map 2}
 \usage{
-SOmap2(bathy_legend = TRUE, land = TRUE, ccamlr = FALSE,
-  ccamlr_labels = FALSE, ssru = FALSE, ssru_labels = FALSE,
-  ssmu = FALSE, ssmu_labels = FALSE, rb = FALSE, rb_labels = FALSE,
-  sprfmorb = FALSE, border = TRUE, trim = -45, graticules = FALSE,
-  eez = FALSE, eez_labels = FALSE, mpa = FALSE, mpa_labels = FALSE,
-  domains = FALSE, domains_labels = FALSE, iwc = FALSE,
-  iwc_labels = FALSE, straight = FALSE, fronts = FALSE,
-  fronts_col = c("hotpink", "orchid", "plum"), rb_col = 3,
-  sprfmo_col = "grey50", ccamlr_col = 2, ssru_col = "grey50",
-  ssmu_col = "grey70", eez_col = "maroon", mpa_col = "yellow",
-  border_col = c("white", "black"), graticules_col = "grey70",
-  iwc_col = "blue", domains_col = "magenta")
+SOmap2(bathy_legend = TRUE, land = TRUE, ice = TRUE,
+  ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE,
+  ssru_labels = FALSE, ssmu = FALSE, ssmu_labels = FALSE,
+  rb = FALSE, rb_labels = FALSE, sprfmorb = FALSE, border = TRUE,
+  trim = -45, graticules = FALSE, eez = FALSE, eez_labels = FALSE,
+  mpa = FALSE, mpa_labels = FALSE, domains = FALSE,
+  domains_labels = FALSE, iwc = FALSE, iwc_labels = FALSE,
+  straight = FALSE, fronts = FALSE, fronts_col = c("hotpink",
+  "orchid", "plum"), land_col = "black", ice_col = "black",
+  rb_col = 3, sprfmo_col = "grey50", ccamlr_col = 2,
+  ssru_col = "grey50", ssmu_col = "grey70", eez_col = "maroon",
+  mpa_col = "yellow", border_col = c("white", "black"),
+  graticules_col = "grey70", iwc_col = "blue",
+  domains_col = "magenta")
 }
 \arguments{
 \item{bathy_legend}{Insert the bathymetry legend.}
 
 \item{land}{Plot land boundary}
+
+\item{ice}{logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)}
 
 \item{ccamlr}{Insert the CCAMLR boundaries.}
 
@@ -67,6 +71,10 @@ SOmap2(bathy_legend = TRUE, land = TRUE, ccamlr = FALSE,
 \item{fronts}{Plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front}
 
 \item{fronts_col}{colors for fronts}
+
+\item{land_col}{character: colour to use for coastline}
+
+\item{ice_col}{character: colour to use for ice features}
 
 \item{rb_col}{Color for CCAMLR research blocks.}
 
