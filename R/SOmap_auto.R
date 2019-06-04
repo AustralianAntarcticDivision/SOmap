@@ -10,13 +10,11 @@ mid_point <- function (p, fold = FALSE)
 #' Default Southern Ocean map
 #'
 #' Provide minimal input information to get a default map. The simplest case is
-#' to run the function without any inputs at all and it will provide a random default.
+#' to run the function without any inputs at all and it will use random location data.
 #'
-#' To input your data, use input locations as `x` (longitude) and `y` (latitude) values, there must be at least two locations.
+#' To input your data, use input locations as `x` (longitude) and `y` (latitude) values. There must be at least two locations.
 #'
 #' Try `target` families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
-#'
-#' Using `mask = TRUE` does not work well when the pole is included, so it's `FALSE` by default.
 #'
 #' @param x optional input data longitudes
 #' @param y optional input data latitudes
@@ -25,7 +23,10 @@ mid_point <- function (p, fold = FALSE)
 #' @param target optional projection family (default is `stere`ographic), or full PROJ string (see Details)
 #' @param dimXY dimensions of background bathmetry (if used) default is 300x300
 #' @param bathy logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{raster} object
-#' @param coast logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object
+#' @param land logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object
+#' @param land_col character: colour to use for plotting the coastline
+#' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)
+#' @param ice_col character: colour to use for ice features
 #' @param input_points add points to plot (of x, y)
 #' @param input_lines add lines to plot   (of x, y)
 #' @param graticule flag to add a basic graticule
@@ -60,7 +61,8 @@ mid_point <- function (p, fold = FALSE)
 #' }
 SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "stere",
                        dimXY = c(300, 300),
-                       bathy = TRUE, coast = TRUE, input_points = TRUE, input_lines = TRUE,
+                       bathy = TRUE, land = TRUE, land_col = "black", ice = TRUE, ice_col = "black",
+                       input_points = TRUE, input_lines = TRUE,
                        graticule = TRUE, expand = 0.05,
                        contours = FALSE, levels = c(-500, -1000, -2000),
                        ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
@@ -129,24 +131,34 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
 
     }
 
-    if (isTRUE(coast)) {
+    if (isTRUE(land)) {
         suppressWarnings({
             coastline <- try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(SOmap_data$continent), prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial"), silent = TRUE)
 
             if (inherits(coastline, "try-error")) {
-                coast <- FALSE
+                land <- FALSE
                 warning("no coastline within region, cannot be plotted")
                 coastline <- NULL
             }
         })
     } else {
-        if (inherits(coast, "Spatial")) {
-            coastline <- sp::spTransform(coast, prj)
-            coast <- TRUE
+        if (inherits(land, "Spatial")) {
+            coastline <- sp::spTransform(land, prj)
+            land <- TRUE
         }
-
     }
 
+    if (isTRUE(ice)) {
+        suppressWarnings({
+            icedat <- try(as(sf::st_crop(sf::st_buffer(sf::st_transform(SOmap_data$ant_coast_ice, prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial"), silent = TRUE)
+
+            if (inherits(icedat, "try-error")) {
+                ice <- FALSE
+                warning("no ice data within region, cannot be plotted")
+                icedat <- NULL
+            }
+        })
+    }
 
     grat <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
                              crs = raster::projection(target), lon = gratlon, lat = gratlat)
@@ -165,7 +177,9 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
    if (!exists("xy")) xy <- NULL
     structure(list(projection = raster::projection(target),
                    bathy = bathymetry, bathyleg = bathyleg, bathy_palette = bluepal,
-                   coastline = list(data = coastline, fillcol = NA, linecol = "black"), target = target, ##data = xy,
+                   coastline = if (land) list(data = coastline, fillcol = NA, linecol = land_col) else NULL,
+                   ice = if (ice) list(data = icedat, fillcol = NA, linecol = ice_col) else NULL,
+                   target = target, ##data = xy,
                    lines_data = if (input_lines) xy else NULL, points_data = if (input_points) xy else NULL,
                    ppch = ppch, pcol = pcol, pcex = pcex,
                    llty = llty, llwd = llwd, lcol = lcol,
@@ -187,46 +201,52 @@ plot.SOmap_auto <- function (x, y, ...) {
 #' @export
 print.SOmap_auto <- function(x,main=NULL, ..., set_clip = TRUE) {
   base_mar <- c(5.1, 4.1, 4.1, 2.1)
-    aspect <- if (raster::isLonLat(x$target)) 1/cos(mean(c(raster::xmin(x$target), raster::xmax(x$target))) * pi/180) else 1
-    if (is.null(main)) {
-       margins <-base_mar/2.5
-    } else {
-        mars <- base_mar/2.5
-        mars[3] <- mars[3]+2
-        margins <- mars
-    }
-    pp <- aspectplot.default(c(raster::xmin(x$target), raster::xmax(x$target)), c(raster::ymin(x$target), raster::ymax(x$target)), asp = aspect, mar =margins)
-    ## reset par(pp) when we exit this function
-    #on.exit(par(pp))
-    ## record current crs
-    SOcrs(x$projection)
+  aspect <- if (raster::isLonLat(x$target)) 1/cos(mean(c(raster::xmin(x$target), raster::xmax(x$target))) * pi/180) else 1
+  if (is.null(main)) {
+      margins <-base_mar/2.5
+  } else {
+      mars <- base_mar/2.5
+      mars[3] <- mars[3]+2
+      margins <- mars
+  }
+  pp <- aspectplot.default(c(raster::xmin(x$target), raster::xmax(x$target)), c(raster::ymin(x$target), raster::ymax(x$target)), asp = aspect, mar =margins)
+  ## reset par(pp) when we exit this function
+                                        #on.exit(par(pp))
+  ## record current crs
+  SOcrs(x$projection)
 
-    if(!is.null(main)){graphics::title(main = main)}
-    op <- par(xpd = FALSE)
-    if (!is.null(x$bathy)) {
-        if (isTRUE(x$bathyleg)) {
-            raster::plot(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)
-        } else {
-            raster::image(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)#grey(seq(0, 1, length = 40)))
-        }
-    }
-    ## suggested param change: if levels is a scalar than pass it to nlevels
-    ## nlevels = 1
-    if (x$contours && !is.null(x$bathy)) contour(x$bathy, levels = x$levels, col = x$contour_colour, add = TRUE)
+  if(!is.null(main)){graphics::title(main = main)}
+  op <- par(xpd = FALSE)
+  if (!is.null(x$bathy)) {
+      if (isTRUE(x$bathyleg)) {
+          raster::plot(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)
+      } else {
+          raster::image(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)#grey(seq(0, 1, length = 40)))
+      }
+  }
+  ## suggested param change: if levels is a scalar than pass it to nlevels
+  ## nlevels = 1
+  if (x$contours && !is.null(x$bathy)) contour(x$bathy, levels = x$levels, col = x$contour_colour, add = TRUE)
 
-    if (!is.null(x$coastline$data)) plot(x$coastline$data, col = x$coastline$fillcol, border = x$coastline$linecol, add = TRUE)
+  if (!is.null(x$coastline)) {
+      if (!is.null(x$coastline$data)) plot(x$coastline$data, col = x$coastline$fillcol, border = x$coastline$linecol, add = TRUE)
+  }
 
-    if (!is.null(x$points_data)) points(x$points_data, pch = x$ppch, cex = x$pcex, col = x$pcol)
-    if (!is.null(x$lines_data)) lines(x$lines_data, lty = x$llty, lwd = x$llwd, col = x$lcol)
+  if (!is.null(x$ice)) {
+      if (!is.null(x$ice$data)) plot(x$ice$data, col = x$ice$fillcol, border = x$ice$linecol, add = TRUE)
+  }
 
-    if (!is.null(x$graticule)) {
-        plot_graticule(x$graticule, GratPos=x$gratpos)
-    }
-    par(op)
-    if (set_clip) graphics::clip(raster::xmin(x$target), raster::xmax(x$target),
-                                 raster::ymin(x$target), raster::ymax(x$target))
+  if (!is.null(x$points_data)) points(x$points_data, pch = x$ppch, cex = x$pcex, col = x$pcol)
+  if (!is.null(x$lines_data)) lines(x$lines_data, lty = x$llty, lwd = x$llwd, col = x$lcol)
 
-    invisible(x)
+  if (!is.null(x$graticule)) {
+      plot_graticule(x$graticule, GratPos=x$gratpos)
+  }
+  par(op)
+  if (set_clip) graphics::clip(raster::xmin(x$target), raster::xmax(x$target),
+                               raster::ymin(x$target), raster::ymax(x$target))
+
+  invisible(x)
 }
 
 '%notin%'<-Negate('%in%')

@@ -5,12 +5,13 @@
 \title{Default Southern Ocean map}
 \usage{
 SOmap_auto(x, y, centre_lon = NULL, centre_lat = NULL,
-  target = "stere", dimXY = c(300, 300), bathy = TRUE,
-  coast = TRUE, input_points = TRUE, input_lines = TRUE,
-  graticule = TRUE, expand = 0.05, contours = FALSE,
-  levels = c(-500, -1000, -2000), ppch = 19, pcol = 2, pcex = 1,
-  bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1, gratlon = NULL,
-  gratlat = NULL, gratpos = "all", ...)
+  target = "stere", dimXY = c(300, 300), bathy = TRUE, land = TRUE,
+  land_col = "black", ice = TRUE, ice_col = "black",
+  input_points = TRUE, input_lines = TRUE, graticule = TRUE,
+  expand = 0.05, contours = FALSE, levels = c(-500, -1000, -2000),
+  ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1,
+  llwd = 1, lcol = 1, gratlon = NULL, gratlat = NULL,
+  gratpos = "all", ...)
 }
 \arguments{
 \item{x}{optional input data longitudes}
@@ -27,7 +28,13 @@ SOmap_auto(x, y, centre_lon = NULL, centre_lat = NULL,
 
 \item{bathy}{logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{raster} object}
 
-\item{coast}{logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object}
+\item{land}{logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object}
+
+\item{land_col}{character: colour to use for plotting the coastline}
+
+\item{ice}{logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)}
+
+\item{ice_col}{character: colour to use for ice features}
 
 \item{input_points}{add points to plot (of x, y)}
 
@@ -68,14 +75,12 @@ An object of class SOmap_auto, containing the data and other details required to
 }
 \description{
 Provide minimal input information to get a default map. The simplest case is
-to run the function without any inputs at all and it will provide a random default.
+to run the function without any inputs at all and it will use random location data.
 }
 \details{
-To input your data, use input locations as `x` (longitude) and `y` (latitude) values, there must be at least two locations.
+To input your data, use input locations as `x` (longitude) and `y` (latitude) values. There must be at least two locations.
 
 Try `target` families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
-
-Using `mask = TRUE` does not work well when the pole is included, so it's `FALSE` by default.
 }
 \examples{
 \dontrun{
