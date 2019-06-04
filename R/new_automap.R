@@ -114,7 +114,7 @@ automap_maker <-
       }
 
       ## we gave it a grid, but also a target family
-      if (!grepl("^\\+", target) && (length(c(centre_lon, centre_lat)) < 2)) {
+      if (!is.null(target) && !grepl("^\\+", target) && (length(c(centre_lon, centre_lat)) < 2)) {
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
