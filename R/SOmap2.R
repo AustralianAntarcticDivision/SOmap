@@ -76,52 +76,21 @@
 #' @param fronts_col
 #' colors for fronts
 #'
-#' @return
-#' Produces at the very base a round bathymetry map of the southern hemisphere.
+#' @return An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere, with the chosen management layers added. Printing or plotting this object will cause it to be displayed in the current graphics device.
 #'
 #' @examples
 #' \dontrun{
-#' SOmap2(ccamlr = TRUE, mpa = TRUE, trim = -45)
+#'   SOmap2(ccamlr = TRUE, mpa = TRUE, trim = -45)
 #' }
 #' @export
 #'
 
-SOmap2<-function(bathy_legend=TRUE,
-                 land=TRUE,
-                 ccamlr= FALSE,
-                 ccamlr_labels= FALSE,
-                 ssru= FALSE,
-                 ssru_labels = FALSE,
-                 ssmu= FALSE,
-                 ssmu_labels= FALSE,
-                 rb= FALSE,
-                 rb_labels= FALSE,
-                 sprfmorb= FALSE,
-                 border= TRUE,
-                 trim= -45,
-                 graticules= FALSE,
-                 eez=FALSE,
-                 eez_labels=FALSE,
-                 mpa=FALSE,
-                 mpa_labels=FALSE,
-                 domains=FALSE,
-                 domains_labels=FALSE,
-                 iwc=FALSE,
-                 iwc_labels=FALSE,
-                 straight=FALSE,
-                 fronts=FALSE,
-                 fronts_col=c("hotpink","orchid","plum"),
-                 rb_col=3,
-                 sprfmo_col='grey50',
-                 ccamlr_col=2,
-                 ssru_col="grey50",
-                 ssmu_col="grey70",
-                 eez_col="maroon",
-                 mpa_col= "yellow",
-                 border_col=c("white","black"),
-                 graticules_col="grey70",
-                 iwc_col="blue",
-                 domains_col="magenta") {
+SOmap2 <- function(bathy_legend = TRUE, land = TRUE, ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE, ssru_labels = FALSE,
+                   ssmu = FALSE, ssmu_labels = FALSE, rb = FALSE, rb_labels = FALSE, sprfmorb = FALSE, border = TRUE, trim = -45,
+                   graticules = FALSE, eez = FALSE, eez_labels = FALSE, mpa = FALSE, mpa_labels = FALSE, domains = FALSE, domains_labels = FALSE,
+                   iwc = FALSE, iwc_labels = FALSE, straight = FALSE, fronts = FALSE, fronts_col = c("hotpink","orchid","plum"),
+                   rb_col = 3, sprfmo_col = 'grey50', ccamlr_col = 2, ssru_col = "grey50", ssmu_col = "grey70", eez_col = "maroon",
+                   mpa_col = "yellow", border_col = c("white","black"), graticules_col = "grey70", iwc_col = "blue", domains_col = "magenta") {
 
     out <- SOmap(bathy_legend = bathy_legend, border = border, trim = trim, graticules = graticules, straight = straight, land = land, fronts = fronts, fronts_col = fronts_col, border_col = border_col, graticules_col = graticules_col)
     ## data

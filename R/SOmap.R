@@ -15,7 +15,7 @@
 #' @param fronts logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front)
 #' @param fronts_col character: colours for fronts
 #'
-#' @return Produces at the very least a round bathymetry map of the southern hemisphere.
+#' @return An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere. Printing or plotting this object will cause it to be displayed in the current graphics device.
 #'
 #' @examples
 #' \dontrun{

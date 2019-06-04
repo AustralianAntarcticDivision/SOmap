@@ -69,10 +69,10 @@ SOmanagement(ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE,
 
 \item{domains_col}{Color for the CCAMLR planning domains boundaries. Default is magenta.}
 
-\item{basemap}{Optional SOmap or SOautomap object.}
+\item{basemap}{Optional SOmap or SOmap_auto object.}
 }
 \value{
-Produces at the very base a round bathymetry map of the southern hemisphere.
+An object of class "SOmap_management" containing the requested management layers. Printing or plotting this object will display those layers on the current map (note that an \code{SOmap} object needs to have been plotted first)
 }
 \description{
 Function for adding management layers to SOmap

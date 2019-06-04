@@ -58,10 +58,10 @@
 #' @param domains_col
 #' Color for the CCAMLR planning domains boundaries. Default is magenta.
 #' @param basemap
-#' Optional SOmap or SOautomap object.
+#' Optional SOmap or SOmap_auto object.
 #'
 #' @return
-#' Produces at the very base a round bathymetry map of the southern hemisphere.
+#' An object of class "SOmap_management" containing the requested management layers. Printing or plotting this object will display those layers on the current map (note that an \code{SOmap} object needs to have been plotted first)
 #'
 #' @examples
 #' \dontrun{

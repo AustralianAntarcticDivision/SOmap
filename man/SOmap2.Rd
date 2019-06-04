@@ -91,13 +91,13 @@ SOmap2(bathy_legend = TRUE, land = TRUE, ccamlr = FALSE,
 \item{domains_col}{Color for the CCAMLR planning domains boundaries. Default is magenta.}
 }
 \value{
-Produces at the very base a round bathymetry map of the southern hemisphere.
+An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere, with the chosen management layers added. Printing or plotting this object will cause it to be displayed in the current graphics device.
 }
 \description{
 Function for creating round Southern Ocean maps with inbuild base layers.
 }
 \examples{
 \dontrun{
-SOmap2(ccamlr = TRUE, mpa = TRUE, trim = -45)
+  SOmap2(ccamlr = TRUE, mpa = TRUE, trim = -45)
 }
 }

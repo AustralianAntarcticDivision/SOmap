@@ -34,7 +34,7 @@ SOmap(bathy_legend = TRUE, border = TRUE, trim = -45,
 \item{graticules_col}{string: colour for graticule grid}
 }
 \value{
-Produces at the very least a round bathymetry map of the southern hemisphere.
+An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere. Printing or plotting this object will cause it to be displayed in the current graphics device.
 }
 \description{
 Function for creating round Southern Ocean maps.
