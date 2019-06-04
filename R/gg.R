@@ -60,6 +60,11 @@ SOgg_notauto <- function(x) {
         this <- suppressWarnings(sf::st_intersection(buf, x$coastline$plotargs$x))
         p <- p + geom_sf(data = this, fill = x$coastline$plotargs$col, col = x$coastline$plotargs$border, inherit.aes = FALSE)
     }
+    if (!is.null(x$ice)) {
+        ## TODO check that this trimming is robust
+        this <- suppressWarnings(sf::st_intersection(buf, x$ice$plotargs$x))
+        p <- p + geom_sf(data = this, fill = x$ice$plotargs$col, col = x$ice$plotargs$border, inherit.aes = FALSE)
+    }
 
 
     ## fronts
@@ -348,6 +353,12 @@ SOgg2_notauto <- function(x) {
         this <- suppressWarnings(sf::st_intersection(buf, x$coastline$plotargs$x))
         out$coastline <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$plotargs$col, col = x$coastline$plotargs$border, inherit.aes = FALSE))
         out$plot_sequence <- c(out$plot_sequence, "coastline")
+    }
+    if (!is.null(x$ice)) {
+        ## TODO check that this trimming is robust
+        this <- suppressWarnings(sf::st_intersection(buf, x$ice$plotargs$x))
+        out$ice <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice$plotargs$col, col = x$ice$plotargs$border, inherit.aes = FALSE))
+        out$plot_sequence <- c(out$plot_sequence, "ice")
     }
 
     ## fronts
