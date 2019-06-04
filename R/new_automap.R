@@ -112,6 +112,16 @@ automap_maker <-
         tgt_prj <- raster::projection(x)
 
       }
+
+      ## we gave it a grid, but also a target family
+      if (!grepl("^\\+", target) && (length(c(centre_lon, centre_lat)) < 2)) {
+        ## get the centre lon and lat from the input
+
+        cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
+        mp <- mid_point(reproj::reproj(as.matrix(cpts), target = 4326, source = raster::projection(x)))
+        if (is.null(centre_lon)) centre_lon <- mp[1]
+        if (is.null(centre_lat)) centre_lat <- mp[2]
+      }
     }
 
     if (inherits(x, "sf") || inherits(x, "Spatial")) {
@@ -123,6 +133,7 @@ automap_maker <-
         dim(tgt_raster) <- dimXY
         tgt_prj <- raster::projection(pex)
       }
+
     }
     tscale <- NULL;
     if (is.numeric(x)) {
@@ -151,7 +162,7 @@ automap_maker <-
     }
     if (!is.null(llxy)) xy <- reproj::reproj(llxy, tgt_prj, source = llproj)[, 1:2, drop = FALSE]
     bathymetry <- crunch_bathy(tgt_raster)
-
+    #bathymetry <- raster::trim(bathymetry)
     SOcrs(raster::projection(bathymetry))
 
     return(list(target = bathymetry, xy = xy))
