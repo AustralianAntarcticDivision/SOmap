@@ -44,7 +44,8 @@ There is also `SOmanagement()` which provides management layers for the Southern
 
 ```{r management}
 ## custom colours
-spiritedMedium <- colorRampPalette(c("#4D4140", "#596F7E", "#168B98", "#ED5B67", "#E27766", "#DAAD50", "#EAC3A6"))
+spiritedMedium <- colorRampPalette(c("#4D4140", "#596F7E", "#168B98",
+                                     "#ED5B67", "#E27766", "#DAAD50", "#EAC3A6"))
 spirited <- spiritedMedium(80)
 
 SOmap(trim = -40)
