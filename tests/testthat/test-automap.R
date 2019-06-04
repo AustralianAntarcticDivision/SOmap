@@ -14,7 +14,7 @@ expect_s3_class(tst, "SOmap_auto")
     x <- SOmap_auto(c(100:110), c(-70:-60))
     expect_s3_class(x, "SOmap_auto")
     nms <- sort(c("projection", "bathy", "bathyleg", "bathy_palette",
-                  "coastline", "target", "lines_data", "points_data",
+                  "coastline", "ice", "target", "lines_data", "points_data",
                   "ppch", "pcol", "pcex", "llty", "llwd", "lcol", "contours", "levels", "contour_colour", "graticule", "gratpos", "crs"))
     expect_identical(sort(names(x)), nms)
 
@@ -31,6 +31,15 @@ expect_s3_class(tst, "SOmap_auto")
     vdiffr::expect_doppelganger("SOmap_auto basic", disp_auto_map)
 })
 
+
+test_that("check sp", {
+  skip()
+  #gr <- as(graticule::graticule(seq(100, 180, by = 5), seq(-70, -30, by = 8)),
+  #         "SpatialPoints")
+
+  #SOmap_auto(gr)
+
+})
 disp_resblocks <- function() plot(SOmap_auto(SOmap_data$CCAMLR_research_blocks[c(1, 4, 5), ]))
 test_that("auto map plots polygons", {
     skip("skipping vdiffr tests temporarily")
