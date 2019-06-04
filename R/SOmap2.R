@@ -3,81 +3,45 @@
 #' @description
 #' Function for creating round Southern Ocean maps with inbuild base layers.
 #'
-#' @param bathy_legend
-#' Insert the bathymetry legend.
-#' @param ccamlr
-#' Insert the CCAMLR boundaries.
-#' @param ccamlr_labels
-#' Insert the CCAMLR labels.
-#' @param ssru
-#' Insert the CCAMLR small scale research unit boundaries.
-#' @param ssru_labels
-#' Insert the CCAMLR small scale research unit labels.
-#' @param ssmu
-#' Insert the CCAMLR small scale management unit boundaries.
-#' @param ssmu_labels
-#' Insert the CCAMLR small scale management unit labels.
-#' @param rb
-#' Insert the CCAMLR research block boundaries.
-#' @param rb_labels
-#' Insert the CCAMLR research block labels.
-#' @param sprfmorb
-#' Insert the SPRFMO toothfish research block boundaries.
-#' @param border
-#' Insert longitude border.
-#' @param trim
-#' Longitude to trim map to.
-#' @param graticules
-#' Insert graticule grid.
-#' @param eez
-#' Insert Exclusive Economic Zones.
-#' @param eez_labels
-#' Insert Exclusive Economic Zone labels.
-#' @param mpa
-#' Insert CCAMLR Marine Protected Areas.
-#' @param mpa_labels
-#' Insert CCAMLR Marine Protected Area labels.
-#' @param domains
-#' Insert CCAMLR Marine Protected Areas planning domains.
-#' @param domains_labels
-#' Insert CCAMLR Marine Protected Area planning domains labels.
-#' @param iwc
-#' Insert International Whaling Commission boundaries.
-#' @param iwc_labels
-#' Insert International Whaling Commission labels.
-#' @param rb_col
-#' Color for CCAMLR research blocks.
-#' @param sprfmo_col
-#' Color for SPRFMO toothfish research blocks
-#' @param ccamlr_col
-#' Color for CCAMLR boundaries
-#' @param ssru_col
-#' Color for CCAMLR small scale research units.
-#' @param ssmu_col
-#' Color for CCAMLR small scale management units.
-#' @param eez_col
-#' Color for Exclusive Economic Zone boundaries; Default is maroon.
-#' @param mpa_col
-#' Color for CCAMLR Marine Protected Areas; Default is yellow.
-#' @param border_col
-#' Colors for longitude border; Default is c("black","white").
-#' @param graticules_col
-#' Color for graticule grid; Default is grey.
-#' @param iwc_col
-#' Color for IWC boundaries; Default is blue.
-#' @param domains_col
-#' Color for the CCAMLR planning domains boundaries. Default is magenta.
-#' @param straight
-#' Do you need a blank space on the side for a straight legend.
-#' @param land
-#' Plot land boundary
-#' @param land_col character: colour to use for coastline
-#' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)
-#' @param ice_col character: colour to use for ice features
-#' @param fronts
-#' Plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front
-#' @param fronts_col
-#' colors for fronts
+#' @param bathy_legend logical: if \code{TRUE}, insert the bathymetry legend.
+#' @param ccamlr logical: if \code{TRUE}, insert the CCAMLR area boundaries.
+#' @param ccamlr_labels logical: if \code{TRUE}, add labels for the CCAMLR areas.
+#' @param ssru logical: if \code{TRUE}, insert the CCAMLR small scale research unit boundaries.
+#' @param ssru_labels logical: if \code{TRUE}, add labels for the CCAMLR small scale research units.
+#' @param ssmu logical: if \code{TRUE}, insert the CCAMLR small scale management unit boundaries.
+#' @param ssmu_labels logical: if \code{TRUE}, add labels for the CCAMLR small scale management units.
+#' @param rb logical: if \code{TRUE}, insert the CCAMLR research block boundaries.
+#' @param rb_labels logical: if \code{TRUE}, add labels for the CCAMLR research blocks.
+#' @param sprfmorb logical: if \code{TRUE}, insert the SPRFMO toothfish research block boundaries.
+#' @param border logical: if \code{TRUE}, insert longitude border.
+#' @param trim numeric: latitude to trim the map to. Set this to -10 for effectively no trim.
+#' @param graticules logical: if \code{TRUE}, insert a graticule grid.
+#' @param eez logical: if \code{TRUE}, insert Exclusive Economic Zones.
+#' @param eez_labels logical: if \code{TRUE}, add labels for the Exclusive Economic Zones.
+#' @param mpa logical: if \code{TRUE}, insert CCAMLR Marine Protected Areas.
+#' @param mpa_labels logical: if \code{TRUE}, add labels for the CCAMLR Marine Protected Areas.
+#' @param domains logical: if \code{TRUE}, insert CCAMLR Marine Protected Areas planning domains.
+#' @param domains_labels logical: if \code{TRUE}, add labels for the CCAMLR Marine Protected Area planning domains.
+#' @param iwc logical: if \code{TRUE}, insert International Whaling Commission boundaries.
+#' @param iwc_labels logical: if \code{TRUE}, add labels for the International Whaling Commission areas.
+#' @param rb_col character: colour for CCAMLR research blocks.
+#' @param sprfmo_col character: colour for SPRFMO toothfish research blocks
+#' @param ccamlr_col character: colour for CCAMLR boundaries
+#' @param ssru_col character: colour for CCAMLR small scale research units.
+#' @param ssmu_col character: colour for CCAMLR small scale management units.
+#' @param eez_col character: colour for Exclusive Economic Zone boundaries.
+#' @param mpa_col character: colour for CCAMLR Marine Protected Areas.
+#' @param border_col character: colours for longitude border.
+#' @param graticules_col character: colour for graticule grid.
+#' @param iwc_col character: colour for IWC boundaries.
+#' @param domains_col character: colour for the CCAMLR planning domains boundaries.
+#' @param straight logical: if \code{TRUE}, leave a blank space on the side for a straight legend.
+#' @param land logical: if \code{TRUE}, plot the coastline.
+#' @param land_col character: colour to use for coastline.
+#' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar).
+#' @param ice_col character: colour to use for ice features.
+#' @param fronts logical: if \code{TRUE}, plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front.
+#' @param fronts_col character: colours to use for fronts.
 #'
 #' @return An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere, with the chosen management layers added. Printing or plotting this object will cause it to be displayed in the current graphics device.
 #'

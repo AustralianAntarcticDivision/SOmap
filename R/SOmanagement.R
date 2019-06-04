@@ -3,62 +3,34 @@
 #' @description
 #' Function for adding management layers to SOmap
 #'
-#' @param ccamlr
-#' Insert the CCAMLR boundaries.
-#' @param ccamlr_labels
-#' Insert the CCAMLR labels.
-#' @param ssru
-#' Insert the CCAMLR small scale research unit boundaries.
-#' @param ssru_labels
-#' Insert the CCAMLR small scale research unit labels.
-#' @param ssmu
-#' Insert the CCAMLR small scale management unit boundaries.
-#' @param ssmu_labels
-#' Insert the CCAMLR small scale management unit labels.
-#' @param rb
-#' Insert the CCAMLR research block boundaries.
-#' @param rb_labels
-#' Insert the CCAMLR research block labels.
-#' @param sprfmorb
-#' Insert the SPRFMO toothfish research block boundaries.
-#' @param trim
-#' Longitude to trim map to.
-#' @param eez
-#' Insert Exclusive Economic Zones.
-#' @param eez_labels
-#' Insert Exclusive Economic Zone labels.
-#' @param mpa
-#' Insert CCAMLR Marine Protected Areas.
-#' @param mpa_labels
-#' Insert CCAMLR Marine Protected Area labels.
-#' @param domains
-#' Insert CCAMLR Marine Protected Area planning domains.
-#' @param domains_labels
-#' Insert CCAMLR Marine Protected Area planning domains labels.
-#' @param iwc
-#' Insert International Whaling Commission boundaries.
-#' @param iwc_labels
-#' Insert International Whaling Commission labels.
-#' @param rb_col
-#' Color for CCAMLR research blocks.
-#' @param sprfmo_col
-#' Color for SPRFMO toothfish research blocks
-#' @param ccamlr_col
-#' Color for CCAMLR boundaries
-#' @param ssru_col
-#' Color for CCAMLR small scale research units.
-#' @param ssmu_col
-#' Color for CCAMLR small scale management units.
-#' @param eez_col
-#' Color for Exclusive Economic Zone boundaries; Default is maroon.
-#' @param mpa_col
-#' Color for CCAMLR Marine Protected Areas; Default is yellow.
-#' @param iwc_col
-#' Color for IWC boundaries; Default is blue.
-#' @param domains_col
-#' Color for the CCAMLR planning domains boundaries. Default is magenta.
-#' @param basemap
-#' Optional SOmap or SOmap_auto object.
+#' @param ccamlr logical: if \code{TRUE}, insert the CCAMLR area boundaries.
+#' @param ccamlr_labels logical: if \code{TRUE}, add labels for the CCAMLR areas.
+#' @param ssru logical: if \code{TRUE}, insert the CCAMLR small scale research unit boundaries.
+#' @param ssru_labels logical: if \code{TRUE}, add labels for the CCAMLR small scale research units.
+#' @param ssmu logical: if \code{TRUE}, insert the CCAMLR small scale management unit boundaries.
+#' @param ssmu_labels logical: if \code{TRUE}, add labels for the CCAMLR small scale management units.
+#' @param rb logical: if \code{TRUE}, insert the CCAMLR research block boundaries.
+#' @param rb_labels logical: if \code{TRUE}, add labels for the CCAMLR research blocks.
+#' @param sprfmorb logical: if \code{TRUE}, insert the SPRFMO toothfish research block boundaries.
+#' @param trim numeric: latitude to trim the map to. Set this to -10 for effectively no trim.
+#' @param eez logical: if \code{TRUE}, insert Exclusive Economic Zones.
+#' @param eez_labels logical: if \code{TRUE}, add labels for the Exclusive Economic Zones.
+#' @param mpa logical: if \code{TRUE}, insert CCAMLR Marine Protected Areas.
+#' @param mpa_labels logical: if \code{TRUE}, add labels for the CCAMLR Marine Protected Areas.
+#' @param domains logical: if \code{TRUE}, insert CCAMLR Marine Protected Areas planning domains.
+#' @param domains_labels logical: if \code{TRUE}, add labels for the CCAMLR Marine Protected Area planning domains.
+#' @param iwc logical: if \code{TRUE}, insert International Whaling Commission boundaries.
+#' @param iwc_labels logical: if \code{TRUE}, add labels for the International Whaling Commission areas.
+#' @param rb_col character: colour for CCAMLR research blocks.
+#' @param sprfmo_col character: colour for SPRFMO toothfish research blocks
+#' @param ccamlr_col character: colour for CCAMLR boundaries
+#' @param ssru_col character: colour for CCAMLR small scale research units.
+#' @param ssmu_col character: colour for CCAMLR small scale management units.
+#' @param eez_col character: colour for Exclusive Economic Zone boundaries.
+#' @param mpa_col character: colour for CCAMLR Marine Protected Areas.
+#' @param iwc_col character: colour for IWC boundaries.
+#' @param domains_col character: colour for the CCAMLR planning domains boundaries.
+#' @param basemap SOmap or SOmap_auto: optional map object to extract extent, projection, and other information from.
 #'
 #' @return
 #' An object of class "SOmap_management" containing the requested management layers. Printing or plotting this object will display those layers on the current map (note that an \code{SOmap} object needs to have been plotted first)

@@ -15,61 +15,61 @@ SOmanagement(ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE,
   domains_col = "magenta", basemap)
 }
 \arguments{
-\item{ccamlr}{Insert the CCAMLR boundaries.}
+\item{ccamlr}{logical: if \code{TRUE}, insert the CCAMLR area boundaries.}
 
-\item{ccamlr_labels}{Insert the CCAMLR labels.}
+\item{ccamlr_labels}{logical: if \code{TRUE}, add labels for the CCAMLR areas.}
 
-\item{ssru}{Insert the CCAMLR small scale research unit boundaries.}
+\item{ssru}{logical: if \code{TRUE}, insert the CCAMLR small scale research unit boundaries.}
 
-\item{ssru_labels}{Insert the CCAMLR small scale research unit labels.}
+\item{ssru_labels}{logical: if \code{TRUE}, add labels for the CCAMLR small scale research units.}
 
-\item{ssmu}{Insert the CCAMLR small scale management unit boundaries.}
+\item{ssmu}{logical: if \code{TRUE}, insert the CCAMLR small scale management unit boundaries.}
 
-\item{ssmu_labels}{Insert the CCAMLR small scale management unit labels.}
+\item{ssmu_labels}{logical: if \code{TRUE}, add labels for the CCAMLR small scale management units.}
 
-\item{rb}{Insert the CCAMLR research block boundaries.}
+\item{rb}{logical: if \code{TRUE}, insert the CCAMLR research block boundaries.}
 
-\item{rb_labels}{Insert the CCAMLR research block labels.}
+\item{rb_labels}{logical: if \code{TRUE}, add labels for the CCAMLR research blocks.}
 
-\item{sprfmorb}{Insert the SPRFMO toothfish research block boundaries.}
+\item{sprfmorb}{logical: if \code{TRUE}, insert the SPRFMO toothfish research block boundaries.}
 
-\item{trim}{Longitude to trim map to.}
+\item{trim}{numeric: latitude to trim the map to. Set this to -10 for effectively no trim.}
 
-\item{eez}{Insert Exclusive Economic Zones.}
+\item{eez}{logical: if \code{TRUE}, insert Exclusive Economic Zones.}
 
-\item{eez_labels}{Insert Exclusive Economic Zone labels.}
+\item{eez_labels}{logical: if \code{TRUE}, add labels for the Exclusive Economic Zones.}
 
-\item{mpa}{Insert CCAMLR Marine Protected Areas.}
+\item{mpa}{logical: if \code{TRUE}, insert CCAMLR Marine Protected Areas.}
 
-\item{mpa_labels}{Insert CCAMLR Marine Protected Area labels.}
+\item{mpa_labels}{logical: if \code{TRUE}, add labels for the CCAMLR Marine Protected Areas.}
 
-\item{iwc}{Insert International Whaling Commission boundaries.}
+\item{iwc}{logical: if \code{TRUE}, insert International Whaling Commission boundaries.}
 
-\item{iwc_labels}{Insert International Whaling Commission labels.}
+\item{iwc_labels}{logical: if \code{TRUE}, add labels for the International Whaling Commission areas.}
 
-\item{domains}{Insert CCAMLR Marine Protected Area planning domains.}
+\item{domains}{logical: if \code{TRUE}, insert CCAMLR Marine Protected Areas planning domains.}
 
-\item{domains_labels}{Insert CCAMLR Marine Protected Area planning domains labels.}
+\item{domains_labels}{logical: if \code{TRUE}, add labels for the CCAMLR Marine Protected Area planning domains.}
 
-\item{rb_col}{Color for CCAMLR research blocks.}
+\item{rb_col}{character: colour for CCAMLR research blocks.}
 
-\item{sprfmo_col}{Color for SPRFMO toothfish research blocks}
+\item{sprfmo_col}{character: colour for SPRFMO toothfish research blocks}
 
-\item{ccamlr_col}{Color for CCAMLR boundaries}
+\item{ccamlr_col}{character: colour for CCAMLR boundaries}
 
-\item{ssru_col}{Color for CCAMLR small scale research units.}
+\item{ssru_col}{character: colour for CCAMLR small scale research units.}
 
-\item{ssmu_col}{Color for CCAMLR small scale management units.}
+\item{ssmu_col}{character: colour for CCAMLR small scale management units.}
 
-\item{eez_col}{Color for Exclusive Economic Zone boundaries; Default is maroon.}
+\item{eez_col}{character: colour for Exclusive Economic Zone boundaries.}
 
-\item{mpa_col}{Color for CCAMLR Marine Protected Areas; Default is yellow.}
+\item{mpa_col}{character: colour for CCAMLR Marine Protected Areas.}
 
-\item{iwc_col}{Color for IWC boundaries; Default is blue.}
+\item{iwc_col}{character: colour for IWC boundaries.}
 
-\item{domains_col}{Color for the CCAMLR planning domains boundaries. Default is magenta.}
+\item{domains_col}{character: colour for the CCAMLR planning domains boundaries.}
 
-\item{basemap}{Optional SOmap or SOmap_auto object.}
+\item{basemap}{SOmap or SOmap_auto: optional map object to extract extent, projection, and other information from.}
 }
 \value{
 An object of class "SOmap_management" containing the requested management layers. Printing or plotting this object will display those layers on the current map (note that an \code{SOmap} object needs to have been plotted first)

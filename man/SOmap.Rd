@@ -12,33 +12,33 @@ SOmap(bathy_legend = TRUE, border = TRUE, trim = -45,
   graticules_col = "grey70")
 }
 \arguments{
-\item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend}
+\item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend.}
 
-\item{border}{logical: if \code{TRUE}, insert longitude border}
+\item{border}{logical: if \code{TRUE}, insert longitude border.}
 
-\item{trim}{numeric: latitude to trim map to, set to -10 for effectively no trim}
+\item{trim}{numeric: latitude to trim the map to. Set this to -10 for effectively no trim.}
 
-\item{graticules}{logical: if \code{TRUE}, insert graticule grid}
+\item{graticules}{logical: if \code{TRUE}, insert graticule grid.}
 
-\item{straight}{logical: if \code{TRUE}, leave a blank space on the side for a straight legend}
+\item{straight}{logical: if \code{TRUE}, leave a blank space on the side for a straight legend.}
 
-\item{land}{logical: if \code{TRUE}, plot coastline}
+\item{land}{logical: if \code{TRUE}, plot coastline.}
 
-\item{land_col}{character: colour to use for coastline}
+\item{land_col}{character: colour to use for coastline.}
 
-\item{ice}{logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)}
+\item{ice}{logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar).}
 
-\item{ice_col}{character: colour to use for ice features}
+\item{ice_col}{character: colour to use for ice features.}
 
-\item{fronts}{logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front)}
+\item{fronts}{logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front).}
 
-\item{fronts_col}{character: colours for fronts}
+\item{fronts_col}{character: colours for fronts.}
 
-\item{border_col}{character: colours for longitude border}
+\item{border_col}{character: colours for longitude border.}
 
-\item{border_width}{numeric: thickness (in degrees of latitude) of the border}
+\item{border_width}{numeric: thickness (in degrees of latitude) of the border.}
 
-\item{graticules_col}{string: colour for graticule grid}
+\item{graticules_col}{string: colour for graticule grid.}
 }
 \value{
 An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere. Printing or plotting this object will cause it to be displayed in the current graphics device.

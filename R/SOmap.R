@@ -3,20 +3,20 @@
 #' @description
 #' Function for creating round Southern Ocean maps.
 #'
-#' @param bathy_legend logical: if \code{TRUE}, insert the bathymetry legend
-#' @param border logical: if \code{TRUE}, insert longitude border
-#' @param trim numeric: latitude to trim map to, set to -10 for effectively no trim
-#' @param graticules logical: if \code{TRUE}, insert graticule grid
-#' @param border_col character: colours for longitude border
-#' @param border_width numeric: thickness (in degrees of latitude) of the border
-#' @param graticules_col string: colour for graticule grid
-#' @param straight logical: if \code{TRUE}, leave a blank space on the side for a straight legend
-#' @param land logical: if \code{TRUE}, plot coastline
-#' @param land_col character: colour to use for coastline
-#' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)
-#' @param ice_col character: colour to use for ice features
-#' @param fronts logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front)
-#' @param fronts_col character: colours for fronts
+#' @param bathy_legend logical: if \code{TRUE}, insert the bathymetry legend.
+#' @param border logical: if \code{TRUE}, insert longitude border.
+#' @param trim numeric: latitude to trim the map to. Set this to -10 for effectively no trim.
+#' @param graticules logical: if \code{TRUE}, insert graticule grid.
+#' @param border_col character: colours for longitude border.
+#' @param border_width numeric: thickness (in degrees of latitude) of the border.
+#' @param graticules_col string: colour for graticule grid.
+#' @param straight logical: if \code{TRUE}, leave a blank space on the side for a straight legend.
+#' @param land logical: if \code{TRUE}, plot coastline.
+#' @param land_col character: colour to use for coastline.
+#' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar).
+#' @param ice_col character: colour to use for ice features.
+#' @param fronts logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front).
+#' @param fronts_col character: colours for fronts.
 #'
 #' @return An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere. Printing or plotting this object will cause it to be displayed in the current graphics device.
 #'
