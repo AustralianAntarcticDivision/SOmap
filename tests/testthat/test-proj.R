@@ -24,12 +24,21 @@ test_that("mesh points works", {
 #dput(automap_nothing())
 
 test_that("auto nothing works", {
-  set.seed(2)
-  expect_equivalent(automap_nothing(),
-                    structure(c(-71.2769712005906, 74.9547382269224, 81.9319443961065,
-                                -41.2274147906253, -48.3425192907426, -49.2859369685298),
-                              .Dim = c(3L, 2L), .Dimnames = list(NULL, c("x", "y"))),
-                    tolerance = 0.001)
+    set.seed(2)
+    if (getRversion() < "3.6.0") {
+        expect_equivalent(automap_nothing(),
+                          structure(c(-71.2769712005906, 74.9547382269224, 81.9319443961065,
+                                      -41.2274147906253, -48.3425192907426, -49.2859369685298),
+                                    .Dim = c(3L, 2L), .Dimnames = list(NULL, c("x", "y"))),
+                          tolerance = 0.001)
+    } else {
+        expect_equivalent(automap_nothing(),
+                          structure(c(-113.120607898551, -9.12177578104636, 22.8314257148454,
+                                      64.9031664206073, 148.363627839754, 165.527071137363, -52.1624040772778,
+                                      -68.0054312106626, -50.3706465095109, -52.1588634960823, -72.053785265492,
+                                      -53.2950798169202), .Dim = c(6L, 2L), .Dimnames = list(NULL, c("x", "y"))),
+                          tolerance = 0.001)
+    }
 })
 
 
