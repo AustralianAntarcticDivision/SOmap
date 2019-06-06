@@ -172,10 +172,11 @@ automap_maker <-
       ## handle cases of data across the dateline, but near -180 and near 180
       if (!is.null(llxy)) {
         xxyy <- reproj::reproj(llxy, tgt_prj, source = llproj)[, 1:2, drop = FALSE]
-        xr <- range(xxyy[,1L])
-        yr <- range(xxyy[,2L])
+        xr <- range(xxyy[,1L], na.rm = TRUE)
+        yr <- range(xxyy[,2L], na.rm = TRUE)
         target_extent <- raster::extent(xr, yr)
-        tgt_raster <- raster::crop(tgt_raster, target_extent)
+        try_raster <- try(raster::crop(tgt_raster, target_extent), silent = TRUE)
+        if (!inherits(try_raster, "try-error")) tgt_raster <- try_raster
       }
       dim(tgt_raster)<- dimXY
 
