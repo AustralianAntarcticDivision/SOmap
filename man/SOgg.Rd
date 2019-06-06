@@ -4,22 +4,28 @@
 \alias{SOgg}
 \title{Generate a ggplot2 representation of an SOmap object}
 \usage{
-SOgg(x)
+SOgg(...)
 }
 \arguments{
-\item{x}{SOmap or SOmap_auto: object as returned by \code{SOmap}, \code{SOmap2}, or \code{SOmap_auto}}
+\item{...}{: one or more objects as returned by \code{SOmap}, \code{SOmap2}, \code{SOmanagement}, or \code{SOmap_auto}}
 }
 \value{
-A ggplot object
+An object of class "SOmap_gg", "SOmanagement_gg", or "SOmap_auto_gg". Printing or plotting this object will cause it to generate a ggplot2 object, which will be returned to the user. If this object is printed or plotted (e.g. to the console) then it will be displayed in the current graphics device as is usual for ggplot2 objects.
 }
 \description{
 Note: this function is still experimental! Use at your own risk.
 }
 \examples{
 \dontrun{
+  ## generate a SOmap obkect
   p <- SOmap2(trim = -45, iwc = TRUE, iwc_labels = TRUE, graticules = TRUE, fronts = TRUE,
               mpa = TRUE, mpa_labels = TRUE)
-  SOgg(p)
+
+  ## convert this to a ggplot2-based representation
+  pg <- SOgg(p)
+
+  ## display it
+  pg
 }
 
 }
