@@ -1,87 +1,43 @@
-
-#' SOleg creating rounded legends for SOmap
+#' Rounded legends for SOmap
 #'
-#' @param x
-#' Object to obtain min and max values from for type='continuous' default=NULL
-#' @param position
-#' Where you want the legend ("topleft","topright", "bottomright")
-#' @param col
-#' Color pattern to use.
-#' @param ticks
-#' Number of ticks to include on the legend. Only used with type='continuous'
-#' @param tlabs
-#' Tick labels. Needed for type='discrete' optonal for type='continuous' if x is given
-#' @param breaks
-#' Numeric vector to create legend ticks for type='continuous' if x is given eg breaks<-c(1,2,3)
-#' @param trim
-#' Trim that was used to create the SOmap.
-#' @param label
-#' Legend label.
-#' @param type
-#' Type of legend to be plotted 'discrete' or 'continuous' default='discrete'
-#' @param ladj
-#' Distance to adjust the tick labels from the ticks. default = 0.5
-#' @param lcex
-#' Size of the tick labels. default = 0.75
-#' @param lsrt
-#' Angle of the tick labels. default = 0
-#' @param tadj
-#' Distance to adjust the title from the ticks. default = 0.5
-#' @param tcex
-#' Size of the title text. default=1
-#' @param rnd
-#' optional rounding factor for continuous legends using the round() function. default = NULL.
-#' @param border_width numeric: thickness (in degrees of latitude) of the border
+#' @param x numeric: object to obtain min and max values from for \code{type = "continuous"}.
+#' @param position string: where you want the legend ("topleft", "topright", "bottomleft", or "bottomright").
+#' @param col character: colours to use.
+#' @param ticks numeric: number of ticks to include on the legend. Only used with \code{type = "continuous"}.
+#' @param tlabs character: tick labels. Required for \code{type = "discrete"}, optional for \code{type = "continuous"} if \code{x} is given.
+#' @param breaks numeric: vector of tick positions for \code{type = "continuous"} when \code{x} is given.
+#' @param trim numeric: \code{trim} value that was used to create the SOmap object (see \code{\link{SOmap}}).
+#' @param label string: legend label.
+#' @param type string: type of legend ("discrete" or "continuous").
+#' @param ladj numeric: distance to adjust the tick labels from the ticks.
+#' @param lcex numeric: size of the tick labels.
+#' @param lsrt numeric: angle of the tick labels.
+#' @param tadj numeric: distance to adjust the title from the ticks.
+#' @param tcex numeric: size of the title text.
+#' @param rnd numeric: optional rounding factor for continuous legends using the \code{link{round}} function.
+#' @param border_width numeric: thickness (in degrees of latitude) of the border.
 #'
-#' @return
-#' Creates rounded legends
+#' @return An object of class "SOmap_legend". Printing or plotting this object will cause it to be added to the SOmap in the current graphics device.
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' SOmap()
-#' #Discrete Legend
+#'   SOmap()
 #'
-#' SOleg(position="topleft",
-#'       col=viridis::viridis(5),
-#'       tlabs = c("a","b","c","d", "e"),
-#'       trim=-45,
-#'       label="Species")
+#'   ## Discrete Legend
+#'   SOleg(position = "topleft", col = viridis::viridis(5),
+#'         tlabs = c("a", "b", "c", "d", "e"), trim = -45, label = "Species")
 #'
-#' #Continuous Legend
-#'
-#' nums<-runif(100)
-#'
-#' brks<-c(0.1,0.2,0.5,0.9)
-#'
-#' SOleg(x=nums,
-#'       position="topright",
-#'       col=viridis::viridis(80),
-#'       breaks=brks
-#'       trim=-45,
-#'       label="Species"
-#'       rnd=1,
-#'       type="continuous")
-
+#'   ## Continuous Legend
+#'   SOleg(x = runif(100), position = "topright", col = viridis::viridis(80),
+#'         breaks = c(0.1, 0.2, 0.5, 0.9), trim = -45, label = "Species",
+#'         rnd = 1, type = "continuous")
 #' }
 
-SOleg <-function(x = NULL,
-                 position = "topright",
-                 col = NULL,
-                 ticks = NULL,
-                 tlabs = NULL,
-                 breaks = NULL,
-                 trim = -45,
-                 type = "discrete",
-                 label = "",
-                 ladj = 0.5,
-                 lsrt = 0,
-                 lcex = 0.75,
-                 tadj = 0.5,
-                 tcex = 1,
-                 rnd = NULL,
-                 border_width = 2) {
+SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlabs = NULL, breaks = NULL,
+                 trim = -45, type = "discrete", label = "", ladj = 0.5, lsrt = 0, lcex = 0.75,
+                 tadj = 0.5, tcex = 1, rnd = NULL, border_width = 2) {
 
     if (is.null(col)) col <- c("#440154FF", "#3E4A89FF", "#26828EFF", "#35B779FF", "#B4DE2CFF")
 
@@ -173,14 +129,6 @@ SOleg <-function(x = NULL,
                SRT <- -45
                strt <-  5
            },
-           "topleft" = {
-               jklons <- seq(274, 356, by=1)
-               bllons <- seq(275, 355, length.out = qbins+1)
-               btlons <- seq(275+qtadjust, 355-qtadjust, length.out = qticks)
-               lablon <- 315
-               SRT <- 45
-               strt <- 275
-           },
            "bottomright" = {
                jklons <- seq(94, 176, by = 1)
                bllons <- seq(95, 175, length.out = qbins+1)
@@ -188,6 +136,22 @@ SOleg <-function(x = NULL,
                lablon <- 135
                SRT <- 45
                strt <- 95
+           },
+           "bottomleft" = {
+               jklons <- seq(184, 266, by = 1)
+               bllons <- seq(185, 265, length.out = qbins+1)
+               btlons <- seq(185+qtadjust, 265-qtadjust, length.out = qticks)
+               lablon <- 225
+               SRT <- -45
+               strt <- 185
+           },
+           "topleft" = {
+               jklons <- seq(274, 356, by=1)
+               bllons <- seq(275, 355, length.out = qbins+1)
+               btlons <- seq(275+qtadjust, 355-qtadjust, length.out = qticks)
+               lablon <- 315
+               SRT <- 45
+               strt <- 275
            }
            )
 
@@ -219,12 +183,14 @@ SOleg <-function(x = NULL,
     lab_pos3 <- sp::spTransform(df3, raster::crs(raster::projection(Bathy)))
 
     structure(list(
-        mask = list(data = j, col = "white", border = FALSE),
-        ticks = list(data = btick, col = "black"),
-        legend = list(data = bleg, lwd = 2, border = FALSE, col = cols),
-        mask2 = list(data = k, border = FALSE, col = "white"),
-        tick_labels = list(data = lab_pos2, cex = lcex, adj = ladj, srt = lsrt),
-        legend_labels = list(data = lab_pos3, cex = tcex, adj = tadj, srt = SRT)
+        plot_sequence = c("mask", "ticks", "legend", "mask2", "tick_labels", "legend_labels"),
+        mask = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = j, col = "white", border = FALSE, add = TRUE))),
+        ticks = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = btick, col = "black", add = TRUE))),
+        legend = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, lwd = 2, add = TRUE)),
+                      as_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, border = FALSE, col = cols, add = TRUE))),
+        mask2 = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = k, border = FALSE, col = "white", add = TRUE))),
+        tick_labels = list(as_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = lcex, adj = ladj, srt = lsrt))),
+        legend_labels = list(as_plotter(plotfun = "text", plotargs = list(x = lab_pos3, labels = lab_pos3$a, cex = tcex, adj = tadj, srt = SRT)))
     ), class = "SOmap_legend")
 }
 
@@ -238,16 +204,10 @@ plot.SOmap_legend <- function (x, y, ...) {
 #' @method print SOmap_legend
 #' @export
 print.SOmap_legend <- function(x, ...) {
-    raster::plot(x$mask$data, border = x$mask$border, col = x$mask$col, add = TRUE) ## mask
-    raster::plot(x$ticks$data, add = TRUE, col = x$ticks$col)
-    raster::plot(x$legend$data, lwd = x$legend$lwd, add = TRUE)
-    raster::plot(x$legend$data, border = x$legend$border,  col = x$legend$col, add = TRUE)
-    raster::plot(x$mask2$data, border = x$mask2$border, col = x$mask2$col, add = TRUE)
-    text(x$tick_labels$data, labels = x$tick_labels$data$a, cex =  x$tick_labels$cex, adj = x$tick_labels$adj, srt = x$tick_labels$srt)
-    text(x$legend_labels$data, labels = x$legend_labels$data$a, cex =  x$legend_labels$cex, adj = x$legend_labels$adj, srt = x$legend_labels$srt)
-    ## Need to set SRT during the position if statements.
+    plot_all(x)
     invisible(x)
 }
+
 
 #Notes for further development.
 #If we use raster::plot(x$ticks$data[x$ticks$data$id %in% c(1:(length(x$ticks$data$id)-1))], add = TRUE, col = x$ticks$col) we should be able to remove the mask2 option.

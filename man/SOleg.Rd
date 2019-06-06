@@ -2,7 +2,7 @@
 % Please edit documentation in R/SOleg.R
 \name{SOleg}
 \alias{SOleg}
-\title{SOleg creating rounded legends for SOmap}
+\title{Rounded legends for SOmap}
 \usage{
 SOleg(x = NULL, position = "topright", col = NULL, ticks = NULL,
   tlabs = NULL, breaks = NULL, trim = -45, type = "discrete",
@@ -10,68 +10,55 @@ SOleg(x = NULL, position = "topright", col = NULL, ticks = NULL,
   tcex = 1, rnd = NULL, border_width = 2)
 }
 \arguments{
-\item{x}{Object to obtain min and max values from for type='continuous' default=NULL}
+\item{x}{numeric: object to obtain min and max values from for \code{type = "continuous"}.}
 
-\item{position}{Where you want the legend ("topleft","topright", "bottomright")}
+\item{position}{string: where you want the legend ("topleft", "topright", "bottomleft", or "bottomright").}
 
-\item{col}{Color pattern to use.}
+\item{col}{character: colours to use.}
 
-\item{ticks}{Number of ticks to include on the legend. Only used with type='continuous'}
+\item{ticks}{numeric: number of ticks to include on the legend. Only used with \code{type = "continuous"}.}
 
-\item{tlabs}{Tick labels. Needed for type='discrete' optonal for type='continuous' if x is given}
+\item{tlabs}{character: tick labels. Required for \code{type = "discrete"}, optional for \code{type = "continuous"} if \code{x} is given.}
 
-\item{breaks}{Numeric vector to create legend ticks for type='continuous' if x is given eg breaks<-c(1,2,3)}
+\item{breaks}{numeric: vector of tick positions for \code{type = "continuous"} when \code{x} is given.}
 
-\item{trim}{Trim that was used to create the SOmap.}
+\item{trim}{numeric: \code{trim} value that was used to create the SOmap object (see \code{\link{SOmap}}).}
 
-\item{type}{Type of legend to be plotted 'discrete' or 'continuous' default='discrete'}
+\item{type}{string: type of legend ("discrete" or "continuous").}
 
-\item{label}{Legend label.}
+\item{label}{string: legend label.}
 
-\item{ladj}{Distance to adjust the tick labels from the ticks. default = 0.5}
+\item{ladj}{numeric: distance to adjust the tick labels from the ticks.}
 
-\item{lsrt}{Angle of the tick labels. default = 0}
+\item{lsrt}{numeric: angle of the tick labels.}
 
-\item{lcex}{Size of the tick labels. default = 0.75}
+\item{lcex}{numeric: size of the tick labels.}
 
-\item{tadj}{Distance to adjust the title from the ticks. default = 0.5}
+\item{tadj}{numeric: distance to adjust the title from the ticks.}
 
-\item{tcex}{Size of the title text. default=1}
+\item{tcex}{numeric: size of the title text.}
 
-\item{rnd}{optional rounding factor for continuous legends using the round() function. default = NULL.}
+\item{rnd}{numeric: optional rounding factor for continuous legends using the \code{link{round}} function.}
 
-\item{border_width}{numeric: thickness (in degrees of latitude) of the border}
+\item{border_width}{numeric: thickness (in degrees of latitude) of the border.}
 }
 \value{
-Creates rounded legends
+An object of class "SOmap_legend". Printing or plotting this object will cause it to be added to the SOmap in the current graphics device.
 }
 \description{
-SOleg creating rounded legends for SOmap
+Rounded legends for SOmap
 }
 \examples{
 \dontrun{
-SOmap()
-#Discrete Legend
+  SOmap()
 
-SOleg(position="topleft",
-      col=viridis::viridis(5),
-      tlabs = c("a","b","c","d", "e"),
-      trim=-45,
-      label="Species")
+  ## Discrete Legend
+  SOleg(position = "topleft", col = viridis::viridis(5),
+        tlabs = c("a", "b", "c", "d", "e"), trim = -45, label = "Species")
 
-#Continuous Legend
-
-nums<-runif(100)
-
-brks<-c(0.1,0.2,0.5,0.9)
-
-SOleg(x=nums,
-      position="topright",
-      col=viridis::viridis(80),
-      breaks=brks
-      trim=-45,
-      label="Species"
-      rnd=1,
-      type="continuous")
+  ## Continuous Legend
+  SOleg(x = runif(100), position = "topright", col = viridis::viridis(80),
+        breaks = c(0.1, 0.2, 0.5, 0.9), trim = -45, label = "Species",
+        rnd = 1, type = "continuous")
 }
 }
