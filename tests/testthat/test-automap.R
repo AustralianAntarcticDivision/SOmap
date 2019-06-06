@@ -31,6 +31,15 @@ expect_s3_class(tst, "SOmap_auto")
     vdiffr::expect_doppelganger("SOmap_auto basic", disp_auto_map)
 })
 
+
+test_that("check sp", {
+  skip()
+  #gr <- as(graticule::graticule(seq(100, 180, by = 5), seq(-70, -30, by = 8)),
+  #         "SpatialPoints")
+
+  #SOmap_auto(gr)
+
+})
 disp_resblocks <- function() plot(SOmap_auto(SOmap_data$CCAMLR_research_blocks[c(1, 4, 5), ]))
 test_that("auto map plots polygons", {
     skip("skipping vdiffr tests temporarily")
