@@ -103,6 +103,53 @@ SOmap_auto(x=c(10,60), y=c(-40,-70))
 SOmap_auto(x=c(10,60), y=c(-40,-70), trim_background = FALSE)
 
 
+```
+
+```{r examples18, eval = TRUE}
+x <- cbind(c(runif(50, -180, -160), runif(50, 160, 180)), runif(100, -65, -30))
+
+SOmap_auto(x)
+```
 
 
+```{r examples19, eval = TRUE}
+x <- cbind(c(runif(50, -180, -130), runif(50, 160, 180)), runif(100, -65, -30))
+
+SOmap_auto(x)
+```
+
+```{r examples20, eval = TRUE}
+x <- cbind(c(runif(50, -180, -130), runif(50, 130, 180)), runif(100, -65, -30))
+SOmap_auto(x)
+```
+
+```{r examples21, eval = TRUE}
+x <- cbind(c(runif(50, -180, -160), runif(50, 130, 180)), runif(100, -65, -30))
+SOmap_auto(x)
+```
+
+
+
+
+```{r examples22, eval = TRUE}
+x <- cbind(c(runif(50, -180, -160), runif(50, 160, 180)), runif(100, -85, -50))
+
+SOmap_auto(x)
+```
+
+
+```{r examples23, eval = TRUE}
+x <- cbind(c(runif(50, -180, -130), runif(50, 160, 180)), runif(100, -85, -50))
+
+SOmap_auto(x)
+```
+
+```{r examples24, eval = TRUE}
+x <- cbind(c(runif(50, -180, -130), runif(50, 130, 180)), runif(100, -85, -50))
+SOmap_auto(x)
+```
+
+```{r examples25, eval = TRUE}
+x <- cbind(c(runif(50, -180, -160), runif(50, 130, 180)), runif(100, -85, -50))
+SOmap_auto(x)
 ```
