@@ -1,3 +1,18 @@
+# 0.4.0
+
+## BREAKING
+
+* parameter names to many functions have been changed, to make them case- and style-consistent
+
+* `SOauto_map` renamed to `SOmap_auto` for consistency
+
+## CHANGES
+
+* refactored ggplot code
+
+* improved `SOmap_auto` functionality
+
+
 # SOmap 0.2.1.9005
 
 ## BREAKING
