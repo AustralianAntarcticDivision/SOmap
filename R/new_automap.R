@@ -174,9 +174,12 @@ automap_maker <-
         xxyy <- reproj::reproj(llxy, tgt_prj, source = llproj)[, 1:2, drop = FALSE]
         xr <- range(xxyy[,1L], na.rm = TRUE)
         yr <- range(xxyy[,2L], na.rm = TRUE)
-        target_extent <- raster::extent(xr, yr)
-        try_raster <- try(raster::crop(tgt_raster, target_extent), silent = TRUE)
-        if (!inherits(try_raster, "try-error")) tgt_raster <- try_raster
+        target_extent <- try(raster::extent(xr, yr), silent = TRUE)
+        ## FIXME too ugly
+        if (!inherits(target_extent, "try-error")) {
+          try_raster <- try(raster::crop(tgt_raster, target_extent), silent = TRUE)
+          if (!inherits(try_raster, "try-error")) tgt_raster <- try_raster
+        }
       }
       dim(tgt_raster)<- dimXY
 
