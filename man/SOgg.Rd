@@ -26,6 +26,24 @@ Note: this function is still experimental! Use at your own risk.
 
   ## display it
   pg
+
+  ## we can see that this object has a bunch of ggplot code embedded inside of it
+  str(pg)
+
+  ## and that code can be modified if desired
+  ## e.g. change the bathymetry colours
+  pg$scale_fill[[1]]$plotargs$colours <- topo.colors(21)
+  ## plot it
+  pg
+
+  ## when the print or plot method is called on pg, it creates an actual ggplot2
+  ##  object, which we can capture and modify
+  pg_gg <- plot(pg)
+  class(pg_gg)
+
+  ## modifying this is done in the same way any other ggplot object is modified
+  ## e.g. add a new scale_fill_gradientn to override the existing one
+  pg_gg + ggplot2::scale_fill_gradientn(colours = heat.colors(21))
 }
 
 }

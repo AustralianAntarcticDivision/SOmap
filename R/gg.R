@@ -17,6 +17,24 @@
 #'
 #'   ## display it
 #'   pg
+#'
+#'   ## we can see that this object has a bunch of ggplot code embedded inside of it
+#'   str(pg)
+#'
+#'   ## and that code can be modified if desired
+#'   ## e.g. change the bathymetry colours
+#'   pg$scale_fill[[1]]$plotargs$colours <- topo.colors(21)
+#'   ## plot it
+#'   pg
+#'
+#'   ## when the print or plot method is called on pg, it creates an actual ggplot2
+#'   ##  object, which we can capture and modify
+#'   pg_gg <- plot(pg)
+#'   class(pg_gg)
+#'
+#'   ## modifying this is done in the same way any other ggplot object is modified
+#'   ## e.g. add a new scale_fill_gradientn to override the existing one
+#'   pg_gg + ggplot2::scale_fill_gradientn(colours = heat.colors(21))
 #' }
 #'
 #' @export
@@ -70,13 +88,13 @@ uglymerge <- function(xl) {
 #' @method plot SOmap_gg
 #' @export
 plot.SOmap_gg <- function (x, y, ...) {
-    print(x)
+    plot_all_gg(x)
 }
 
 #' @method print SOmap_gg
 #' @export
 print.SOmap_gg <- function(x, ...) {
-    print(plot_all_gg(x))
+    print(plot(x))
 }
 
 ## iterate through the object's plot_sequence vector, running the plotfun with plotargs for each
@@ -117,10 +135,10 @@ SOgg_notauto <- function(x) {
     out <- x[intersect(names(x), c("projection", "target", "straight", "trim"))]
     out$init <- list(as_plotter(plotfun = "ggplot2::ggplot", plotargs = list(data = bdf, mapping = aes_string(x = "x", y = "y"))))
     out$bathy <- list(as_plotter(plotfun = "ggplot2::geom_raster", plotargs = list(mapping = aes_string(fill = "Depth"))))
-    out$coord <- as_plotter(plotfun = coord_sf, plotargs = list(default = TRUE))
+    out$coord <- list(as_plotter(plotfun = coord_sf, plotargs = list(default = TRUE)))
     out$plot_sequence <- c("init", "bathy", "coord")
 
-    out$scale_fill <- as_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE))
+    out$scale_fill <- list(as_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy$plotargs$col, na.value = "#FFFFFF00", guide = FALSE)))
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
 
     if (!is.null(x$bathy_legend)) {
@@ -147,13 +165,13 @@ SOgg_notauto <- function(x) {
         ## masking (using e.g. x$bathy_legend$mask$graticule) is likely to be problematic because of z-ordering
         ## TODO check that this trimming is robust
         this <- suppressWarnings(sf::st_intersection(buf, x$coastline$plotargs$x))
-        out$coastline <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$plotargs$col, col = x$coastline$plotargs$border, inherit.aes = FALSE))
+        out$coastline <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$plotargs$col, col = x$coastline$plotargs$border, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
     if (!is.null(x$ice)) {
         ## TODO check that this trimming is robust
         this <- suppressWarnings(sf::st_intersection(buf, x$ice$plotargs$x))
-        out$ice <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice$plotargs$col, col = x$ice$plotargs$border, inherit.aes = FALSE))
+        out$ice <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice$plotargs$col, col = x$ice$plotargs$border, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "ice")
     }
 
@@ -163,7 +181,7 @@ SOgg_notauto <- function(x) {
         this <- suppressWarnings(sf::st_intersection(buf, this))
         thiscol <- rep(x$fronts$plotargs$col, ceiling(nrow(this)/length(x$fronts$plotargs$col)))
         thiscol <- thiscol[seq_len(nrow(this))]
-        out$fronts <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = thiscol, inherit.aes = FALSE))
+        out$fronts <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = thiscol, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "fronts")
     }
 
@@ -181,13 +199,13 @@ SOgg_notauto <- function(x) {
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
 
-    out$axis_labels <- as_plotter(plotfun = "ggplot2::labs", plotargs = list())
+    out$axis_labels <- list(as_plotter(plotfun = "ggplot2::labs", plotargs = list()))
     out$plot_sequence <- c(out$plot_sequence, "axis_labels")
-    out$theme <- as_plotter(plotfun = "ggplot2::theme", plotargs = list(axis.title = element_blank(),
+    out$theme <- list(as_plotter(plotfun = "ggplot2::theme", plotargs = list(axis.title = element_blank(),
                             axis.text.x = element_blank(), axis.ticks.x = element_blank(),
                             axis.text.y = element_blank(), axis.ticks.y = element_blank(),
                             panel.border = element_blank(),
-                            panel.background = element_blank()))
+                            panel.background = element_blank())))
     out$plot_sequence <- c(out$plot_sequence, "theme")
 
 
@@ -377,49 +395,49 @@ SOgg_auto <- function(x) {
     out <- x[intersect(names(x), c("projection", "target", "straight", "trim"))]
     out$init <- list(as_plotter(plotfun = "ggplot2::ggplot", plotargs = list(data = bdf, mapping = aes_string(x = "Longitude", y = "Latitude"))))
     out$bathy <- list(as_plotter(plotfun = "ggplot2::geom_raster", plotargs = list(mapping = aes_string(fill = "Depth"))))
-    out$coord <- as_plotter(plotfun = coord_sf, plotargs = list(default = TRUE))
+    out$coord <- list(as_plotter(plotfun = coord_sf, plotargs = list(default = TRUE)))
     out$plot_sequence <- c("init", "bathy", "coord")
 
-    out$scale_fill <- as_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy_palette, na.value = "#FFFFFF00"))
+    out$scale_fill <- list(as_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy_palette, na.value = "#FFFFFF00")))
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
 
     if (!is.null(x$coastline)) {
         this <- suppressWarnings(sf::st_as_sf(x$coastline$data))
-        out$coastline <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$fillcol, col = x$coastline$linecol, inherit.aes = FALSE))
+        out$coastline <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$fillcol, col = x$coastline$linecol, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
     if (!is.null(x$ice)) {
         this <- suppressWarnings(sf::st_as_sf(x$ice$data))
-        out$ice <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice$fillcol, col = x$ice$linecol, inherit.aes = FALSE))
+        out$ice <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice$fillcol, col = x$ice$linecol, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "ice")
     }
     if (x$contours) {
         this <- suppressWarnings(sf::st_as_sf(x$coastline$data))
-        out$contours <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$fillcol, col = x$coastline$linecol, inherit.aes = FALSE))
+        out$contours <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$fillcol, col = x$coastline$linecol, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "contours")
 
     }
 
     if (!is.null(x$graticule)) {
-        out$graticule <- as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = x$graticule, col = "grey", inherit.aes = FALSE))
+        out$graticule <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = x$graticule, col = "grey", inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
 
     if(!is.null(x$lines_data)) {
-        out$lines_data <- as_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = setNames(as.data.frame(x$lines_data), c("x", "y")), aes_string(x = "x", y = "y"), col = x$lcol, linetype = x$llty, size = x$llwd))
+        out$lines_data <- list(as_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = setNames(as.data.frame(x$lines_data), c("x", "y")), aes_string(x = "x", y = "y"), col = x$lcol, linetype = x$llty, size = x$llwd)))
         out$plot_sequence <- c(out$plot_sequence, "lines_data")
     }
 
     if(!is.null(x$points_data)) {
-        out$points_data <- as_plotter(plotfun = "ggplot2::geom_point", plotargs = list(data = setNames(as.data.frame(x$points_data), c("x", "y")), aes_string(x = "x", y = "y"), col = x$pcol, shape = x$ppch, size = x$pcex))
+        out$points_data <- list(as_plotter(plotfun = "ggplot2::geom_point", plotargs = list(data = setNames(as.data.frame(x$points_data), c("x", "y")), aes_string(x = "x", y = "y"), col = x$pcol, shape = x$ppch, size = x$pcex)))
         out$plot_sequence <- c(out$plot_sequence, "points_data")
     }
 
-    out$theme <- as_plotter(plotfun = "ggplot2::theme", plotargs = list(axis.title = element_blank(), panel.border = element_rect(color = "black", fill = NA),
-                    panel.background = element_blank(), axis.text.x = element_text(angle = 90, vjust = 0.5)))
+    out$theme <- list(as_plotter(plotfun = "ggplot2::theme", plotargs = list(axis.title = element_blank(), panel.border = element_rect(color = "black", fill = NA),
+                    panel.background = element_blank(), axis.text.x = element_text(angle = 90, vjust = 0.5))))
     out$plot_sequence <- c(out$plot_sequence, "theme")
-    out$scale_x <- as_plotter(plotfun = "ggplot2::scale_x_continuous", plotargs = list(expand = c(0, 0)))
-    out$scale_y <- as_plotter(plotfun = "ggplot2::scale_y_continuous", plotargs = list(expand = c(0, 0)))
+    out$scale_x <- list(as_plotter(plotfun = "ggplot2::scale_x_continuous", plotargs = list(expand = c(0, 0))))
+    out$scale_y <- list(as_plotter(plotfun = "ggplot2::scale_y_continuous", plotargs = list(expand = c(0, 0))))
     out$plot_sequence <- c(out$plot_sequence, "scale_x", "scale_y")
 
     structure(out, class = "SOmap_auto_gg")
@@ -428,11 +446,11 @@ SOgg_auto <- function(x) {
 #' @method plot SOmap_auto_gg
 #' @export
 plot.SOmap_auto_gg <- function (x, y, ...) {
-    print(x)
+    plot_all_gg(x)
 }
 
 #' @method print SOmap_auto_gg
 #' @export
 print.SOmap_auto_gg <- function(x, ...) {
-    print(plot_all_gg(x))
+    print(plot(x))
 }
