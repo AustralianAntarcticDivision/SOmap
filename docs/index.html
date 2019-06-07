@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -95,113 +95,113 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The development version from <a href="https://github.com/AustralianAntarcticDivision/SOmap">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">## install.packages("remotes") ## if needed</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"AustralianAntarcticDivision/SOmap"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co">## install.packages("remotes") ## if needed</span></a>
+<a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"AustralianAntarcticDivision/SOmap"</span>)</a></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>To make a simple map you can use the following function; use <code><a href="reference/SOmap.html">? SOmap</a></code> to see all the options for modifying layers.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SOmap)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="reference/SOmap.html">SOmap</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SOmap)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="reference/SOmap.html">SOmap</a></span>()</a></code></pre></div>
 <p><img src="reference/figures/README-examplemap-1.png" width="100%"></p>
 <p>There is also <code><a href="reference/SOmanagement.html">SOmanagement()</a></code> which provides management layers for the Southern Ocean and <code><a href="reference/SOleg.html">SOleg()</a></code> which gives custom rounded legends for added map layers.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## custom colours</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">spiritedMedium &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/colorRamp">colorRampPalette</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#4D4140"</span>, <span class="st">"#596F7E"</span>, <span class="st">"#168B98"</span>,</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">                                     <span class="st">"#ED5B67"</span>, <span class="st">"#E27766"</span>, <span class="st">"#DAAD50"</span>, <span class="st">"#EAC3A6"</span>))</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">spirited &lt;-<span class="st"> </span><span class="kw">spiritedMedium</span>(<span class="dv">80</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="reference/SOmap.html">SOmap</a></span>(<span class="dt">trim =</span> <span class="dv">-40</span>)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## add an example sea ice raster, which is bundled with SOmap</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(ice, <span class="dt">col =</span> spirited, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> <span class="fl">0.95</span>)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="reference/SOleg.html">SOleg</a></span>(ice, <span class="dt">position =</span> <span class="st">"topright"</span>, <span class="dt">col =</span> spirited, <span class="dt">ticks =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">      <span class="dt">tlabs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"0"</span>, <span class="st">"20"</span>, <span class="st">"40"</span>, <span class="st">"60"</span>, <span class="st">"80"</span>, <span class="st">"100"</span>),</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">      <span class="dt">trim =</span> <span class="dv">-40</span>, <span class="dt">label =</span> <span class="st">"Sea Ice"</span>, <span class="dt">type =</span> <span class="st">"continuous"</span>)</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">## add the exclusive economic zones management layer</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="kw"><a href="reference/SOmanagement.html">SOmanagement</a></span>(<span class="dt">eez =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co">## custom colours</span></a>
+<a class="sourceLine" id="cb3-2" title="2">spiritedMedium &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/colorRamp">colorRampPalette</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#4D4140"</span>, <span class="st">"#596F7E"</span>, <span class="st">"#168B98"</span>,</a>
+<a class="sourceLine" id="cb3-3" title="3">                                     <span class="st">"#ED5B67"</span>, <span class="st">"#E27766"</span>, <span class="st">"#DAAD50"</span>, <span class="st">"#EAC3A6"</span>))</a>
+<a class="sourceLine" id="cb3-4" title="4">spirited &lt;-<span class="st"> </span><span class="kw">spiritedMedium</span>(<span class="dv">80</span>)</a>
+<a class="sourceLine" id="cb3-5" title="5"></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="kw"><a href="reference/SOmap.html">SOmap</a></span>(<span class="dt">trim =</span> <span class="dv">-40</span>)</a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">## add an example sea ice raster, which is bundled with SOmap</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(ice, <span class="dt">col =</span> spirited, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> <span class="fl">0.95</span>)</a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="kw"><a href="reference/SOleg.html">SOleg</a></span>(ice, <span class="dt">position =</span> <span class="st">"topright"</span>, <span class="dt">col =</span> spirited, <span class="dt">ticks =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb3-10" title="10">      <span class="dt">tlabs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"0"</span>, <span class="st">"20"</span>, <span class="st">"40"</span>, <span class="st">"60"</span>, <span class="st">"80"</span>, <span class="st">"100"</span>),</a>
+<a class="sourceLine" id="cb3-11" title="11">      <span class="dt">trim =</span> <span class="dv">-40</span>, <span class="dt">label =</span> <span class="st">"Sea Ice"</span>, <span class="dt">type =</span> <span class="st">"continuous"</span>)</a>
+<a class="sourceLine" id="cb3-12" title="12"></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">## add the exclusive economic zones management layer</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="kw"><a href="reference/SOmanagement.html">SOmanagement</a></span>(<span class="dt">eez =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-management-1.png" width="100%"></p>
 <p>Curved legends can be either continuous (as above) or discrete.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">spirited8 &lt;-<span class="st"> </span><span class="kw">spiritedMedium</span>(<span class="dv">8</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="reference/SOmap.html">SOmap</a></span>()</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(centroids, <span class="dt">col=</span>spirited8, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">19</span>)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="reference/SOleg.html">SOleg</a></span>(centroids,<span class="dt">position =</span> <span class="st">"topright"</span>, <span class="dt">col =</span> spirited8, <span class="dt">ticks =</span> <span class="dv">8</span>,</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">      <span class="dt">tlabs =</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span>, <span class="dt">label =</span> <span class="st">"Centroids"</span>, <span class="dt">type =</span> <span class="st">"discrete"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">spirited8 &lt;-<span class="st"> </span><span class="kw">spiritedMedium</span>(<span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw"><a href="reference/SOmap.html">SOmap</a></span>()</a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(centroids, <span class="dt">col=</span>spirited8, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="kw"><a href="reference/SOleg.html">SOleg</a></span>(centroids,<span class="dt">position =</span> <span class="st">"topright"</span>, <span class="dt">col =</span> spirited8, <span class="dt">ticks =</span> <span class="dv">8</span>,</a>
+<a class="sourceLine" id="cb4-6" title="6">      <span class="dt">tlabs =</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span>, <span class="dt">label =</span> <span class="st">"Centroids"</span>, <span class="dt">type =</span> <span class="st">"discrete"</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-SOleg-1.png" width="100%"></p>
 <p>An <strong>automatic</strong> plot function <code><a href="reference/SOmap_auto.html">SOmap_auto()</a></code> will take any data in the form of longitude and latitude vectors and create a guess at a map.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">ellie &lt;-<span class="st"> </span>SOmap_data<span class="op">$</span>mirounga_leonina</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">## construct and plot the map</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(ellie<span class="op">$</span>lon, ellie<span class="op">$</span>lat)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">ellie &lt;-<span class="st"> </span>SOmap_data<span class="op">$</span>mirounga_leonina</a>
+<a class="sourceLine" id="cb5-2" title="2"></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">## construct and plot the map</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(ellie<span class="op">$</span>lon, ellie<span class="op">$</span>lat)</a></code></pre></div>
 <p><img src="reference/figures/README-automap-1.png" width="100%"></p>
 <p>The <code><a href="reference/SOmap_auto.html">SOmap_auto()</a></code>, <code><a href="reference/SOmap.html">SOmap()</a></code>, and <code><a href="reference/SOmap2.html">SOmap2()</a></code> functions return the data used to make the map so that further customization can be made. Plotting or printing the returned object will cause the map to be displayed in the graphics device.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"albatross"</span>, <span class="dt">package =</span> <span class="st">"adehabitatLT"</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">## convert the albatross data to a single matrix of lon, lat points</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">albatrack &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/do.call">do.call</a></span>(rbind, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(albatross, <span class="cf">function</span>(z) rgdal<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgdal/topics/project">project</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">as.matrix</a></span>(z[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"x"</span>, <span class="st">"y"</span>)]), <span class="ot">NA</span>), <span class="st">"+proj=utm +zone=42 +south +datum=WGS84"</span>, <span class="dt">inv =</span> <span class="ot">TRUE</span>)))</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">## construct the map and return it, but don't plot it</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">alb_map &lt;-<span class="st"> </span><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(albatrack[, <span class="dv">1</span>], albatrack[, <span class="dv">2</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"albatross"</span>, <span class="dt">package =</span> <span class="st">"adehabitatLT"</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">## convert the albatross data to a single matrix of lon, lat points</span></a>
+<a class="sourceLine" id="cb6-3" title="3">albatrack &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/do.call">do.call</a></span>(rbind, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(albatross, <span class="cf">function</span>(z) rgdal<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgdal/topics/project">project</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">as.matrix</a></span>(z[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"x"</span>, <span class="st">"y"</span>)]), <span class="ot">NA</span>), <span class="st">"+proj=utm +zone=42 +south +datum=WGS84"</span>, <span class="dt">inv =</span> <span class="ot">TRUE</span>)))</a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">## construct the map and return it, but don't plot it</span></a>
+<a class="sourceLine" id="cb6-6" title="6">alb_map &lt;-<span class="st"> </span><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(albatrack[, <span class="dv">1</span>], albatrack[, <span class="dv">2</span>])</a></code></pre></div>
 <p>Modifying this map object is currently a rather experimental process (proceed at your own risk!) but, for example, if we wished to change the points to be blue rather than red:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">alb_map<span class="op">$</span>pcol &lt;-<span class="st"> "blue"</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">## plot it</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">alb_map</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">alb_map<span class="op">$</span>pcol &lt;-<span class="st"> "blue"</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">## plot it</span></a>
+<a class="sourceLine" id="cb7-3" title="3">alb_map</a></code></pre></div>
 <p><img src="reference/figures/README-automap3-1.png" width="100%"></p>
 <p>We could also decide we want a reversed bathymetry color and cyan lines between the dots.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># change the line color </span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">alb_map<span class="op">$</span>lcol &lt;-<span class="st"> "cyan"</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co"># reverse the bathymetry</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">alb_map<span class="op">$</span>bathy_palette&lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rev">rev</a></span>(alb_map<span class="op">$</span>bathy_palette)</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">## plot it</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">alb_map</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># change the line color </span></a>
+<a class="sourceLine" id="cb8-2" title="2">alb_map<span class="op">$</span>lcol &lt;-<span class="st"> "cyan"</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co"># reverse the bathymetry</span></a>
+<a class="sourceLine" id="cb8-4" title="4">alb_map<span class="op">$</span>bathy_palette&lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rev">rev</a></span>(alb_map<span class="op">$</span>bathy_palette)</a>
+<a class="sourceLine" id="cb8-5" title="5"></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">## plot it</span></a>
+<a class="sourceLine" id="cb8-7" title="7">alb_map</a></code></pre></div>
 <p><img src="reference/figures/README-automap4-1.png" width="100%"></p>
 <p>Objects from <code>sf</code> or <code>sp</code> may also be used. (If a “raster” is given it is used only for its extent.)</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">## use the bundled fronts data as an example</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">mydata &lt;-<span class="st"> </span>SOmap_data<span class="op">$</span>fronts_orsi</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(mydata, <span class="dt">target =</span> <span class="st">"laea"</span>, <span class="dt">centre_lon =</span> <span class="dv">147</span>, <span class="dt">input_points =</span> <span class="ot">FALSE</span>, <span class="dt">lcol =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="co">## use the bundled fronts data as an example</span></a>
+<a class="sourceLine" id="cb9-2" title="2">mydata &lt;-<span class="st"> </span>SOmap_data<span class="op">$</span>fronts_orsi</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(mydata, <span class="dt">target =</span> <span class="st">"laea"</span>, <span class="dt">centre_lon =</span> <span class="dv">147</span>, <span class="dt">input_points =</span> <span class="ot">FALSE</span>, <span class="dt">lcol =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-automap-spatial-1.png" width="100%"></p>
 </div>
 <div id="easy-projections" class="section level2">
 <h2 class="hasAnchor">
 <a href="#easy-projections" class="anchor"></a>Easy projections</h2>
 <p><code>SOmap</code> goes with the philosophy “we actually rather like ourselves, and care about our experience” and so there are some easy ways to work with projections, and <quote>just map it!</quote>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">amap &lt;-<span class="st"> </span><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="dt">input_points =</span> <span class="ot">FALSE</span>, <span class="dt">input_lines =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">amap</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2">amap &lt;-<span class="st"> </span><span class="kw"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="dt">input_points =</span> <span class="ot">FALSE</span>, <span class="dt">input_lines =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb10-3" title="3">amap</a></code></pre></div>
 <p><img src="reference/figures/README-auto-setup-1.png" width="100%"></p>
 <p>To add data to this plot we can just do so.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">amap</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="reference/SOplot.html">SOplot</a></span>(SOmap_data<span class="op">$</span>seaice_oct, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">"blue"</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">amap</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw"><a href="reference/SOplot.html">SOplot</a></span>(SOmap_data<span class="op">$</span>seaice_oct, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="st">"blue"</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-just-map-it-1.png" width="100%"></p>
 <p><code><a href="reference/SOplot.html">SOplot()</a></code> will add data by default, and can take spatial objects or even raw longitude and latitude values (we like you). When a plot is set up the <em>coordinate reference system</em> used is recorded so that we can use it again.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(amap)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="reference/SOplot.html">SOplot</a></span>(SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lon, SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lat)</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; No projection provided, assuming longlat</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(amap)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="kw"><a href="reference/SOplot.html">SOplot</a></span>(SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lon, SOmap_data<span class="op">$</span>mirounga_leonina<span class="op">$</span>lat)</a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co">#&gt; No projection provided, assuming longlat</span></a></code></pre></div>
 <p><img src="reference/figures/README-add-it-1.png" width="100%"></p>
 <p>The projection <em>currently in use</em> is always available by running <code><a href="reference/SOcrs.html">SOcrs()</a></code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="reference/SOcrs.html">SOcrs</a></span>()</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="reference/SOcrs.html">SOcrs</a></span>()</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></a></code></pre></div>
 <p>Many objects can be reprojected with <code><a href="reference/SOproj.html">SOproj()</a></code>, including the map objects themselves.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">prj &lt;-<span class="st"> "+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">## reproject a raster</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="kw"><a href="reference/SOproj.html">SOproj</a></span>(ice, <span class="dt">target =</span> prj)</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; class      : RasterLayer </span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; dimensions : 342, 326, 111492  (nrow, ncol, ncell)</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; resolution : 32837.52, 31606.02  (x, y)</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; source     : memory</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt; names      : nt_20181015_f18_nrt_s.bin </span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; values     : 1.015509, 100  (min, max)</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">## reproject a SOmap</span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="kw"><a href="reference/SOproj.html">SOproj</a></span>(amap, <span class="dt">target =</span> prj)</a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; Warning in SOproj(amap, target = prj): assuming generic data is in</span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; longitude,latitude</span></a>
-<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt; Warning in reproj.SOmap_auto(x, target = target, source = source): source</span></a>
-<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt; ignored, should be NULL for SOmap objects</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"></a>
+<a class="sourceLine" id="cb14-2" title="2">prj &lt;-<span class="st"> "+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co">## reproject a raster</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="kw"><a href="reference/SOproj.html">SOproj</a></span>(ice, <span class="dt">target =</span> prj)</a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co">#&gt; class      : RasterLayer </span></a>
+<a class="sourceLine" id="cb14-6" title="6"><span class="co">#&gt; dimensions : 342, 326, 111492  (nrow, ncol, ncell)</span></a>
+<a class="sourceLine" id="cb14-7" title="7"><span class="co">#&gt; resolution : 32837.52, 31606.02  (x, y)</span></a>
+<a class="sourceLine" id="cb14-8" title="8"><span class="co">#&gt; extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb14-9" title="9"><span class="co">#&gt; crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span></a>
+<a class="sourceLine" id="cb14-10" title="10"><span class="co">#&gt; source     : memory</span></a>
+<a class="sourceLine" id="cb14-11" title="11"><span class="co">#&gt; names      : nt_20181015_f18_nrt_s.bin </span></a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="co">#&gt; values     : 1.015509, 100  (min, max)</span></a>
+<a class="sourceLine" id="cb14-13" title="13"></a>
+<a class="sourceLine" id="cb14-14" title="14"><span class="co">## reproject a SOmap</span></a>
+<a class="sourceLine" id="cb14-15" title="15"><span class="kw"><a href="reference/SOproj.html">SOproj</a></span>(amap, <span class="dt">target =</span> prj)</a>
+<a class="sourceLine" id="cb14-16" title="16"><span class="co">#&gt; Warning in SOproj(amap, target = prj): assuming generic data is in</span></a>
+<a class="sourceLine" id="cb14-17" title="17"><span class="co">#&gt; longitude,latitude</span></a>
+<a class="sourceLine" id="cb14-18" title="18"><span class="co">#&gt; Warning in reproj.SOmap_auto(x, target = target, source = source): source</span></a>
+<a class="sourceLine" id="cb14-19" title="19"><span class="co">#&gt; ignored, should be NULL for SOmap objects</span></a></code></pre></div>
 <p><img src="reference/figures/README-raster-1.png" width="100%"></p>
 <p>Note that we must assume raw input is “longitude/latitude”, and the function will issue a warning.</p>
 <hr>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SOleg creating rounded legends for SOmap — SOleg • SOmap</title>
+<title>Rounded legends for SOmap — SOleg • SOmap</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="SOleg creating rounded legends for SOmap — SOleg" />
+<meta property="og:title" content="Rounded legends for SOmap — SOleg" />
 
-<meta property="og:description" content="SOleg creating rounded legends for SOmap" />
+<meta property="og:description" content="Rounded legends for SOmap" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -116,14 +116,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>SOleg creating rounded legends for SOmap</h1>
+    <h1>Rounded legends for SOmap</h1>
     <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/SOleg.R'><code>R/SOleg.R</code></a></small>
     <div class="hidden name"><code>SOleg.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>SOleg creating rounded legends for SOmap</p>
+    <p>Rounded legends for SOmap</p>
     
     </div>
 
@@ -137,102 +137,88 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Object to obtain min and max values from for type='continuous' default=NULL</p></td>
+      <td><p>numeric: object to obtain min and max values from for <code>type = "continuous"</code>.</p></td>
     </tr>
     <tr>
       <th>position</th>
-      <td><p>Where you want the legend ("topleft","topright", "bottomright")</p></td>
+      <td><p>string: where you want the legend ("topleft", "topright", "bottomleft", or "bottomright").</p></td>
     </tr>
     <tr>
       <th>col</th>
-      <td><p>Color pattern to use.</p></td>
+      <td><p>character: colours to use.</p></td>
     </tr>
     <tr>
       <th>ticks</th>
-      <td><p>Number of ticks to include on the legend. Only used with type='continuous'</p></td>
+      <td><p>numeric: number of ticks to include on the legend. Only used with <code>type = "continuous"</code>.</p></td>
     </tr>
     <tr>
       <th>tlabs</th>
-      <td><p>Tick labels. Needed for type='discrete' optonal for type='continuous' if x is given</p></td>
+      <td><p>character: tick labels. Required for <code>type = "discrete"</code>, optional for <code>type = "continuous"</code> if <code>x</code> is given.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>Numeric vector to create legend ticks for type='continuous' if x is given eg breaks&lt;-c(1,2,3)</p></td>
+      <td><p>numeric: vector of tick positions for <code>type = "continuous"</code> when <code>x</code> is given.</p></td>
     </tr>
     <tr>
       <th>trim</th>
-      <td><p>Trim that was used to create the SOmap.</p></td>
+      <td><p>numeric: <code>trim</code> value that was used to create the SOmap object (see <code><a href='SOmap.html'>SOmap</a></code>).</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>Type of legend to be plotted 'discrete' or 'continuous' default='discrete'</p></td>
+      <td><p>string: type of legend ("discrete" or "continuous").</p></td>
     </tr>
     <tr>
       <th>label</th>
-      <td><p>Legend label.</p></td>
+      <td><p>string: legend label.</p></td>
     </tr>
     <tr>
       <th>ladj</th>
-      <td><p>Distance to adjust the tick labels from the ticks. default = 0.5</p></td>
+      <td><p>numeric: distance to adjust the tick labels from the ticks.</p></td>
     </tr>
     <tr>
       <th>lsrt</th>
-      <td><p>Angle of the tick labels. default = 0</p></td>
+      <td><p>numeric: angle of the tick labels.</p></td>
     </tr>
     <tr>
       <th>lcex</th>
-      <td><p>Size of the tick labels. default = 0.75</p></td>
+      <td><p>numeric: size of the tick labels.</p></td>
     </tr>
     <tr>
       <th>tadj</th>
-      <td><p>Distance to adjust the title from the ticks. default = 0.5</p></td>
+      <td><p>numeric: distance to adjust the title from the ticks.</p></td>
     </tr>
     <tr>
       <th>tcex</th>
-      <td><p>Size of the title text. default=1</p></td>
+      <td><p>numeric: size of the title text.</p></td>
     </tr>
     <tr>
       <th>rnd</th>
-      <td><p>optional rounding factor for continuous legends using the round() function. default = NULL.</p></td>
+      <td><p>numeric: optional rounding factor for continuous legends using the <code>link{round}</code> function.</p></td>
     </tr>
     <tr>
       <th>border_width</th>
-      <td><p>numeric: thickness (in degrees of latitude) of the border</p></td>
+      <td><p>numeric: thickness (in degrees of latitude) of the border.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Creates rounded legends</p>
+    <p>An object of class "SOmap_legend". Printing or plotting this object will cause it to be added to the SOmap in the current graphics device.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-SOmap()
-#Discrete Legend
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+  <span class='fu'><a href='SOmap.html'>SOmap</a></span>()
 
-SOleg(position="topleft",
-      col=viridis::viridis(5),
-      tlabs = c("a","b","c","d", "e"),
-      trim=-45,
-      label="Species")
+  <span class='co'>## Discrete Legend</span>
+  <span class='fu'>SOleg</span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"topleft"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='kw pkg'>viridis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/viridis/topics/reexports'>viridis</a></span>(<span class='fl'>5</span>),
+        <span class='kw'>tlabs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>, <span class='st'>"e"</span>), <span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Species"</span>)
 
-#Continuous Legend
-
-nums<-runif(100)
-
-brks<-c(0.1,0.2,0.5,0.9)
-
-SOleg(x=nums,
-      position="topright",
-      col=viridis::viridis(80),
-      breaks=brks
-      trim=-45,
-      label="Species"
-      rnd=1,
-      type="continuous")
-# }
-</pre>
+  <span class='co'>## Continuous Legend</span>
+  <span class='fu'>SOleg</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Uniform'>runif</a></span>(<span class='fl'>100</span>), <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"topright"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='kw pkg'>viridis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/viridis/topics/reexports'>viridis</a></span>(<span class='fl'>80</span>),
+        <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.1</span>, <span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.9</span>), <span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Species"</span>,
+        <span class='kw'>rnd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"continuous"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

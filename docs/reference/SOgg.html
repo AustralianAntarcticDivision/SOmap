@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -127,27 +127,51 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>SOgg</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>SOgg</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>SOmap or SOmap_auto: object as returned by <code>SOmap</code>, <code>SOmap2</code>, or <code>SOmap_auto</code></p></td>
+      <th>...</th>
+      <td><p>: one or more objects as returned by <code>SOmap</code>, <code>SOmap2</code>, <code>SOmanagement</code>, or <code>SOmap_auto</code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A ggplot object</p>
+    <p>An object of class "SOmap_gg", "SOmanagement_gg", or "SOmap_auto_gg". Printing or plotting this object will cause it to generate a ggplot2 object, which will be returned to the user. If this object is printed or plotted (e.g. to the console) then it will be displayed in the current graphics device as is usual for ggplot2 objects.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
+  <span class='co'>## generate a SOmap obkect</span>
   <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmap2.html'>SOmap2</a></span>(<span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>, <span class='kw'>iwc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>iwc_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>graticules</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fronts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
               <span class='kw'>mpa</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mpa_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-  <span class='fu'>SOgg</span>(<span class='no'>p</span>)
+
+  <span class='co'>## convert this to a ggplot2-based representation</span>
+  <span class='no'>pg</span> <span class='kw'>&lt;-</span> <span class='fu'>SOgg</span>(<span class='no'>p</span>)
+
+  <span class='co'>## display it</span>
+  <span class='no'>pg</span>
+
+  <span class='co'>## we can see that this object has a bunch of ggplot code embedded inside of it</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>pg</span>)
+
+  <span class='co'>## and that code can be modified if desired</span>
+  <span class='co'>## e.g. change the bathymetry colours</span>
+  <span class='no'>pg</span>$<span class='no'>scale_fill</span><span class='kw'>[[</span><span class='fl'>1</span>]]$<span class='no'>plotargs</span>$<span class='no'>colours</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/palettes'>topo.colors</a></span>(<span class='fl'>21</span>)
+  <span class='co'>## plot it</span>
+  <span class='no'>pg</span>
+
+  <span class='co'>## when the print or plot method is called on pg, it creates an actual ggplot2</span>
+  <span class='co'>##  object, which we can capture and modify</span>
+  <span class='no'>pg_gg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>pg</span>)
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>pg_gg</span>)
+
+  <span class='co'>## modifying this is done in the same way any other ggplot object is modified</span>
+  <span class='co'>## e.g. add a new scale_fill_gradientn to override the existing one</span>
+  <span class='no'>pg_gg</span> + <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/scale_gradient'>scale_fill_gradientn</a></span>(<span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/palettes'>heat.colors</a></span>(<span class='fl'>21</span>))
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
