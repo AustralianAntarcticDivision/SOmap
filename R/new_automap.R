@@ -146,6 +146,9 @@ automap_maker <-
       }
 
     }
+    if (inherits(x, "data.frame") && !inherits(x, "sf")) {
+      x <- as.matrix(x[1:2])
+    }
     tscale <- NULL;
     if (is.numeric(x)) {
       src_prj <- llproj

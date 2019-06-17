@@ -32,6 +32,11 @@ expect_s3_class(tst, "SOmap_auto")
 })
 
 
+test_that("dataframe and matrix input works",{
+          expect_silent(a <- SOmap_auto(data.frame(x = c(140, 150, 160), y = c(-30, -40, -60))))
+          expect_silent(a <- SOmap_auto(cbind(x = c(140, 150, 160), y = c(-30, -40, -60))))
+}
+          )
 test_that("check sp", {
   gr <- as(graticule::graticule(seq(100, 180, by = 5), seq(-70, -30, by = 8)),
            "SpatialPoints")
