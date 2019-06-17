@@ -157,7 +157,9 @@ SOmap_auto(x)
 
 Handle missing values in input data. 
 
-```{r examples26, eval = TRUE}
+temporarily turn this off ...
+
+```{r examples26, eval = FALSE}
 data("albatross", package = "adehabitatLT")
 ## convert the albatross data to a single matrix of lon, lat points
 albatrack <- do.call(rbind, lapply(albatross, function(z) rgdal::project(rbind(as.matrix(z[, c("x", "y")]), NA), "+proj=utm +zone=42 +south +datum=WGS84", inv = TRUE)))
