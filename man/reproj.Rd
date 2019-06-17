@@ -27,7 +27,7 @@
 
 \item{target}{target specification (PROJ.4 string or epsg code)}
 
-\item{...}{arguments passed to \code{\link[proj4:ptransform]{proj4::ptransform()}}}
+\item{...}{arguments passed to the underlying projection engine, see [reproj::reproj()]}
 
 \item{source}{source specification (PROJ.4 string or epsg code)}
 }

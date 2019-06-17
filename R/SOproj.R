@@ -16,7 +16,7 @@
 #' @param target
 #' target projection (default = stereo)
 #'
-#' @param ... arguments passed to [reproj::reproj()]
+#' @param ... arguments passed to [reproj::reproj() function](reproj::reproj())
 #' @param data
 #' optional data to be included
 #'
@@ -107,7 +107,10 @@ projection.SOmap_auto <- function(x, asText = TRUE) {
 #' @section Warning:
 #' So many ...
 #' @seealso [reproj::reproj()]
-#' @inheritParams reproj::reproj
+#' @param x coordinates
+#' @param source source specification (PROJ.4 string or epsg code)
+#' @param target target specification (PROJ.4 string or epsg code)
+#' @param ... arguments passed to the underlying projection engine, see [reproj::reproj()]
 #' @export
 #' @export reproj
 #' @aliases reproj reproj.SOmap_auto
