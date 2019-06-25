@@ -5,7 +5,7 @@ test_that("SOgg returns a ggplot object", {
     pg <- SOgg(p)
     expect_s3_class(pg, "SOmap_gg")
     expect_identical(sort(names(pg)), c("axis_labels", "bathy", "bathy_legend", "border", "coastline", "coord", "ice", "init", "plot_sequence", "projection", "scale_fill", "straight", "target", "theme", "trim"))
-    expect_s3_class(print(pg), "ggplot")
+    expect_s3_class(plot(pg), "ggplot")
 
     pm <- SOmanagement(trim = -45, mpa = TRUE, mpa_labels = TRUE,
                 ccamlr = TRUE, ccamlr_labels = TRUE, ssru = TRUE, ssru_labels = TRUE,
@@ -20,7 +20,7 @@ test_that("SOgg returns a ggplot object", {
     pg <- SOgg(p, pm) ## no warning this time
     expect_s3_class(pg, "SOmap_gg")
     expect_identical(sort(names(pg)), c("axis_labels", "bathy", "bathy_legend", "border", "ccamlr_planning_domains", "ccamlr_ssmu", "ccamlr_ssru", "ccamlr_statistical_areas", "coastline", "coord", "eez", "ice", "init", "iwc", "mpa", "plot_sequence", "projection", "research_blocks", "scale_fill", "sprfmo_research_blocks", "straight", "target", "theme", "trim"))
-    expect_s3_class(print(pg), "ggplot")
+    expect_s3_class(plot(pg), "ggplot")
 
     ## should get the same thing from SOmap2 directly
     ## use the full set of management layer options here, just so all code is exercised
