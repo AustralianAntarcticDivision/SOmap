@@ -13,5 +13,5 @@ test_that("adding data to a plot is fine", {
   expect_silent(SOplot(SOmap_data$seaice_oct))
 
   expect_warning(SOplot(raster::crop(Bathy, raster::extent(1e6, 2e6, 1e6, 3e6))))
-  expect_silent(SOplot(p$graticule$plotargs$x))
+  expect_silent(SOplot(p$graticule$main$plotargs$x))
 })

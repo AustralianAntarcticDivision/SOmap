@@ -187,9 +187,9 @@ SOgg_notauto <- function(x) {
 
     ## Graticule grid
     if (!is.null(x$graticule)) {
-        this <- fortify(x$graticule$plotargs$x)
+        this <- fortify(x$graticule$main$plotargs$x)
         this <- this[this$long >= myext[1] & this$long <= myext[2] & this$lat >= myext[3] & this$lat <= myext[4], ]
-        out$graticule <- list(as_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = this, aes_string(x = "long", y = "lat", group = "group"), col = x$graticule$plotargs$col, linetype = x$graticule$plotargs$lty)))
+        out$graticule <- list(as_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = this, aes_string(x = "long", y = "lat", group = "group"), col = x$graticule$main$plotargs$col, linetype = x$graticule$main$plotargs$lty)))
         if (!is.null(x$graticule$labels)) {
             this <- as.data.frame(x$graticule$labels$plotargs$x)
             this <- this[this$x >= myext[1] & this$x <= myext[2] & this$y >= myext[3] & this$y <= myext[4], ]
@@ -260,30 +260,25 @@ SOgg_management <- function(x, basemap) {
     apply_buf <- function(thing) if (is.null(buf)) thing else suppressWarnings(sf::st_intersection(buf, thing))
 
     if (!is.null(x$ccamlr_statistical_areas)) {
-        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_statistical_areas$plotargs$x)))
-        out$ccamlr_statistical_areas <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_statistical_areas$plotargs$border,  inherit.aes = FALSE, fill = NA)))#fill = x$ccamlr_statistical_areas$plotargs$col)
+        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_statistical_areas$main$plotargs$x)))
+        out$ccamlr_statistical_areas <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_statistical_areas$main$plotargs$border,  inherit.aes = FALSE, fill = NA)))#fill = x$ccamlr_statistical_areas$main$plotargs$col)
         if (!is.null(x$ccamlr_statistical_areas$labels)) {
-            this <- x$ccamlr_statistical_areas$labels[[1]]$plotargs$x
-            that <- x$ccamlr_statistical_areas$labels[[2]]$plotargs$x
-            then <- x$ccamlr_statistical_areas$labels[[3]]$plotargs$x
-
-            this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            that <- suppressWarnings(apply_buf(sf::st_as_sf(that)))
-            then <- suppressWarnings(apply_buf(sf::st_as_sf(then)))
-
-            out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas,
-                                 list(as_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[1]]$plotargs$col, size = 2, inherit.aes = FALSE)),
-                                      as_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(that), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[2]]$plotargs$col, size = 2, inherit.aes = FALSE)),
-                                      as_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(then), aes_string(label = "LongLabel"), parse = FALSE, col = x$ccamlr_statistical_areas$labels[[3]]$plotargs$col, size = 2, inherit.aes = FALSE))))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            temp <- x$ccamlr_statistical_areas[names(x$ccamlr_statistical_areas) %in% "labels"]
+            for (templab in temp) {
+                this <- templab$plotargs$x
+                this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
+                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas,
+                                                  list(as_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), aes_string(label = "LongLabel"), parse = FALSE, col = templab$plotargs$col, size = 2, inherit.aes = FALSE))))
+            }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_statistical_areas")
     }
 
 
     if (!is.null(x$ccamlr_ssru)) {
-        if (is.null(x$ccamlr_ssru$plotargs$col)) x$ccamlr_ssru$plotargs$col <- NA
-        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssru$plotargs$x)))
-        out$ccamlr_ssru <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssru$plotargs$border, fill = x$ccamlr_ssru$plotargs$col, inherit.aes = FALSE)))
+        if (is.null(x$ccamlr_ssru$main$plotargs$col)) x$ccamlr_ssru$main$plotargs$col <- NA
+        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssru$main$plotargs$x)))
+        out$ccamlr_ssru <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssru$main$plotargs$border, fill = x$ccamlr_ssru$main$plotargs$col, inherit.aes = FALSE)))
         if (!is.null(x$ccamlr_ssru$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssru$labels$plotargs$x)))
             out$ccamlr_ssru <- c(out$ccamlr_ssru, list(as_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = 2, inherit.aes = FALSE))))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
@@ -292,12 +287,12 @@ SOgg_management <- function(x, basemap) {
     }
 
     if (!is.null(x$ccamlr_ssmu)) {
-        if (is.null(x$ccamlr_ssmu$plotargs$col)) x$ccamlr_ssmu$plotargs$col <- NA
-        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$plotargs$x)))
-        out$ccamlr_ssmu <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssmu$plotargs$border, fill = x$ccamlr_ssmu$plotargs$col, inherit.aes = FALSE)))
+        if (is.null(x$ccamlr_ssmu$main$plotargs$col)) x$ccamlr_ssmu$main$plotargs$col <- NA
+        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$main$plotargs$x)))
+        out$ccamlr_ssmu <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssmu$main$plotargs$border, fill = x$ccamlr_ssmu$main$plotargs$col, inherit.aes = FALSE)))
         if (!is.null(x$ccamlr_ssmu$labels)) {
-            this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$plotargs$x)))
-            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, list(as_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$plotargs$border, size = 2, inherit.aes = FALSE))))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$labels$plotargs$x)))
+            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, list(as_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$labels$plotargs$border, size = 2, inherit.aes = FALSE))))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssmu")
     }
@@ -318,9 +313,9 @@ SOgg_management <- function(x, basemap) {
     }
 
     if (!is.null(x$research_blocks)) {
-        if (is.null(x$research_blocks$plotargs$col)) x$research_blocks$plotargs$col <- NA
-        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$research_blocks$plotargs$x)))
-        out$research_blocks <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$research_blocks$plotargs$border, fill = x$research_blocks$plotargs$col, inherit.aes = FALSE)))
+        if (is.null(x$research_blocks$main$plotargs$col)) x$research_blocks$main$plotargs$col <- NA
+        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$research_blocks$main$plotargs$x)))
+        out$research_blocks <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$research_blocks$main$plotargs$border, fill = x$research_blocks$main$plotargs$col, inherit.aes = FALSE)))
         if (!is.null(x$research_blocks$labels)) {
             this <- x$research_blocks$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
@@ -339,8 +334,8 @@ SOgg_management <- function(x, basemap) {
     }
 
     if (!is.null(x$eez)) {
-        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$eez$plotargs$x)))
-        out$eez <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$eez$plotargs$border, fill = x$eez$plotargs$col, inherit.aes = FALSE)))
+        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$eez$main$plotargs$x)))
+        out$eez <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$eez$main$plotargs$border, fill = x$eez$main$plotargs$col, inherit.aes = FALSE)))
         if (!is.null(x$eez$labels)) {
             this <- x$eez$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
@@ -350,8 +345,8 @@ SOgg_management <- function(x, basemap) {
     }
 
     if (!is.null(x$mpa)) {
-        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$mpa$plotargs$x)))
-        out$mpa <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$mpa$plotargs$border, fill = x$mpa$plotargs$col, inherit.aes = FALSE)))
+        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$mpa$main$plotargs$x)))
+        out$mpa <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$mpa$main$plotargs$border, fill = x$mpa$main$plotargs$col, inherit.aes = FALSE)))
         if (!is.null(x$mpa$labels)) {
             this <- x$mpa$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
@@ -361,21 +356,22 @@ SOgg_management <- function(x, basemap) {
     }
 
     if (!is.null(x$ccamlr_planning_domains)) {
-        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_planning_domains$plotargs$x)))
+        this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_planning_domains$main$plotargs$x)))
         ## TODO fix that intersection, is slow because of complexity of coastline
-        out$ccamlr_planning_domains <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_planning_domains$plotargs$border, fill = x$ccamlr_planning_domains$plotargs$col, inherit.aes = FALSE)))
+        out$ccamlr_planning_domains <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_planning_domains$main$plotargs$border, fill = x$ccamlr_planning_domains$main$plotargs$col, inherit.aes = FALSE)))
         if (!is.null(x$ccamlr_planning_domains$labels)) {
             ## this is horrible code
-            crds <- as.data.frame(sp::coordinates(x$ccamlr_planning_domains$labels[[1]]$plotargs$x))
+            temp <- x$ccamlr_planning_domains[names(x$ccamlr_planning_domains) %in% "labels"]
+            crds <- as.data.frame(sp::coordinates(temp[[1]]$plotargs$x))
             names(crds) <- c("x", "y")
-            crds$lab <- x$ccamlr_planning_domains$labels[[1]]$plotargs$x$labs
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[1]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1))))
-            crds$lab <- x$ccamlr_planning_domains$labels[[2]]$plotargs$x$labs1
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[2]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 0))))
-            crds$lab <- x$ccamlr_planning_domains$labels[[3]]$plotargs$x$labs2
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[3]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1))))
-            crds$lab <- x$ccamlr_planning_domains$labels[[4]]$plotargs$x$labs7
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = x$ccamlr_planning_domains$labels[[4]]$plotargs$col, inherit.aes = FALSE, hjust = 0, vjust = 0.5))))
+            crds$lab <- temp[[1]]$plotargs$x$labs
+            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[1]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1))))
+            crds$lab <- temp[[2]]$plotargs$x$labs1
+            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[2]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 0))))
+            crds$lab <- temp[[3]]$plotargs$x$labs2
+            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[3]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1))))
+            crds$lab <- temp[[4]]$plotargs$x$labs7
+            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[4]]$plotargs$col, inherit.aes = FALSE, hjust = 0, vjust = 0.5))))
             ## the hjust/vjust settings here are a rough attempt to position the labels more nicely
             ## needs work
         }

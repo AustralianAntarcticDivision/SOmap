@@ -103,8 +103,8 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
 
     ## Graticule grid
     if (graticules) {
-        out$graticule <- as_plotter(plotfun = "plot", plotargs = list(x = grat, col = graticules_col, lty = 3, add = TRUE))
-        out$graticule$labels <- list(plotfun = "text", plotargs = list(x = gratlab, labels = parse(text = gratlab$lab), col = graticules_col, cex = 0.5))
+        out$graticule <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = grat, col = graticules_col, lty = 3, add = TRUE)),
+                              labels = as_plotter(plotfun = "text", plotargs = list(x = gratlab, labels = parse(text = gratlab$lab), col = graticules_col, cex = 0.5)))
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
 

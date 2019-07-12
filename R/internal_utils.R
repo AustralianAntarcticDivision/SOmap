@@ -44,6 +44,8 @@ plot_all <- function(x) {
             if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
         }
         if (!is.null(thispf$labels)) {
+            ## this should not be needed now: all label stuff should now be in the main list of plotfuns and be handled above
+            ## but leave this here for the time being
             allpf <- thispf$labels ## all the stuff to plot for this element
             if (is.list(allpf) && length(allpf) > 1 && is.null(names(allpf))) {
                 ## a list of plotfun/args to iterate over

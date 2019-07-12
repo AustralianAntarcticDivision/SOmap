@@ -108,7 +108,7 @@ SOmanagement <- function(ccamlr = FALSE,
     }
 
     if (rb) {
-        out$research_blocks <- as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_research_blocks, border = rb_col, add = TRUE))
+        out$research_blocks <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_research_blocks, border = rb_col, add = TRUE)))
         out$plot_sequence <- c(out$plot_sequence, "research_blocks")
         if (rb_labels) {
             out$research_blocks$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_research_blocks, labelcol = "GAR_Short_", col = rb_col, cex = 0.4, pos = 4, offset = 0.3))
@@ -125,7 +125,7 @@ SOmanagement <- function(ccamlr = FALSE,
     }
 
     if (ssru) {
-        out$ccamlr_ssru <- as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_SSRU, border = ssru_col, add = TRUE))
+        out$ccamlr_ssru <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_SSRU, border = ssru_col, add = TRUE)))
         if (ssru_labels) {
             out$ccamlr_ssru$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_SSRU, labelcol = "ShortLabel", col = ssru_col, cex = 0.4, pos = 1, offset = -0.05))
         }
@@ -133,7 +133,7 @@ SOmanagement <- function(ccamlr = FALSE,
     }
 
     if (ssmu) {
-        out$ccamlr_ssmu <- as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_SSMU, border = ssmu_col, add = TRUE))
+        out$ccamlr_ssmu <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_SSMU, border = ssmu_col, add = TRUE)))
         if (ssmu_labels) {
             out$ccamlr_ssmu$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_SSMU, labelcol = "ShortLabel", col = ssmu_col, cex = 0.5, pos = 1, offset = 0.6))
         }
@@ -141,26 +141,25 @@ SOmanagement <- function(ccamlr = FALSE,
     }
 
     if (ccamlr) {
-        out$ccamlr_statistical_areas <- as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas, border = ccamlr_col, add = TRUE))
+        out$ccamlr_statistical_areas <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas, border = ccamlr_col, add = TRUE)))
         if (ccamlr_labels) {
             if (!missing(basemap)) {
                 ## basemap has been provided so we'll just use the same pos and offset for all labels
                 out$ccamlr_statistical_areas$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas, labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 1, offset = -0.3))
             } else {
                 ## some trickery to get 58.4.2 and 48.1 in good positions
-                out$ccamlr_statistical_areas$labels <- list(
-                    as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[!SOmap_data$CCAMLR_statistical_areas$LongLabel %in% c("48.1", "58.4.2"), ], labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 1, offset = -0.3)),
-                    ## these two still need fixing to cope with autocropping
-                    as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[SOmap_data$CCAMLR_statistical_areas$LongLabel == "58.4.2", ], labelcol = "LongLabel", col = ccamlr_col,cex = 0.5, pos = 3, offset = 0.5)),
-                    as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[SOmap_data$CCAMLR_statistical_areas$LongLabel == "48.1", ], labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 2, offset = -0.1))
-                )
+                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas,
+                    list(labels = as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[!SOmap_data$CCAMLR_statistical_areas$LongLabel %in% c("48.1", "58.4.2"), ], labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 1, offset = -0.3)),
+                         ## these two still need fixing to cope with autocropping
+                         labels = as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[SOmap_data$CCAMLR_statistical_areas$LongLabel == "58.4.2", ], labelcol = "LongLabel", col = ccamlr_col,cex = 0.5, pos = 3, offset = 0.5)),
+                         labels = as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[SOmap_data$CCAMLR_statistical_areas$LongLabel == "48.1", ], labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 2, offset = -0.1))))
             }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_statistical_areas")
     }
 
     if (eez) {
-        out$eez <- as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$EEZ, border = eez_col, col = NA, add = TRUE))
+        out$eez <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$EEZ, border = eez_col, col = NA, add = TRUE)))
         if (eez_labels) {
             out$eez$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$EEZ, labelcol = "Name", col = eez_col, cex = 0.35, pos = 4, offset = 0.8))
         }
@@ -168,7 +167,7 @@ SOmanagement <- function(ccamlr = FALSE,
     }
 
     if (mpa) {
-        out$mpa <- as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_MPA, border = mpa_col, col = NA, add = TRUE))
+        out$mpa <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_MPA, border = mpa_col, col = NA, add = TRUE)))
         if (mpa_labels) {
             out$mpa$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_MPA, labelcol = "ShortLabel", col = mpa_col, cex = 0.35, pos = 1, offset =0.2))
         }
@@ -177,19 +176,18 @@ SOmanagement <- function(ccamlr = FALSE,
 
     if (domains) {
         this <- SOmap_data$CCAMLR_planning_domains
-        out$ccamlr_planning_domains <- as_plotter(plotfun = "plot", plotargs = list(x = this, border = domains_col, col = NA, add = TRUE))
+        out$ccamlr_planning_domains <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = this, border = domains_col, col = NA, add = TRUE)))
         if (domains_labels) {
             this$labs <- c("Domain  8", "Domain  9", "", "", "Domain  3", "", "Domain  4", "Domain  5", "Domain  6")
             this$labs1 <- c("", "", "Domain  1", "", "", "", "", "", "")
             this$labs2 <- c("", "", "", "", "", "Domain  2", "", "", "")
             this$labs7 <- c("", "", "", "Domain  7", "", "", "", "", "")
-            out$ccamlr_planning_domains$labels <- list(
+            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains,
                 ## surely this would be better done by plotting subsets, not plotting everything each time with selectively blank labels - BR
-                as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs", col = domains_col, cex = 0.7, pos = 3, offset = 0.05)),
-                as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs1", col = domains_col, cex = 0.7, pos = 1, offset = 3.0)),
-                as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs2", col = domains_col, cex = 0.7, pos = 3, offset = 0.5)),
-                as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs7", col = domains_col, cex = 0.7, pos = 4, offset = 0.9))
-            )
+                                             list(labels = as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs", col = domains_col, cex = 0.7, pos = 3, offset = 0.05)),
+                                                  labels = as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs1", col = domains_col, cex = 0.7, pos = 1, offset = 3.0)),
+                                                  labels = as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs2", col = domains_col, cex = 0.7, pos = 3, offset = 0.5)),
+                                                  labels = as_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs7", col = domains_col, cex = 0.7, pos = 4, offset = 0.9))))
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_planning_domains")
     }
