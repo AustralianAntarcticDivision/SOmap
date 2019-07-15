@@ -1,7 +1,7 @@
 Package: SOmap
 Type: Package
 Title: Southern Ocean maps
-Version: 0.4.1
+Version: 0.5.0.9999
 Authors@R: c(person("Dale", "Maschette", email = "dale.maschette@aad.gov.au", role = c("aut", "cre")),
              person("Michael", "Sumner", role = "aut"),
              person("Ben", "Raymond", role = "aut"))
