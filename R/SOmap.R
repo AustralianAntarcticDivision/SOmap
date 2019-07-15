@@ -75,29 +75,29 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     q <- ifelse(bathy_legend, trim+border_width+11, trim+border_width)
     Bathy <- raster::trim(SOmap::latmask(Bathy, latitude = q))
     out <- list(projection = raster::projection(Bathy), target = raster::raster(Bathy), straight = straight, trim = trim)
-    out$bathy <- as_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1))
-    if (straight) out$bathy$plotargs$legend <- FALSE
+    out$bathy <- list(as_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1)))
+    if (straight) out$bathy[[1]]$plotargs$legend <- FALSE
 
-    out$box <- as_plotter(plotfun = "graphics::box", plotargs = list(col = "white"))
+    out$box <- list(as_plotter(plotfun = "graphics::box", plotargs = list(col = "white")))
     out$plot_sequence <- c("bathy", "box")
     buf <- make_buf(trim+border_width, proj = out$projection)
     if (land) {
       xland <-sf::st_as_sf(SOmap::SOmap_data$continent)
       xland <- sf::st_buffer(xland, 0)
-      out$coastline <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = land_col, add = TRUE))
+      out$coastline <- list(as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = land_col, add = TRUE)))
       out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
 
     if (ice) {
       xice <- sf::st_buffer(SOmap::SOmap_data$ant_coast_ice, 0)
-      out$ice <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xice)$geometry), col = NA, border = ice_col, add = TRUE))
+      out$ice <- list(as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xice)$geometry), col = NA, border = ice_col, add = TRUE)))
       out$plot_sequence <- c(out$plot_sequence, "ice")
     }
 
     ## fronts
     if (fronts) {
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
-      out$fronts <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
+      out$fronts <- list(as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE)))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
     }
 
@@ -111,7 +111,7 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     ## Legend
     if (bathy_legend) {
         ## TODO split this into multiple plot functions?
-        out$bathy_legend <- as_plotter(
+        out$bathy_legend <- list(as_plotter(
             plotfun = function(mask, ticks, legend, graticules, labels) {
                 plot(mask$graticule, border = mask$border, col = mask$col, add = TRUE) ## white mask
                 plot(ticks$ticks, add = TRUE, col = ticks$col)
@@ -125,12 +125,12 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
                             legend = list(legend = bleg, lwd = 2, col = bluepal2, border = FALSE),
                             graticules = list(graticules = spud, border = FALSE, col = "white"),
                             labels = list(data = lab_pos2, labels = lab_pos2$a, cex = 0.75, adj = 0.5)
-                            ))
+                            )))
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
     if (border) {
         bord <- graticule::graticule(lons = seq(-180, 180, by = 15), lats = c(trim+border_width, trim), tiles = TRUE, proj = raster::projection(Bathy))
-        out$border <- as_plotter(plotfun = "plot", plotargs = list(x = bord, col = border_col, border = "black", add = TRUE))
+        out$border <- list(as_plotter(plotfun = "plot", plotargs = list(x = bord, col = border_col, border = "black", add = TRUE)))
         out$plot_sequence <- c(out$plot_sequence, "border")
     }
     structure(out, class = "SOmap")
