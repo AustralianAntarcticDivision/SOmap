@@ -37,6 +37,5 @@ test_that("SOgg works on SOmap_auto objects", {
     p <- SOmap_auto()
     pg <- SOgg(p)
     expect_s3_class(pg, "SOmap_auto_gg")
-    expect_identical(sort(names(pg)), c("projection", "target", "init", "bathy", "coord", "plot_sequence", "scale_fill", "coastline", "ice", "graticule", "lines_data", "points_data", "theme", "scale_x", "scale_y"))
     expect_s3_class(plot(pg), "ggplot")
 })
