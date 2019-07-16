@@ -223,10 +223,18 @@ print.SOmap_auto <- function(x,main=NULL, ..., set_clip = TRUE) {
   if(!is.null(main)){graphics::title(main = main)}
   op <- par(xpd = FALSE)
   if (!is.null(x$bathy)) {
+      ## check breaks and colours: need one more break than number of colours
+      ## if the user has overridden the palette but not the breaks, this may cause an error
+      if (length(x$bathy_breaks) != (length(x$bathy_palette) + 1)) x$bathy_breaks <- NULL
       if (isTRUE(x$bathyleg)) {
           raster::plot(x$bathy, add = TRUE, col = x$bathy_palette, breaks = x$bathy_breaks, axes = FALSE)
       } else {
-          raster::image(x$bathy, add = TRUE, col = x$bathy_palette, breaks = x$bathy_breaks, axes = FALSE)
+          if (!is.null(x$bathy_breaks)) {
+              raster::image(x$bathy, add = TRUE, col = x$bathy_palette, breaks = x$bathy_breaks, axes = FALSE)
+          } else {
+              ## image can't cope with NULL breaks?
+              raster::image(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)
+          }
       }
   }
   ## suggested param change: if levels is a scalar than pass it to nlevels
