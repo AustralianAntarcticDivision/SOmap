@@ -398,18 +398,18 @@ SOgg_auto <- function(x) {
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
 
     if (!is.null(x$coastline)) {
-        this <- suppressWarnings(sf::st_as_sf(x$coastline[[1]]$data))
-        out$coastline <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline[[1]]$fillcol, col = x$coastline[[1]]$linecol, inherit.aes = FALSE)))
+        this <- suppressWarnings(sf::st_as_sf(x$coastline$data))
+        out$coastline <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$fillcol, col = x$coastline$linecol, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
     if (!is.null(x$ice)) {
-        this <- suppressWarnings(sf::st_as_sf(x$ice[[1]]$data))
-        out$ice <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice[[1]]$fillcol, col = x$ice[[1]]$linecol, inherit.aes = FALSE)))
+        this <- suppressWarnings(sf::st_as_sf(x$ice$data))
+        out$ice <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice$fillcol, col = x$ice$linecol, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "ice")
     }
     if (x$contours) {
-        this <- suppressWarnings(sf::st_as_sf(x$coastline[[1]]$data))
-        out$contours <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline[[1]]$fillcol, col = x$coastline[[1]]$linecol, inherit.aes = FALSE)))
+        this <- suppressWarnings(sf::st_as_sf(x$coastline$data))
+        out$contours <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline$fillcol, col = x$coastline$linecol, inherit.aes = FALSE)))
         out$plot_sequence <- c(out$plot_sequence, "contours")
 
     }
