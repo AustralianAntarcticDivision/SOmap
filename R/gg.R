@@ -138,10 +138,10 @@ SOgg_notauto <- function(x) {
     out$coord <- SO_plotter(plotfun = coord_sf, plotargs = list(default = TRUE))
     out$plot_sequence <- c("init", "bathy", "coord")
 
-    out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, na.value = "#FFFFFF00", guide = FALSE))
+    out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, na.value = "#FFFFFF00", guide = if (!x$straight) FALSE else "colourbar"))
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
 
-    if (!is.null(x$bathy_legend)) {
+    if (!is.null(x$bathy_legend) && !x$straight) {
         suppressMessages(thecolors <- fortify(x$bathy_legend$legend_fill$plotargs$x))
         ## exclude the last two entries here, they are the outer (long) borders
         theticks <- x$bathy_legend$ticks$plotargs$x
