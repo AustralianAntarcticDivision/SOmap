@@ -62,5 +62,3 @@ plot_all <- function(x) {
     invisible(NULL)
 }
 
-## convenience function to slap the SO_plotter class on an object
-as_plotter <- function(...) structure(list(...), class = "SO_plotter")

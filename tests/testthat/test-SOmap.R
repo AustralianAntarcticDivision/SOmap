@@ -2,8 +2,19 @@ context("test SOmap")
 p <- SOmap(trim = -45, graticules = TRUE, fronts = TRUE)
 
 test_that("SOmap returns a SOmap object", {
- expect_s3_class(p, "SOmap")
- expect_silent(print(p))
+    expect_s3_class(p, "SOmap")
+    expect_silent(print(p))
+    ## things in p should be of expected classes
+    expect_is(p$target, "Raster")
+    expect_is(p$plot_sequence, "character")
+    expect_is(p$projection, "character")
+    expect_is(p$straight, "logical")
+    expect_is(p$trim, "numeric")
+    ## everything else in p should be a list of SO_plotter objects
+    for (cmp in setdiff(names(p), c("target", "plot_sequence", "projection", "straight", "trim"))) {
+        expect_is(p[[cmp]], "list")
+        expect_true(all(vapply(p[[cmp]], inherits, "SO_plotter", FUN.VALUE = TRUE)))
+    }
 })
 
 test_that("adding data to a plot is fine", {

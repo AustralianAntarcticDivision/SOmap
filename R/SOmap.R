@@ -75,52 +75,52 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     q <- ifelse(bathy_legend, trim+border_width+11, trim+border_width)
     Bathy <- raster::trim(SOmap::latmask(Bathy, latitude = q))
     out <- list(projection = raster::projection(Bathy), target = raster::raster(Bathy), straight = straight, trim = trim)
-    out$bathy <- list(as_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1)))
+    out$bathy <- SO_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1))
     if (straight) out$bathy[[1]]$plotargs$legend <- FALSE
 
-    out$box <- list(as_plotter(plotfun = "graphics::box", plotargs = list(col = "white")))
+    out$box <- SO_plotter(plotfun = "graphics::box", plotargs = list(col = "white"))
     out$plot_sequence <- c("bathy", "box")
     buf <- make_buf(trim+border_width, proj = out$projection)
     if (land) {
       xland <-sf::st_as_sf(SOmap::SOmap_data$continent)
       xland <- sf::st_buffer(xland, 0)
-      out$coastline <- list(as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = land_col, add = TRUE)))
+      out$coastline <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = land_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
 
     if (ice) {
       xice <- sf::st_buffer(SOmap::SOmap_data$ant_coast_ice, 0)
-      out$ice <- list(as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xice)$geometry), col = NA, border = ice_col, add = TRUE)))
+      out$ice <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xice)$geometry), col = NA, border = ice_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "ice")
     }
 
     ## fronts
     if (fronts) {
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
-      out$fronts <- list(as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE)))
+      out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
     }
 
     ## Graticule grid
     if (graticules) {
-        out$graticule <- list(main = as_plotter(plotfun = "plot", plotargs = list(x = grat, col = graticules_col, lty = 3, add = TRUE)),
-                              labels = as_plotter(plotfun = "text", plotargs = list(x = gratlab, labels = parse(text = gratlab$lab), col = graticules_col, cex = 0.5)))
+        out$graticule <- c(SO_plotter(plotfun = "plot", plotargs = list(x = grat, col = graticules_col, lty = 3, add = TRUE), name = "main"),
+                           SO_plotter(plotfun = "text", plotargs = list(x = gratlab, labels = parse(text = gratlab$lab), col = graticules_col, cex = 0.5), name = "labels"))
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
 
     ## Legend
     if (bathy_legend) {
-        out$outer_mask <- list(as_plotter(plotfun = "plot", plotargs = list(x = mask_graticule, border = FALSE, col = "white", add = TRUE)))
-        out$bathy_legend <- list(ticks = as_plotter(plotfun = "plot", plotargs = list(x = btick, col = "black", add = TRUE)),
-                                 legend_outer = as_plotter(plotfun = "plot", plotargs = list(x = bleg, lwd = 2, add = TRUE)),
-                                 legend_fill = as_plotter(plotfun = "plot", plotargs = list(x = bleg, border = FALSE, col = bluepal2, add = TRUE)),
-                                 graticules = as_plotter(plotfun = "plot", plotargs = list(x = spud, border = FALSE, col = "white", add = TRUE)),
-                                 labels = as_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = 0.75, adj = 0.5)))
+        out$outer_mask <- SO_plotter(plotfun = "plot", plotargs = list(x = mask_graticule, border = FALSE, col = "white", add = TRUE))
+        out$bathy_legend <- c(SO_plotter(plotfun = "plot", plotargs = list(x = btick, col = "black", add = TRUE), name = "ticks"),
+                              SO_plotter(plotfun = "plot", plotargs = list(x = bleg, lwd = 2, add = TRUE), name = "legend_outer"),
+                              SO_plotter(plotfun = "plot", plotargs = list(x = bleg, border = FALSE, col = bluepal2, add = TRUE), name = "legend_fill"),
+                              SO_plotter(plotfun = "plot", plotargs = list(x = spud, border = FALSE, col = "white", add = TRUE), name = "graticules"),
+                              SO_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = 0.75, adj = 0.5), name = "labels"))
         out$plot_sequence <- c(out$plot_sequence, "outer_mask", "bathy_legend")
     }
     if (border) {
         bord <- graticule::graticule(lons = seq(-180, 180, by = 15), lats = c(trim+border_width, trim), tiles = TRUE, proj = raster::projection(Bathy))
-        out$border <- list(as_plotter(plotfun = "plot", plotargs = list(x = bord, col = border_col, border = "black", add = TRUE)))
+        out$border <- SO_plotter(plotfun = "plot", plotargs = list(x = bord, col = border_col, border = "black", add = TRUE))
         out$plot_sequence <- c(out$plot_sequence, "border")
     }
     structure(out, class = "SOmap")
