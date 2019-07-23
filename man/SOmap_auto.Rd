@@ -18,11 +18,11 @@ SOmap_auto(x, y, centre_lon = NULL, centre_lat = NULL,
 
 \item{y}{optional input data latitudes}
 
-\item{centre_lon}{optional centre longitude (of the map projection, also used to for plot range if `expand = TRUE`)}
+\item{centre_lon}{optional centre longitude (of the map projection, also used to for plot range if \code{expand = TRUE})}
 
-\item{centre_lat}{as per `centre_lon`}
+\item{centre_lat}{as per \code{centre_lon}}
 
-\item{target}{optional projection family (default is `stere`ographic), or full PROJ string (see Details)}
+\item{target}{optional projection family (default is \code{stere}ographic), or full PROJ string (see Details)}
 
 \item{dimXY}{dimensions of background bathmetry (if used) default is 300x300}
 
@@ -78,9 +78,9 @@ Provide minimal input information to get a default map. The simplest case is
 to run the function without any inputs at all and it will use random location data.
 }
 \details{
-To input your data, use input locations as `x` (longitude) and `y` (latitude) values. There must be at least two locations.
+To input your data, use input locations as \code{x} (longitude) and \code{y} (latitude) values. There must be at least two locations.
 
-Try `target` families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
+Try \code{target} families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
 }
 \examples{
 \dontrun{

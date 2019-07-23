@@ -13,7 +13,7 @@ SOcrs(crs = NULL)
 Set or return the coordinate system currently in use.
 }
 \details{
-If argument `crs` is NULL, the function returns the current value (which may be `NULL``).
+If argument \code{crs} is NULL, the function returns the current value (which may be \code{NULL}).
 }
 \examples{
 \dontrun{

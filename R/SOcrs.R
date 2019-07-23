@@ -2,7 +2,7 @@
 #'
 #' Set or return the coordinate system currently in use.
 #'
-#' If argument `crs` is NULL, the function returns the current value (which may be `NULL``).
+#' If argument `crs` is NULL, the function returns the current value (which may be `NULL`).
 #' @param crs provide PROJ string to set the value
 #' @export
 #' @examples

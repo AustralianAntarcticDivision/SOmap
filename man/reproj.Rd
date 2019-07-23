@@ -27,7 +27,7 @@
 
 \item{target}{target specification (PROJ.4 string or epsg code)}
 
-\item{...}{arguments passed to the underlying projection engine, see [reproj::reproj()]}
+\item{...}{arguments passed to the underlying projection engine, see \code{\link[reproj:reproj]{reproj::reproj()}}}
 
 \item{source}{source specification (PROJ.4 string or epsg code)}
 }
@@ -35,7 +35,7 @@
 Reproject a SOmap object by specifying a 'target' projection string (PROJ4)
 }
 \details{
-See [reproj::reproj()] for details.
+See \code{\link[reproj:reproj]{reproj::reproj()}} for details.
 }
 \section{Warning}{
 
@@ -60,5 +60,5 @@ So many ...
 }
 }
 \seealso{
-[reproj::reproj()]
+\code{\link[reproj:reproj]{reproj::reproj()}}
 }
