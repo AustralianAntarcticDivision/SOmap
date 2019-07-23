@@ -142,18 +142,18 @@ SOgg_notauto <- function(x) {
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
 
     if (!is.null(x$bathy_legend)) {
-        suppressMessages(thecolors <- fortify(x$bathy_legend[[1]]$plotargs$legend$legend))
+        suppressMessages(thecolors <- fortify(x$bathy_legend$legend_fill$plotargs$x))
         ## exclude the last two entries here, they are the outer (long) borders
-        theticks <- x$bathy_legend[[1]]$plotargs$ticks$ticks
+        theticks <- x$bathy_legend$ticks$plotargs$x
         theticks <- theticks[seq_len(nrow(theticks)-2), ]
         suppressMessages(theticks <- fortify(theticks))
-        suppressMessages(themask <- fortify(x$bathy_legend[[1]]$plotargs$graticules$graticules))
+        suppressMessages(themask <- fortify(x$bathy_legend$graticules$plotargs$x))
         thecolors$cols <- as.numeric(thecolors$id)
         out$bathy_legend <- list(
-            as_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, aes_string(x = "long", y = "lat", group = "group"), col = x$bathy_legend[[1]]$plotargs$ticks$col, size = 1)),
-            as_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$bathy_legend[[1]]$plotargs$ticks$col, size = 1)))
-        out$bathy_legend <- c(out$bathy_legend, lapply(seq_along(x$bathy_legend[[1]]$plotargs$legend$col), function(ii) as_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend[[1]]$plotargs$legend$col[ii], col = NA))))
-        out$bathy_legend <- c(out$bathy_legend, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$bathy_legend[[1]]$plotargs$labels$data), aes_string(x = "lon", y = "lat", label = "a"), size = 2))))
+            as_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, aes_string(x = "long", y = "lat", group = "group"), col = x$bathy_legend$ticks$plotargs$col, size = 1)),
+            as_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$bathy_legend$ticks$plotargs$col, size = 1)))
+        out$bathy_legend <- c(out$bathy_legend, lapply(seq_along(x$bathy_legend$legend_fill$plotargs$col), function(ii) as_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend$legend_fill$plotargs$col[ii], col = NA))))
+        out$bathy_legend <- c(out$bathy_legend, list(as_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$bathy_legend$labels$plotargs$x), aes_string(x = "lon", y = "lat", label = "a"), size = 2))))
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
 

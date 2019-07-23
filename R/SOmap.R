@@ -110,22 +110,12 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
 
     ## Legend
     if (bathy_legend) {
-        ## TODO split this into multiple plot functions?
         out$outer_mask <- list(as_plotter(plotfun = "plot", plotargs = list(x = mask_graticule, border = FALSE, col = "white", add = TRUE)))
-        out$bathy_legend <- list(as_plotter(
-            plotfun = function(mask, ticks, legend, graticules, labels) {
-                plot(ticks$ticks, add = TRUE, col = ticks$col)
-                plot(legend$legend, lwd = legend$lwd, add = TRUE)
-                plot(legend$legend, border = legend$border, col = legend$col, add = TRUE)
-                plot(graticules$graticules, border = graticules$border, col = graticules$col, add = TRUE)
-                text(labels$data, labels = labels$labels, cex = labels$cex, adj = labels$adj)
-            },
-            plotargs = list(mask = list(graticule = mask_graticule, col = "white", border = FALSE),
-                            ticks = list(ticks = btick, col = "black"),
-                            legend = list(legend = bleg, lwd = 2, col = bluepal2, border = FALSE),
-                            graticules = list(graticules = spud, border = FALSE, col = "white"),
-                            labels = list(data = lab_pos2, labels = lab_pos2$a, cex = 0.75, adj = 0.5)
-                            )))
+        out$bathy_legend <- list(ticks = as_plotter(plotfun = "plot", plotargs = list(x = btick, col = "black", add = TRUE)),
+                                 legend_outer = as_plotter(plotfun = "plot", plotargs = list(x = bleg, lwd = 2, add = TRUE)),
+                                 legend_fill = as_plotter(plotfun = "plot", plotargs = list(x = bleg, border = FALSE, col = bluepal2, add = TRUE)),
+                                 graticules = as_plotter(plotfun = "plot", plotargs = list(x = spud, border = FALSE, col = "white", add = TRUE)),
+                                 labels = as_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = 0.75, adj = 0.5)))
         out$plot_sequence <- c(out$plot_sequence, "outer_mask", "bathy_legend")
     }
     if (border) {
