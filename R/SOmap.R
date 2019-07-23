@@ -111,9 +111,9 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     ## Legend
     if (bathy_legend) {
         ## TODO split this into multiple plot functions?
+        out$outer_mask <- list(as_plotter(plotfun = "plot", plotargs = list(x = mask_graticule, border = FALSE, col = "white", add = TRUE)))
         out$bathy_legend <- list(as_plotter(
             plotfun = function(mask, ticks, legend, graticules, labels) {
-                plot(mask$graticule, border = mask$border, col = mask$col, add = TRUE) ## white mask
                 plot(ticks$ticks, add = TRUE, col = ticks$col)
                 plot(legend$legend, lwd = legend$lwd, add = TRUE)
                 plot(legend$legend, border = legend$border, col = legend$col, add = TRUE)
@@ -126,7 +126,7 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
                             graticules = list(graticules = spud, border = FALSE, col = "white"),
                             labels = list(data = lab_pos2, labels = lab_pos2$a, cex = 0.75, adj = 0.5)
                             )))
-        out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
+        out$plot_sequence <- c(out$plot_sequence, "outer_mask", "bathy_legend")
     }
     if (border) {
         bord <- graticule::graticule(lons = seq(-180, 180, by = 15), lats = c(trim+border_width, trim), tiles = TRUE, proj = raster::projection(Bathy))

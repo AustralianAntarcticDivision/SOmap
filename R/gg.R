@@ -162,7 +162,7 @@ SOgg_notauto <- function(x) {
 
     if (!is.null(x$coastline)) {
         ## the coastline data has to be trimmed to our northernmost latitude
-        ## masking (using e.g. x$bathy_legend[[1]]$mask$graticule) is likely to be problematic because of z-ordering
+        ## masking (using e.g. x$outer_mask) is likely to be problematic because of z-ordering
         ## TODO check that this trimming is robust
         this <- suppressWarnings(sf::st_intersection(buf, x$coastline[[1]]$plotargs$x))
         out$coastline <- list(as_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline[[1]]$plotargs$col, col = x$coastline[[1]]$plotargs$border, inherit.aes = FALSE)))
