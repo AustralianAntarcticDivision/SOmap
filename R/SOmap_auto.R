@@ -291,15 +291,37 @@ aspectplot.default <- function(xlim, ylim, asp, ...) {
   xlim <- sort(xlim)
   ylim <- sort(ylim)
   r <- asp * abs(diff(ylim)/diff(xlim))
-  if(r <= 1) {  # X = 0, 1
-    recip <- r / 2
-    figure <- c(0, 1, 0.5 - recip, 0.5 + recip)
-  } else {     # Y = 0, 1
-    recip <- (1/r) / 2
-    figure <- c(0.5 - recip, 0.5 + recip, 0, 1)
-  }
+  dv <- dev.size("px")
+  dr <- dv[1]/dv[2]
 
-  p <- par(fig = figure, new = FALSE, ...)
+
+  rd <- r * dr
+  bm <- 0
+
+  margins <- rep(bm, 4L) #* c(z, z, bm, bm)
+
+  if(rd <= 1) {  # X = 0, 1
+    #print("X = 0, 1")
+    recip <- (r * dr)/2
+
+    figure <- c(0, 1,
+                0.5 - recip, 0.5 + recip)
+
+  } else {     # Y = 0, 1
+    # print("Y = 0, 1")
+
+    recip <- ((1/dr) * (1/r) )/2
+    figure <- c(0.5 - recip, 0.5 + recip,
+                0, 1)
+
+  }
+  if (figure[1] < 0) figure[1] <- 0
+  if (figure[2] > 1) figure[2] <- 1
+  if (figure[3] < 0) figure[3] <- 0
+  if (figure[4] > 1) figure[4] <- 1
+
+  #if (any(figure > 1) || any(figure < 0)) browser()
+  p <- par(fig = figure, new = FALSE, mar = margins, ...)
   plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
   p
 }
