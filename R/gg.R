@@ -135,7 +135,7 @@ SOgg_notauto <- function(x) {
     out <- x[intersect(names(x), c("projection", "target", "straight", "trim"))]
     out$init <- SO_plotter(plotfun = "ggplot2::ggplot", plotargs = list(data = bdf, mapping = aes_string(x = "x", y = "y")))
     out$bathy <- SO_plotter(plotfun = "ggplot2::geom_raster", plotargs = list(mapping = aes_string(fill = "Depth")))
-    out$coord <- SO_plotter(plotfun = coord_sf, plotargs = list(default = TRUE))
+    out$coord <- SO_plotter(plotfun = "ggplot2::coord_sf", plotargs = list(default = TRUE))
     out$plot_sequence <- c("init", "bathy", "coord")
 
     out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, na.value = "#FFFFFF00", guide = if (!x$straight) FALSE else "colourbar"))

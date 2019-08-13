@@ -26,7 +26,7 @@ This is thoroughly experimental!
   my_R_file <- tempfile(fileext = ".R")
   writeLines(mapcode$code, con = my_R_file)
 
-  ## edit the code in that file if desired
+  ## you can edit the code in that file if desired
 
   ## save the data
   my_data_file <- tempfile(fileext = ".rds")

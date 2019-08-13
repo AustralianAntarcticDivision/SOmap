@@ -37,6 +37,7 @@ SOcode <- function(x, data_object_name = "SOmap_data") {
     datout <- list()
     codeout <- character()
     assert_that(inherits(x, c("SOmap_management", "SOmap", "SOthing", "SOmap_legend", "SOmap_gg", "SOmap_auto_gg")))
+    is_gg <- inherits(x, c("SOmap_gg", "SOmap_auto_gg"))
     ## interate through each plottable element in turn
     for (toplot in intersect(x$plot_sequence, names(x))) {
         allpf <- x[[toplot]] ## all the stuff to plot for this element
@@ -94,6 +95,11 @@ SOcode <- function(x, data_object_name = "SOmap_data") {
             }
             codeout <- c(codeout, paste0(thisfun, "(", paste(recoded_args, collapse = ", "), ")"))
         }
+    }
+    if (is_gg && length(codeout) > 1) {
+        ## need to add the plot elements together
+        codeout <- paste0(codeout, c(rep(" +", length(codeout)-1), ""))
+        codeout <- paste(codeout, collapse = "\n")
     }
     out <- list(code = codeout, datout)
     names(out)[2] <- data_object_name

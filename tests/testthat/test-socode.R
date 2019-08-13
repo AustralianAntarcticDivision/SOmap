@@ -1,6 +1,6 @@
 context("test SOcode")
 
-socode_test1 <- function(thing) {
+socode_test1 <- function(mapcode) {
     expect_named(mapcode, c("code", "ddddata"))
     expect_is(mapcode$code, "character")
     expect_is(mapcode$ddddat, "list")
