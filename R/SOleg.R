@@ -102,7 +102,7 @@ SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlab
             }
             tlabs <- as.character(lbs)
         }
-        if (!is.null(x) && is.null(tlabs) && inherits(x, "BasicRaster")) {
+        if (!is.null(x) && is.null(tlabs) && inherits(x, c("BasicRaster", "RasterLayer"))) {
             lmins <- raster::cellStats(x, stat = "min", na.rm = TRUE)
             lmax <- raster::cellStats(x, stat = "max", na.rm = TRUE)
             lbs <- seq(from = lmins, to = lmax, length.out = ticks)

@@ -1,5 +1,7 @@
 # 0.4.0
 
+* Allow `SOplot()` to add RGB raster objects. 
+
 ## BREAKING
 
 * parameter names to many functions have been changed, to make them case- and style-consistent

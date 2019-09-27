@@ -174,7 +174,13 @@ reproj.SOmap_auto <- function(x, target, ..., source = NULL) {
 #' @export
 reproj.BasicRaster <- function(x, target, ..., source = NULL) {
   targ <- raster::projectExtent(x, target)
-  raster::projectRaster(x, targ)
+  if (raster::nlayers(x) == 3) {
+    out <- raster::projectRaster(x, targ, method = "ngb")
+
+  } else {
+   out <-  raster::projectRaster(x, targ)
+  }
+  out
 }
 #' @name reproj
 #' @export

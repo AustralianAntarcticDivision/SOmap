@@ -43,7 +43,12 @@ SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE){
   if (add && (is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
     points(SObj, ...)
   } else {
-    plot(SObj, add=add, ...)
+    if (inherits(SObj, "BasicRaster") && raster::nlayers(SObj) == 3) {
+      ## assume raster is a RGB, and zap white with bgalpha
+      raster::plotRGB(SObj, add = add, bgalpha = 0, ...)
+    } else {
+      plot(SObj, add=add, ...)
+    }
   }
   #par(everything)
   invisible(NULL)
