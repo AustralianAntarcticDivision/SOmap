@@ -1,0 +1,13 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "SOmap: Southern Ocean maps",
+         author = c(person("Dale", "Maschette"),
+                    person("Michael", "Sumner"),
+                    person("Ben", "Raymond")),
+         year = 2019,
+         url = "https://github.com/AustralianAntarcticDivision/SOmap",
+		 version = note,
+		 textVersion = paste("Maschette, D., Sumner, M., Raymond, B. (2019). SOmap: Southern Ocean maps. Version 0.5.0 https://github.com/AustralianAntarcticDivision/SOmap")
+)
