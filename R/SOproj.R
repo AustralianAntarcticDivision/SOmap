@@ -40,7 +40,7 @@ SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
                                    as.character(substitute(x)),
                                    as.character(substitute(y))))
   if (is.null(target)) {
-    target <-  SOcrs()
+    suppressWarnings(target <-  SOcrs())
     if (is.null(target)) {
       message("No CRS provided or available, assuming SOmap default")
       target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
