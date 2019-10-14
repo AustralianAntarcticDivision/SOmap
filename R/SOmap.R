@@ -53,7 +53,7 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
 
         ## Legend
         ## Colored legend
-        bleg <- graticule::graticule(lons = seq(185, 265, by = 1),lats = c(trim+border_width+1, trim+border_width+3), tiles = TRUE, proj = raster::projection(Bathy))
+        bleg <- suppressWarnings(graticule::graticule(lons = seq(185, 265, by = 1),lats = c(trim+border_width+1, trim+border_width+3), tiles = TRUE, proj = raster::projection(Bathy)))
 
         btick <- suppressWarnings(graticule::graticule(lats = c(trim+border_width+2, trim+border_width+5), lons = seq(190, 260, by = 11.666), proj = raster::projection(Bathy), tiles = FALSE))
 
@@ -68,8 +68,8 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     ## Graticule dots #
     xx <- c(0, 45, 90, 135, 180, 225, 270, 315, 360)
     yy <- c(seq(from = -90, to = trim-1, by = 15), trim)
-    grat <- graticule::graticule(xx, yy, proj = raster::projection(Bathy))
-    gratlab <- graticule::graticule_labels(lons = 180,lats = c(-45, -30, -60, -75), xline = 180, yline = -15, proj = raster::projection(Bathy))
+    grat <- suppressWarnings(graticule::graticule(xx, yy, proj = raster::projection(Bathy)))
+    gratlab <- suppressWarnings(graticule::graticule_labels(lons = 180,lats = c(-45, -30, -60, -75), xline = 180, yline = -15, proj = raster::projection(Bathy)))
 
     ## crop bathy raster depending on legend yes or no
     q <- ifelse(bathy_legend, trim+border_width+11, trim+border_width)
