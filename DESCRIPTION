@@ -17,11 +17,14 @@ Depends: R (>= 3.3.0), raster, sp
 Imports:
     assertthat,
     dplyr,
+    geosphere,
     ggplot2,
+    glue,
     graticule,
     methods,
     proj4,
     raster,
+    reproj (>= 0.4.0),
     rgdal,
     rgeos,
     rlang,
@@ -32,15 +35,13 @@ Imports:
     stars,
     tabularaster,
     tibble,
-    reproj (>= 0.4.0),
-    glue,
     viridisLite
 Suggests:
     adehabitatLT,
     covr,
-    testthat (>= 2.1.0),
-    vdiffr,
     knitr,
     rmarkdown,
-    palr
+    testthat (>= 2.1.0),
+    palr,
+    vdiffr
 VignetteBuilder: knitr
