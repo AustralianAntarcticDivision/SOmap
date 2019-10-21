@@ -11,3 +11,4 @@
 ^R\SOchunk.r
 ^R\Setup_sysdata.R
 ^pkgdown$
+^.github$

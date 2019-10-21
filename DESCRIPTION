@@ -16,19 +16,25 @@ Roxygen: list(markdown = TRUE)
 Depends: R (>= 3.3.0), raster, sp
 Imports:
     assertthat,
+    dplyr,
     ggplot2,
     graticule,
     methods,
     proj4,
+    raster,
     rgdal,
     rgeos,
+    rlang,
     sf (>= 0.7-3),
+    sp,
     spbabel,
     spex (>= 0.6.0),
     stars,
     tabularaster,
+    tibble,
     reproj (>= 0.4.0),
-    glue
+    glue,
+    viridisLite
 Suggests:
     adehabitatLT,
     covr,
