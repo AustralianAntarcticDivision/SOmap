@@ -55,7 +55,7 @@ test_that("SOgg returns a ggplot object", {
 })
 
 test_that("SOgg works on SOmap_auto objects", {
-    p <- SOmap_auto()
+    p <- SOmap_auto(c(0, 50), c(-70, -50))
     pg <- SOgg(p)
     expect_s3_class(pg, "SOmap_auto_gg")
     expect_s3_class(plot(pg), "ggplot")
