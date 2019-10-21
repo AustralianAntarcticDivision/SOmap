@@ -1,3 +1,9 @@
+# 0.5.1
+
+* lots of bug fixes
+
+* changes to internal SOmap object structures
+
 # 0.4.0
 
 * Allow `SOplot()` to add RGB raster objects. 
