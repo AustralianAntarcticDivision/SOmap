@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>used in SOleg to test color palettes — is.discrete • SOmap</title>
+<title>Extract plotting code from a SOmap — SOcode • SOmap</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="used in SOleg to test color palettes — is.discrete" />
+<meta property="og:title" content="Extract plotting code from a SOmap — SOcode" />
 
-<meta property="og:description" content="used in SOleg to test color palettes" />
+<meta property="og:description" content="This is thoroughly experimental!" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -127,33 +127,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>used in SOleg to test color palettes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/is.discrete.r'><code>R/is.discrete.r</code></a></small>
-    <div class="hidden name"><code>is.discrete.Rd</code></div>
+    <h1>Extract plotting code from a SOmap</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/SOcode.R'><code>R/SOcode.R</code></a></small>
+    <div class="hidden name"><code>SOcode.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>used in SOleg to test color palettes</p>
+    <p>This is thoroughly experimental!</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>is.discrete</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>SOcode</span>(<span class='no'>x</span>, <span class='kw'>data_object_name</span> <span class='kw'>=</span> <span class='st'>"SOmap_data"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Object to test for is it discrete</p></td>
+      <td><p>: a map object as returned by <a href='SOmap.html'>SOmap</a>, <a href='SOmanagement.html'>SOmanagement</a>, <a href='SOleg.html'>SOleg</a>, or <a href='SOgg.html'>SOgg</a></p></td>
+    </tr>
+    <tr>
+      <th>data_object_name</th>
+      <td><p>string: the name to use for the object that will hold the map data. See Examples, below</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>returns true false</p>
+    <p>A list with two elements: <code>code</code> contains R code that will draw the map, and <code>SOmap_data</code> (or whatever was passed as the <code>data_object_name</code> argument) contains any data required by that code</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='SOmap.html'>SOmap</a></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmap.html'>SOmap</a></span>()
+  <span class='no'>mapcode</span> <span class='kw'>&lt;-</span> <span class='fu'>SOcode</span>(<span class='no'>p</span>, <span class='kw'>data_object_name</span> <span class='kw'>=</span> <span class='st'>"SOmap_data"</span>)
+
+  <span class='co'>## write this code to a file</span>
+  <span class='no'>my_R_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".R"</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span>(<span class='no'>mapcode</span>$<span class='no'>code</span>, <span class='kw'>con</span> <span class='kw'>=</span> <span class='no'>my_R_file</span>)
+
+  <span class='co'>## you can edit the code in that file if desired</span>
+
+  <span class='co'>## save the data</span>
+  <span class='no'>my_data_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".rds"</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span>(<span class='no'>mapcode</span>$<span class='no'>SOmap_data</span>, <span class='no'>my_data_file</span>)
+
+  <span class='co'>## later on, we can re-load the data and execute the code</span>
+  <span class='no'>SOmap_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span>(<span class='no'>my_data_file</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/source.html'>source</a></span>(<span class='no'>my_R_file</span>)
+
+  <span class='co'>## or just to show that this works, evaluate the returned code directly against its data</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='no'>mapcode</span>, <span class='kw'>for</span> (<span class='no'>codeline</span> <span class='kw'>in</span> <span class='no'>code</span>) <span class='fu'><a href='https://rdrr.io/r/base/eval.html'>eval</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/parse.html'>parse</a></span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='no'>codeline</span>)))
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -161,7 +191,11 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

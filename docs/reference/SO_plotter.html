@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>used in SOleg to test color palettes — is.discrete • SOmap</title>
+<title>Construct a SO_plotter object — SO_plotter • SOmap</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="used in SOleg to test color palettes — is.discrete" />
+<meta property="og:title" content="Construct a SO_plotter object — SO_plotter" />
 
-<meta property="og:description" content="used in SOleg to test color palettes" />
+<meta property="og:description" content="SOmap and similar objects contain all of the data and code required to draw a map. This information is embedded in SO_plotter objects within the SOmap object." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -127,33 +127,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>used in SOleg to test color palettes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/is.discrete.r'><code>R/is.discrete.r</code></a></small>
-    <div class="hidden name"><code>is.discrete.Rd</code></div>
+    <h1>Construct a SO_plotter object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/R/plot_utils.R'><code>R/plot_utils.R</code></a></small>
+    <div class="hidden name"><code>SO_plotter.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>used in SOleg to test color palettes</p>
+    <p><code>SOmap</code> and similar objects contain all of the data and code required to draw a map. This information is embedded in <code>SO_plotter</code> objects within the <code>SOmap</code> object.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>is.discrete</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>SO_plotter</span>(<span class='no'>plotfun</span>, <span class='kw'>plotargs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Object to test for is it discrete</p></td>
+      <th>plotfun</th>
+      <td><p>function or string: either the name of a function to use, or the function itself</p></td>
+    </tr>
+    <tr>
+      <th>plotargs</th>
+      <td><p>list: arguments to pass to the function</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>string: optional name for this element</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>returns true false</p>
+    <p>An object of class SO_plotter</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>SOmap</code></p></div>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmap.html'>SOmap</a></span>()
+  <span class='co'>## replace the `box` element with different plotting code</span>
+  <span class='no'>p</span>$<span class='no'>box</span> <span class='kw'>&lt;-</span> <span class='fu'>SO_plotter</span>(<span class='kw'>plotfun</span> <span class='kw'>=</span> <span class='st'>"graphics::box"</span>, <span class='kw'>plotargs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>))
+
+  <span class='co'>## you can also specify multiple plotting instructions for a single graphical element</span>
+  <span class='co'>##  of a map</span>
+  <span class='no'>p</span>$<span class='no'>box</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'>SO_plotter</span>(<span class='kw'>plotfun</span> <span class='kw'>=</span> <span class='st'>"graphics::box"</span>, <span class='kw'>plotargs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)),
+             <span class='fu'>SO_plotter</span>(<span class='kw'>plotfun</span> <span class='kw'>=</span> <span class='st'>"graphics::box"</span>, <span class='kw'>plotargs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)))
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -161,7 +184,11 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

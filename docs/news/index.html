@@ -8,6 +8,13 @@
 
 <title>Changelog • SOmap</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -16,13 +23,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -47,6 +56,7 @@
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -63,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
       </span>
     </div>
 
@@ -71,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,7 +108,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/AustralianAntarcticDivision/SOmap">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -109,6 +119,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -118,9 +129,9 @@
       <small>Source: <a href='https://github.com/AustralianAntarcticDivision/SOmap/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="somap-0219005" class="section level1">
+    <div id="somap-0-2-1-9005" class="section level1">
 <h1 class="page-header">
-<a href="#somap-0219005" class="anchor"></a>SOmap 0.2.1.9005</h1>
+<a href="#somap-0-2-1-9005" class="anchor"></a>SOmap 0.2.1.9005</h1>
 <div id="breaking-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#breaking-1" class="anchor"></a>BREAKING</h2>
@@ -138,13 +149,13 @@
 <li><p>Argument <code>sample_type</code> to <code><a href="../reference/SOmap_auto.html">SOmap_auto()</a></code> moved to internal function <code>automap_nothing()</code>.</p></li>
 <li><p>New internal functions to become the engine behind <code><a href="../reference/SOmap_auto.html">SOmap_auto()</a></code>, <code>automap_maker()</code> to create a background extent from disparate inputs, and <code>automap_nothing()</code> to create a background by random data.</p></li>
 <li><p>New auto extent logic for <code><a href="../reference/SOmap_auto.html">SOmap_auto()</a></code> to address <a href='https://github.com/AustralianAntarcticDivision/SOmap/issues/30'>#30</a>.</p></li>
-<li><p>New <code><a href="https://www.rdocumentation.org/packages/reproj/topics/reproj">reproj::reproj</a></code> methods for <code>SOmap_auto</code> and <code>SOmap</code> classes.</p></li>
+<li><p>New <code><a href="https://rdrr.io/pkg/reproj/man/reproj.html">reproj::reproj</a></code> methods for <code>SOmap_auto</code> and <code>SOmap</code> classes.</p></li>
 </ul>
 </div>
 </div>
-    <div id="somap-0139000" class="section level1">
+    <div id="somap-0-1-3-9000" class="section level1">
 <h1 class="page-header">
-<a href="#somap-0139000" class="anchor"></a>SOmap 0.1.3.9000</h1>
+<a href="#somap-0-1-3-9000" class="anchor"></a>SOmap 0.1.3.9000</h1>
 <ul>
 <li><p>Added control to <code>SOauto_map</code> to draw sp lines as lines, points as points correctly.</p></li>
 <li><p>Added a <code>NEWS.md</code> file to track changes to the package.</p></li>
@@ -156,13 +167,14 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#somap-0219005">0.2.1.9005</a></li>
-        <li><a href="#somap-0139000">0.1.3.9000</a></li>
+        <li><a href="#somap-0-2-1-9005">0.2.1.9005</a></li>
+        <li><a href="#somap-0-1-3-9000">0.1.3.9000</a></li>
       </ul>
     </div>
   </div>
 
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -170,13 +182,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
