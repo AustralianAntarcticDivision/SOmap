@@ -7,6 +7,9 @@ SOmap <img src="man/figures/logo.png" align="right" />
 
 The goal of SOmap is to make publication quality round Southern Ocean maps in polar projections with little effort. This package is still very much a work in progress contact me with any questions or suggestions.
 
+<b>Please note: we have just merged SOmap with the Development branch taking us to version 0.5. Whilst we have tried to ensure everything is working as it should be, however if you think you ahve found a bug please lodge and issue with a reproducible example.</b>
+
+
 Installation
 ------------
 
