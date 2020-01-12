@@ -10,6 +10,9 @@
 #' @param col colours to use if `add = TRUE`
 #' @param dim dimensions of raster to bin to
 #' @param add if `TRUE` binned raster is added to plot
+#' @param target target projection passed to SOproj
+#' @param source source projection of data projection passed to SOproj
+#'
 #'
 #' @return raster
 #' @noRd
@@ -20,11 +23,14 @@
 #' a
 #' pts <- geosphere::randomCoordinates(1e6)
 #' bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
-SObin <- function(x, y = NULL, ..., col = viridisLite::viridis(26), dim = c(300, 300), add = TRUE) {
-  SObj <- SOproj(x = x, y= y, target = NULL, source = NULL)
+SObin <- function(x, y = NULL, ..., col = viridisLite::viridis(26), dim = c(300, 300), add = TRUE, target = NULL, source = NULL) {
+  SObj <- SOproj(x = x, y= y, target = target, source = source)
 
-  crs <- SOcrs()
-  ex <- spex::spex(crs = crs)
+  if(missing(target)){crs <- SOcrs()}else(
+    crs<-target
+  )
+
+  ex <- spex::spex(x=SObj,crs = crs)
   r <- raster::raster(ex, nrows = dim[1], ncols = dim[2])
   r <- raster::setValues(r, NA_integer_)
   tib <- tibble::tibble(cell = raster::cellFromXY(r, sp::coordinates(SObj)))
