@@ -39,10 +39,7 @@ SObin <- function(x, y = NULL, ..., col = viridisLite::viridis(26), dim = c(300,
   r[summ$cell] <- summ$count
   if (add) plot(r, add = TRUE, ..., col = col)
   if (data.frame){
-    rdf<-as.data.frame(r, xy=TRUE)
+    rdf<-raster::as.data.frame(r, xy=TRUE)
     return(rdf)
   }else(return(r))
 }
-
-
-
