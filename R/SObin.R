@@ -23,7 +23,7 @@
 #' a
 #' pts <- geosphere::randomCoordinates(1e6)
 #' bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
-SObin <- function(x, y = NULL, ..., col = viridisLite::viridis(26), dim = c(300, 300), add = TRUE, target = NULL, source = NULL) {
+SObin <- function(x, y = NULL, ..., col = viridisLite::viridis(26), dim = c(300, 300), add = TRUE, target = NULL, source = NULL, data.frame=FALSE) {
   SObj <- SOproj(x = x, y= y, target = target, source = source)
 
   if(missing(target)){crs <- SOcrs()}else(
@@ -38,7 +38,10 @@ SObin <- function(x, y = NULL, ..., col = viridisLite::viridis(26), dim = c(300,
   summ <- dplyr::filter(summ, !is.na(.data$cell))
   r[summ$cell] <- summ$count
   if (add) plot(r, add = TRUE, ..., col = col)
-  r
+  if (data.frame){
+    rdf<-as.data.frame(r, xy=TRUE)
+    return(rdf)
+  }else(return(r))
 }
 
 
