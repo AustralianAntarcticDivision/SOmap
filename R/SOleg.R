@@ -173,13 +173,13 @@ SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlab
     ## Tick labels
     df2 <- data.frame(a = tlabs,lon = btlons, lat=rep(trim+9, length(tlabs))) ## Create dataframe with labels and locations.
     sp::coordinates(df2) <- c("lon", "lat") ## Assign the current coordinate type
-    raster::projection(df2) <- "+init=epsg:4326" ## Assign the current projection type
+    raster::projection(df2) <- proj_longlat() ## Assign the current projection type
     lab_pos2 <- sp::spTransform(df2, raster::crs(raster::projection(Bathy))) ## Reproject to the polar map coordinates.
 
     ## Legend label
     df3 <- data.frame(a = label,lon = lablon, lat = rep(trim+12.5))
     sp::coordinates(df3) <- c("lon", "lat")
-    raster::projection(df3) <- "+init=epsg:4326"
+    raster::projection(df3) <- proj_longlat()
     lab_pos3 <- sp::spTransform(df3, raster::crs(raster::projection(Bathy)))
 
     structure(list(

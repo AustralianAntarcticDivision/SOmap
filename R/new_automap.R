@@ -84,7 +84,7 @@ automap_maker <-
 
 
 
-    llproj <- "+init=epsg:4326"
+    llproj <- proj_longlat()
 
     tgt_raster <- NULL
     tgt_prj <- NULL
@@ -118,7 +118,7 @@ automap_maker <-
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
-        mp <- mid_point(reproj::reproj(as.matrix(cpts), target = 4326, source = raster::projection(x)))
+        mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(), source = raster::projection(x)))
         if (is.null(centre_lon)) centre_lon <- mp[1]
         if (is.null(centre_lat)) centre_lat <- mp[2]
       }
@@ -140,7 +140,8 @@ automap_maker <-
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
-        mp <- mid_point(reproj::reproj(as.matrix(cpts), target = 4326, source = raster::projection(x)))
+        mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(),
+                                       source = raster::projection(x)))
         if (is.null(centre_lon)) centre_lon <- mp[1]
         if (is.null(centre_lat)) centre_lat <- mp[2]
       }

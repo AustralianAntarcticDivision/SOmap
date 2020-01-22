@@ -62,7 +62,7 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
                           lon = seq(190, 260, by = 11.666),
                           lat=rep(trim+border_width+7, 7))
         sp::coordinates(df2) <- c("lon", "lat")
-        raster::projection(df2) <- "+init=epsg:4326"
+        raster::projection(df2) <- proj_longlat()
         lab_pos2 <- sp::spTransform(df2, raster::crs(raster::projection(Bathy)))
     }
     ## Graticule dots #
@@ -84,12 +84,15 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     if (land) {
       xland <-sf::st_as_sf(SOmap::SOmap_data$continent)
       xland <- sf::st_buffer(xland, 0)
+      xland <- sf::st_set_crs(xland, sf::st_crs(buf))
       out$coastline <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = land_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
 
     if (ice) {
       xice <- sf::st_buffer(SOmap::SOmap_data$ant_coast_ice, 0)
+      ## make sure the crs are equal because god forbid we wouldn't want to be making things useable ...
+      xice <- sf::st_set_crs(xice, sf::st_crs(buf))
       out$ice <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xice)$geometry), col = NA, border = ice_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "ice")
     }
@@ -97,6 +100,7 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     ## fronts
     if (fronts) {
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
+      xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
       out$fronts <- as_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
     }

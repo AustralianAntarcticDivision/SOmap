@@ -100,7 +100,7 @@ SOmanagement <- function(ccamlr = FALSE,
                               lon = c(-145, -90, -30, 35, 100, 160),
                               lat=rep(-60, 6))
             sp::coordinates(df3) <- c("lon", "lat")
-            raster::projection(df3) <- "+init=epsg:4326"
+            raster::projection(df3) <- proj_longlat()
             lab_pos3 <- sp::spTransform(df3, raster::crs(out$projection))
             out$iwc$labels <- as_plotter(plotfun = "SOmap_text", plotargs = list(x = lab_pos3, labelcol = "a", col = iwc_col, cex = 0.4, pos = 1, offset = -0.05))
         }

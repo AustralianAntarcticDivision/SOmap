@@ -21,7 +21,7 @@ latmask <- function(x, latitude = 0, southern = TRUE) {
   if (raster::isLonLat(x))  {
     xy <- sp::coordinates(x)
   } else   {
-    xy <- proj4::ptransform(sp::coordinates(x), raster::projection(x), "+init=epsg:4326")
+    xy <- proj4::ptransform(sp::coordinates(x), raster::projection(x), proj_longlat())
   }
   if (southern) x[xy[,2] > (latitude * pi/180)] <- NA else x[xy[,2] < (latitude * pi/180)] <- NA
   x
