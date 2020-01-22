@@ -173,10 +173,15 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     ramp2 <- grDevices::colorRampPalette(c("#54A3D1","#60B3EB","#78C8F0","#98D1F5","#B5DCFF","#BDE1F0","#CDEBFA","#D6EFFF","#EBFAFF","grey92","grey94","grey96", "white"))
     bluepal <- ramp2(45)
     ## bk <- c(-10353,-8000,-5000,-4000,-3000,-2000,-1500,-1000,-500,-1,0,1500, 5850)
+    ## need to construct breaks for plotting, so that colours always line up with the right values
+    depthmin <- if (inherits(bathymetry, "BasicRaster")) raster::cellStats(bathymetry, "min", na.rm = TRUE) else -10353 ## fallback to this
+    depthmax <- if (inherits(bathymetry, "BasicRaster")) raster::cellStats(bathymetry, "max", na.rm = TRUE) else 6050 ## fallback to this
+    bathy_breaks <- c(seq(from = depthmin, to = 0, length.out = 33), seq(from = 0, to = depthmax, length.out = 14)[-1]) ## one more break than colour
 
    if (!exists("xy")) xy <- NULL
     structure(list(projection = raster::projection(target),
                    bathy = bathymetry, bathyleg = bathyleg, bathy_palette = bluepal,
+                   bathy_breaks = bathy_breaks,
                    coastline = if (land) list(data = coastline, fillcol = NA, linecol = land_col) else NULL,
                    ice = if (ice) list(data = icedat, fillcol = NA, linecol = ice_col) else NULL,
                    target = target, ##data = xy,
@@ -218,10 +223,18 @@ print.SOmap_auto <- function(x,main=NULL, ..., set_clip = TRUE) {
   if(!is.null(main)){graphics::title(main = main)}
   op <- par(xpd = FALSE)
   if (!is.null(x$bathy)) {
+      ## check breaks and colours: need one more break than number of colours
+      ## if the user has overridden the palette but not the breaks, this may cause an error
+      if (length(x$bathy_breaks) != (length(x$bathy_palette) + 1)) x$bathy_breaks <- NULL
       if (isTRUE(x$bathyleg)) {
-          raster::plot(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)
+          raster::plot(x$bathy, add = TRUE, col = x$bathy_palette, breaks = x$bathy_breaks, axes = FALSE)
       } else {
-          raster::image(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)#grey(seq(0, 1, length = 40)))
+          if (!is.null(x$bathy_breaks)) {
+              raster::image(x$bathy, add = TRUE, col = x$bathy_palette, breaks = x$bathy_breaks, axes = FALSE)
+          } else {
+              ## image can't cope with NULL breaks?
+              raster::image(x$bathy, add = TRUE, col = x$bathy_palette, axes = FALSE)
+          }
       }
   }
   ## suggested param change: if levels is a scalar than pass it to nlevels

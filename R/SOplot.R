@@ -75,9 +75,9 @@ SOify <- function(x, y = NULL, target = NULL, ..., source = NULL, add = TRUE){
         out$projection <- source$projection
     }
     if ((is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
-        out[[objname]] <- list(as_plotter(plotfun = "points", plotargs = list(SObj, ...)))
+        out[[objname]] <- SO_plotter(plotfun = "points", plotargs = list(SObj, ...))
     } else {
-        out[[objname]] <- list(as_plotter(plotfun = "plot", plotargs = list(SObj, add = add, ...)))
+        out[[objname]] <- SO_plotter(plotfun = "plot", plotargs = list(SObj, add = add, ...))
     }
     structure(out, class = "SOthing")
 }

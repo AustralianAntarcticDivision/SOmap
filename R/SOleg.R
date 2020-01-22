@@ -26,11 +26,11 @@
 #'   SOmap()
 #'
 #'   ## Discrete Legend
-#'   SOleg(position = "topleft", col = viridis::viridis(5),
+#'   SOleg(position = "topleft", col = viridisLite::viridis(5),
 #'         tlabs = c("a", "b", "c", "d", "e"), trim = -45, label = "Species")
 #'
 #'   ## Continuous Legend
-#'   SOleg(x = runif(100), position = "topright", col = viridis::viridis(80),
+#'   SOleg(x = runif(100), position = "topright", col = viridisLite::viridis(80),
 #'         breaks = c(0.1, 0.2, 0.5, 0.9), trim = -45, label = "Species",
 #'         rnd = 1, type = "continuous")
 #' }
@@ -102,7 +102,7 @@ SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlab
             }
             tlabs <- as.character(lbs)
         }
-        if (!is.null(x) && is.null(tlabs) && inherits(x, "BasicRaster")) {
+        if (!is.null(x) && is.null(tlabs) && inherits(x, c("BasicRaster", "RasterLayer"))) {
             lmins <- raster::cellStats(x, stat = "min", na.rm = TRUE)
             lmax <- raster::cellStats(x, stat = "max", na.rm = TRUE)
             lbs <- seq(from = lmins, to = lmax, length.out = ticks)
@@ -184,13 +184,13 @@ SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlab
 
     structure(list(
         plot_sequence = c("mask", "ticks", "legend", "mask2", "tick_labels", "legend_labels"),
-        mask = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = j, col = "white", border = FALSE, add = TRUE))),
-        ticks = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = btick, col = "black", add = TRUE))),
-        legend = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, lwd = 2, add = TRUE)),
-                      as_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, border = FALSE, col = cols, add = TRUE))),
-        mask2 = list(as_plotter(plotfun = "raster::plot", plotargs = list(x = k, border = FALSE, col = "white", add = TRUE))),
-        tick_labels = list(as_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = lcex, adj = ladj, srt = lsrt))),
-        legend_labels = list(as_plotter(plotfun = "text", plotargs = list(x = lab_pos3, labels = lab_pos3$a, cex = tcex, adj = tadj, srt = SRT)))
+        mask = SO_plotter(plotfun = "raster::plot", plotargs = list(x = j, col = "white", border = FALSE, add = TRUE)),
+        ticks = SO_plotter(plotfun = "raster::plot", plotargs = list(x = btick, col = "black", add = TRUE)),
+        legend = c(SO_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, lwd = 2, add = TRUE)),
+                   SO_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, border = FALSE, col = cols, add = TRUE))),
+        mask2 = SO_plotter(plotfun = "raster::plot", plotargs = list(x = k, border = FALSE, col = "white", add = TRUE)),
+        tick_labels = SO_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = lcex, adj = ladj, srt = lsrt)),
+        legend_labels = SO_plotter(plotfun = "text", plotargs = list(x = lab_pos3, labels = lab_pos3$a, cex = tcex, adj = tadj, srt = SRT))
     ), class = "SOmap_legend")
 }
 

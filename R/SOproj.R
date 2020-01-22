@@ -39,9 +39,16 @@ SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
  if (is.character(y)) stop(sprintf("'y' is character, did you mean? \n\n  SOproj(%s, target = %s)",
                                    as.character(substitute(x)),
                                    as.character(substitute(y))))
+  if (is.null(target)) {
+    suppressWarnings(target <-  SOcrs())
+    if (is.null(target)) {
+      message("No CRS provided or available, assuming SOmap default")
+      target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    }
+  }
+
   ## shortcut out, we have an object
   if (is.null(y) && !missing(x)) {
-    if (is.null(target)) target <- SOcrs()
     source <- raster::projection(x)
     if (is.na(source)) {
       warning("assuming generic data is in longitude,latitude")
@@ -62,13 +69,6 @@ SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
 #      stop("no projection metadata on 'x'")
 #     }
 #   }
-  if (is.null(target)) {
-    target <-  SOcrs()
-    if (is.null(target)) {
-      message("No CRS provided or available, assuming SOmap default")
-      target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
-    }
-  }
 
   if (missing(data)) data <- 1
 

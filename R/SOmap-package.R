@@ -4,7 +4,8 @@
 #'
 #' @name SOmap-package
 #' @docType package
-#' @importFrom assertthat assert_that is.flag
+#' @importFrom assertthat assert_that is.flag is.string
+#' @importFrom rlang .data
 #' @importFrom ggplot2 aes_string coord_sf element_blank element_rect element_text fortify ggplot geom_line geom_path geom_point geom_polygon geom_raster geom_sf geom_sf_text geom_text labs scale_fill_gradientn scale_x_continuous scale_y_continuous theme
 #' @importFrom graphics contour lines par plot plot.new plot.window points text
 #' @importFrom grDevices heat.colors
