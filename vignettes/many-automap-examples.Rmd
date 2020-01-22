@@ -39,7 +39,7 @@ SOmap_auto()
 ```
 
 ```{r examples1, eval = TRUE}
-SOmap_auto(target = "+proj=laea +lat_0=-20")
+SOmap_auto(target = "+proj=laea +lat_0=-20 +ellps=WGS84")
 ```
 
 ```{r examples2, eval = TRUE}
