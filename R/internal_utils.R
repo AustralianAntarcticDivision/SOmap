@@ -89,3 +89,8 @@ stars_to_raster <- function (x, ...) {
     b
   }
 }
+
+proj_longlat <- function() {
+  "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+}
+
