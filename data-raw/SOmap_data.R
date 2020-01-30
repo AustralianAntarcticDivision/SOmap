@@ -203,7 +203,6 @@ SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR
                    ant_coast_land = ant_coast_land, ant_coast_ice = ant_coast_ice,
                    ACC_FRONTS = ACC_FRONTS)
 
-SOmap_data$ACC_FRONTS <- ACC_FRONTS
 
 usethis::use_data(SOmap_data, overwrite = TRUE, compress = "xz")
 
