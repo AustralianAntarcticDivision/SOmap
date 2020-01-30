@@ -190,6 +190,7 @@ GSHHS_i_L1 <- shapefile(outfiles[grepl("GSHHS_i_L1\\.shp$", outfiles)])
 GSHHS_i_L1 <- crop(GSHHS_i_L1, extent(c(-180, 180, -90, 0)))
 GSHHS_i_L1 <- spTransform(GSHHS_i_L1, psproj)
 
+ACC_FRONTS <- readRDS("data-raw/ACC_FRONTS.rds")
 SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR_research_blocks = RB1,
                    CCAMLR_SSRU = SSRU1, CCAMLR_SSMU = SSMU1,
                    CCAMLR_VME_polygons = VME_polygons, CCAMLR_VME_fsr = VME_fsr, CCAMLR_VME_risk_areas = VME_risk_areas,
@@ -199,7 +200,10 @@ SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR
                    mirounga_leonina = mirounga_leonina,
                    EEZ = EEZ1, ##ADD_coastline_med = ADD_coastline_med,
                    GSHHS_i_L1 = GSHHS_i_L1,
-                   ant_coast_land = ant_coast_land, ant_coast_ice = ant_coast_ice)
+                   ant_coast_land = ant_coast_land, ant_coast_ice = ant_coast_ice,
+                   ACC_FRONTS = ACC_FRONTS)
+
+SOmap_data$ACC_FRONTS <- ACC_FRONTS
 
 usethis::use_data(SOmap_data, overwrite = TRUE, compress = "xz")
 

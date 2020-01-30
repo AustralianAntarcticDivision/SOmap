@@ -1,3 +1,7 @@
+# dev
+
+* New data set ACC_FRONTS.
+
 # 0.5.1
 
 * lots of bug fixes

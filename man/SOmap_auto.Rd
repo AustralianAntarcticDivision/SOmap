@@ -4,14 +4,36 @@
 \alias{SOmap_auto}
 \title{Default Southern Ocean map}
 \usage{
-SOmap_auto(x, y, centre_lon = NULL, centre_lat = NULL,
-  target = "stere", dimXY = c(300, 300), bathy = TRUE, land = TRUE,
-  land_col = "black", ice = TRUE, ice_col = "black",
-  input_points = TRUE, input_lines = TRUE, graticule = TRUE,
-  expand = 0.05, contours = FALSE, levels = c(-500, -1000, -2000),
-  ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1,
-  llwd = 1, lcol = 1, gratlon = NULL, gratlat = NULL,
-  gratpos = "all", ...)
+SOmap_auto(
+  x,
+  y,
+  centre_lon = NULL,
+  centre_lat = NULL,
+  target = "stere",
+  dimXY = c(300, 300),
+  bathy = TRUE,
+  land = TRUE,
+  land_col = "black",
+  ice = TRUE,
+  ice_col = "black",
+  input_points = TRUE,
+  input_lines = TRUE,
+  graticule = TRUE,
+  expand = 0.05,
+  contours = FALSE,
+  levels = c(-500, -1000, -2000),
+  ppch = 19,
+  pcol = 2,
+  pcex = 1,
+  bathyleg = FALSE,
+  llty = 1,
+  llwd = 1,
+  lcol = 1,
+  gratlon = NULL,
+  gratlat = NULL,
+  gratpos = "all",
+  ...
+)
 }
 \arguments{
 \item{x}{optional input data longitudes}

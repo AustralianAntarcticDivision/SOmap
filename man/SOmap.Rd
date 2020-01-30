@@ -4,12 +4,22 @@
 \alias{SOmap}
 \title{Southern Ocean Map}
 \usage{
-SOmap(bathy_legend = TRUE, border = TRUE, trim = -45,
-  graticules = FALSE, straight = FALSE, land = TRUE,
-  land_col = "black", ice = TRUE, ice_col = "black",
-  fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"),
-  border_col = c("white", "black"), border_width = 2,
-  graticules_col = "grey70")
+SOmap(
+  bathy_legend = TRUE,
+  border = TRUE,
+  trim = -45,
+  graticules = FALSE,
+  straight = FALSE,
+  land = TRUE,
+  land_col = "black",
+  ice = TRUE,
+  ice_col = "black",
+  fronts = FALSE,
+  fronts_col = c("hotpink", "orchid", "plum"),
+  border_col = c("white", "black"),
+  border_width = 2,
+  graticules_col = "grey70"
+)
 }
 \arguments{
 \item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend.}

@@ -4,15 +4,36 @@
 \alias{SOmanagement}
 \title{Southern Ocean management map layers}
 \usage{
-SOmanagement(ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE,
-  ssru_labels = FALSE, ssmu = FALSE, ssmu_labels = FALSE,
-  rb = FALSE, rb_labels = FALSE, sprfmorb = FALSE, trim = -45,
-  eez = FALSE, eez_labels = FALSE, mpa = FALSE, mpa_labels = FALSE,
-  iwc = FALSE, iwc_labels = FALSE, domains = FALSE,
-  domains_labels = FALSE, rb_col = "green", sprfmo_col = "grey50",
-  ccamlr_col = "red", ssru_col = "grey50", ssmu_col = "grey70",
-  eez_col = "maroon", mpa_col = "yellow", iwc_col = "blue",
-  domains_col = "magenta", basemap)
+SOmanagement(
+  ccamlr = FALSE,
+  ccamlr_labels = FALSE,
+  ssru = FALSE,
+  ssru_labels = FALSE,
+  ssmu = FALSE,
+  ssmu_labels = FALSE,
+  rb = FALSE,
+  rb_labels = FALSE,
+  sprfmorb = FALSE,
+  trim = -45,
+  eez = FALSE,
+  eez_labels = FALSE,
+  mpa = FALSE,
+  mpa_labels = FALSE,
+  iwc = FALSE,
+  iwc_labels = FALSE,
+  domains = FALSE,
+  domains_labels = FALSE,
+  rb_col = "green",
+  sprfmo_col = "grey50",
+  ccamlr_col = "red",
+  ssru_col = "grey50",
+  ssmu_col = "grey70",
+  eez_col = "maroon",
+  mpa_col = "yellow",
+  iwc_col = "blue",
+  domains_col = "magenta",
+  basemap
+)
 }
 \arguments{
 \item{ccamlr}{logical: if \code{TRUE}, insert the CCAMLR area boundaries.}

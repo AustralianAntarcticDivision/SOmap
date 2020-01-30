@@ -4,10 +4,24 @@
 \alias{SOleg}
 \title{Rounded legends for SOmap}
 \usage{
-SOleg(x = NULL, position = "topright", col = NULL, ticks = NULL,
-  tlabs = NULL, breaks = NULL, trim = -45, type = "discrete",
-  label = "", ladj = 0.5, lsrt = 0, lcex = 0.75, tadj = 0.5,
-  tcex = 1, rnd = NULL, border_width = 2)
+SOleg(
+  x = NULL,
+  position = "topright",
+  col = NULL,
+  ticks = NULL,
+  tlabs = NULL,
+  breaks = NULL,
+  trim = -45,
+  type = "discrete",
+  label = "",
+  ladj = 0.5,
+  lsrt = 0,
+  lcex = 0.75,
+  tadj = 0.5,
+  tcex = 1,
+  rnd = NULL,
+  border_width = 2
+)
 }
 \arguments{
 \item{x}{numeric: object to obtain min and max values from for \code{type = "continuous"}.}
