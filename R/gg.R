@@ -429,7 +429,7 @@ SOgg_auto <- function(x) {
     }
 
     if(!is.null(x$lines_data)) {
-        out$lines_data <- SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = setNames(as.data.frame(x$lines_data), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$lcol, linetype = x$llty, size = x$llwd))
+        out$lines_data <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines_data), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$lcol, linetype = x$llty, size = x$llwd))
         out$plot_sequence <- c(out$plot_sequence, "lines_data")
     }
 
