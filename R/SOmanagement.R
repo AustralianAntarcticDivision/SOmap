@@ -44,8 +44,15 @@
 #'   dev.off()
 #'   unlink(tfile)
 #'
-#'   SOmap(trim = -45)
-#'   SOmanagement(ccamlr = TRUE, ccamlr_labels = TRUE, trim = -45)
+#'   ## map with non-default latitudinal extent
+#'   SOmap(trim = -55)
+#'   ## either provide the same extent via 'trim'
+#'   SOmanagement(ccamlr = TRUE, ccamlr_labels = TRUE, trim = -55)
+#'
+#'   ## or equivalently, pass the basemap to SOmanagement
+#'   x <- SOmap(trim = -55)
+#'   plot(x)
+#'   SOmanagement(ccamlr = TRUE, ccamlr_labels = TRUE, basemap = x)
 #' }
 #' @export
 SOmanagement <- function(ccamlr = FALSE,
@@ -87,19 +94,31 @@ SOmanagement <- function(ccamlr = FALSE,
     } else {
         out <- list(projection = raster::projection(Bathy), plot_sequence = NULL)
     }
-    croptarget <- make_buf(trim, proj = out$projection)
-
-    ## local convenience functions to crop/buffer objects to our projection and extent
-    apply_buf <- function(thing, geometry_only = TRUE) {
-        tryCatch({
-            if (inherits(thing, "Spatial")) {
-                thing <- sf::st_as_sf(thing)
-                thing <- sf::st_buffer(thing, 0)
-                thing <- sf::st_set_crs(thing, sf::st_crs(croptarget))
-            }
-            out <- suppressWarnings(sf::st_intersection(croptarget, thing))
-            if (geometry_only) out$geometry else out
-        }, error = function(e) stop("could not crop: ", conditionMessage(e)))
+    if (!missing(basemap) && inherits(basemap, "SOmap_auto")) {
+        ## SOmap_auto object, which can have arbitrary projection and extent
+        ## but the bathy component of an SOmap_auto object matches the visible map extent, so
+        ##  we can just use SOauto_crop (and ignore the geometry_only parm, which only matters
+        ##  for the version of apply_buf used with SOmap objects)
+        apply_buf <- function(thing, geometry_only) {
+            SOauto_crop(thing, x = basemap)
+        }
+    } else {
+        ## SOmap object
+        ## the bathy data does not necessarily match the visible extent of the map, so we
+        ##  need to make an appropriate buffer
+        croptarget <- make_buf(trim, proj = out$projection)
+        ## local convenience functions to crop/buffer objects to our projection and extent
+        apply_buf <- function(thing, geometry_only = TRUE) {
+            tryCatch({
+                if (inherits(thing, "Spatial")) {
+                    thing <- sf::st_as_sf(thing)
+                    thing <- sf::st_buffer(thing, 0)
+                    thing <- sf::st_set_crs(thing, sf::st_crs(croptarget))
+                }
+                out <- suppressWarnings(sf::st_intersection(croptarget, thing))
+                if (geometry_only) out$geometry else out
+            }, error = function(e) stop("could not crop: ", conditionMessage(e)))
+        }
     }
     centroids <- function(z) suppressWarnings(sf::st_centroid(sf::st_as_sf(z)))
 
