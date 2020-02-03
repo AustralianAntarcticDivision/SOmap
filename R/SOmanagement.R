@@ -123,25 +123,32 @@ SOmanagement <- function(ccamlr = FALSE,
     centroids <- function(z) suppressWarnings(sf::st_centroid(sf::st_as_sf(z)))
 
     if (iwc) {
-        ## TODO: cope with trimmed or otherwise non-standard extents
-        ## also TODO: do these areas have northern boundary lines?
-        out$iwc <- c(SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-170, trim), c(-170, -78.40)), out$projection), col = iwc_col)),
-                     SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-120, trim), c(-120, -73.844137)), out$projection), col = iwc_col)),
-                     SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-60, -65.168), c(-60, -75.146206)), out$projection), col = iwc_col)),
-                     SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-60, trim), c(-60, -62.4505)), out$projection), col = iwc_col)),
-                     SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(0, trim), c(0, -69.596701)), out$projection), col = iwc_col)),
-                     SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(70, trim), c(70, -68.366691)), out$projection), col = iwc_col)),
-                     SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(130, trim), c(130, -66.295027)), out$projection), col = iwc_col)))
-        if (iwc_labels) {
-            df3 <- data.frame(a = c("Area VI", "Area I", "Area II", "Area III", "Area IV", "Area V"),
-                              lon = c(-145, -90, -30, 35, 100, 160),
-                              lat=rep(-60, 6))
-            sp::coordinates(df3) <- c("lon", "lat")
-            raster::projection(df3) <- proj_longlat()
-            lab_pos3 <- sp::spTransform(df3, raster::crs(out$projection))
-            out$iwc <- c(out$iwc, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = lab_pos3, labelcol = "a", col = iwc_col, cex = 0.4, pos = 1, offset = -0.05), name = "labels"))
+        ## TODO: northern extent limits need defining, and norther boundary lines added
+        temp <- c(if (trim > -78.40) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-170, trim), c(-170, -78.40)), out$projection), col = iwc_col)),
+                  if (trim > -73.844137) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-120, trim), c(-120, -73.844137)), out$projection), col = iwc_col)),
+                  if (trim > -75.146206) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-60, min(trim, -65.168)), c(-60, -75.146206)), out$projection), col = iwc_col)),
+                  if (trim > -62.4505) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-60, trim), c(-60, -62.4505)), out$projection), col = iwc_col)),
+                  if (trim > -69.596701) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(0, trim), c(0, -69.596701)), out$projection), col = iwc_col)),
+                  if (trim > -68.366691) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(70, trim), c(70, -68.366691)), out$projection), col = iwc_col)),
+                  if (trim > -66.295027) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(130, trim), c(130, -66.295027)), out$projection), col = iwc_col)))
+        if (length(temp) > 0) {
+            out$iwc <- temp
+            if (iwc_labels) {
+                df3 <- data.frame(a = c("Area VI", "Area I", "Area II", "Area III", "Area IV", "Area V"),
+                                  lon = c(-145, -90, -30, 35, 100, 160),
+                                  lat=rep(-90+2/3*(90-abs(trim)), 6))
+                ## label latitudes are a bit fraught with trimmed maps - labels need to be over ocean but still on the map itself
+                df3$lat <- pmax(df3$lat, c(-74, -70, -74, -67, -63, -68))
+                df3 <- df3[df3$lat < trim, ]
+                if (nrow(df3) > 0) {
+                    sp::coordinates(df3) <- c("lon", "lat")
+                    raster::projection(df3) <- proj_longlat()
+                    lab_pos3 <- sp::spTransform(df3, raster::crs(out$projection))
+                    out$iwc <- c(out$iwc, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = lab_pos3, labelcol = "a", col = iwc_col, cex = 0.4, pos = 1, offset = -0.05), name = "labels"))
+                }
+            }
+            out$plot_sequence <- c(out$plot_sequence, "iwc")
         }
-        out$plot_sequence <- c(out$plot_sequence, "iwc")
     }
 
     if (rb) {
