@@ -100,7 +100,8 @@ SOmanagement <- function(ccamlr = FALSE,
         ##  we can just use SOauto_crop (and ignore the geometry_only parm, which only matters
         ##  for the version of apply_buf used with SOmap objects)
         apply_buf <- function(thing, geometry_only) {
-            SOauto_crop(thing, x = basemap)
+            out <- SOauto_crop(thing, x = basemap)
+            if (inherits(out, "try-error")) NULL else out
         }
     } else {
         ## SOmap object
