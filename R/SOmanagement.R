@@ -83,9 +83,25 @@ SOmanagement <- function(ccamlr = FALSE,
 
     if (!missing(basemap)) {
         out <- list(projection = basemap$projection, plot_sequence = NULL)
+        if (missing(trim) && !is.null(basemap$trim)) trim <- basemap$trim
     } else {
         out <- list(projection = raster::projection(Bathy), plot_sequence = NULL)
     }
+    croptarget <- make_buf(trim, proj = out$projection)
+
+    ## local convenience functions to crop/buffer objects to our projection and extent
+    apply_buf <- function(thing, geometry_only = TRUE) {
+        tryCatch({
+            if (inherits(thing, "Spatial")) {
+                thing <- sf::st_as_sf(thing)
+                thing <- sf::st_buffer(thing, 0)
+                thing <- sf::st_set_crs(thing, sf::st_crs(croptarget))
+            }
+            out <- suppressWarnings(sf::st_intersection(croptarget, thing))
+            if (geometry_only) out$geometry else out
+        }, error = function(e) stop("could not crop: ", conditionMessage(e)))
+    }
+    centroids <- function(z) suppressWarnings(sf::st_centroid(sf::st_as_sf(z)))
 
     if (iwc) {
         out$iwc <- c(SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-170, trim), c(-170, -78.40)), out$projection), col = iwc_col)),
@@ -108,116 +124,97 @@ SOmanagement <- function(ccamlr = FALSE,
     }
 
     if (rb) {
-        out$research_blocks <- SO_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_research_blocks, border = rb_col, add = TRUE), name = "main")
+        out$research_blocks <- SO_plotter(plotfun = "plot", plotargs = list(x = apply_buf(SOmap_data$CCAMLR_research_blocks), border = rb_col, add = TRUE), name = "main")
         out$plot_sequence <- c(out$plot_sequence, "research_blocks")
         if (rb_labels) {
-            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_research_blocks, labelcol = "GAR_Short_", col = rb_col, cex = 0.4, pos = 4, offset = 0.3), name = "labels"))
+            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(SOmap_data$CCAMLR_research_blocks), geometry_only = FALSE), labelcol = "GAR_Short_", col = rb_col, cex = 0.4, pos = 4, offset = 0.3), name = "labels"))
         }
         out$plot_sequence <- c(out$plot_sequence, "research_blocks")
     }
 
     if (sprfmorb) {
         sprfmoa <- graticule::graticule(lats = c(-59.9, -57.9), lons = c(-155.3333, -150), proj = out$projection)
-        sprfmob <- graticule::graticule(lats = c(-59.0, -60.0),lons = c(-142.1666667, -145.833333), proj = out$projection)
+        sprfmob <- graticule::graticule(lats = c(-59.0, -60.0), lons = c(-142.1666667, -145.833333), proj = out$projection)
         out$sprfmo_research_blocks <- c(SO_plotter(plotfun = "plot", plotargs = list(x = sprfmoa, col = sprfmo_col, add = TRUE)),
                                         SO_plotter(plotfun = "plot", plotargs = list(x = sprfmob, col = sprfmo_col, add = TRUE)))
         out$plot_sequence <- c(out$plot_sequence, "sprfmo_research_blocks")
     }
 
     if (ssru) {
-        out$ccamlr_ssru <- SO_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_SSRU, border = ssru_col, add = TRUE), name = "main")
+        out$ccamlr_ssru <- SO_plotter(plotfun = "plot", plotargs = list(x = apply_buf(SOmap_data$CCAMLR_SSRU), border = ssru_col, add = TRUE), name = "main")
         if (ssru_labels) {
-            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_SSRU, labelcol = "ShortLabel", col = ssru_col, cex = 0.4, pos = 1, offset = -0.05), name = "labels"))
+            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(SOmap_data$CCAMLR_SSRU), geometry_only = FALSE), labelcol = "ShortLabel", col = ssru_col, cex = 0.4, pos = 1, offset = -0.05), name = "labels"))
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssru")
     }
 
     if (ssmu) {
-        out$ccamlr_ssmu <- SO_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_SSMU, border = ssmu_col, add = TRUE), name = "main")
+        out$ccamlr_ssmu <- SO_plotter(plotfun = "plot", plotargs = list(x = apply_buf(SOmap_data$CCAMLR_SSMU), border = ssmu_col, add = TRUE), name = "main")
         if (ssmu_labels) {
-            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_SSMU, labelcol = "ShortLabel", col = ssmu_col, cex = 0.5, pos = 1, offset = 0.6), name = "labels"))
+            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(SOmap_data$CCAMLR_SSMU), geometry_only = FALSE), labelcol = "ShortLabel", col = ssmu_col, cex = 0.5, pos = 1, offset = 0.6), name = "labels"))
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssmu")
     }
 
     if (ccamlr) {
-        out$ccamlr_statistical_areas <- SO_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas, border = ccamlr_col, add = TRUE), name = "main")
+        out$ccamlr_statistical_areas <- SO_plotter(plotfun = "plot", plotargs = list(x = apply_buf(SOmap_data$CCAMLR_statistical_areas), border = ccamlr_col, add = TRUE), name = "main")
         if (ccamlr_labels) {
+            sadata <- SOmap_data$CCAMLR_statistical_areas
             if (!missing(basemap)) {
                 ## basemap has been provided so we'll just use the same pos and offset for all labels
-                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas, labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 1, offset = -0.3), name = "labels"))
+                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(sadata), geometry_only = FALSE), labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 1, offset = -0.3), name = "labels"))
             } else {
                 ## some trickery to get 58.4.2 and 48.1 in good positions
                 out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas,
-                    c(SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[!SOmap_data$CCAMLR_statistical_areas$LongLabel %in% c("48.1", "58.4.2"), ], labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 1, offset = -0.3), name = "labels"),
+                    c(SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(sadata[!sadata$LongLabel %in% c("48.1", "58.4.2"), ]), geometry_only = FALSE), labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 1, offset = -0.3), name = "labels"),
                       ## these two still need fixing to cope with autocropping
-                      SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[SOmap_data$CCAMLR_statistical_areas$LongLabel == "58.4.2", ], labelcol = "LongLabel", col = ccamlr_col,cex = 0.5, pos = 3, offset = 0.5), name = "labels"),
-                      SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_statistical_areas[SOmap_data$CCAMLR_statistical_areas$LongLabel == "48.1", ], labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 2, offset = -0.1), name = "labels")))
+                      SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(sadata[sadata$LongLabel == "58.4.2", ]), geometry_only = FALSE), labelcol = "LongLabel", col = ccamlr_col,cex = 0.5, pos = 3, offset = 0.5), name = "labels"),
+                      SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(sadata[sadata$LongLabel == "48.1", ]), geometry_only = FALSE), labelcol = "LongLabel", col = ccamlr_col, cex = 0.5, pos = 2, offset = -0.1), name = "labels")))
             }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_statistical_areas")
     }
 
     if (eez) {
-        out$eez <- SO_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$EEZ, border = eez_col, col = NA, add = TRUE), name = "main")
+        out$eez <- SO_plotter(plotfun = "plot", plotargs = list(x = apply_buf(SOmap_data$EEZ), border = eez_col, col = NA, add = TRUE), name = "main")
         if (eez_labels) {
-            out$eez <- c(out$eez, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$EEZ, labelcol = "Name", col = eez_col, cex = 0.35, pos = 4, offset = 0.8), name = "labels"))
+            out$eez <- c(out$eez, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(SOmap_data$EEZ), geometry_only = FALSE), labelcol = "Name", col = eez_col, cex = 0.35, pos = 4, offset = 0.8), name = "labels"))
         }
         out$plot_sequence <- c(out$plot_sequence, "eez")
     }
 
     if (mpa) {
-        out$mpa <- SO_plotter(plotfun = "plot", plotargs = list(x = SOmap_data$CCAMLR_MPA, border = mpa_col, col = NA, add = TRUE), name = "main")
+        out$mpa <- SO_plotter(plotfun = "plot", plotargs = list(x = apply_buf(SOmap_data$CCAMLR_MPA), border = mpa_col, col = NA, add = TRUE), name = "main")
         if (mpa_labels) {
-            out$mpa <- c(out$mpa, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = SOmap_data$CCAMLR_MPA, labelcol = "ShortLabel", col = mpa_col, cex = 0.35, pos = 1, offset =0.2), name = "labels"))
+            out$mpa <- c(out$mpa, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = apply_buf(centroids(SOmap_data$CCAMLR_MPA), geometry_only = FALSE), labelcol = "ShortLabel", col = mpa_col, cex = 0.35, pos = 1, offset =0.2), name = "labels"))
         }
         out$plot_sequence <- c(out$plot_sequence, "mpa")
     }
 
     if (domains) {
-        this <- SOmap_data$CCAMLR_planning_domains
-        out$ccamlr_planning_domains <- SO_plotter(plotfun = "plot", plotargs = list(x = this, border = domains_col, col = NA, add = TRUE), name = "main")
+        out$ccamlr_planning_domains <- SO_plotter(plotfun = "plot", plotargs = list(x = apply_buf(SOmap_data$CCAMLR_planning_domains), border = domains_col, col = NA, add = TRUE), name = "main")
         if (domains_labels) {
-            this$labs <- c("Domain  8", "Domain  9", "", "", "Domain  3", "", "Domain  4", "Domain  5", "Domain  6")
-            this$labs1 <- c("", "", "Domain  1", "", "", "", "", "", "")
-            this$labs2 <- c("", "", "", "", "", "Domain  2", "", "", "")
-            this$labs7 <- c("", "", "", "Domain  7", "", "", "", "", "")
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains,
-                ## surely this would be better done by plotting subsets, not plotting everything each time with selectively blank labels - BR
-                                             SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs", col = domains_col, cex = 0.7, pos = 3, offset = 0.05), name = "labels"),
-                                             SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs1", col = domains_col, cex = 0.7, pos = 1, offset = 3.0), name = "labels"),
-                                             SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs2", col = domains_col, cex = 0.7, pos = 3, offset = 0.5), name = "labels"),
-                                             SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this, labelcol = "labs7", col = domains_col, cex = 0.7, pos = 4, offset = 0.9), name = "labels"))
+            this <- apply_buf(centroids(SOmap_data$CCAMLR_planning_domains), geometry_only = FALSE)
+            this$labs <- paste0("Domain  ", this$Name)
+            ## plot subsets, adjusting layout parms for each
+            idx <- this$Name %in% c("8", "9", "3", "4", "5", "6")
+            if (any(idx)) {
+                out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs", col = domains_col, cex = 0.7, pos = 3, offset = 0.05), name = "labels"))
+            }
+            idx <- this$Name %in% c("1")
+            if (any(idx)) {
+                out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs1", col = domains_col, cex = 0.7, pos = 1, offset = 3.0), name = "labels"))
+            }
+            idx <- this$Name %in% c("2")
+            if (any(idx)) {
+                out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs2", col = domains_col, cex = 0.7, pos = 3, offset = 0.5), name = "labels"))
+            }
+            idx <- this$Name %in% c("7")
+            if (any(idx)) {
+                out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs7", col = domains_col, cex = 0.7, pos = 4, offset = 0.9), name = "labels"))
+            }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_planning_domains")
-    }
-
-
-    if (!missing(basemap)) {
-        ## oh my this is horrible code
-        ## first, a helper function to apply the autocropping
-        ## this will cope with z being the actual SO_plotter object, or a list thereof
-        do_autocrop <- function(z, basemap) {
-            if (inherits(z, "SO_plotter") && "plotargs" %in% names(z)) {
-                z$plotargs$x <- SOauto_crop(layer = z$plotargs$x, x = basemap)
-                ## the SO_plotter object can also have a labels component
-                if ("labels" %in% names(z)) {
-                    z$labels <- do_autocrop(z$labels, basemap = basemap)
-                }
-            } else if (is.list(z)) {
-                ## iterate over the list, calling this do_autocrop function on each element in turn
-                for (subi in seq_along(z)) {
-                    z[[subi]] <- do_autocrop(z[[subi]], basemap = basemap)
-
-                }
-            }
-            z
-        }
-        for (i in setdiff(names(out), c("projection", "plot_sequence"))) {
-            ## out[[i]] is either SO_plotter object (a list containing plotfun and plotargs), or a list of such objects, in which case we need to iterate over its elements
-            ## should perhaps enforce the latter format for all components of the object, to simplify things, but for now cope with both
-            out[[i]] <- do_autocrop(out[[i]], basemap = basemap)
-        }
     }
     structure(out, class = "SOmap_management")
 }
@@ -246,7 +243,7 @@ print.SOmap_management <- function(x, ...) {
 #' Helper function for labels
 #' This is basically a thin wrapper around \code{text}, that passes \code{x[[labelcol]]} to \code{text} as the \code{labels} parameter
 #'
-#' @param x data.frame or Spatial data.frame: data to pass to \code{text}
+#' @param x data.frame, Spatial data.frame, or sfc: data to pass to \code{text}
 #' @param labelcol string: name of the column in \code{x} to use for text labels
 #' @param ... other plot arguements
 #'
@@ -257,7 +254,15 @@ print.SOmap_management <- function(x, ...) {
 #' @export
 SOmap_text <- function(x, labelcol, ...) {
     ## labelcol defines the column to use for the label text
-    omg <- function(x, ...) if (inherits(x, "Spatial")) text(sp::coordinates(x), ...) else text(x, ...)
+    omg <- function(x, ...) {
+        if (inherits(x, "Spatial")) {
+            text(sp::coordinates(x), ...)
+        } else if (inherits(x, c("sf", "sfc"))) {
+            text(sf::st_coordinates(x), ...)
+        } else {
+            text(x, ...)
+        }
+    }
     if (!missing(labelcol) && labelcol %in% names(x)) {
         omg(x, labels = x[[labelcol]], ...)
     } else {
