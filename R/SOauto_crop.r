@@ -26,6 +26,7 @@ SOauto_crop<-function(layer, x){
         out <- sf::st_transform(sf::st_as_sf(layr), x$projection)
         check <- sf::st_buffer(out, 0)
         if (!all(sf::st_is_empty(check))) out <- check ## don't buffer e.g. points, because you get empty geometries back
-        as(sf::st_crop(out, xmin = raster::xmin(extobj), xmax = raster::xmax(extobj), ymin = raster::ymin(extobj), ymax = raster::ymax(extobj)), "Spatial")
+        out <- sf::st_crop(out, xmin = raster::xmin(extobj), xmax = raster::xmax(extobj), ymin = raster::ymin(extobj), ymax = raster::ymax(extobj))
+        if (nrow(out) > 0) as(out, "Spatial") else NULL
     }, silent = TRUE))
 }
