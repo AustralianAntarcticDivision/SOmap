@@ -1,10 +1,8 @@
-mid_point <- function (p, fold = FALSE)
-  {
-  gc <- "+proj=geocent +datum=WGS84"
-  lc <- "+proj=longlat +datum=WGS84"
-   reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
-
-  }
+mid_point <- function (p, fold = FALSE) {
+    gc <- "+proj=geocent +datum=WGS84"
+    lc <- "+proj=longlat +datum=WGS84"
+    reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
+}
 
 
 #' Default Southern Ocean map
@@ -131,10 +129,16 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
 
     }
 
+    mycrop <- function(thing) {
+        try({
+            if (!inherits(thing, c("sf", "sfc"))) thing <- sf::st_as_sf(thing)
+            as(sf::st_crop(sf::st_buffer(sf::st_transform(thing, prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial")
+        }, silent = TRUE)
+    }
+
     if (isTRUE(land)) {
         suppressWarnings({
-            coastline <- try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(SOmap_data$continent), prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial"), silent = TRUE)
-
+            coastline <- mycrop(SOmap_data$continent)
             if (inherits(coastline, "try-error")) {
                 land <- FALSE
                 warning("no coastline within region, cannot be plotted")
@@ -150,8 +154,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
 
     if (isTRUE(ice)) {
         suppressWarnings({
-            icedat <- try(as(sf::st_crop(sf::st_buffer(sf::st_transform(SOmap_data$ant_coast_ice, prj), 0), xmin = raster::xmin(target), xmax = raster::xmax(target), ymin = raster::ymin(target), ymax = raster::ymax(target)), "Spatial"), silent = TRUE)
-
+            icedat <- mycrop(SOmap_data$ant_coast_ice)
             if (inherits(icedat, "try-error")) {
                 ice <- FALSE
                 warning("no ice data within region, cannot be plotted")
