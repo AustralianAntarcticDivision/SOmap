@@ -15,7 +15,12 @@
 #' }
 #'
 SOauto_crop<-function(layer, x){
-  layr<-SOproj(layer, target = x$projection)
-
-  suppressWarnings(try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(layr), x$projection), 0), xmin = raster::xmin(x$bathy), xmax = raster::xmax(x$bathy), ymin = raster::ymin(x$bathy), ymax = raster::ymax(x$bathy)), "Spatial"), silent = TRUE))
+    layr <- SOproj(layer, target = x$projection)
+    ## use the extent of the bathymetry raster object
+    extobj <- x$bathy
+    if (is.list(x$bathy) && length(x$bathy) > 0 && inherits(x$bathy[[1]], "SO_plotter")) {
+        ## the bathy raster data itself is buried in the plotargs
+        extobj <- x$bathy[[1]]$plotargs$x
+    }
+    suppressWarnings(try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(layr), x$projection), 0), xmin = raster::xmin(extobj), xmax = raster::xmax(extobj), ymin = raster::ymin(extobj), ymax = raster::ymax(extobj)), "Spatial"), silent = TRUE))
 }
