@@ -22,5 +22,10 @@ SOauto_crop<-function(layer, x){
         ## the bathy raster data itself is buried in the plotargs
         extobj <- x$bathy[[1]]$plotargs$x
     }
-    suppressWarnings(try(as(sf::st_crop(sf::st_buffer(sf::st_transform(sf::st_as_sf(layr), x$projection), 0), xmin = raster::xmin(extobj), xmax = raster::xmax(extobj), ymin = raster::ymin(extobj), ymax = raster::ymax(extobj)), "Spatial"), silent = TRUE))
+    suppressWarnings(try({
+        out <- sf::st_transform(sf::st_as_sf(layr), x$projection)
+        check <- sf::st_buffer(out, 0)
+        if (!all(sf::st_is_empty(check))) out <- check ## don't buffer e.g. points, because you get empty geometries back
+        as(sf::st_crop(out, xmin = raster::xmin(extobj), xmax = raster::xmax(extobj), ymin = raster::ymin(extobj), ymax = raster::ymax(extobj)), "Spatial")
+    }, silent = TRUE))
 }
