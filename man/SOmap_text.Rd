@@ -8,7 +8,7 @@ This is basically a thin wrapper around \code{text}, that passes \code{x[[labelc
 SOmap_text(x, labelcol, ...)
 }
 \arguments{
-\item{x}{data.frame or Spatial data.frame: data to pass to \code{text}}
+\item{x}{data.frame, Spatial data.frame, or sfc: data to pass to \code{text}}
 
 \item{labelcol}{string: name of the column in \code{x} to use for text labels}
 
