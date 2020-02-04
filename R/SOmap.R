@@ -50,20 +50,8 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     if (bathy_legend) {
         ## White Mask
         mask_graticule <- graticule::graticule(lons = seq(-180, 180, by = 1),lats = c(trim+border_width+11.5, trim+border_width), tiles = TRUE, proj = raster::projection(Bathy))
-
         ## Legend
-        ## Colored legend
-        bleg <- suppressWarnings(graticule::graticule(lons = seq(185, 265, by = 1),lats = c(trim+border_width+1, trim+border_width+3), tiles = TRUE, proj = raster::projection(Bathy)))
-
-        btick <- suppressWarnings(graticule::graticule(lats = c(trim+border_width+2, trim+border_width+5), lons = seq(190, 260, by = 11.666), proj = raster::projection(Bathy), tiles = FALSE))
-
-        spud <- graticule::graticule(lons = seq(-180, 180, by = 1), lats = c(trim+border_width+8, trim+border_width+4.75), tiles = TRUE, proj = raster::projection(Bathy))
-        df2 <- data.frame(a = c("-8000", "-6000", "-4000", "-2000", "0", "2000", "4000"),
-                          lon = seq(190, 260, by = 11.666),
-                          lat=rep(trim+border_width+7, 7))
-        sp::coordinates(df2) <- c("lon", "lat")
-        raster::projection(df2) <- proj_longlat()
-        lab_pos2 <- sp::spTransform(df2, raster::crs(raster::projection(Bathy)))
+        solegx <- SOleg(position = "bottomleft", type = "continuous", breaks = c(-8000, -6000, -4000, -2000, 0, 2000, 4000), border_width = border_width, col = bluepal2, trim = trim)
     }
     ## Graticule dots #
     xx <- c(0, 45, 90, 135, 180, 225, 270, 315, 360)
@@ -117,11 +105,11 @@ out$plot_sequence <- c(out$plot_sequence, "fronts")
     ## Legend
     if (bathy_legend) {
         out$outer_mask <- SO_plotter(plotfun = "plot", plotargs = list(x = mask_graticule, border = FALSE, col = "white", add = TRUE))
-        out$bathy_legend <- c(SO_plotter(plotfun = "plot", plotargs = list(x = btick, col = "black", add = TRUE), name = "ticks"),
-                              SO_plotter(plotfun = "plot", plotargs = list(x = bleg, lwd = 2, add = TRUE), name = "legend_outer"),
-                              SO_plotter(plotfun = "plot", plotargs = list(x = bleg, border = FALSE, col = bluepal2, add = TRUE), name = "legend_fill"),
-                              SO_plotter(plotfun = "plot", plotargs = list(x = spud, border = FALSE, col = "white", add = TRUE), name = "graticules"),
-                              SO_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = 0.75, adj = 0.5), name = "labels"))
+        out$bathy_legend <- list(solegx$ticks[[1]],
+                                 solegx$legend[[1]],
+                                 solegx$legend[[2]],
+                                 solegx$mask2[[1]],
+                                 solegx$tick_labels[[1]])
         out$plot_sequence <- c(out$plot_sequence, "outer_mask", "bathy_legend")
     }
     if (border) {
