@@ -105,11 +105,11 @@ out$plot_sequence <- c(out$plot_sequence, "fronts")
     ## Legend
     if (bathy_legend) {
         out$outer_mask <- SO_plotter(plotfun = "plot", plotargs = list(x = mask_graticule, border = FALSE, col = "white", add = TRUE))
-        out$bathy_legend <- list(solegx$ticks[[1]],
-                                 solegx$legend[[1]],
-                                 solegx$legend[[2]],
-                                 solegx$mask2[[1]],
-                                 solegx$tick_labels[[1]])
+        out$bathy_legend <- list(ticks = solegx$ticks[[1]],
+                                 legend_outer = solegx$legend[[1]],
+                                 legend_fill = solegx$legend[[2]],
+                                 graticules = solegx$mask2[[1]],
+                                 labels = solegx$tick_labels[[1]])
         out$plot_sequence <- c(out$plot_sequence, "outer_mask", "bathy_legend")
     }
     if (border) {
