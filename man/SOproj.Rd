@@ -9,7 +9,7 @@ SOproj(x, y = NULL, target = NULL, data, ..., source = NULL)
 \arguments{
 \item{x}{longitude vector, or object with coordinates}
 
-\item{y}{lattitude vector}
+\item{y}{latitude vector}
 
 \item{target}{target projection (default = stereo)}
 
