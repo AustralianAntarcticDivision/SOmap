@@ -7,17 +7,17 @@
 SOplot(x, y = NULL, target = NULL, ..., source = NULL, add = TRUE)
 }
 \arguments{
-\item{x:}{longitude vector, or an object with coordinates}
+\item{x}{: longitude vector, or an object with coordinates}
 
-\item{y:}{latitude vector, or missing if x is an object}
+\item{y}{: latitude vector, or missing if x is an object}
 
-\item{target:}{target projection. If not provided, it will default to the projection of the current map, and if that is not set it will use the default SOmap polar stereographic projection}
+\item{target}{: target projection. If not provided, it will default to the projection of the current map, and if that is not set it will use the default SOmap polar stereographic projection}
 
-\item{add:}{if \code{TRUE}, add this object to an existing plot}
+\item{...}{: other parameters passed to the \code{plot} function}
 
-\item{...:}{other parameters passed to the \code{plot} function}
+\item{source}{: if \code{x} is not an object with a projection already set, specify its projection here (default = longlat)}
 
-\item{source:}{if \code{x} is not an object with a projection already set, specify its projection here (default = longlat)}
+\item{add}{logical: if \code{TRUE}, add this object to an existing plot}
 }
 \description{
 Reproject and add an object to an existing \code{SOmap} or \code{SOmap_auto}.

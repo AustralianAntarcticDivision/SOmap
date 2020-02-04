@@ -1,7 +1,7 @@
 #' Reproject and crop Spatial and sf objects to SOmap objects
 #'
-#' @param layer: an `sf` or `Spatial` (SpatialPolygonsDataFrame, SpatialLinesDataFrame, SpatialPointsDataFrame etc) object to reproject and crop
-#' @param x: a SOmap or SOauto_map object
+#' @param layer : an `sf` or `Spatial` (SpatialPolygonsDataFrame, SpatialLinesDataFrame, SpatialPointsDataFrame etc) object to reproject and crop
+#' @param x : a SOmap or SOauto_map object
 #' @param sp logical: if `TRUE`, return the cropped object in `Spatial` form, otherwise `sf`
 #'
 #' @return If successful, a reprojected and cropped version of `layer`. If the reprojection or cropping operations fail, the returned object will be of class `try-error`. If the cropping operations return an empty object (i.e. no parts of `layer` lie within the bounds of `x`) then the returned object will either be `NULL` (if `sp = TRUE`) or an `sf` object with no features if `sp = FALSE`.

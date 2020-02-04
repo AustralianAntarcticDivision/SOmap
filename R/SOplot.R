@@ -2,12 +2,12 @@
 #'
 #' Reproject and add an object to an existing `SOmap` or `SOmap_auto`.
 #'
-#' @param x: longitude vector, or an object with coordinates
-#' @param y: latitude vector, or missing if x is an object
-#' @param target: target projection. If not provided, it will default to the projection of the current map, and if that is not set it will use the default SOmap polar stereographic projection
-#' @param add: if `TRUE`, add this object to an existing plot
-#' @param ...: other parameters passed to the `plot` function
-#' @param source: if `x` is not an object with a projection already set, specify its projection here (default = longlat)
+#' @param x : longitude vector, or an object with coordinates
+#' @param y : latitude vector, or missing if x is an object
+#' @param target : target projection. If not provided, it will default to the projection of the current map, and if that is not set it will use the default SOmap polar stereographic projection
+#' @param add logical: if `TRUE`, add this object to an existing plot
+#' @param ... : other parameters passed to the `plot` function
+#' @param source : if `x` is not an object with a projection already set, specify its projection here (default = longlat)
 #'
 #' @examples
 #' \dontrun{

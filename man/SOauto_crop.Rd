@@ -7,11 +7,11 @@
 SOauto_crop(layer, x, sp = TRUE)
 }
 \arguments{
+\item{layer}{: an \code{sf} or \code{Spatial} (SpatialPolygonsDataFrame, SpatialLinesDataFrame, SpatialPointsDataFrame etc) object to reproject and crop}
+
+\item{x}{: a SOmap or SOauto_map object}
+
 \item{sp}{logical: if \code{TRUE}, return the cropped object in \code{Spatial} form, otherwise \code{sf}}
-
-\item{layer:}{an \code{sf} or \code{Spatial} (SpatialPolygonsDataFrame, SpatialLinesDataFrame, SpatialPointsDataFrame etc) object to reproject and crop}
-
-\item{x:}{a SOmap or SOauto_map object}
 }
 \value{
 If successful, a reprojected and cropped version of \code{layer}. If the reprojection or cropping operations fail, the returned object will be of class \code{try-error}. If the cropping operations return an empty object (i.e. no parts of \code{layer} lie within the bounds of \code{x}) then the returned object will either be \code{NULL} (if \code{sp = TRUE}) or an \code{sf} object with no features if \code{sp = FALSE}.

@@ -99,7 +99,7 @@ SOmanagement <- function(ccamlr = FALSE,
         ## but the bathy component of an SOmap_auto object matches the visible map extent, so
         ##  we can just use SOauto_crop (and ignore the geometry_only parm, which only matters
         ##  for the version of apply_buf used with SOmap objects)
-        apply_buf <- function(thing, geometry_only) {
+        apply_buf <- function(thing, geometry_only = TRUE) {
             out <- SOauto_crop(thing, x = basemap)
             if (inherits(out, "try-error")) NULL else out
         }
