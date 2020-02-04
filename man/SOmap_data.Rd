@@ -118,7 +118,7 @@
 \item URL: http://www.soest.hawaii.edu/wessel/gshhg/
 \item License: LGPL
 }
-\item ACC_FRONTS
+\item fronts_park
 \itemize{
 \item Description: Altimetry-derived Antarctic Circumpolar Current fronts
 \item Source: Park Young-Hyang, Durand Isabelle (2019). Altimetry-drived Antarctic Circumpolar Current fronts. SEANOE.

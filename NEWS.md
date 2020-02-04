@@ -1,6 +1,6 @@
 # dev
 
-* New data set ACC_FRONTS.
+* New data set fronts_park.
 
 # 0.5.1
 

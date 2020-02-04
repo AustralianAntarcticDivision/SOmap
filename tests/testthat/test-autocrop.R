@@ -24,11 +24,11 @@ test_that("SOauto_crop works", {
     expect_true(all(grepl("LINESTRING", sf::st_geometry_type(chk))))
 
     ## crop a LINESTRING sf object
-    expect_true(all(sf::st_geometry_type(SOmap_data$ACC_FRONTS) == "LINESTRING"))
-    chk <- SOauto_crop(SOmap_data$ACC_FRONTS, x60)
-    expect_lt(nrow(chk), nrow(SOmap_data$ACC_FRONTS))
+    expect_true(all(sf::st_geometry_type(SOmap_data$fronts_park) == "LINESTRING"))
+    chk <- SOauto_crop(SOmap_data$fronts_park, x60)
+    expect_lt(nrow(chk), nrow(SOmap_data$fronts_park))
     expect_is(chk, "SpatialLinesDataFrame")
-    chk <- SOauto_crop(SOmap_data$ACC_FRONTS, x60, sp = FALSE)
+    chk <- SOauto_crop(SOmap_data$fronts_park, x60, sp = FALSE)
     expect_is(chk, "sf")
     ## LINESTRING comes back as MULTILINESTRING
     expect_true(all(sf::st_geometry_type(chk) == "MULTILINESTRING"))
