@@ -1,54 +1,46 @@
-
-#' Southern Ocean plot
+#' Add items to an existing SOmap
 #'
-#' @description
-#' Reproject and add point layers to either SOmap or SOmap_auto layers.
+#' Reproject and add an object to an existing `SOmap` or `SOmap_auto`.
 #'
-#' @param x
-#' longitude vector, or object with coordinates
-#'
-#' @param y
-#' lattitude vector, or missing if x is an object
-#'
-#' @param source
-#' starting projection (default = longlat)
-#'
-#' @param target
-#' target projection (default = stereo)
-#'
-#' @param add
-#' add layer to plot (default = TRUE)
-#'
-#' @param ...
-#' other plot options
-#'
-#' @return
-#' Produces at the very base a round bathymetry map of the southern hemisphere.
+#' @param x: longitude vector, or an object with coordinates
+#' @param y: latitude vector, or missing if x is an object
+#' @param target: target projection. If not provided, it will default to the projection of the current map, and if that is not set it will use the default SOmap polar stereographic projection
+#' @param add: if `TRUE`, add this object to an existing plot
+#' @param ...: other parameters passed to the `plot` function
+#' @param source: if `x` is not an object with a projection already set, specify its projection here (default = longlat)
 #'
 #' @examples
 #' \dontrun{
-#'  x<-c(-70, -60,-50, -90)
-#'  y<-c(-50, -75, -45, -60)
-#'  map<-SOmap_auto(x,y, input_lines = FALSE)
-#'  map
-#'  SOplot(x = x, y = y, target = map$projection,pch=19,col=6)
+#'   x <-c (-70, -60,-50, -90)
+#'   y <-c (-50, -75, -45, -60)
+#'   map <- SOmap_auto(x, y, input_lines = FALSE)
+#'
+#'   ## plot the map, with the x, y points already added
+#'   map
+#'   ## re-plot the points in a different colour and marker
+#'   SOplot(x = x, y = y, pch = 0, cex = 2, col = 6)
 #' }
 #' @export
-#'
-
-
-SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE){
-  SObj <- SOproj(x = x, y= y, target = target, source = source, ...)
-  #everything <- par(no.readonly = TRUE)
+SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE) {
+  SObj <- SOproj(x = x, y = y, target = target, source = source, ...)
+  everything <- par(no.readonly = TRUE)
   if (add && (is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
     points(SObj, ...)
   } else {
-    if (inherits(SObj, "BasicRaster") && raster::nlayers(SObj) == 3) {
-      ## assume raster is a RGB, and zap white with bgalpha
-      raster::plotRGB(SObj, add = add, bgalpha = 0, ...)
-    } else {
-      plot(SObj, add=add, ...)
-    }
+      if (inherits(SObj, "BasicRaster")) {
+          if (raster::nlayers(SObj) == 3) {
+              ## assume raster is a RGB, and zap white with bgalpha
+              raster::plotRGB(SObj, add = add, bgalpha = 0, ...)
+          } else {
+              plot(SObj, add=add, ...)
+              ## calling plot.raster changes some par values, which will cause problems for subsequent
+              ##   SOplot calls. See e.g. https://github.com/AustralianAntarcticDivision/SOmap/issues/67 and
+              ##   https://github.com/AustralianAntarcticDivision/SOmap/issues/36
+              par(fig = everything$fig) ## this seems to be the critical one
+          }
+      } else {
+          plot(SObj, add=add, ...)
+      }
   }
   #par(everything)
   invisible(NULL)
