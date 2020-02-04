@@ -21,7 +21,7 @@ test_that("SOauto_crop works", {
     expect_lt(nrow(chk), nrow(SOmap_data$fronts_orsi))
     ## as sf
     chk <- SOauto_crop(SOmap_data$fronts_orsi, x60, sp = FALSE)
-    expect_true(all(sf::st_geometry_type(chk) == "MULTILINESTRING"))
+    expect_true(all(grepl("LINESTRING", sf::st_geometry_type(chk))))
 
     ## crop a LINESTRING sf object
     expect_true(all(sf::st_geometry_type(SOmap_data$ACC_FRONTS) == "LINESTRING"))
