@@ -276,8 +276,7 @@ SOgg_management <- function(x, basemap) {
             for (templab in temp) {
                 this <- templab$plotargs$x
                 this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas,
-                                                  SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), mapping = aes_string(label = "LongLabel"), parse = FALSE, col = templab$plotargs$col, size = 2, inherit.aes = FALSE)))
+                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "LongLabel"), parse = FALSE, col = templab$plotargs$col, size = 2, inherit.aes = FALSE)))
             }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_statistical_areas")
@@ -290,7 +289,7 @@ SOgg_management <- function(x, basemap) {
         out$ccamlr_ssru <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssru$main$plotargs$border, fill = x$ccamlr_ssru$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$ccamlr_ssru$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssru$labels$plotargs$x)))
-            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), mapping = aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssru")
     }
@@ -301,7 +300,7 @@ SOgg_management <- function(x, basemap) {
         out$ccamlr_ssmu <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssmu$main$plotargs$border, fill = x$ccamlr_ssmu$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$ccamlr_ssmu$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$labels$plotargs$x)))
-            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), mapping = aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$labels$plotargs$border, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssmu")
     }
@@ -316,7 +315,7 @@ SOgg_management <- function(x, basemap) {
         }
         if (!is.null(x$iwc$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$iwc$labels$plotargs$x)))
-            out$iwc <- c(out$iwc, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), mapping = aes_string(label = "a.1"), parse = FALSE, col = x$iwc$labels$plotargs$col, size = 2, inherit.aes = FALSE)))
+            out$iwc <- c(out$iwc, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "a.1"), parse = FALSE, col = x$iwc$labels$plotargs$col, size = 2, inherit.aes = FALSE)))
         }
         out$plot_sequence <- c(out$plot_sequence, "iwc")
     }
@@ -328,7 +327,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$research_blocks$labels)) {
             this <- x$research_blocks$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), mapping = aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)))
+            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)))
         }
         out$plot_sequence <- c(out$plot_sequence, "research_blocks")
     }
@@ -359,7 +358,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$mpa$labels)) {
             this <- x$mpa$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$mpa <- c(out$mpa, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = as.data.frame(this), mapping = aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            out$mpa <- c(out$mpa, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "mpa")
     }
@@ -371,18 +370,28 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$ccamlr_planning_domains$labels)) {
             ## this is horrible code
             temp <- x$ccamlr_planning_domains[names(x$ccamlr_planning_domains) %in% "labels"]
-            crds <- as.data.frame(sp::coordinates(temp[[1]]$plotargs$x))
-            names(crds) <- c("x", "y")
-            crds$lab <- temp[[1]]$plotargs$x$labs
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, mapping = aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[1]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1)))
-            crds$lab <- temp[[2]]$plotargs$x$labs1
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, mapping = aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[2]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 0)))
-            crds$lab <- temp[[3]]$plotargs$x$labs2
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, mapping = aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[3]]$plotargs$col, inherit.aes = FALSE, hjust = 0.5, vjust = 1)))
-            crds$lab <- temp[[4]]$plotargs$x$labs7
-            out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, mapping = aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = temp[[4]]$plotargs$col, inherit.aes = FALSE, hjust = 0, vjust = 0.5)))
-            ## the hjust/vjust settings here are a rough attempt to position the labels more nicely
-            ## needs work
+            for (lb in temp) {
+                crds <- lb$plotargs$x
+                crds <- if (inherits(crds, "Spatial")) as.data.frame(sp::coordinates(crds)) else as.data.frame(sf::st_coordinates(crds))
+                names(crds) <- c("x", "y")
+                crds$lab <- lb$plotargs$x$labs
+                if (is.null(lb$plotargs$pos)) {
+                    hj <- 0.5; vj <- 0.5
+                } else if (lb$plotargs$pos == 1) {
+                    ## text below the specified coords
+                    hj <- 0.5; vj <- 0
+                } else if (lb$plotargs$pos == 2) {
+                    ## to the left
+                    hj <- 1; vj <- 0.5
+                } else if (lb$plotargs$pos == 3) {
+                    ## above
+                    hj <- 0.5; vj <- 1
+                } else {
+                    ## right
+                    hj <- 0; vj = 0.5
+                }
+                out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, mapping = aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = lb$plotargs$col, inherit.aes = FALSE, hjust = hj, vjust = vj)))
+            }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_planning_domains")
     }
