@@ -278,15 +278,15 @@ SOmanagement <- function(ccamlr = FALSE,
                     }
                     idx <- this$Name %in% c("1")
                     if (any(idx)) {
-                        out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs1", col = domains_col, cex = 0.7, pos = 1, offset = 3.0), name = "labels"))
+                        out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs", col = domains_col, cex = 0.7, pos = 1, offset = 3.0), name = "labels"))
                     }
                     idx <- this$Name %in% c("2")
                     if (any(idx)) {
-                        out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs2", col = domains_col, cex = 0.7, pos = 3, offset = 0.5), name = "labels"))
+                        out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs", col = domains_col, cex = 0.7, pos = 3, offset = 0.5), name = "labels"))
                     }
                     idx <- this$Name %in% c("7")
                     if (any(idx)) {
-                        out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs7", col = domains_col, cex = 0.7, pos = 4, offset = 0.9), name = "labels"))
+                        out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "SOmap_text", plotargs = list(x = this[idx, ], labelcol = "labs", col = domains_col, cex = 0.7, pos = 4, offset = 0.9), name = "labels"))
                     }
                 }
             }
