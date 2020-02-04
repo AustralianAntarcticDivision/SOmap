@@ -306,7 +306,7 @@ aspectplot.default <- function(xlim, ylim, asp, ...) {
   plot.new()
   xlim <- sort(xlim)
   ylim <- sort(ylim)
-  r <- asp * abs(diff(ylim)/diff(xlim))
+  r <- abs(asp * abs(diff(ylim)/diff(xlim)))
   if(r <= 1) {  # X = 0, 1
     recip <- r / 2
     figure <- c(0, 1, 0.5 - recip, 0.5 + recip)
@@ -314,7 +314,6 @@ aspectplot.default <- function(xlim, ylim, asp, ...) {
     recip <- (1/r) / 2
     figure <- c(0.5 - recip, 0.5 + recip, 0, 1)
   }
-
   p <- par(fig = figure, new = FALSE, ...)
   plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
   p
