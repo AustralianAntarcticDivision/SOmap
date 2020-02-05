@@ -22,7 +22,7 @@ SOmap(
 )
 }
 \arguments{
-\item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend.}
+\item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend. If \code{bathy_legend = NULL} or \code{bathy_legend = "space"}, then space will be left for the legend but no legend will actually be plotted. Use this if you plan to add a legend later.}
 
 \item{border}{logical: if \code{TRUE}, insert longitude border.}
 
