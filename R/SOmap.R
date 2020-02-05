@@ -3,7 +3,7 @@
 #' @description
 #' Function for creating round Southern Ocean maps.
 #'
-#' @param bathy_legend logical: if \code{TRUE}, insert the bathymetry legend.
+#' @param bathy_legend logical: if \code{TRUE}, insert the bathymetry legend. If \code{bathy_legend = NULL} or \code{bathy_legend = "space"}, then space will be left for the legend but no legend will actually be plotted. Use this if you plan to add a legend later.
 #' @param border logical: if \code{TRUE}, insert longitude border.
 #' @param trim numeric: latitude to trim the map to. Set this to -10 for effectively no trim.
 #' @param graticules logical: if \code{TRUE}, insert graticule grid.
@@ -33,6 +33,18 @@
 #'
 
 SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = FALSE, straight = FALSE, land = TRUE, land_col = "black", ice = TRUE, ice_col = "black", fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"), border_col = c("white", "black"), border_width = 2, graticules_col = "grey70") {
+    ## deal with bathy legend options
+    if (is.null(bathy_legend)) bathy_legend <- "space"
+    if (is.character(bathy_legend)) {
+        bathy_legend <- match.arg(tolower(bathy_legend), c("space"))
+        bathy_legend_space <- TRUE
+        plot_bathy_legend <- FALSE
+    } else if (is.logical(bathy_legend) && !is.na(bathy_legend)) {
+        bathy_legend_space <- plot_bathy_legend <- bathy_legend
+    } else {
+        stop("bathy_legend should be TRUE, FALSE, NULL, or \"space\"")
+    }
+
     ## data
     SOmap_data <- NULL
     Bathy <- NULL
@@ -43,24 +55,16 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     ramp2 <- grDevices::colorRampPalette(c("#54A3D1", "#60B3EB", "#78C8F0", "#98D1F5", "#B5DCFF", "#BDE1F0", "#CDEBFA", "#D6EFFF", "#EBFAFF","grey99", "grey90", "grey92", "grey94", "grey96", "white"))
     bluepal <- ramp2(100)
     bluepal2 <- ramp2(80)
-    ## fix trim without legend
     if (!border) border_width <- 0
 
-    #bathy legend
-    if (bathy_legend) {
-        ## White Mask
-        mask_graticule <- graticule::graticule(lons = seq(-180, 180, by = 1),lats = c(trim+border_width+11.5, trim+border_width), tiles = TRUE, proj = raster::projection(Bathy))
-        ## Legend
-        solegx <- SOleg(position = "bottomleft", type = "continuous", breaks = c(-8000, -6000, -4000, -2000, 0, 2000, 4000), border_width = border_width, col = bluepal2, trim = trim)
-    }
-    ## Graticule dots #
+    ## Graticule dots
     xx <- c(0, 45, 90, 135, 180, 225, 270, 315, 360)
     yy <- c(seq(from = -90, to = trim-1, by = 15), trim)
     grat <- suppressWarnings(graticule::graticule(xx, yy, proj = raster::projection(Bathy)))
     gratlab <- suppressWarnings(graticule::graticule_labels(lons = 180,lats = c(-45, -30, -60, -75), xline = 180, yline = -15, proj = raster::projection(Bathy)))
 
-    ## crop bathy raster depending on legend yes or no
-    q <- ifelse(bathy_legend, trim+border_width+11, trim+border_width)
+    ## crop bathy raster depending on whether we are leaving space for a legend or not
+    q <- ifelse(bathy_legend_space, trim+border_width+11, trim+border_width)
     Bathy <- raster::trim(SOmap::latmask(Bathy, latitude = q))
     out <- list(projection = raster::projection(Bathy), target = raster::raster(Bathy), straight = straight, trim = trim)
     out$bathy <- SO_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1))
@@ -103,14 +107,22 @@ out$plot_sequence <- c(out$plot_sequence, "fronts")
     }
 
     ## Legend
-    if (bathy_legend) {
+    if (bathy_legend_space) {
+        ## white mask over the part of the bathy raster extending beyond the plot border
+        mask_graticule <- graticule::graticule(lons = seq(-180, 180, by = 1), lats = c(trim+border_width+11.5, trim+border_width), tiles = TRUE, proj = raster::projection(Bathy))
         out$outer_mask <- SO_plotter(plotfun = "plot", plotargs = list(x = mask_graticule, border = FALSE, col = "white", add = TRUE))
+        out$plot_sequence <- c(out$plot_sequence, "outer_mask")
+    }
+    if (plot_bathy_legend) {
+        ## construct the actual bathy legend
+        solegx <- SOleg(position = "bottomleft", type = "continuous", breaks = c(-8000, -6000, -4000, -2000, 0, 2000, 4000), border_width = border_width, col = bluepal2, trim = trim)
+        ## take the bits we need here and add them
         out$bathy_legend <- list(ticks = solegx$ticks[[1]],
                                  legend_outer = solegx$legend[[1]],
                                  legend_fill = solegx$legend[[2]],
                                  graticules = solegx$mask2[[1]],
                                  labels = solegx$tick_labels[[1]])
-        out$plot_sequence <- c(out$plot_sequence, "outer_mask", "bathy_legend")
+        out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
     if (border) {
         bord <- graticule::graticule(lons = seq(-180, 180, by = 15), lats = c(trim+border_width, trim), tiles = TRUE, proj = raster::projection(Bathy))
