@@ -191,9 +191,9 @@ reproj.SOmap_management <- function(x, target, ..., source = NULL) {
 reproj_SO_plotter_list <- function(thing, target) {
     if (inherits(thing, "SO_plotter")) {
         ## old code may have had just a single SO_plotter object, not a list of length 1
-        thing <- reproj_so_plotter(thing, target = target)
+        thing <- reproj_SO_plotter(thing, target = target)
     } else if (is.list(thing)) {
-        thing <- lapply(thing, reproj_so_plotter, target = target)
+        thing <- lapply(thing, reproj_SO_plotter, target = target)
     } else {
         stop("unexpected plotter object format")
     }
