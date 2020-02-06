@@ -181,7 +181,64 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     depthmax <- if (inherits(bathymetry, "BasicRaster")) raster::cellStats(bathymetry, "max", na.rm = TRUE) else 6050 ## fallback to this
     bathy_breaks <- c(seq(from = depthmin, to = 0, length.out = 33), seq(from = 0, to = depthmax, length.out = 14)[-1]) ## one more break than colour
 
-   if (!exists("xy")) xy <- NULL
+    if (!exists("xy")) xy <- NULL
+    ## new object format
+    out <- list(projection = raster::projection(target), target = target, plot_sequence = c("init"))
+    out$init <- SO_plotter(plotfun = function(target, main = NULL) {
+        base_mar <- c(5.1, 4.1, 4.1, 2.1)
+        aspect <- if (raster::isLonLat(target)) 1/cos(mean(c(raster::xmin(target), raster::xmax(target))) * pi/180) else 1
+        if (is.null(main)) {
+            margins <-base_mar/2.5
+        } else {
+            mars <- base_mar/2.5
+            mars[3] <- mars[3]+2
+            margins <- mars
+        }
+        aspectplot.default(c(raster::xmin(target), raster::xmax(target)), c(raster::ymin(target), raster::ymax(target)), asp = aspect, mar = margins)
+    }, plotargs = list(target = target)) ## TODO figure out how to pass main here
+    if (!is.null(bathymetry)) {
+        ## check breaks and colours: need one more break than number of colours
+        ##if (length(x$bathy_breaks) != (length(x$bathy_palette) + 1)) x$bathy_breaks <- NULL
+        if (isTRUE(bathyleg)) {
+            out$bathy <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, add = TRUE, col = bluepal, breaks = bathy_breaks, axes = FALSE))
+        } else {
+            if (!is.null(bathy_breaks)) {
+                out$bathy <- SO_plotter(plotfun = "raster::image", plotargs = list(x = bathymetry, add = TRUE, col = bluepal, breaks = bathy_breaks, axes = FALSE))
+            } else {
+                ## image can't cope with NULL breaks?
+                out$bathy <- SO_plotter(plotfun = "raster::image", plotargs = list(x = bathymetry, add = TRUE, col = bathy_palette, axes = FALSE))
+            }
+        }
+        out$plot_sequence <- c(out$plot_sequence, "bathy")
+    }
+    if (contours && !is.null(bathymetry)) {
+        out$contours <- SO_plotter(plotfun = "contour", plotargs = list(levels = levels, col = "black", add = TRUE))
+        out$plot_sequence <- c(out$plot_sequence, "contours")
+    }
+    if (land) {
+        out$coastline <- SO_plotter(plotfun = "plot", plotargs = list(x = coastline, col = NA, border = land_col, add = TRUE))
+        out$plot_sequence <- c(out$plot_sequence, "coastline")
+    }
+    if (ice) {
+        out$ice <- SO_plotter(plotfun = "plot", plotargs = list(x = icedat, col = NA, border = ice_col, add = TRUE))
+        out$plot_sequence <- c(out$plot_sequence, "ice")
+    }
+    if (input_points) {
+        out$points <- SO_plotter(plotfun = "points", plotargs = list(x = xy, pch = ppch, cex = pcex, col = pcol))
+        out$plot_sequence <- c(out$plot_sequence, "points")
+    }
+    if (input_lines) {
+        out$lines <- SO_plotter(plotfun = "lines", plotargs = list(x = xy, lty = llty, lwd = llwd, col = lcol))
+        out$plot_sequence <- c(out$plot_sequence, "lines")
+    }
+    if (!is.null(graticule)) {
+        out$graticule <- SO_plotter(plotfun = "SOmap:::plot_graticule", plotargs = list(x = graticule, GratPos = gratpos))
+        out$plot_sequence <- c(out$plot_sequence, "graticule")
+    }
+    out$crs <- prj
+    return(structure(out, class = "SOmap_auto_new"))
+
+    ## old object format
     structure(list(projection = raster::projection(target),
                    bathy = bathymetry, bathyleg = bathyleg, bathy_palette = bluepal,
                    bathy_breaks = bathy_breaks,
@@ -201,6 +258,13 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
 #' @method plot SOmap_auto
 #' @export
 plot.SOmap_auto <- function (x, y, ...) {
+    print(x)
+    invisible()
+}
+
+#' @method plot SOmap_auto_new
+#' @export
+plot.SOmap_auto_new <- function (x, y, ...) {
     print(x)
     invisible()
 }
@@ -265,37 +329,70 @@ print.SOmap_auto <- function(x,main=NULL, ..., set_clip = TRUE) {
   invisible(x)
 }
 
-'%notin%'<-Negate('%in%')
+#' @method print SOmap_auto_new
+#' @export
+print.SOmap_auto_new <- function(x, main = NULL, ..., set_clip = TRUE) {
+    toplot <- intersect(x$plot_sequence, names(x))
+    ## must do init and bathy first
+    if ("init" %in% toplot) {
+        for (thispf in x$init) {
+            thisfun <- thispf$plotfun
+            this_plotargs <- thispf$plotargs
+            if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
+        }
+    }
+    if ("bathy" %in% toplot) {
+        for (thispf in x$bathy) {
+            thisfun <- thispf$plotfun
+            this_plotargs <- thispf$plotargs
+            if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
+        }
+    }
+    toplot <- setdiff(toplot, c("init", "bathy"))
+    ## record current crs
+    SOcrs(x$projection)
+    if (!is.null(main)) graphics::title(main = main)
+    op <- par(xpd = FALSE)
+    ## now plot everything else
+    if (length(toplot) > 0) {
+        temp <- x[toplot]
+        temp$plot_sequence <- toplot
+        plot_all(structure(temp, class = "SOmap_auto_new"))
+    }
+    par(op)
+    if (set_clip) graphics::clip(raster::xmin(x$target), raster::xmax(x$target), raster::ymin(x$target), raster::ymax(x$target))
+    invisible(x)
+}
 
 ## from ?sf::st_graticule
-plot_graticule <- function(g, GratPos) {
-  gratopts<-c("all", "left", "right", "top", "bottom")
-  if(GratPos[1] %notin% gratopts) stop("gratpos must be one of: all, left, right, top, bottom.")
-  #plot(sf::st_geometry(g), add = TRUE, col = 'grey', reset = FALSE)
-  plot(sf::as_Spatial(g), add = TRUE, col = "grey")
-  # points(g$x_start, g$y_start, col = 'red')
-  #points(g$x_end, g$y_end, col = 'blue')
-op <- par(xpd = NA)
-  invisible(lapply(seq_len(nrow(g)), function(i) {
+plot_graticule <- function(x, GratPos) {
+  gratopts <- c("all", "left", "right", "top", "bottom")
+  if(!GratPos[1] %in% gratopts) stop("gratpos must be one of: all, left, right, top, bottom.")
+  #plot(sf::st_geometry(x), add = TRUE, col = 'grey', reset = FALSE)
+  plot(sf::as_Spatial(x), add = TRUE, col = "grey")
+  # points(x$x_start, x$y_start, col = 'red')
+  #points(x$x_end, x$y_end, col = 'blue')
+  op <- par(xpd = NA)
+  invisible(lapply(seq_len(nrow(x)), function(i) {
     if(GratPos=="all" || "left" %in% GratPos){
-      if (g$type[i] == "N" && g$x_start[i] - min(g$x_start) < 1000){
-      text(g[i,"x_start"], g[i,"y_start"], labels = parse(text = g[i,"degree_label"]),
-           srt = g$angle_start[i], pos = 2, cex = .7)}} #left
+      if (x$type[i] == "N" && x$x_start[i] - min(x$x_start) < 1000){
+      text(x[i,"x_start"], x[i,"y_start"], labels = parse(text = x[i,"degree_label"]),
+           srt = x$angle_start[i], pos = 2, cex = .7)}} #left
 
     if(GratPos=="all" || "bottom" %in% GratPos){
-      if (g$type[i] == "E" && g$y_start[i] - min(g$y_start) < 1000){
-      text(g[i,"x_start"], g[i,"y_start"], labels = parse(text = g[i,"degree_label"]),
-            srt = g$angle_start[i] - 90, pos = 1, cex = .7)}} #bottom
+      if (x$type[i] == "E" && x$y_start[i] - min(x$y_start) < 1000){
+      text(x[i,"x_start"], x[i,"y_start"], labels = parse(text = x[i,"degree_label"]),
+            srt = x$angle_start[i] - 90, pos = 1, cex = .7)}} #bottom
 
     if(GratPos=="all" || "right" %in% GratPos ){
-    if (g$type[i] == "N" && g$x_end[i] - max(g$x_end) > -1000){
-       text(g[i,"x_end"], g[i,"y_end"], labels = parse(text = g[i,"degree_label"]),
-            srt = g$angle_end[i], pos = 4, cex = .7)}} #right
+    if (x$type[i] == "N" && x$x_end[i] - max(x$x_end) > -1000){
+       text(x[i,"x_end"], x[i,"y_end"], labels = parse(text = x[i,"degree_label"]),
+            srt = x$angle_end[i], pos = 4, cex = .7)}} #right
 
     if(GratPos=="all" || "top" %in% GratPos ){
-    if (g$type[i] == "E" && g$y_end[i] - max(g$y_end) > -1000){
-      text(g[i,"x_end"], g[i,"y_end"], labels = parse(text = g[i,"degree_label"]),
-           srt = g$angle_end[i] - 90, pos = 3, cex = .7)}} #top
+    if (x$type[i] == "E" && x$y_end[i] - max(x$y_end) > -1000){
+      text(x[i,"x_end"], x[i,"y_end"], labels = parse(text = x[i,"degree_label"]),
+           srt = x$angle_end[i] - 90, pos = 3, cex = .7)}} #top
   }))
   par(op)
   invisible(NULL)
