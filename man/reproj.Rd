@@ -4,6 +4,7 @@
 \alias{reproj}
 \alias{reproj.SOmap}
 \alias{reproj.SOmap_auto}
+\alias{reproj.SOmap_management}
 \alias{reproj.BasicRaster}
 \alias{reproj.Spatial}
 \alias{reproj.sf}
@@ -13,6 +14,8 @@
 \method{reproj}{SOmap}(x, target, ..., source = NULL)
 
 \method{reproj}{SOmap_auto}(x, target, ..., source = NULL)
+
+\method{reproj}{SOmap_management}(x, target, ..., source = NULL)
 
 \method{reproj}{BasicRaster}(x, target, ..., source = NULL)
 
