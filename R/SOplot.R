@@ -56,11 +56,8 @@ SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE) {
 SOify <- function(x, y = NULL, target = NULL, ..., source = NULL, add = TRUE){
     SObj <- SOproj(x = x, y = y, target = target, source = source, ...)
     out <- list(target = target, projection = SObj$projection)
-    ## we want a unique name for this object (unique within R session)
-    ## this is a bit rubbish, must be a better way
-    tf <- tempfile()
-    objname <- basename(tf)
-    writeLines("", tf) ## create that file so next call to tempfile() can't use the same file name
+    ## we want a unique name for this object
+    objname <- uuid::UUIDgenerate()
     out$plot_sequence <- objname
     if (!is.null(source)) {
         out$trim <- source$trim

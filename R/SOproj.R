@@ -134,72 +134,61 @@ projection.SOmap_auto <- function(x, asText = TRUE) {
 #' }
 #' @name reproj
 reproj.SOmap <- function(x, target, ..., source = NULL) {
-  if (missing(target)) stop("'target' projection string required")
-  if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
-  if (!is.null(x$bathy)) {
-   rast <- try(reproj(x$bathy[[1]]$plotargs$x, target = target), silent = TRUE)
-    if (inherits(rast, "try-error")) {
-     stop("unable to reproject raster sensibly")
-   }
-   x$bathy[[1]]$plotargs$x <- rast
-   x$target <- raster::raster(rast)
-  }
-  for (thing in setdiff(names(x), c("plot_sequence", "projection", "target", "straight", "trim", "box"))) {
-      x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target)
-  }
-  x$projection <- target
-  x
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
 }
 #' @export
 #' @name reproj
 reproj.SOmap_auto <- function(x, target, ..., source = NULL) {
-  if (missing(target)) stop("'target' projection string required")
-  if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
-  if (!is.null(x$bathy)) {
-    rast <- try(reproj(x$bathy, target = target), silent = TRUE)
-   if (inherits(rast, "try-error")) {
-     stop("unable to reproject raster sensibly")
-   }
-   x$bathy <- rast
-   x$target <- raster::raster(rast)
-  }
-  if (!is.null(x$coastline$data)) x$coastline$data <- reproj(x$coastline$data, target)
-  if (!is.null(x$graticule)) x$graticule <- reproj(x$graticule, target)
-
-  if (!is.null(x$lines_data)) x$lines_data <- reproj(x$lines_data, target, source = x$projection)
-  if (!is.null(x$points_data)) x$points_data <- reproj(x$points_data, target, source = x$projection)
-
-  x$projection <- target
-  x
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
 }
 
 #' @export
 #' @name reproj
 reproj.SOmap_management <- function(x, target, ..., source = NULL) {
-  if (missing(target)) stop("'target' projection string required")
-  if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
-  for (thing in setdiff(names(x), c("plot_sequence", "target", "projection"))) {
-      x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target)
-  }
-  x$projection <- target
-  x
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
+}
+
+## can use the same code for SOmap, SOmap_auto, and SOmap_management objects
+## note that SOmap_management won't have a bathy component
+do_SOmap_reproj <- function(x, target, source = NULL) {
+    if (missing(target)) stop("'target' projection string required")
+    if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
+    if (!is.null(x$bathy)) {
+        rast <- try(reproj(x$bathy[[1]]$plotargs$x, target = target), silent = TRUE)
+        if (inherits(rast, "try-error")) {
+            stop("unable to reproject raster sensibly")
+        }
+        x$bathy[[1]]$plotargs$x <- rast
+        x$target <- raster::raster(rast)
+    }
+    for (thing in setdiff(names(x), c("init", "plot_sequence", "projection", "target", "straight", "trim", "box", "crs", "lines", "points"))) {
+        x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target)
+    }
+    for (thing in intersect(names(x), c("lines", "points"))) {
+        x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target, source = x$projection)
+    }
+    x$projection <- target
+    x
 }
 
 ## each plottable element in an SOmap object should be a list of SO_plotter objects
 ## doesn't make sense to export this as a public reproj method, because we don't expect users to be
 ##  reprojecting SO_plotter objects themselves
-reproj_SO_plotter_list <- function(thing, target) {
+reproj_SO_plotter_list <- function(thing, target, source = NULL) {
     if (inherits(thing, "SO_plotter")) {
         ## old code may have had just a single SO_plotter object, not a list of length 1
-        thing <- reproj_SO_plotter(thing, target = target)
+        thing <- reproj_SO_plotter(thing, target = target, source = source)
     } else if (is.list(thing)) {
-        thing <- lapply(thing, reproj_SO_plotter, target = target)
+        thing <- lapply(thing, reproj_SO_plotter, target = target, source = source)
     } else {
         stop("unexpected plotter object format")
     }
 }
-reproj_SO_plotter <- function(x, target) {
-    if (!is.null(x$plotargs$x)) x$plotargs$x <- reproj(x$plotargs$x, target)
+reproj_SO_plotter <- function(x, target, source) {
+    if (!is.null(x$plotargs$x)) x$plotargs$x <- reproj(x$plotargs$x, target, source = source)
     x
 }
 

@@ -65,6 +65,12 @@ crunch_raster <- function(source_raster, target_raster) {
                                       stars::st_as_stars(target_raster)))
 
 }
+mid_point <- function (p, fold = FALSE) {
+    gc <- "+proj=geocent +datum=WGS84"
+    lc <- "+proj=longlat +datum=WGS84"
+    reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
+}
+
 #' @noRd
 #' @param x a raster, stars, spatial sf, or numeric vector ('y' must also be present if 'x' is numeric, or NULL if x is a matrix)
 #' @param target defaults to a projection family "stere", if set to NULL uses the projection of 'x'

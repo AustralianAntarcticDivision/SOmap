@@ -33,6 +33,7 @@ Imports:
     stars,
     tabularaster,
     tibble,
+    uuid,
     viridisLite
 Suggests:
     adehabitatLT,
