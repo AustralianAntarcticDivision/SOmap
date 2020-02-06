@@ -71,8 +71,8 @@ SOgg <- function(...) {
         uglymerge(lapply(x, SOgg))
     }
 }
-## TODO: rather than gg-ifying then merging, do the merge then gg-ify. That function would probably be useful to users in its own right
-##  (see https://github.com/AustralianAntarcticDivision/SOmap/issues/45
+
+## TODO: rather than gg-ifying then merging, do the merge via SOmerge then gg-ify
 
 uglymerge <- function(xl) {
     out <- xl[[1]]

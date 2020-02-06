@@ -5,7 +5,7 @@
 #' Note that objects of class `SOmap_auto` are not yet supported.
 #'
 #' @param ... : one or more objects of class `SOmap`, `SOmap_management`, or `SOmap_legend`, or a list of such objects
-#' @param reproject logical: if `TRUE`, and any of the input objects are in a different projection to the input `SOmap` object, an attempt will be made to reproject
+#' @param reproject logical: if `TRUE` (the default), and any of the input objects are in a different projection to the input `SOmap` object, an attempt will be made to reproject them. If you run into problems with `SOmerge`, try setting this to `FALSE`
 #'
 #' @return A single object of class `SOmap`.
 #'
@@ -34,7 +34,7 @@
 #'   mymgmt <- SOmanagement(eez = TRUE, basemap = mymap)
 #'   plot(SOmerge(mymap, mymgmt))
 #'
-#'   ## we can reproject on the fly if needed
+#'   ## SOmerge will reproject objects on the fly if needed
 #'
 #'   sw_atlantic <- SOmap_auto(c(-70, -20), c(-65, -45), input_points = FALSE, input_lines = FALSE)
 #'   mymap_auto$projection
@@ -42,16 +42,16 @@
 #'   sw_atlantic_mgmt <- SOmanagement(eez = TRUE, basemap = sw_atlantic)
 #'
 #'   mymap <- SOmap()
+#'   mymap$projection
 #'
 #'   ## sw_atlantic_mgmt lies within the bounds of mymap, so we might want to combine them
 #'   ##  even though their projections are different
-#'
-#'   merged <- SOmerge(mymap, sw_atlantic_mgmt, reproject = TRUE)
+#'   merged <- SOmerge(mymap, sw_atlantic_mgmt)
 #'   plot(merged)
 #' }
 #'
 #' @export
-SOmerge <- function(..., reproject = FALSE) {
+SOmerge <- function(..., reproject = TRUE) {
     supported_classes <- c("SOmap", "SOmap_management", "SOmap_legend")
     p <- list(...)
     if (length(p) == 1 && is.list(p[[1]]) && !inherits(p[[1]], supported_classes)) {

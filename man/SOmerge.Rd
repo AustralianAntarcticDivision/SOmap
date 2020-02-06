@@ -4,12 +4,12 @@
 \alias{SOmerge}
 \title{Merge multiple SOmap or related objects}
 \usage{
-SOmerge(..., reproject = FALSE)
+SOmerge(..., reproject = TRUE)
 }
 \arguments{
 \item{...}{: one or more objects of class \code{SOmap}, \code{SOmap_management}, or \code{SOmap_legend}, or a list of such objects}
 
-\item{reproject}{logical: if \code{TRUE}, and any of the input objects are in a different projection to the input \code{SOmap} object, an attempt will be made to reproject}
+\item{reproject}{logical: if \code{TRUE} (the default), and any of the input objects are in a different projection to the input \code{SOmap} object, an attempt will be made to reproject them. If you run into problems with \code{SOmerge}, try setting this to \code{FALSE}}
 }
 \value{
 A single object of class \code{SOmap}.
@@ -43,7 +43,7 @@ Note that objects of class \code{SOmap_auto} are not yet supported.
   mymgmt <- SOmanagement(eez = TRUE, basemap = mymap)
   plot(SOmerge(mymap, mymgmt))
 
-  ## we can reproject on the fly if needed
+  ## SOmerge will reproject objects on the fly if needed
 
   sw_atlantic <- SOmap_auto(c(-70, -20), c(-65, -45), input_points = FALSE, input_lines = FALSE)
   mymap_auto$projection
@@ -51,11 +51,11 @@ Note that objects of class \code{SOmap_auto} are not yet supported.
   sw_atlantic_mgmt <- SOmanagement(eez = TRUE, basemap = sw_atlantic)
 
   mymap <- SOmap()
+  mymap$projection
 
   ## sw_atlantic_mgmt lies within the bounds of mymap, so we might want to combine them
   ##  even though their projections are different
-
-  merged <- SOmerge(mymap, sw_atlantic_mgmt, reproject = TRUE)
+  merged <- SOmerge(mymap, sw_atlantic_mgmt)
   plot(merged)
 }
 
