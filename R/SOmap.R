@@ -120,7 +120,7 @@ out$plot_sequence <- c(out$plot_sequence, "fronts")
         out$bathy_legend <- list(ticks = solegx$ticks[[1]],
                                  legend_outer = solegx$legend[[1]],
                                  legend_fill = solegx$legend[[2]],
-                                 graticules = solegx$mask2[[1]],
+                                 ##graticules = solegx$mask2[[1]],
                                  labels = solegx$tick_labels[[1]])
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
