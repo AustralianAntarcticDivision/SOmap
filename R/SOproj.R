@@ -151,6 +151,13 @@ reproj.SOmap_management <- function(x, target, ..., source = NULL) {
     do_SOmap_reproj(x = x, target = target, source = source)
 }
 
+#' @export
+#' @name reproj
+reproj.SOmap_legend <- function(x, target, ..., source = NULL) {
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
+}
+
 ## can use the same code for SOmap, SOmap_auto, and SOmap_management objects
 ## note that SOmap_management won't have a bathy component
 do_SOmap_reproj <- function(x, target, source = NULL) {

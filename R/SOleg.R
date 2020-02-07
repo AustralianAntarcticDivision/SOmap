@@ -187,6 +187,7 @@ SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlab
     lab_pos3 <- sp::spTransform(df3, raster::crs(raster::projection(Bathy)))
 
     structure(list(
+        projection = raster::projection(Bathy),
         plot_sequence = c("mask", "ticks", "legend", ##"mask2",
                           "tick_labels", "legend_labels"),
         mask = SO_plotter(plotfun = "raster::plot", plotargs = list(x = j, col = "white", border = FALSE, add = TRUE)),
