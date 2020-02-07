@@ -117,11 +117,12 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
         ## construct the actual bathy legend
         solegx <- SOleg(position = "bottomleft", type = "continuous", breaks = c(-8000, -6000, -4000, -2000, 0, 2000, 4000), border_width = border_width, col = bluepal2, trim = trim)
         ## take the bits we need here and add them
-        out$bathy_legend <- list(ticks = solegx$ticks[[1]],
-                                 legend_outer = solegx$legend[[1]],
-                                 legend_fill = solegx$legend[[2]],
-                                 ##graticules = solegx$mask2[[1]],
-                                 labels = solegx$tick_labels[[1]])
+##        out$bathy_legend <- list(ticks = solegx$ticks[[1]],
+##                                 legend_outer = solegx$legend[[1]],
+##                                 legend_fill = solegx$legend[[2]],
+##                                 ##graticules = solegx$mask2[[1]],
+##                                 labels = solegx$tick_labels[[1]])
+        out$bathy_legend <- list(solegx) ## embed the legend object
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
     if (border) {

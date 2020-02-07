@@ -69,18 +69,33 @@ SOmerge <- function(..., reproject = TRUE) {
     p <- p[!somap_idx]
     for (pnum in seq_along(p)) {
         thisp <- p[[pnum]]
-        if ("projection" %in% names(thisp) && thisp$projection != out$projection) {
-            if (reproject) {
-                thisp <- reproj(thisp, target = out$projection)
-            } else {
-                stop("can't merge objects with different projections, try using `reproj = TRUE`")
+        if (inherits(thisp, "SOmap_legend")) {
+            ## reproject if needed
+            if ("projection" %in% names(thisp) && thisp$projection != out$projection) {
+                if (reproject) {
+                    thisp <- reproj(thisp, target = out$projection)
+                } else {
+                    stop("can't merge objects with different projections, try using `reproj = TRUE`")
+                }
             }
+            ## insert the legend object in
+            legend_number <- sum(grepl("^legend", names(out)))+1
+            out[[paste0("legend_", legend_number)]] <- list(thisp)
+            out$plot_sequence <- c(out$plot_sequence, paste0("legend_", legend_number))
+        } else {
+            if ("projection" %in% names(thisp) && thisp$projection != out$projection) {
+                if (reproject) {
+                    thisp <- reproj(thisp, target = out$projection)
+                } else {
+                    stop("can't merge objects with different projections, try using `reproj = TRUE`")
+                }
+            }
+            ## does it matter is thisp$target does not match out$target?
+            out$plot_sequence <- c(out$plot_sequence, paste0(thisp$plot_sequence, "_", pnum))
+            thisp <- thisp[setdiff(names(thisp), c("projection", "plot_sequence", "target"))]
+            names(thisp) <- paste0(names(thisp), "_", pnum)
+            out <- c(out, thisp)
         }
-        ## does it matter is thisp$target does not match out$target?
-        out$plot_sequence <- c(out$plot_sequence, paste0(thisp$plot_sequence, "_", pnum))
-        thisp <- thisp[setdiff(names(thisp), c("projection", "plot_sequence", "target"))]
-        names(thisp) <- paste0(names(thisp), "_", pnum)
-        out <- c(out, thisp)
     }
     structure(out, class = "SOmap")
 }

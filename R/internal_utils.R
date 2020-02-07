@@ -32,16 +32,21 @@ plot_all <- function(x) {
         ## either a SO_plotter object, or a list thereof
         ## if it's just one, put it in a list
         if (inherits(allpf, "SO_plotter")) allpf <- list(allpf)
-        if (!all(vapply(allpf, inherits, "SO_plotter", FUN.VALUE = TRUE))) {
-            warning("plotting behaviour for '", toplot, "' should be specified by an SO_plotter object or list of such objects, ignoring")
+        if (!all(vapply(allpf, inherits, c("SO_plotter", "SOmap_legend"), FUN.VALUE = TRUE))) {
+            warning("plotting behaviour for '", toplot, "' should be specified by a list of objects of class SO_plotter or SOmap_legend, ignoring")
             next
         }
         for (thispf in allpf) {
-            thisfun <- thispf$plotfun
-            ##if (is.character(thisfun)) thisfun <- parse(text = thisfun)
-            ##eval(thisfun, envir = x[[toplot]]$plotenv)
-            this_plotargs <- thispf$plotargs
-            if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
+            if (inherits(thispf, "SO_plotter")) {
+                thisfun <- thispf$plotfun
+                this_plotargs <- thispf$plotargs
+                if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
+            } else if (!is.null(getS3method("plot", class(thispf), optional = TRUE))) {
+                ## this object (e.g. a SOmap_legend object) has a plot method, call that
+                plot(thispf)
+            } else {
+                stop("object in plot list of class \"", class(thispf), "\", don't know what to do with it")
+            }
         }
         if (!is.null(thispf$labels)) {
             ## this should not be needed now: all label stuff should now be in the main list of plotfuns and be handled above

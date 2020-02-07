@@ -195,7 +195,11 @@ reproj_SO_plotter_list <- function(thing, target, source = NULL) {
     }
 }
 reproj_SO_plotter <- function(x, target, source) {
-    if (!is.null(x$plotargs$x)) x$plotargs$x <- reproj(x$plotargs$x, target, source = source)
+    if (inherits(x, "SOmap_legend")) {
+        x <- reproj(x, target)
+    } else {
+        if (!is.null(x$plotargs$x)) x$plotargs$x <- reproj(x$plotargs$x, target, source = source)
+    }
     x
 }
 
