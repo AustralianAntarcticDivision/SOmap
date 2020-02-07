@@ -76,7 +76,7 @@ SOmap_auto(
 
 \item{pcex}{set point cex (default=1)}
 
-\item{bathyleg}{optional bathymetry legend (default=FALSE). Note when \code{bathyleg} is \code{FALSE}, plotting is done with \code{raster::image}, but when \code{bathyleg} is \code{TRUE} plotting uses \code{raster::plot}}
+\item{bathyleg}{optional bathymetry legend (default=FALSE)}
 
 \item{llty}{set line type}
 

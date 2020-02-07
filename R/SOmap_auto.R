@@ -30,7 +30,7 @@
 #' @param llty set line type
 #' @param llwd set line width
 #' @param lcol set line color
-#' @param bathyleg optional bathymetry legend (default=FALSE). Note when \code{bathyleg} is \code{FALSE}, plotting is done with \code{raster::image}, but when \code{bathyleg} is \code{TRUE} plotting uses \code{raster::plot}
+#' @param bathyleg optional bathymetry legend (default=FALSE)
 #' @param gratlon longitude values for graticule meridians
 #' @param gratlat latitude values for graticule parallels
 #' @param gratpos positions (sides) of graticule labels
@@ -186,7 +186,16 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
         ## check breaks and colours: need one more break than number of colours
         ##if (length(x$bathy_breaks) != (length(x$bathy_palette) + 1)) x$bathy_breaks <- NULL
         if (isTRUE(bathyleg)) {
-            out$bathy <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, add = TRUE, col = bluepal, breaks = bathy_breaks, axes = FALSE))
+            ## ##out$bathy <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, add = TRUE, col = bluepal, breaks = bathy_breaks, axes = FALSE))
+            ## attempt to guess best side, 1 = below, 4 = right
+            asp <- if (raster::isLonLat(target)) 1/cos(mean(c(raster::xmin(target), raster::xmax(target))) * pi/180) else 1
+            r <- abs(asp * diff(c(raster::ymin(target), raster::ymax(target)))/diff(c(raster::xmin(target), raster::xmax(target))))
+            out$bathy_legend <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, legend.only = TRUE, col = bluepal, legend.width = 1, legend.shrink = 0.5, axis.args = list(at = bathy_breaks, labels = bathy_breaks, cex.axis = 0.6), legend.args = list(text = "fHW", side = if (r >= 1) 3 else 1, font = 2, line = 2.5, cex = 0.8), horizontal = r < 1))
+            out$bathy <- SO_plotter(plotfun = "raster::image", plotargs = list(x = bathymetry, add = TRUE, col = bluepal, axes = FALSE))
+            ## alternatively we can control exactly where the legend goes using 'smallplot', but this is probably going to be more difficult to
+            ##  make work well automatically
+            ##out$bathy_legend <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, smallplot = c(.15, .17, .5, .85), col = bluepal, breaks = bathy_breaks, legend.only = TRUE, axes = FALSE))
+            ## note also that we add bathy_legend to the very end of the plot_sequence (below) so that it doesn't muck up the plot aspect ratio
         } else {
             if (!is.null(bathy_breaks)) {
                 out$bathy <- SO_plotter(plotfun = "raster::image", plotargs = list(x = bathymetry, add = TRUE, col = bluepal, breaks = bathy_breaks, axes = FALSE))
@@ -220,6 +229,9 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     if (!is.null(graticule)) {
         out$graticule <- SO_plotter(plotfun = "SOmap:::plot_graticule", plotargs = list(x = graticule, GratPos = gratpos))
         out$plot_sequence <- c(out$plot_sequence, "graticule")
+    }
+    if (!is.null(bathymetry) && isTRUE(bathyleg)) {
+        out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
     out$crs <- prj
     structure(out, class = "SOmap_auto")
