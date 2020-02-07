@@ -67,7 +67,7 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     q <- ifelse(bathy_legend_space, trim+border_width+11, trim+border_width)
     Bathy <- raster::trim(SOmap::latmask(Bathy, latitude = q))
     out <- list(projection = raster::projection(Bathy), target = raster::raster(Bathy), straight = straight, trim = trim)
-    out$bathy <- SO_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1))
+    out$bathy <- SO_plotter(plotfun = if (straight) "plot" else "image", plotargs = list(x = Bathy, col = bluepal, yaxt = "n", xaxt = "n", asp = 1, zlim = c(-8000, 4000)))
     if (straight) out$bathy[[1]]$plotargs$legend <- FALSE
 
     out$box <- SO_plotter(plotfun = "graphics::box", plotargs = list(col = "white"))
@@ -96,7 +96,7 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
       xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
       out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
-out$plot_sequence <- c(out$plot_sequence, "fronts")
+      out$plot_sequence <- c(out$plot_sequence, "fronts")
     }
 
     ## Graticule grid
