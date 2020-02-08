@@ -166,7 +166,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     depthmin <- if (inherits(bathymetry, "BasicRaster")) raster::cellStats(bathymetry, "min", na.rm = TRUE) else -10353 ## fallback to this
     depthmax <- if (inherits(bathymetry, "BasicRaster")) raster::cellStats(bathymetry, "max", na.rm = TRUE) else 6050 ## fallback to this
     bathy_breaks <- c(seq(from = depthmin, to = 0, length.out = 33), seq(from = 0, to = depthmax, length.out = 14)[-1]) ## one more break than colour
-
+    bathy_break_labels <- round(bathy_breaks)
     if (!exists("xy")) xy <- NULL
     ## new SOmap_auto object format
     out <- list(projection = raster::projection(target), target = target, plot_sequence = c("init"))
@@ -190,7 +190,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
             ## attempt to guess best side, 1 = below, 4 = right
             asp <- if (raster::isLonLat(target)) 1/cos(mean(c(raster::xmin(target), raster::xmax(target))) * pi/180) else 1
             r <- abs(asp * diff(c(raster::ymin(target), raster::ymax(target)))/diff(c(raster::xmin(target), raster::xmax(target))))
-            out$bathy_legend <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, legend.only = TRUE, col = bluepal, legend.width = 1, legend.shrink = 0.5, axis.args = list(at = bathy_breaks, labels = bathy_breaks, cex.axis = 0.6), legend.args = list(text = "fHW", side = if (r >= 1) 3 else 1, font = 2, line = 2.5, cex = 0.8), horizontal = r < 1))
+            out$bathy_legend <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, legend.only = TRUE, col = bluepal, legend.width = 1, legend.shrink = 0.5, axis.args = list(at = bathy_breaks, labels = bathy_break_labels, cex.axis = 0.6), legend.args = list(text = "", side = if (r >= 1) 3 else 1, font = 2, line = 2.5, cex = 0.8), horizontal = r < 1))
             out$bathy <- SO_plotter(plotfun = "raster::image", plotargs = list(x = bathymetry, add = TRUE, col = bluepal, axes = FALSE))
             ## alternatively we can control exactly where the legend goes using 'smallplot', but this is probably going to be more difficult to
             ##  make work well automatically
