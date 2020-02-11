@@ -33,7 +33,7 @@ plot_all <- function(x) {
         ## if it's just one, put it in a list
         if (inherits(allpf, "SO_plotter")) allpf <- list(allpf)
         if (!all(vapply(allpf, inherits, c("SO_plotter", "SOmap_legend"), FUN.VALUE = TRUE))) {
-            warning("plotting behaviour for '", toplot, "' should be specified by a list of objects of class SO_plotter or SOmap_legend, ignoring")
+            warning("plotting behaviour for \"", toplot, "\" should be specified by a list of objects of class SO_plotter or SOmap_legend, ignoring")
             next
         }
         for (thispf in allpf) {
