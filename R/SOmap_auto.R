@@ -75,7 +75,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     data("Bathy", package = "SOmap", envir = environment())
     if (missing(y)) y <- NULL
     ## automap_nothing ----
-    if (missing(x) && missing(y)) {
+    if (missing(x) && is.null(y)) {
         ## generate some random data
         xy <- automap_nothing()
         x <- xy[,1]
@@ -360,14 +360,12 @@ print.SOmap_auto <- function(x, main = NULL, ..., set_clip = TRUE) {
     ## record current crs
     SOcrs(x$projection)
     if (!is.null(main)) graphics::title(main = main)
-    op <- par(xpd = FALSE)
     ## now plot everything else
     if (length(toplot) > 0) {
         temp <- x[toplot]
         temp$plot_sequence <- toplot
         plot_all(structure(temp, class = "SOmap_auto"))
     }
-    par(op)
     if (set_clip) graphics::clip(raster::xmin(x$target), raster::xmax(x$target), raster::ymin(x$target), raster::ymax(x$target))
     invisible(x)
 }
