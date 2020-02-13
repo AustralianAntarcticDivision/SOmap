@@ -172,6 +172,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     out <- list(projection = raster::projection(target), target = target, plot_sequence = c("init"))
     out$init <- SO_plotter(plotfun = function(target, main = NULL) {
         base_plt <- c(0.1571257, 0.9195210, 0.1847547, 0.8514717)
+        ## these will be used as the viewpoort bounds (normalized coords) within the current figure region
         plt <- c(base_plt[c(1, 3)]/2, 1-(1-base_plt[c(2, 4)])/2)[c(1, 3, 2, 4)]
         aspect <- if (raster::isLonLat(target)) 1/cos(mean(c(raster::xmin(target), raster::xmax(target))) * pi/180) else 1
         if (!is.null(main)) {
@@ -184,7 +185,6 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     if (!is.null(bathymetry)) {
         ## check breaks and colours: need one more break than number of colours
         ##if (length(x$bathy_breaks) != (length(x$bathy_palette) + 1)) x$bathy_breaks <- NULL
-        
         if (isTRUE(bathyleg)) {
             if (FALSE) {
                 ## old code using raster::plot and relying on its own legend handling
@@ -428,7 +428,13 @@ aspectplot.default <- function(xlim, ylim, asp, plt, ...) {
     if (viewport[2] > 1) viewport[2] <- 1
     if (viewport[3] < 0) viewport[3] <- 0
     if (viewport[4] > 1) viewport[4] <- 1
-    p <- par(plt = viewport, fig = plt, new = FALSE, ...)
+    ## now scale viewport coordinates to be fractions of figure space
+    plt_x <- abs(diff(plt[1:2]))
+    plt_y <- abs(diff(plt[3:4]))
+    nview <- c(plt[1]+plt_x*viewport[1:2], plt[3]+plt_y*viewport[3:4])
+    ## so we leave fig as whatever it was, and adjust plt within that
+    ## that way, e.g. par(mfrow = ...) will work, because it changes the existing fig bounds
+    p <- par(plt = nview, new = FALSE, ...)
     plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
     p
 }
