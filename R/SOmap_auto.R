@@ -171,16 +171,14 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     ## new SOmap_auto object format
     out <- list(projection = raster::projection(target), target = target, plot_sequence = c("init"))
     out$init <- SO_plotter(plotfun = function(target, main = NULL) {
-        base_mar <- c(5.1, 4.1, 4.1, 2.1)
+        base_plt <- c(0.1571257, 0.9195210, 0.1847547, 0.8514717)
+        plt <- c(base_plt[c(1, 3)]/2, 1-(1-base_plt[c(2, 4)])/2)[c(1, 3, 2, 4)]
         aspect <- if (raster::isLonLat(target)) 1/cos(mean(c(raster::xmin(target), raster::xmax(target))) * pi/180) else 1
-        if (is.null(main)) {
-            margins <-base_mar/2.5
-        } else {
-            mars <- base_mar/2.5
-            mars[3] <- mars[3]+2
-            margins <- mars
+        if (!is.null(main)) {
+            plt[4] <- min(plt[4], 0.90) ## room at top
         }
-        aspectplot.default(c(raster::xmin(target), raster::xmax(target)), c(raster::ymin(target), raster::ymax(target)), asp = aspect, mar = margins)
+        aspectplot.default(c(raster::xmin(target), raster::xmax(target)), c(raster::ymin(target), raster::ymax(target)), asp = aspect, plt = plt)
+        par(xpd = NA)
     }, plotargs = list(target = target)) ## TODO figure out how to pass main here
     add_bathy_legend_to_plotseq <- FALSE
     if (!is.null(bathymetry)) {
@@ -279,7 +277,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
 #' @method plot SOmap_auto
 #' @export
 plot.SOmap_auto <- function (x, y, ...) {
-    print(x)
+    print(x, ...)
     invisible()
 }
 
@@ -348,11 +346,13 @@ plot.SOmap_auto <- function (x, y, ...) {
 print.SOmap_auto <- function(x, main = NULL, ..., set_clip = TRUE) {
     toplot <- intersect(x$plot_sequence, names(x))
     ## must do init and bathy first
+    opar <- par(no.readonly = TRUE)
     for (thing in intersect(toplot, c("init", "bathy"))) {
         ## iterate through all the components, which will be SO_plotter objects
         for (thispf in x[[thing]]) {
             thisfun <- thispf$plotfun
             this_plotargs <- thispf$plotargs
+            if (thing == "init" && !is.null(main)) this_plotargs$main <- main
             if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
         }
     }
@@ -367,6 +367,7 @@ print.SOmap_auto <- function(x, main = NULL, ..., set_clip = TRUE) {
         plot_all(structure(temp, class = "SOmap_auto"))
     }
     if (set_clip) graphics::clip(raster::xmin(x$target), raster::xmax(x$target), raster::ymin(x$target), raster::ymax(x$target))
+    ##par(opar)
     invisible(x)
 }
 
@@ -405,22 +406,52 @@ plot_graticule <- function(x, GratPos) {
 }
 
 
-aspectplot.default <- function(xlim, ylim, asp, ...) {
-  plot.new()
-  xlim <- sort(xlim)
-  ylim <- sort(ylim)
-  r <- abs(asp * abs(diff(ylim)/diff(xlim)))
-  if(r <= 1) {  # X = 0, 1
-    recip <- r / 2
-    figure <- c(0, 1, 0.5 - recip, 0.5 + recip)
-  } else {     # Y = 0, 1
-    recip <- (1/r) / 2
-    figure <- c(0.5 - recip, 0.5 + recip, 0, 1)
-  }
-  p <- par(fig = figure, new = FALSE, ...)
-  plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
-  p
+aspectplot.default <- function(xlim, ylim, asp, plt, ...) {
+    plot.new()
+    xlim <- sort(xlim)
+    ylim <- sort(ylim)
+    r <- abs(asp * abs(diff(ylim)/diff(xlim)))
+    dv <- dev.size("px")
+    dr <- dv[1]/dv[2]
+
+    rd <- r * dr
+    bm <- 0
+
+    if (rd <= 1) {  # X = 0, 1
+        recip <- (r * dr)/2
+        viewport <- c(0, 1, 0.5 - recip, 0.5 + recip)
+    } else {     # Y = 0, 1
+        recip <- ((1/dr) * (1/r) )/2
+        viewport <- c(0.5 - recip, 0.5 + recip, 0, 1)
+    }
+    if (viewport[1] < 0) viewport[1] <- 0
+    if (viewport[2] > 1) viewport[2] <- 1
+    if (viewport[3] < 0) viewport[3] <- 0
+    if (viewport[4] > 1) viewport[4] <- 1
+    p <- par(plt = viewport, fig = plt, new = FALSE, ...)
+    plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
+    p
 }
+
+## old, kept here temporarily for easy reference
+##aspectplot.default <- function(xlim, ylim, asp, ...) {
+##  plot.new()
+##  xlim <- sort(xlim)
+##  ylim <- sort(ylim)
+##  r <- abs(asp * abs(diff(ylim)/diff(xlim)))
+##cat("r: ", r, "\n")  
+##  if(r <= 1) {  # X = 0, 1
+##    recip <- r / 2
+##    figure <- c(0, 1, 0.5 - recip, 0.5 + recip)
+##  } else {     # Y = 0, 1
+##    recip <- (1/r) / 2
+##    figure <- c(0.5 - recip, 0.5 + recip, 0, 1)
+##  }
+##  p <- par(fig = figure, new = FALSE, ...)
+##  plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
+##  box(col = "red")
+##  p
+##}
 
 fast_mask <- function(ras, poly) {
   cells <- tabularaster::cellnumbers(ras, sf::st_as_sf(poly))
