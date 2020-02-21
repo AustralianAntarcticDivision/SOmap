@@ -27,27 +27,27 @@ SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE) {
         x <- x[[1]]
     }
     SObj <- SOproj(x = x, y = y, target = target, source = source, ...)
-  everything <- par(no.readonly = TRUE)
-  if (add && (is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
-    points(SObj, ...)
-  } else {
-      if (inherits(SObj, "BasicRaster")) {
-          if (raster::nlayers(SObj) == 3) {
-              ## assume raster is a RGB, and zap white with bgalpha
-              raster::plotRGB(SObj, add = add, bgalpha = 0, ...)
-          } else {
-              plot(SObj, add=add, ...)
-              ## calling plot.raster changes some par values, which will cause problems for subsequent
-              ##   SOplot calls. See e.g. https://github.com/AustralianAntarcticDivision/SOmap/issues/67 and
-              ##   https://github.com/AustralianAntarcticDivision/SOmap/issues/36
-              par(fig = everything$fig) ## this seems to be the critical one
-          }
-      } else {
-          plot(SObj, add=add, ...)
-      }
-  }
-  #par(everything)
-  invisible(NULL)
+    everything <- par(no.readonly = TRUE)
+    if (add && (is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
+        points(SObj, ...)
+    } else {
+        if (inherits(SObj, "BasicRaster")) {
+            if (raster::nlayers(SObj) == 3) {
+                ## assume raster is a RGB, and zap white with bgalpha
+                raster::plotRGB(SObj, add = add, bgalpha = 0, ...)
+            } else {
+                plot(SObj, add=add, ...)
+                ## calling plot.raster changes some par values, which will cause problems for subsequent
+                ##   SOplot calls. See e.g. https://github.com/AustralianAntarcticDivision/SOmap/issues/67 and
+                ##   https://github.com/AustralianAntarcticDivision/SOmap/issues/36
+                par(fig = everything$fig) ## this seems to be the critical one
+            }
+        } else {
+            plot(SObj, add=add, ...)
+        }
+    }
+    ##par(everything)
+    invisible(NULL)
 }
 
 
