@@ -74,6 +74,10 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     data("SOmap_data", package = "SOmap", envir = environment())
     data("Bathy", package = "SOmap", envir = environment())
     if (missing(y)) y <- NULL
+    if (is.null(y) && is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
+        y <- x[[2]]
+        x <- x[[1]]
+    }
     ## automap_nothing ----
     if (missing(x) && is.null(y)) {
         ## generate some random data

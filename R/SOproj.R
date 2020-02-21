@@ -36,31 +36,35 @@
 #' @importFrom raster projection<-
 #' @importFrom sp coordinates<-
 SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
- if (is.character(y)) stop(sprintf("'y' is character, did you mean? \n\n  SOproj(%s, target = %s)",
-                                   as.character(substitute(x)),
-                                   as.character(substitute(y))))
-  if (is.null(target)) {
-    suppressWarnings(target <- SOcrs())
+    if (is.character(y)) stop(sprintf("'y' is character, did you mean? \n\n  SOproj(%s, target = %s)",
+                                      as.character(substitute(x)),
+                                      as.character(substitute(y))))
     if (is.null(target)) {
-      message("No CRS provided or available, assuming SOmap default")
-      target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+        suppressWarnings(target <- SOcrs())
+        if (is.null(target)) {
+            message("No CRS provided or available, assuming SOmap default")
+            target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+        }
     }
-  }
 
-  ## shortcut out, we have an object
-  if (is.null(y) && !missing(x)) {
-    source <- raster::projection(x)
-    if (is.na(source)) {
-      warning("assuming generic data is in longitude,latitude")
-      source <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    ## shortcut out, we have an object
+    if (is.null(y) && !missing(x)) {
+        if (is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
+            y <- x[[2]]
+            x <- x[[1]]
+        } else {
+            source <- raster::projection(x)
+            if (is.na(source)) {
+                warning("assuming generic data is in longitude,latitude")
+                source <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+            }
+                                        #browser()
+            return(reproj(x, target = target, source = source))
+        }
     }
-    #browser()
-    return(reproj(x, target = target, source = source))
-
-  }
-  if (missing(x) || is.null(y)) {
-      stop("x and y must be provided unless 'x' is an object")
-  }
+    if (missing(x) || is.null(y)) {
+        stop("x and y must be provided unless 'x' is an object")
+    }
 #  should never be needed
 #   if (is.na(projection(x)) && is.null(source)) {
 #     if (is.list(x) && !is.null(x$crs)) {

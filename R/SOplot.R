@@ -22,7 +22,11 @@
 #' }
 #' @export
 SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE) {
-  SObj <- SOproj(x = x, y = y, target = target, source = source, ...)
+    if (is.null(y) && is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
+        y <- x[[2]]
+        x <- x[[1]]
+    }
+    SObj <- SOproj(x = x, y = y, target = target, source = source, ...)
   everything <- par(no.readonly = TRUE)
   if (add && (is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
     points(SObj, ...)
