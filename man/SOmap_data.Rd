@@ -4,7 +4,8 @@
 \name{SOmap_data}
 \alias{SOmap_data}
 \title{Contextual data for Southern Ocean maps}
-\format{A list containing the following elements:
+\format{
+A list containing the following elements:
 \itemize{
 \item CCAMLR_MPA
 \itemize{
@@ -125,7 +126,8 @@
 \item URL: https://doi.org/10.17882/59800
 \item License: CC-BY-4.0, please cite in full as at DOI
 }
-}}
+}
+}
 \usage{
 data(SOmap_data)
 }
