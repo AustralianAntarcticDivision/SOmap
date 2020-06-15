@@ -40,7 +40,7 @@ SOmap(
 
 \item{ice_col}{character: colour to use for ice features.}
 
-\item{fronts}{logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front).}
+\item{fronts}{logical or string: if \code{TRUE} or "Orsi", plot Osri et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.}
 
 \item{fronts_col}{character: colours for fronts.}
 

@@ -4,7 +4,9 @@
 \name{Bathy}
 \alias{Bathy}
 \title{Bathymetric data for maps}
-\format{An object of class \code{"RasterLayer"}}
+\format{
+An object of class \code{"RasterLayer"}
+}
 \source{
 \href{https://www.gebco.net/data_and_products/gridded_bathymetry_data/}{GEBCO}
 }

@@ -15,7 +15,7 @@
 #' @param land_col character: colour to use for coastline.
 #' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar).
 #' @param ice_col character: colour to use for ice features.
-#' @param fronts logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front).
+#' @param fronts logical or string: if \code{TRUE} or "Orsi", plot Osri et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.
 #' @param fronts_col character: colours for fronts.
 #'
 #' @return An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere. Printing or plotting this object will cause it to be displayed in the current graphics device.
@@ -92,9 +92,16 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     }
 
     ## fronts
-    if (fronts) {
+    if (isTRUE(fronts) || fronts=="Orsi") {
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
       xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
+      out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
+      out$plot_sequence <- c(out$plot_sequence, "fronts")
+    }
+
+    if (fronts=="Park") {
+      xfront <-suppressWarnings(SOproj(SOmap::SOmap_data$fronts_park, target = out$projection))
+      #xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
       out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
     }
