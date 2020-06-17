@@ -266,8 +266,14 @@ SOgg_management <- function(x, basemap) {
     } else {
         buf <- make_buf(x$trim+2, x$projection)
     }
-    apply_buf <- function(thing) if (is.null(buf)) thing else suppressWarnings(sf::st_intersection(buf, thing))
-
+    apply_buf <- function(thing) {
+        if (is.null(buf)) {
+            return(thing)
+            } else {
+                buf <- suppressWarnings(sf::st_set_crs(buf, sf::st_crs(thing)))
+                return(suppressWarnings(sf::st_intersection(buf, thing)))
+            }
+}
     if (!is.null(x$ccamlr_statistical_areas)) {
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_statistical_areas$main$plotargs$x)))
         out$ccamlr_statistical_areas <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_statistical_areas$main$plotargs$border,  inherit.aes = FALSE, fill = NA))#fill = x$ccamlr_statistical_areas$main$plotargs$col)
