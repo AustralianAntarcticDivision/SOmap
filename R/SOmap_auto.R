@@ -1,10 +1,29 @@
-mid_point <- function (p, fold = FALSE)
-  {
-  gc <- "+proj=geocent +datum=WGS84"
-  lc <- "+proj=longlat +datum=WGS84"
-   reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
+.to_xyz <- function (lonlatheight, rad = 6378137, exag = 1) {
+  cosLat = cos(lonlatheight[, 2] * pi/180)
+  sinLat = sin(lonlatheight[, 2] * pi/180)
+  cosLon = cos(lonlatheight[, 1] * pi/180)
+  sinLon = sin(lonlatheight[, 1] * pi/180)
+  rad <- (exag * lonlatheight[, 3] + rad)
+  x = rad * cosLat * cosLon
+  y = rad * cosLat * sinLon
+  z = rad * sinLat
+  cbind(x, y, z)
+}
 
-  }
+
+.to_ll <- function(xyz) {
+  x <- xyz[1]; y <- xyz[2]; z <- xyz[3]
+  lat <- atan2(z,sqrt(x*x+y*y))
+  lng <- atan2(y,x)
+  cbind(lng, lat) * 180/pi
+}
+
+
+mid_point <- function (p) {
+ centre <- colMeans(.to_xyz(cbind(p, 0)))
+ .to_ll(centre)
+}
+
 
 
 #' Default Southern Ocean map

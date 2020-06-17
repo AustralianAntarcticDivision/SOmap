@@ -118,7 +118,9 @@ automap_maker <-
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
+
         mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(), source = raster::projection(x)))
+
         if (is.null(centre_lon)) centre_lon <- mp[1]
         if (is.null(centre_lat)) centre_lat <- mp[2]
       }
@@ -142,6 +144,7 @@ automap_maker <-
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
         mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(),
                                        source = raster::projection(x)))
+
         if (is.null(centre_lon)) centre_lon <- mp[1]
         if (is.null(centre_lat)) centre_lat <- mp[2]
       }
@@ -155,6 +158,7 @@ automap_maker <-
       src_prj <- llproj
       llxy <- cbind(x, y)
       midp <- mid_point(llxy)
+
       if (is.null(centre_lon)) centre_lon <- midp[1]
       if (is.null(centre_lat)) centre_lat <- midp[2]
       if (!is.null(target) && target == "stere" && !grepl(target, src_prj)) tscale <- -71 * sign(centre_lat)
