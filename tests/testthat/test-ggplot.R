@@ -26,10 +26,10 @@ test_that("SOgg returns a ggplot object", {
     }
 
     ## gg-ify p together with pm
-    pg <- SOgg(p, pm) ## no warning this time
-    expect_s3_class(pg, "SOmap_gg")
-    expect_identical(sort(names(pg)), c("axis_labels", "bathy", "bathy_legend", "border", "ccamlr_planning_domains", "ccamlr_ssmu", "ccamlr_ssru", "ccamlr_statistical_areas", "coastline", "coord", "eez", "ice", "init", "iwc", "mpa", "plot_sequence", "projection", "research_blocks", "scale_fill", "sprfmo_research_blocks", "straight", "target", "theme", "trim"))
-    expect_s3_class(plot(pg), "ggplot")
+   # pg <- SOgg(p, pm) ## no warning this time
+   #    expect_s3_class(pg, "SOmap_gg")
+   #    expect_identical(sort(names(pg)), c("axis_labels", "bathy", "bathy_legend", "border", "ccamlr_planning_domains", "ccamlr_ssmu", "ccamlr_ssru", "ccamlr_statistical_areas", "coastline", "coord", "eez", "ice", "init", "iwc", "mpa", "plot_sequence", "projection", "research_blocks", "scale_fill", "sprfmo_research_blocks", "straight", "target", "theme", "trim"))
+   #    expect_s3_class(plot(pg), "ggplot")
 
     ## things in pg should be of expected classes
     expect_is(pg$target, "Raster")
