@@ -17,6 +17,7 @@
 #'
 #' @return raster
 #' @noRd
+#' @importFrom grDevices dev.cur
 #' @keywords internal
 #' @examples
 #' library(SOmap)

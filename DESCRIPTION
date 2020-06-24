@@ -23,7 +23,7 @@ Imports:
     graticule,
     methods,
     proj4,
-    reproj (> 0.4.2),
+    reproj,
     rgdal,
     rgeos,
     rlang,
@@ -43,4 +43,3 @@ Suggests:
     palr,
     vdiffr
 VignetteBuilder: knitr
-Remotes: hypertidy/reproj, hypertidy/PROJ
