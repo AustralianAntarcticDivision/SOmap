@@ -74,7 +74,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     data("SOmap_data", package = "SOmap", envir = environment())
     data("Bathy", package = "SOmap", envir = environment())
     if (missing(y)) y <- NULL
-    if (is.null(y) && is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
+    if (is.null(y) && !missing(x) && is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
         y <- x[[2]]
         x <- x[[1]]
     }
@@ -155,7 +155,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
             }
         })
     }
-    
+
     grat <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
                              crs = raster::projection(target), lon = gratlon, lat = gratlat)
     if (graticule) {
@@ -217,10 +217,10 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
                 r <- abs(asp * diff(c(raster::ymin(target), raster::ymax(target)))/diff(c(raster::xmin(target), raster::xmax(target))))
                 out$bathy <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, add = FALSE, box = FALSE, col = bluepal, axis.args = list(at = bathy_breaks, labels = bathy_break_labels), axes = FALSE, legend = TRUE, horizontal = r < 1))
                 ## note that extra args here get passed down the stack to .rasterImagePlot, which takes:
-                ## .rasterImagePlot <- function(x, col, add=FALSE, legend=TRUE, horizontal = FALSE, 
+                ## .rasterImagePlot <- function(x, col, add=FALSE, legend=TRUE, horizontal = FALSE,
                 ##    legend.shrink=0.5, legend.width=0.6, legend.mar = ifelse(horizontal, 3.1, 5.1),
-                ##    legend.lab=NULL, graphics.reset=FALSE, bigplot = NULL, smallplot = NULL, legend.only = FALSE, 
-                ##    lab.breaks=NULL, axis.args=NULL, legend.args = NULL, interpolate=FALSE, box=TRUE, breaks=NULL, 
+                ##    legend.lab=NULL, graphics.reset=FALSE, bigplot = NULL, smallplot = NULL, legend.only = FALSE,
+                ##    lab.breaks=NULL, axis.args=NULL, legend.args = NULL, interpolate=FALSE, box=TRUE, breaks=NULL,
                 ##    zlim=NULL, zlimcol=NULL, fun=NULL, asp, colNA = NA, alpha=NULL, npretty=0, ...) {
                 out$plot_sequence <- c() ## don't set up with aspectplot.default, just let raster take care of it
             }
@@ -449,7 +449,7 @@ aspectplot.default <- function(xlim, ylim, asp, plt, ...) {
 ##  xlim <- sort(xlim)
 ##  ylim <- sort(ylim)
 ##  r <- abs(asp * abs(diff(ylim)/diff(xlim)))
-##cat("r: ", r, "\n")  
+##cat("r: ", r, "\n")
 ##  if(r <= 1) {  # X = 0, 1
 ##    recip <- r / 2
 ##    figure <- c(0, 1, 0.5 - recip, 0.5 + recip)
