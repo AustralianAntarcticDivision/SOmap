@@ -412,7 +412,10 @@ SOgg_auto <- function(x) {
     out$coord <- SO_plotter(plotfun = "ggplot2::coord_sf", plotargs = list(default = TRUE))
     out$plot_sequence <- c("init", "bathy", "coord")
 
-    out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, na.value = "#FFFFFF00", limits = c(-9638, 5145)))
+    clims <- tryCatch(range(x$bathy[[1]]$plotargs$breaks, na.rm = TRUE), error = function(e) c(-9638, 5145)) ## match colour limits, with fallback
+    ## our colour breaks are not evenly spaced, scale these to 0-1 as pass as "values" arg to scale_fill_gradientn
+    cvals <- tryCatch((ma$bathy[[1]]$plotargs$breaks - min(ma$bathy[[1]]$plotargs$breaks))/diff(range(ma$bathy[[1]]$plotargs$breaks)), error = function(e) NULL)
+    out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, values = cvals, na.value = "#FFFFFF00", limits = clims))
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
     if (!is.null(x$coastline)) {
         this <- suppressWarnings(sf::st_as_sf(x$coastline[[1]]$plotargs$x))
