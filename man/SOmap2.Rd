@@ -95,7 +95,7 @@ SOmap2(
 
 \item{straight}{logical: if \code{TRUE}, leave a blank space on the side for a straight legend.}
 
-\item{fronts}{logical or string: if \code{TRUE} or "Orsi", plot Osri et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.}
+\item{fronts}{logical or string: if \code{TRUE} or "Orsi", plot Orsi et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.}
 
 \item{fronts_col}{character: colours to use for fronts.}
 

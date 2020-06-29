@@ -40,7 +40,7 @@
 #' @param land_col character: colour to use for coastline.
 #' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar).
 #' @param ice_col character: colour to use for ice features.
-#' @param fronts logical or string: if \code{TRUE} or "Orsi", plot Osri et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.
+#' @param fronts logical or string: if \code{TRUE} or "Orsi", plot Orsi et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.
 #' @param fronts_col character: colours to use for fronts.
 #'
 #' @return An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere, with the chosen management layers added. Printing or plotting this object will cause it to be displayed in the current graphics device.

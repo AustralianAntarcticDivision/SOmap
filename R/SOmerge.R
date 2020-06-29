@@ -75,7 +75,7 @@ SOmerge <- function(..., reproject = TRUE) {
                 if (reproject) {
                     thisp <- reproj(thisp, target = out$projection)
                 } else {
-                    stop("can't merge objects with different projections, try using `reproj = TRUE`")
+                    stop("can't merge objects with different projections, try setting `reproject = TRUE`")
                 }
             }
             ## insert the legend object in
@@ -87,7 +87,7 @@ SOmerge <- function(..., reproject = TRUE) {
                 if (reproject) {
                     thisp <- reproj(thisp, target = out$projection)
                 } else {
-                    stop("can't merge objects with different projections, try using `reproj = TRUE`")
+                    stop("can't merge objects with different projections, try setting `reproject = TRUE`")
                 }
             }
             ## does it matter is thisp$target does not match out$target?

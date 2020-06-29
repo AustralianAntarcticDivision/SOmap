@@ -176,7 +176,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     out <- list(projection = raster::projection(target), target = target, plot_sequence = c("init"))
     out$init <- SO_plotter(plotfun = function(target, main = NULL) {
         base_plt <- c(0.1571257, 0.9195210, 0.1847547, 0.8514717)
-        ## these will be used as the viewpoort bounds (normalized coords) within the current figure region
+        ## these will be used as the viewport bounds (normalized coords) within the current figure region
         plt <- c(base_plt[c(1, 3)]/2, 1-(1-base_plt[c(2, 4)])/2)[c(1, 3, 2, 4)]
         aspect <- if (raster::isLonLat(target)) 1/cos(mean(c(raster::xmin(target), raster::xmax(target))) * pi/180) else 1
         if (!is.null(main)) {
