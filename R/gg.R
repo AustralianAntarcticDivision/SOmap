@@ -160,6 +160,17 @@ SOgg_notauto <- function(x) {
         }
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
+    if (any(grepl("^legend_", names(x)))) {
+        ## extra legends
+        for (lnm in names(x)[grepl("^legend_", names(x))]) {
+            if (inherits(x[[lnm]][[1]], "SOmap_legend")) {
+                out[[lnm]] <- SOgg_legend(x[[lnm]][[1]])
+                out$plot_sequence <- c(out$plot_sequence, lnm)
+            } else {
+                warning("unexpected legend object with name: ", lnm)
+            }
+        }
+    }
 
     ## buffer to use for cropping things back to our extent of interest
     buf <- make_buf(x$trim+2, x$projection)
