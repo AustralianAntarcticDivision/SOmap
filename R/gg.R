@@ -257,10 +257,15 @@ SOgg_legend <- function(x) {
         out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long[thecolors$cols == ii], y = thecolors$lat[thecolors$cols == ii], fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
         temp <- as.data.frame(x$tick_labels[[1]]$plotargs$x)
         out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 2)))
+        temp <- as.data.frame(x$legend_labels[[1]]$plotargs$x)
+        tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
+        out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 3, angle = tang)))
     } else {
         out <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
         out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
         out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = 2)))
+        tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
+        out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$legend_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), angle = tang, size = 3)))
     }
     out
 }
