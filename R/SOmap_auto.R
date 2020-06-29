@@ -215,7 +215,7 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
                 ## rely on raster to set the plot up
                 asp <- if (raster::isLonLat(target)) 1/cos(mean(c(raster::xmin(target), raster::xmax(target))) * pi/180) else 1
                 r <- abs(asp * diff(c(raster::ymin(target), raster::ymax(target)))/diff(c(raster::xmin(target), raster::xmax(target))))
-                out$bathy <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, add = FALSE, box = FALSE, col = bluepal, axis.args = list(at = bathy_breaks, labels = bathy_break_labels), axes = FALSE, legend = TRUE, horizontal = r < 1))
+                out$bathy <- SO_plotter(plotfun = "raster::plot", plotargs = list(x = bathymetry, add = FALSE, breaks = bathy_breaks, box = FALSE, col = bluepal, axis.args = list(at = bathy_breaks, labels = bathy_break_labels), axes = FALSE, legend = TRUE, horizontal = r < 1))
                 ## note that extra args here get passed down the stack to .rasterImagePlot, which takes:
                 ## .rasterImagePlot <- function(x, col, add=FALSE, legend=TRUE, horizontal = FALSE,
                 ##    legend.shrink=0.5, legend.width=0.6, legend.mar = ifelse(horizontal, 3.1, 5.1),
