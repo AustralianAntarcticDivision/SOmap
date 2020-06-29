@@ -246,11 +246,11 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
         out$ice <- SO_plotter(plotfun = "plot", plotargs = list(x = icedat, col = NA, border = ice_col, add = TRUE))
         out$plot_sequence <- c(out$plot_sequence, "ice")
     }
-    if (input_points) {
+    if (input_points && !is.null(xy)) {
         out$points <- SO_plotter(plotfun = "points", plotargs = list(x = xy, pch = ppch, cex = pcex, col = pcol))
         out$plot_sequence <- c(out$plot_sequence, "points")
     }
-    if (input_lines) {
+    if (input_lines && !is.null(xy)) {
         out$lines <- SO_plotter(plotfun = "lines", plotargs = list(x = xy, lty = llty, lwd = llwd, col = lcol))
         out$plot_sequence <- c(out$plot_sequence, "lines")
     }
