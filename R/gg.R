@@ -141,7 +141,7 @@ SOgg_notauto <- function(x) {
     out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, na.value = "#FFFFFF00", guide = if (!x$straight) FALSE else "colourbar", limits = c(-9638, 5145)))
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
 
-    if (!is.null(x$bathy_legend) && !x$straight) {
+    if (!is.null(x$bathy_legend) && "bathy_legend" %in% x$plot_sequence && !x$straight) {
         if (inherits(x$bathy_legend[[1]], "SOmap_legend")) {
             out$bathy_legend <- SOgg_legend(x$bathy_legend[[1]])
         } else {
@@ -160,22 +160,22 @@ SOgg_notauto <- function(x) {
         }
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
-    if (any(grepl("^legend_", names(x)))) {
-        ## extra legends
-        for (lnm in names(x)[grepl("^legend_", names(x))]) {
-            if (inherits(x[[lnm]][[1]], "SOmap_legend")) {
-                out[[lnm]] <- SOgg_legend(x[[lnm]][[1]])
-                out$plot_sequence <- c(out$plot_sequence, lnm)
-            } else {
-                warning("unexpected legend object with name: ", lnm)
-            }
+    ## extra legends
+    xlegs <- x$plot_sequence[grepl("^legend_", x$plot_sequence)]
+    xlegs <- intersect(xlegs, names(x))
+    for (lnm in xlegs) {
+        if (inherits(x[[lnm]][[1]], "SOmap_legend")) {
+            out[[lnm]] <- SOgg_legend(x[[lnm]][[1]])
+            out$plot_sequence <- c(out$plot_sequence, lnm)
+        } else {
+            warning("unexpected legend object with name: ", lnm)
         }
     }
 
     ## buffer to use for cropping things back to our extent of interest
     buf <- make_buf(x$trim+2, x$projection)
 
-    if (!is.null(x$coastline)) {
+    if (!is.null(x$coastline) && "coastline" %in% x$plot_sequence) {
         ## the coastline data has to be trimmed to our northernmost latitude
         ## masking (using e.g. x$outer_mask) is likely to be problematic because of z-ordering
         ## TODO check that this trimming is robust
@@ -183,7 +183,7 @@ SOgg_notauto <- function(x) {
         out$coastline <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline[[1]]$plotargs$col, col = x$coastline[[1]]$plotargs$border, inherit.aes = FALSE))
         out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
-    if (!is.null(x$ice)) {
+    if (!is.null(x$ice) && "ice" %in% x$plot_sequence) {
         ## TODO check that this trimming is robust
         this <- suppressWarnings(sf::st_intersection(buf, x$ice[[1]]$plotargs$x))
         out$ice <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice[[1]]$plotargs$col, col = x$ice[[1]]$plotargs$border, inherit.aes = FALSE))
@@ -191,7 +191,7 @@ SOgg_notauto <- function(x) {
     }
 
     ## fronts
-    if (!is.null(x$fronts)) {
+    if (!is.null(x$fronts) && "fronts" %in% x$plot_sequence) {
         this <- x$fronts[[1]]$plotargs$x
         this <- suppressWarnings(sf::st_intersection(buf, this))
         thiscol <- rep(x$fronts[[1]]$plotargs$col, ceiling(nrow(this)/length(x$fronts[[1]]$plotargs$col)))
@@ -201,7 +201,7 @@ SOgg_notauto <- function(x) {
     }
 
     ## Graticule grid
-    if (!is.null(x$graticule)) {
+    if (!is.null(x$graticule) && "graticule" %in% x$plot_sequence) {
         this <- fortify(x$graticule$main$plotargs$x)
         this <- this[this$long >= myext[1] & this$long <= myext[2] & this$lat >= myext[3] & this$lat <= myext[4], ]
         out$graticule <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = this, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$graticule$main$plotargs$col, linetype = x$graticule$main$plotargs$lty))
@@ -229,7 +229,7 @@ SOgg_notauto <- function(x) {
     for (nn in setdiff(names(temp), "plot_sequence")) out[[nn]] <- temp[[nn]]
     out$plot_sequence <- c(out$plot_sequence, temp$plot_sequence)
 
-    if (!is.null(x$border)) {
+    if (!is.null(x$border) && "border" %in% x$plot_sequence) {
         suppressMessages(this <- fortify(x$border[[1]]$plotargs$x))
         this$col <- (as.numeric(this$id) %% length(x$border[[1]]$plotargs$col)) + 1
         out$border <- NULL
@@ -253,19 +253,37 @@ SOgg_legend <- function(x) {
     legend_as_annotation <- FALSE
     if (legend_as_annotation) {
         ## experimental, not yet used
-        out <- c(SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
-        out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long[thecolors$cols == ii], y = thecolors$lat[thecolors$cols == ii], fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
-        temp <- as.data.frame(x$tick_labels[[1]]$plotargs$x)
-        out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 2)))
-        temp <- as.data.frame(x$legend_labels[[1]]$plotargs$x)
-        tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
-        out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 3, angle = tang)))
+        out <- c()
+        if ("ticks" %in% x$plot_sequence) {
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
+        }
+        if ("legend" %in% x$plot_sequence) {
+            out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long[thecolors$cols == ii], y = thecolors$lat[thecolors$cols == ii], fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
+        }
+        if ("tick_labels" %in% x$plot_sequence) {
+            temp <- as.data.frame(x$tick_labels[[1]]$plotargs$x)
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 2)))
+        }
+        if ("legend_labels" %in% x$plot_sequence) {
+            temp <- as.data.frame(x$legend_labels[[1]]$plotargs$x)
+            tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 3, angle = tang)))
+        }
     } else {
-        out <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
-        out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
-        out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = 2)))
-        tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
-        out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$legend_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), angle = tang, size = 3)))
+        out <- c()
+        if ("ticks" %in% x$plot_sequence) {
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
+        }
+        if ("legend" %in% x$plot_sequence) {
+            out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
+        }
+        if ("tick_labels" %in% x$plot_sequence) {
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = 2)))
+        }
+        if ("legend_labels" %in% x$plot_sequence) {
+            tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$legend_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), angle = tang, size = 3)))
+        }
     }
     out
 }
@@ -302,7 +320,7 @@ SOgg_management <- function(x, basemap) {
     }
     apply_buf <- function(thing) if (is.null(buf)) thing else suppressWarnings(sf::st_intersection(buf, thing))
 
-    if (!is.null(x$ccamlr_statistical_areas)) {
+    if (!is.null(x$ccamlr_statistical_areas) && "ccamlr_statistical_areas" %in% x$plot_sequence) {
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_statistical_areas$main$plotargs$x)))
         out$ccamlr_statistical_areas <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_statistical_areas$main$plotargs$border,  inherit.aes = FALSE, fill = NA))#fill = x$ccamlr_statistical_areas$main$plotargs$col)
         if (!is.null(x$ccamlr_statistical_areas$labels)) {
@@ -317,7 +335,7 @@ SOgg_management <- function(x, basemap) {
     }
 
 
-    if (!is.null(x$ccamlr_ssru)) {
+    if (!is.null(x$ccamlr_ssru) && "ccamlr_ssru" %in% x$plot_sequence) {
         if (is.null(x$ccamlr_ssru$main$plotargs$col)) x$ccamlr_ssru$main$plotargs$col <- NA
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssru$main$plotargs$x)))
         out$ccamlr_ssru <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssru$main$plotargs$border, fill = x$ccamlr_ssru$main$plotargs$col, inherit.aes = FALSE))
@@ -328,7 +346,7 @@ SOgg_management <- function(x, basemap) {
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssru")
     }
 
-    if (!is.null(x$ccamlr_ssmu)) {
+    if (!is.null(x$ccamlr_ssmu) && "ccamlr_ssmu" %in% x$plot_sequence) {
         if (is.null(x$ccamlr_ssmu$main$plotargs$col)) x$ccamlr_ssmu$main$plotargs$col <- NA
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$main$plotargs$x)))
         out$ccamlr_ssmu <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssmu$main$plotargs$border, fill = x$ccamlr_ssmu$main$plotargs$col, inherit.aes = FALSE))
@@ -339,7 +357,7 @@ SOgg_management <- function(x, basemap) {
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssmu")
     }
 
-    if (!is.null(x$iwc)) {
+    if (!is.null(x$iwc) && "iwc" %in% x$plot_sequence) {
         pidx <- seq_along(x$iwc)
         if (!is.null(names(x$iwc))) pidx <- pidx[!names(x$iwc) %in% c("labels")] ## not labels here
         if (length(pidx) > 0) {
@@ -354,7 +372,7 @@ SOgg_management <- function(x, basemap) {
         out$plot_sequence <- c(out$plot_sequence, "iwc")
     }
 
-    if (!is.null(x$research_blocks)) {
+    if (!is.null(x$research_blocks) && "research_blocks" %in% x$plot_sequence) {
         if (is.null(x$research_blocks$main$plotargs$col)) x$research_blocks$main$plotargs$col <- NA
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$research_blocks$main$plotargs$x)))
         out$research_blocks <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$research_blocks$main$plotargs$border, fill = x$research_blocks$main$plotargs$col, inherit.aes = FALSE))
@@ -367,7 +385,7 @@ SOgg_management <- function(x, basemap) {
     }
 
 
-    if (!is.null(x$sprfmo_research_blocks)) {
+    if (!is.null(x$sprfmo_research_blocks) && "sprfmo_research_blocks" %in% x$plot_sequence) {
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$sprfmo_research_blocks[[1]]$plotargs$x)))
         that <- suppressWarnings(apply_buf(sf::st_as_sf(x$sprfmo_research_blocks[[2]]$plotargs$x)))
         out$sprfmo_research_blocks <- c(SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$sprfmo_research_blocks[[1]]$plotargs$col,  inherit.aes = FALSE)),
@@ -375,7 +393,7 @@ SOgg_management <- function(x, basemap) {
         out$plot_sequence <- c(out$plot_sequence, "sprfmo_research_blocks")
     }
 
-    if (!is.null(x$eez)) {
+    if (!is.null(x$eez) && "eez" %in% x$plot_sequence) {
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$eez$main$plotargs$x)))
         out$eez <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$eez$main$plotargs$border, fill = x$eez$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$eez$labels)) {
@@ -386,7 +404,7 @@ SOgg_management <- function(x, basemap) {
         out$plot_sequence <- c(out$plot_sequence, "eez")
     }
 
-    if (!is.null(x$mpa)) {
+    if (!is.null(x$mpa) && "mpa" %in% x$plot_sequence) {
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$mpa$main$plotargs$x)))
         out$mpa <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$mpa$main$plotargs$border, fill = x$mpa$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$mpa$labels)) {
@@ -397,7 +415,7 @@ SOgg_management <- function(x, basemap) {
         out$plot_sequence <- c(out$plot_sequence, "mpa")
     }
 
-    if (!is.null(x$ccamlr_planning_domains)) {
+    if (!is.null(x$ccamlr_planning_domains) && "ccamlr_planning_domains" %in% x$plot_sequence) {
         this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_planning_domains$main$plotargs$x)))
         ## TODO fix that intersection, is slow because of complexity of coastline
         out$ccamlr_planning_domains <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_planning_domains$main$plotargs$border, fill = x$ccamlr_planning_domains$main$plotargs$col, inherit.aes = FALSE))
@@ -451,32 +469,32 @@ SOgg_auto <- function(x) {
     cvals <- tryCatch((ma$bathy[[1]]$plotargs$breaks - min(ma$bathy[[1]]$plotargs$breaks))/diff(range(ma$bathy[[1]]$plotargs$breaks)), error = function(e) NULL)
     out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, values = cvals, na.value = "#FFFFFF00", limits = clims))
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
-    if (!is.null(x$coastline)) {
+    if (!is.null(x$coastline) && "coastline" %in% x$plot_sequence) {
         this <- suppressWarnings(sf::st_as_sf(x$coastline[[1]]$plotargs$x))
         out$coastline <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$coastline[[1]]$plotargs$col, col = x$coastline[[1]]$plotargs$border, inherit.aes = FALSE))
         out$plot_sequence <- c(out$plot_sequence, "coastline")
     }
-    if (!is.null(x$ice)) {
+    if (!is.null(x$ice) && "ice" %in% x$plot_sequence) {
         this <- suppressWarnings(sf::st_as_sf(x$ice[[1]]$plotargs$x))
         out$ice <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, fill = x$ice[[1]]$plotargs$col, col = x$ice[[1]]$plotargs$border, inherit.aes = FALSE))
         out$plot_sequence <- c(out$plot_sequence, "ice")
     }
-    if (!is.null(x$contours)) {
+    if (!is.null(x$contours) && "contours" %in% x$plot_sequence) {
         out$contours <- SO_plotter(plotfun = "ggplot2::geom_contour", plotargs = list(mapping = aes_string(z = "Depth"), breaks = x$contours[[1]]$plotargs$levels, col = x$contours[[1]]$plotargs$col))
         out$plot_sequence <- c(out$plot_sequence, "contours")
     }
 
-    if (!is.null(x$graticule)) {
+    if (!is.null(x$graticule) && "graticule" %in% x$plot_sequence) {
         out$graticule <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = x$graticule[[1]]$plotargs$x, col = "grey", inherit.aes = FALSE))
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
 ## TODO These should iterate through multiple SO_plotters?
-    if(!is.null(x$lines)) {
+    if(!is.null(x$lines) && "lines" %in% x$plot_sequence) {
         out$lines <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines[[1]]$plotargs$x), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$lines[[1]]$plotargs$col, linetype = x$lines[[1]]$plotargs$lty, size = x$lines[[1]]$plotargs$lwd))
         out$plot_sequence <- c(out$plot_sequence, "lines")
     }
 
-    if(!is.null(x$points)) {
+    if(!is.null(x$points) && "points" %in% x$plot_sequence) {
         out$points <- SO_plotter(plotfun = "ggplot2::geom_point", plotargs = list(data = setNames(as.data.frame(x$points[[1]]$plotargs$x), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$points[[1]]$plotargs$col, shape = x$points[[1]]$plotargs$pch, size = x$points[[1]]$plotargs$cex))
         out$plot_sequence <- c(out$plot_sequence, "points")
     }
