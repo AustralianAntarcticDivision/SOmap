@@ -156,7 +156,7 @@ SOgg_notauto <- function(x) {
             out$bathy_legend <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)),
                                   SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)))
             out$bathy_legend <- c(out$bathy_legend, unlist(lapply(seq_along(x$bathy_legend[[1]]$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend[[1]]$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
-            out$bathy_legend <- c(out$bathy_legend, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = 2)))
+            out$bathy_legend <- c(out$bathy_legend, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = SOgg_cex(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$cex))))
         }
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
@@ -208,8 +208,7 @@ SOgg_notauto <- function(x) {
         if (!is.null(x$graticule$labels)) {
             this <- as.data.frame(x$graticule$labels$plotargs$x)
             this <- this[this$x >= myext[1] & this$x <= myext[2] & this$y >= myext[3] & this$y <= myext[4], ]
-            out$graticule <- c(out$graticule, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = this, mapping = aes_string(label = "lab"), parse = TRUE, col = x$graticule$labels$plotargs$col)))##, cex = x$graticule$labels$plotargs$cex)
-            ## can't use cex on that, it gets translated to a size aesthetic, which is an absolute not relative size
+            out$graticule <- c(out$graticule, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = this, mapping = aes_string(label = "lab"), parse = TRUE, col = x$graticule$labels$plotargs$col, size = SOgg_cex(x$graticule$labels$plotargs$cex))))
         }
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
@@ -254,19 +253,19 @@ SOgg_legend <- function(x) {
         ## experimental, not yet used
         out <- c()
         if ("ticks" %in% x$plot_sequence) {
-            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, size = SOgg_cex(x$ticks[[1]]$plotargs$cex))), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, size = SOgg_cex(x$ticks[[1]]$plotargs$cex))))
         }
         if ("legend" %in% x$plot_sequence) {
             out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long[thecolors$cols == ii], y = thecolors$lat[thecolors$cols == ii], fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
         }
         if ("tick_labels" %in% x$plot_sequence) {
             temp <- as.data.frame(x$tick_labels[[1]]$plotargs$x)
-            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 2)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = SOgg_cex(x$tick_labels[[1]]$plotargs$cex))))
         }
         if ("legend_labels" %in% x$plot_sequence) {
             temp <- as.data.frame(x$legend_labels[[1]]$plotargs$x)
             tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
-            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = 3, angle = tang)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "text", x = temp$lon, y = temp$lat, label = temp$a, size = SOgg_cex(x$legend_labels[[1]]$plotargs$cex), angle = tang)))
         }
     } else {
         out <- c()
@@ -277,14 +276,28 @@ SOgg_legend <- function(x) {
             out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
         }
         if ("tick_labels" %in% x$plot_sequence) {
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = 2)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = SOgg_cex(x$tick_labels[[1]]$plotargs$cex))))
         }
         if ("legend_labels" %in% x$plot_sequence) {
             tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$legend_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), angle = tang, size = 3)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$legend_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), angle = tang, size = SOgg_cex(x$legend_labels[[1]]$plotargs$cex))))
         }
     }
     out
+}
+
+#' Convert cex to ggplot size
+#'
+#' Text size in base graphics is generally specified via \code{cex} values, which are multipliers applied to the device pointsize. \code{SOgg_cex} is a convenience function that converts a cex value into a \code{size} value as used by ggplot2 geometries.
+#'
+#' @param cex numeric: character expansion, see \code{\link{par}}
+#'
+#' @return The corresponding 'size' value to use in ggplot calls
+#'
+#' @export
+SOgg_cex <- function(cex) {
+    if (missing(cex) || is.null(cex)) cex <- 1
+    par("ps")*cex*0.35278 ## device pointsize * cex * ggplot_multiplier
 }
 
 ## gg-ifier for SOmanagement objects
@@ -327,7 +340,7 @@ SOgg_management <- function(x, basemap) {
             for (templab in temp) {
                 this <- templab$plotargs$x
                 this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "LongLabel"), parse = FALSE, col = templab$plotargs$col, size = 2, inherit.aes = FALSE)))
+                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "LongLabel"), parse = FALSE, col = templab$plotargs$col, size = SOgg_cex(templab$plotargs$cex), inherit.aes = FALSE)))
             }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_statistical_areas")
@@ -340,7 +353,7 @@ SOgg_management <- function(x, basemap) {
         out$ccamlr_ssru <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssru$main$plotargs$border, fill = x$ccamlr_ssru$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$ccamlr_ssru$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssru$labels$plotargs$x)))
-            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = SOgg_cex(x$ccamlr_ssru$labels$plotargs$cex), inherit.aes = FALSE)))##, pos = x$ccamlr_ssru$labels$pos, offset = x$ccamlr_ssru$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssru")
     }
@@ -351,7 +364,7 @@ SOgg_management <- function(x, basemap) {
         out$ccamlr_ssmu <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssmu$main$plotargs$border, fill = x$ccamlr_ssmu$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$ccamlr_ssmu$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$labels$plotargs$x)))
-            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$labels$plotargs$col, size = SOgg_cex(x$ccamlr_ssmu$labels$plotargs$cex), inherit.aes = FALSE)))##, pos = x$ccamlr_ssmu$labels$pos, offset = x$ccamlr_ssmu$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssmu")
     }
@@ -366,7 +379,7 @@ SOgg_management <- function(x, basemap) {
         }
         if (!is.null(x$iwc$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$iwc$labels$plotargs$x)))
-            out$iwc <- c(out$iwc, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "a.1"), parse = FALSE, col = x$iwc$labels$plotargs$col, size = 2, inherit.aes = FALSE)))
+            out$iwc <- c(out$iwc, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "a.1"), parse = FALSE, col = x$iwc$labels$plotargs$col, size = SOgg_cex(x$iwc$labels$plotargs$cex), inherit.aes = FALSE)))
         }
         out$plot_sequence <- c(out$plot_sequence, "iwc")
     }
@@ -378,7 +391,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$research_blocks$labels)) {
             this <- x$research_blocks$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = 2, inherit.aes = FALSE)))
+            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = SOgg_cex(x$research_blocks$labels$plotargs$cex), inherit.aes = FALSE)))
         }
         out$plot_sequence <- c(out$plot_sequence, "research_blocks")
     }
@@ -398,7 +411,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$eez$labels)) {
             this <- x$eez$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$eez <- c(out$eez, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "ShortLabel"), parse = FALSE,size = 2, col = x$eez$labels$plotargs$col, inherit.aes = FALSE)))##, cex = x$eez$labels$cex, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
+            out$eez <- c(out$eez, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "ShortLabel"), parse = FALSE,size = SOgg_cex(x$eez$labels$plotargs$cex), col = x$eez$labels$plotargs$col, inherit.aes = FALSE)))##, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "eez")
     }
@@ -409,7 +422,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$mpa$labels)) {
             this <- x$mpa$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$mpa <- c(out$mpa, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size = 2, inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            out$mpa <- c(out$mpa, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size = SOgg_cex(x$mpa$labels$plotargs$cex), inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "mpa")
     }
