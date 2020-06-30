@@ -325,6 +325,25 @@ SOplot(xr, legend = FALSE, col = my_cmap)
 SOplot(xr2, legend = FALSE, col = my_cmap)
 ```
 
+#### Create a raster from points
+
+Let's say that we have a large number of points that we wish to add to the map. We could simply add them:
+
+```{r sobin1}
+points <- data.frame(lon = runif(1000, min = 30, max = 90), lat = runif(1000, min = -70, max = -50))
+plot(base_map)
+SOplot(x = points$lon, y = points$lat, pch = 19, col = 2)
+```
+
+However, the overlap of the points reduces the utility of the map. One option is to create a density layer, showing the number of points that fall into each cell of a raster grid. The `SObin` function can do this for us:
+
+```{r sobin2}
+plot(base_map)
+SObin(x = points$lon, y = points$lat, dim = c(100, 100),
+      col = viridis::viridis(100), legend = FALSE, add = TRUE)
+```
+
+
 ### Non-circumpolar maps
 
 The `SOmap_auto` function will take your input data and make a guess at an appropriate projection and extent to use. Note that this is not always going to guess the *best* projection and extent, so you should view it as a starting point from which you can generate a map to your exact requirements.
