@@ -165,8 +165,10 @@ reproj.SOmap_legend <- function(x, target, ..., source = NULL) {
 ## can use the same code for SOmap, SOmap_auto, and SOmap_management objects
 ## note that SOmap_management won't have a bathy component
 do_SOmap_reproj <- function(x, target, source = NULL) {
+  #browser()
     if (missing(target)) stop("'target' projection string required")
-    if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
+   # if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
+    source0 <- x$projection
     if (!is.null(x$bathy)) {
         rast <- try(reproj(x$bathy[[1]]$plotargs$x, target = target), silent = TRUE)
         if (inherits(rast, "try-error")) {
@@ -174,9 +176,26 @@ do_SOmap_reproj <- function(x, target, source = NULL) {
         }
         x$bathy[[1]]$plotargs$x <- rast
         x$target <- raster::raster(rast)
+        x$init[[1]]$plotargs$target <- rast  ## why is this duplicated?
     }
+
     for (thing in setdiff(names(x), c("init", "plot_sequence", "projection", "target", "straight", "trim", "box", "crs", "lines", "points"))) {
+
+
         x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target)
+        if (thing == "graticule") {
+          ## we've done the bathy so make that the target
+          ##x[["target"]] <- raster::raster(x[[thing]][[1]]$plotargs$x)
+          athing <- x[[thing]][[1]]$plotargs$x
+         xy <- reproj::reproj(cbind(athing$x_start, athing$y_start), source = source0, target = target)[,1:2, drop = FALSE]
+         x[[thing]][[1]]$plotargs$x$x_start <- xy[,1, drop = TRUE]
+         x[[thing]][[1]]$plotargs$x$y_start <- xy[,2, drop = TRUE]
+         xy <- reproj::reproj(cbind(athing$x_end, athing$y_end), source = source0, target = target)[,1:2, drop = FALSE]
+         x[[thing]][[1]]$plotargs$x$x_end <- xy[,1, drop = TRUE]
+         x[[thing]][[1]]$plotargs$x$y_end <- xy[,2, drop = TRUE]
+
+        }
+
     }
     for (thing in intersect(names(x), c("lines", "points"))) {
         x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target, source = x$projection)
