@@ -13,7 +13,7 @@ editor_options:
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE,
   fig.path = "man/figures/README-", fig.height = 8, fig.width = 8, dpi = 300, out.width = "100%")
 
 ```
@@ -151,14 +151,7 @@ amap
 SOplot(SOmap_data$seaice_oct, lwd = 3, col = "blue", lty = 2)
 ```
 
-`SOplot()` will add data by default, and can take spatial objects or even raw longitude and latitude values (we like you). When a plot is set up the *coordinate reference system* used is recorded so that we can use it again. 
-
-```{r add-it}
-print(amap)
-SOplot(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat)
-```
-
-The projection *currently in use* is always available by running `SOcrs()`. 
+`SOplot()` will add data by default, and can take spatial objects or even raw longitude and latitude values (we like you). When a plot is set up the *coordinate reference system* used is recorded so that we can use it again. The projection *currently in use* is always available by running `SOcrs()`.
 
 ```{r}
 SOcrs()
