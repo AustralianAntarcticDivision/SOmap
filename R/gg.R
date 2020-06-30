@@ -253,7 +253,7 @@ SOgg_legend <- function(x) {
         ## experimental, not yet used
         out <- c()
         if ("ticks" %in% x$plot_sequence) {
-            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, size = SOgg_cex(x$ticks[[1]]$plotargs$cex))), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, size = SOgg_cex(x$ticks[[1]]$plotargs$cex))))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
         }
         if ("legend" %in% x$plot_sequence) {
             out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long[thecolors$cols == ii], y = thecolors$lat[thecolors$cols == ii], fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
