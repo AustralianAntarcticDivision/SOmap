@@ -38,9 +38,14 @@ Imports:
 Suggests:
     adehabitatLT,
     covr,
+    ggnewscale,
     knitr,
+    maps,
+    maptools,
     rmarkdown,
     testthat (>= 2.1.0),
     palr,
+    relayer,
     vdiffr
 VignetteBuilder: knitr
+Remotes: clauswilke/relayer, eliocamp/ggnewscale
