@@ -15,23 +15,29 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,12 +45,11 @@
 
 
 
+
 <meta property="og:title" content="Southern Ocean Map 2 — SOmap2" />
-
 <meta property="og:description" content="Function for creating round Southern Ocean maps with inbuild base layers." />
-
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -61,7 +66,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -100,16 +105,18 @@
     <li>
       <a href="../articles/many-automap-examples.html">many-automap-examples</a>
     </li>
+    <li>
+      <a href="../articles/SOmap-introduction.html">SOmap-introduction</a>
+    </li>
   </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/AustralianAntarcticDivision/SOmap">
+  <a href="https://github.com/AustralianAntarcticDivision/SOmap/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -133,26 +140,51 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Function for creating round Southern Ocean maps with inbuild base layers.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>SOmap2</span>(<span class='kw'>bathy_legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>land</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ice</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ccamlr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ccamlr_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ssru</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ssru_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ssmu</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ssmu_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>rb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>rb_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sprfmorb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>, <span class='kw'>graticules</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>eez</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>eez_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>mpa</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>mpa_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>domains</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>domains_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>iwc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>iwc_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>straight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fronts</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fronts_col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hotpink"</span>,
-  <span class='st'>"orchid"</span>, <span class='st'>"plum"</span>), <span class='kw'>land_col</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>ice_col</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>rb_col</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>sprfmo_col</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>, <span class='kw'>ccamlr_col</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>ssru_col</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>, <span class='kw'>ssmu_col</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>, <span class='kw'>eez_col</span> <span class='kw'>=</span> <span class='st'>"maroon"</span>,
-  <span class='kw'>mpa_col</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>, <span class='kw'>border_col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"white"</span>, <span class='st'>"black"</span>),
-  <span class='kw'>graticules_col</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>, <span class='kw'>iwc_col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>,
-  <span class='kw'>domains_col</span> <span class='kw'>=</span> <span class='st'>"magenta"</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>SOmap2</span>(
+  <span class='kw'>bathy_legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>land</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ice</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ccamlr</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ccamlr_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ssru</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ssru_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ssmu</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ssmu_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>rb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>rb_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>sprfmorb</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>border</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>,
+  <span class='kw'>graticules</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>eez</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>eez_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>mpa</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>mpa_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>domains</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>domains_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>iwc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>iwc_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>straight</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>fronts</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>fronts_col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"hotpink"</span>, <span class='st'>"orchid"</span>, <span class='st'>"plum"</span>),
+  <span class='kw'>land_col</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>ice_col</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>rb_col</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>sprfmo_col</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
+  <span class='kw'>ccamlr_col</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>ssru_col</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
+  <span class='kw'>ssmu_col</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>,
+  <span class='kw'>eez_col</span> <span class='kw'>=</span> <span class='st'>"maroon"</span>,
+  <span class='kw'>mpa_col</span> <span class='kw'>=</span> <span class='st'>"yellow"</span>,
+  <span class='kw'>border_col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"white"</span>, <span class='st'>"black"</span>),
+  <span class='kw'>graticules_col</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>,
+  <span class='kw'>iwc_col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>,
+  <span class='kw'>domains_col</span> <span class='kw'>=</span> <span class='st'>"magenta"</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -254,7 +286,7 @@
     </tr>
     <tr>
       <th>fronts</th>
-      <td><p>logical: if <code>TRUE</code>, plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front.</p></td>
+      <td><p>logical or string: if <code>TRUE</code> or "Orsi", plot Orsi et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park &amp; Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.</p></td>
     </tr>
     <tr>
       <th>fronts_col</th>
@@ -313,27 +345,20 @@
       <td><p>character: colour for the CCAMLR planning domains boundaries.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere, with the chosen management layers added. Printing or plotting this object will cause it to be displayed in the current graphics device.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
   <span class='fu'>SOmap2</span>(<span class='kw'>ccamlr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mpa</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>)
 }</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -344,7 +369,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
