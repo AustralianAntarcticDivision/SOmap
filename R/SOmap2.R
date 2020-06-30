@@ -81,6 +81,7 @@ SOmap2 <- function(bathy_legend = TRUE, land = TRUE, ice = TRUE, ccamlr = FALSE,
         notANT <- sf::st_as_sf(SOmap_data$continent[SOmap_data$continent$continent != "Antarctica",])
         notANT <- sf::st_buffer(notANT, 0)
         buf <- make_buf(trim, proj = out$projection)
+        notANT <- suppressWarnings(sf::st_set_crs(notANT, sf::st_crs(buf)))
         out$coastline$plotargs$x <- suppressWarnings(sf::st_intersection(buf, notANT)$geometry)
     }
 
@@ -89,4 +90,3 @@ SOmap2 <- function(bathy_legend = TRUE, land = TRUE, ice = TRUE, ccamlr = FALSE,
     out$plot_sequence <- insert_into_sequence(out$plot_sequence, ins = mx$plot_sequence, after = c("bathy", "box", "coastline", "ice", "fronts", "graticule"))
     out
 }
-

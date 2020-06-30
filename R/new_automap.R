@@ -1,4 +1,3 @@
-
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
   if (is.null(family)) family <- "stere"

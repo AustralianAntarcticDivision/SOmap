@@ -13,10 +13,11 @@
 #' @param add if `TRUE` binned raster is added to plot
 #' @param target target projection passed to SOproj
 #' @param source source projection of data projection passed to SOproj
-#'
+#' @param data.frame if true return a data frame instead of a raster.
 #'
 #' @return raster
 #' @noRd
+#' @importFrom grDevices dev.cur
 #' @keywords internal
 #' @examples
 #' library(SOmap)

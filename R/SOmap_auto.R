@@ -62,6 +62,9 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
     assert_that(is.flag(contours), !is.na(contours))
     assert_that(is.numeric(levels), length(levels) > 0)
     assert_that(is.numeric(expand), msg = "'expand' must be numeric, changed behaviour in SOmap > 0.2.1")
+    if (!missing(y)) {
+        assert_that(all(y < 0, na.rm = TRUE), msg = "Your latitudes (y) appear to be in the wrong hemisphere.")
+    }
 
     dots <- list(...)
     if ("mask" %in% names(dots)) warning("'mask' argument to SOmap() is defunct")
@@ -485,4 +488,3 @@ default_somap <- function(...) {
 SOauto_map <- function(...) {
   .Defunct("SOmap_auto")
 }
-
