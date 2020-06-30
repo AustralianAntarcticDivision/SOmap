@@ -507,7 +507,7 @@ SOgg_auto <- function(x) {
     }
 
     if(!is.null(x$points) && "points" %in% x$plot_sequence) {
-        out$points <- SO_plotter(plotfun = "ggplot2::geom_point", plotargs = list(data = setNames(as.data.frame(x$points[[1]]$plotargs$x), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$points[[1]]$plotargs$col, shape = x$points[[1]]$plotargs$pch, size = SOgg_cex(x$points[[1]]$plotargs$cex)))
+        out$points <- SO_plotter(plotfun = "ggplot2::geom_point", plotargs = list(data = setNames(as.data.frame(x$points[[1]]$plotargs$x), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$points[[1]]$plotargs$col, shape = x$points[[1]]$plotargs$pch, size = x$points[[1]]$plotargs$cex))
         out$plot_sequence <- c(out$plot_sequence, "points")
     }
 
