@@ -25,7 +25,7 @@ test_that("merging works", {
     mymap_auto <- SOmap_auto(c(60, 80), c(-56, -45))
     mymgmt_auto <- SOmanagement(eez = TRUE, basemap = mymap_auto)
     ## won't work
-    expect_error(SOmerge(mymap, mymgmt_auto), "different projections")
+    expect_error(SOmerge(mymap, mymgmt_auto, reproject = FALSE), "different projections")
     ## unless we ask for it
     merged <- SOmerge(mymap, mymgmt_auto, reproject = TRUE)
 })

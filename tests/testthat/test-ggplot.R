@@ -14,7 +14,7 @@ test_that("SOgg returns a ggplot object", {
                 domains = TRUE, domains_labels = TRUE, iwc = TRUE, iwc_labels = TRUE)
     expect_warning(pg <- SOgg(pm)) ## warning because we aren't also supplying basemap or a SOmap object to get target etc from
     expect_s3_class(pg, "SOmanagement_gg")
-    expect_identical(sort(names(pg)), c("ccamlr_ssmu", "ccamlr_ssru", "ccamlr_statistical_areas", "eez", "iwc", "mpa", "plot_sequence", "research_blocks", "sprfmo_research_blocks")) ##"ccamlr_planning_domains",
+    expect_identical(sort(names(pg)), c("ccamlr_planning_domains", "ccamlr_ssmu", "ccamlr_ssru", "ccamlr_statistical_areas", "eez", "iwc", "mpa", "plot_sequence", "research_blocks", "sprfmo_research_blocks"))
 
     ## things in pm should be of expected classes
     expect_is(pm$plot_sequence, "character")
@@ -28,7 +28,7 @@ test_that("SOgg returns a ggplot object", {
     ## gg-ify p together with pm
     pg <- SOgg(p, pm) ## no warning this time
     expect_s3_class(pg, "SOmap_gg")
-    expect_identical(sort(names(pg)), c("axis_labels", "bathy", "bathy_legend", "border", "ccamlr_ssmu", "ccamlr_ssru", "ccamlr_statistical_areas", "coastline", "coord", "eez", "ice", "init", "iwc", "mpa", "plot_sequence", "projection", "research_blocks", "scale_fill", "sprfmo_research_blocks", "straight", "target", "theme", "trim")) ##"ccamlr_planning_domains",
+    expect_identical(sort(names(pg)), c("axis_labels", "bathy", "bathy_legend", "border", "ccamlr_planning_domains", "ccamlr_ssmu", "ccamlr_ssru", "ccamlr_statistical_areas", "coastline", "coord", "eez", "ice", "init", "iwc", "mpa", "plot_sequence", "projection", "research_blocks", "scale_fill", "sprfmo_research_blocks", "straight", "target", "theme", "trim"))
     expect_s3_class(plot(pg), "ggplot")
 
     ## things in pg should be of expected classes
