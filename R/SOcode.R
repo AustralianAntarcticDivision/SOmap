@@ -36,15 +36,40 @@
 SOcode <- function(x, data_object_name = "SOmap_data") {
     datout <- list()
     codeout <- character()
-    assert_that(inherits(x, c("SOmap_management", "SOmap", "SOthing", "SOmap_legend", "SOmap_gg", "SOmap_auto_gg")))
+    if (!inherits(x, c("SOmap_management", "SOmap", "SOthing", "SOmap_legend", "SOmap_gg", "SOmap_auto_gg")))
+        stop("x is not an object of a recognized SOmap class")
     is_gg <- inherits(x, c("SOmap_gg", "SOmap_auto_gg"))
+    ## we expect each plottable element of x to be a list of SO_plotter objects
+    ##  but with old code we could have had an SO_plotter object directly (not in a list)
+    ##  catch these first for backwards compatibility
+    x2 <- lapply(x[intersect(x$plot_sequence, names(x))], function(z) {
+        if (inherits(z, "SO_plotter")) list(z) else z
+    })
+    x2$plot_sequence <- names(x2)
+    ## now reconstruct x, un-nesting embedded objects
+    ## as of v0.6, we can have a SOmap_legend object embedded in here, which is itself a list of SO_plotter objects
+    ## so if this object is a SOmap_legend, we have to handle it differently
+    x <- lapply(x2$plot_sequence, function(component) {
+        ## x2[[component]] will be a list of SO_plotter objects that make up this component
+        ## OR it will be a list with a SOmap_legend object in it
+        this <- lapply(x2[[component]], function(z) {
+            if (inherits(z, "SOmap_legend")) {
+                ## unpack it
+                SOcode_flatten(z)[[1]]
+            } else {
+                z
+            }
+        })
+    })
+    names(x) <- x2$plot_sequence
+    x$plot_sequence <- x2$plot_sequence
     ## interate through each plottable element in turn
     for (toplot in intersect(x$plot_sequence, names(x))) {
         allpf <- x[[toplot]] ## all the stuff to plot for this element
         ## either a SO_plotter object, or a list thereof
-        ## if it's just one, put it in a list
+        ## if it's just one, put it in a list (backwards compatibility)
         if (inherits(allpf, "SO_plotter")) allpf <- list(allpf)
-        if (!all(vapply(allpf, inherits, "SO_plotter", FUN.VALUE = TRUE))) {
+        if (!all(vapply(allpf, inherits, c("SO_plotter", "SOmap_legend"), FUN.VALUE = TRUE))) {
             warning("plotting behaviour for '", toplot, "' should be specified by an SO_plotter object or list of such objects, ignoring")
             next
         }
@@ -90,7 +115,7 @@ SOcode <- function(x, data_object_name = "SOmap_data") {
                 }
                 ## now construct a string of the whole function call
                 recoded_args <- paste0(names(myargs), " = ", args_as_string_or)
-                ## Yikes. Just for the record, let's acknowledge that this is whole thing is spectacularly unattractive code.
+                ## Yikes. Just for the record, let's acknowledge that this whole thing is spectacularly unattractive code.
                 ## But it's working, so ... shhhhh.
             }
             codeout <- c(codeout, paste0(thisfun, "(", paste(recoded_args, collapse = ", "), ")"))
@@ -106,3 +131,8 @@ SOcode <- function(x, data_object_name = "SOmap_data") {
     out
 }
 
+## internal function to flatten an object into a single list of SO_plotter calls
+## used to un-nest a nested SOmap_legend object, above
+SOcode_flatten <- function(x) {
+    unlist(x[x$plot_sequence], recursive = FALSE, use.names = FALSE)
+}
