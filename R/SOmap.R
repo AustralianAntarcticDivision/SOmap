@@ -33,6 +33,12 @@
 #'
 
 SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = FALSE, straight = FALSE, land = TRUE, land_col = "black", ice = TRUE, ice_col = "black", fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"), border_col = c("white", "black"), border_width = 2, graticules_col = "grey70") {
+    if (is.character(fronts)) {
+        fronts <- match.arg(tolower(fronts), c("park", "orsi"))
+    } else {
+        if (!(is.flag(fronts) && !is.na(fronts)))
+            stop("'fronts' should be TRUE, FALSE, 'Park' (to use Park & Durand 2019 fronts) or 'Orsi' (to use Orsi et al. 1995 fronts)")
+    }
     ## deal with bathy legend options
     if (is.null(bathy_legend)) bathy_legend <- "space"
     if (is.character(bathy_legend)) {
@@ -92,12 +98,12 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
     }
 
     ## fronts
-    if (isTRUE(fronts) || fronts == "Orsi") {
+    if (isTRUE(fronts) || fronts == "orsi") {
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
       xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
       out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
-    } else if (fronts == "Park") {
+    } else if (fronts == "park") {
       xfront <-suppressWarnings(SOproj(SOmap::SOmap_data$fronts_park, target = out$projection))
       #xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
       out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
