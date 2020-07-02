@@ -83,6 +83,8 @@ files <- get_unzip_data("https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&ve
 planning_domains <- spTransform(raster::shapefile(files[grepl("shp$", files)]), CRS(psproj))
 chk <- sapply(names(planning_domains), function(z) length(tools::showNonASCII(planning_domains[[z]])) > 0)
 if (any(chk)) stop("non-ASCII chars in planning_domains data")
+## simplify to reduce size
+planning_domains <- sf::as_Spatial(rmapshaper::ms_simplify(sf::st_as_sf(planning_domains), 0.1, keep_shapes = TRUE))  ## keep 10% detail
 
 
 ## continent (was land1)
