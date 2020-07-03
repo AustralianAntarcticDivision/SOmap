@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'   ## generate a SOmap obkect
+#'   ## generate a SOmap object
 #'   p <- SOmap2(trim = -45, iwc = TRUE, iwc_labels = TRUE, graticules = TRUE, fronts = TRUE,
 #'               mpa = TRUE, mpa_labels = TRUE)
 #'
