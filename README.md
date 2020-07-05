@@ -16,7 +16,6 @@ The goal of SOmap is to make publication quality round Southern Ocean
 maps in polar projections with little effort. This package is still very
 much a work in progress contact me with any questions or suggestions.
 
-
 ## Installation
 
 The development version from
@@ -170,7 +169,7 @@ running `SOcrs()`.
 
 ``` r
 SOcrs()
-#> [1] "+proj=stere +lat_0=-76.5139986297856 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
+#> [1] "+proj=stere +lat_0=0 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
 ```
 
 Many objects can be reprojected with `SOproj()`, including the map
