@@ -206,5 +206,5 @@ SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR
                    fronts_park = fronts_park)
 
 
-usethis::use_data(SOmap_data, overwrite = TRUE)## try without this BR , compress = "xz")
+usethis::use_data(SOmap_data, overwrite = TRUE, compress = "xz")
 
