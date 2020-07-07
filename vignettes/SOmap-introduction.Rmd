@@ -167,7 +167,7 @@ By default, `SOmap` works with base graphics (and associated functionality from 
 
 Start by installing the `SOmap` package if you haven't done so already:
 
-```{somap_install eval = FALSE}
+```{r somap_install, eval = FALSE}
 remotes::install_github("AustralianAntarcticDivision/SOmap")
 ```
 
