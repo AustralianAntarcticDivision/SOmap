@@ -1,19 +1,18 @@
-#' Default Southern Ocean map
+#' Custom Southern Ocean map
 #'
-#' Provide minimal input information to get a default map. The simplest case is
-#' to run the function without any inputs at all and it will use random location data.
+#' Given some minimal input information, \code{SOmap_auto} will attempt to guess an appropriate extent and projection to use. For demonstration purposes, run the function without any inputs at all and it will use random location data.
 #'
-#' To input your data, use input locations as `x` (longitude) and `y` (latitude) values. There must be at least two locations.
+#' To input your data, use input locations as `x` (longitude) and `y` (latitude) values. There must be at least two locations. The \code{x} input object can also be provided as a \code{Raster} or \code{Spatial} object, in which case the extent of \code{x} will be used for the map, but note that the contents of \code{x} will not be plotted automatically (use \code{SOplot} to do so).
 #'
 #' Try `target` families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
 #'
-#' @param x optional input data longitudes
+#' @param x optional input data longitudes. \code{x} can also be a \code{Raster} or \code{Spatial} object, in which case the extent of \code{x} will be used for the map, but note that the contents of \code{x} will not be plotted automatically (use \code{SOplot} to do so)
 #' @param y optional input data latitudes
 #' @param centre_lon optional centre longitude (of the map projection, also used to for plot range if `expand = TRUE`)
 #' @param centre_lat as per `centre_lon`
 #' @param target optional projection family (default is `stere`ographic), or full PROJ string (see Details)
 #' @param dimXY dimensions of background bathmetry (if used) default is 300x300
-#' @param bathy logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{raster} object
+#' @param bathy logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{Raster} object
 #' @param land logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object
 #' @param land_col character: colour to use for plotting the coastline
 #' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar)
