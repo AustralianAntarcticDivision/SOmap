@@ -127,13 +127,15 @@ alb_map
 
 <img src="man/figures/README-automap4-1.png" width="100%" />
 
-Objects from `sf` or `sp` may also be used. (If a “raster” is given it
-is used only for its extent.)
+Objects from `sf`, `sp`, or `raster` can also be used, but note that
+they will be used for their extents only and will not automatically be
+plotted. But we can plot them easily with `SOplot`:
 
 ``` r
 ## use the bundled fronts data as an example
 mydata <- SOmap_data$fronts_orsi
-SOmap_auto(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
+SOmap_auto(mydata, target = "laea", centre_lon = 147)
+SOplot(mydata, col = 2)
 ```
 
 <img src="man/figures/README-automap-spatial-1.png" width="100%" />
