@@ -21,6 +21,7 @@
 #' }
 #'
 SOauto_crop<-function(layer, x, sp = TRUE) {
+    assert_that(inherits(x, c("SOmap", "SOmap_auto", "SOmap_gg", "SOmap_auto_gg")))
     layr <- SOproj(layer, target = x$projection)
     auto_crop(layr, x = x, sp = sp)
 }
@@ -32,18 +33,18 @@ auto_crop <- function(layr, x, sp = TRUE) {
         out <- sf::st_transform(sf::st_as_sf(layr), x$projection)
         check <- sf::st_buffer(out, 0)
         if (!all(sf::st_is_empty(check))) out <- check ## don't buffer e.g. points, because you get empty geometries back
-        if (inherits(x, "SOmap_auto")) {
+        if (inherits(x, c("SOmap_auto", "SOmap_auto_gg"))) {
             ## use the extent of the bathymetry raster object
-            extobj <- x$bathy
-            ## when automap moves to SO_plotter form, this code will be needed
-            if (is.list(x$bathy) && length(x$bathy) > 0 && inherits(x$bathy[[1]], "SO_plotter")) {
+            extobj <- if (inherits(x, "SOmap_auto")) x$bathy else x$target
+            ## SOmap_auto should be in SO_plotter form, but the gg version won't
+            if (is.list(extobj) && length(extobj) > 0 && inherits(extobj[[1]], "SO_plotter")) {
                 ## the bathy raster data itself is buried in the plotargs
-                extobj <- x$bathy[[1]]$plotargs$x
+                extobj <- extobj[[1]]$plotargs$x
             }
             ## crop by the projected extent. If the projection is rectangular, this should be fine. It might not work well with proejctions where the map doesn't have a rectangular visible extent though
             out <- sf::st_crop(out, xmin = raster::xmin(extobj), xmax = raster::xmax(extobj), ymin = raster::ymin(extobj), ymax = raster::ymax(extobj))
         } else {
-            ## SOmap object
+            ## SOmap or SOmap_gg object
             ## we can't crop to the projected (rectangular) extent of the SOmap object, because it's a round map. The *visible* extent of the map doesn't fill the rectangular projected extent
             ## Note also that for SOmap objects, the extent of the bathy layer is probably NOT the visible extent of the map
             ## because the bathy extends further to provide space for the border and legend

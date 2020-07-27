@@ -41,4 +41,15 @@ test_that("SOauto_crop works", {
     chk <- SOauto_crop(SOmap_data$EEZ, x85, sp = TRUE)
     ## expect NULL, because we can't coerce a zero-row sf object to Spatial
     expect_null(chk)
+
+    ## cropping should also work with gg reference map
+    chk <- SOauto_crop(SOmap_data$fronts_orsi, SOgg(x60))
+    chk2 <- SOauto_crop(SOmap_data$fronts_orsi, x60)
+    expect_equal(chk, chk2)
+
+    ## and SOmap_auto
+    amap <- SOmap_auto(c(-70,-80), c(-50,-60))
+    chk <- SOauto_crop(SOmap_data$CCAMLR_statistical_areas, amap)
+    chk2 <- SOauto_crop(SOmap_data$CCAMLR_statistical_areas, SOgg(amap))
+    expect_equal(chk, chk2)
 })
