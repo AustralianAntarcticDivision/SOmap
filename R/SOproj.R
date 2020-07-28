@@ -25,9 +25,9 @@
 #'
 #' @examples
 #' \dontrun{
-#'  x <- c(-70, -60,-50, -90)
-#'  y <- c(-50, -75, -45, -60)
-#'  pnts <- SOproj(x = y, y = x)
+#'  lat <- c(-70, -60,-50, -90)
+#'  lon <- c(-50, -75, -45, -60)
+#'  pnts <- SOproj(x = lon, y = lat)
 #'  SOmap2(CCAMLR = TRUE)
 #'  plot(pnts, pch = 19, col = 3, add = TRUE)
 #' }
@@ -35,7 +35,12 @@
 #' @importFrom reproj reproj
 #' @importFrom raster projection<-
 #' @importFrom sp coordinates<-
-SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
+SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL) {
+    ## wrap in `quietly` to suppress unwanted warnings
+    quietly(SOproj_inner(x = x, y = y, target = target, data = data, ..., source = source))
+}
+
+SOproj_inner <- function(x, y, target, data, ..., source) {
     if (is.character(y)) stop(sprintf("'y' is character, did you mean? \n\n  SOproj(%s, target = %s)",
                                       as.character(substitute(x)),
                                       as.character(substitute(y))))

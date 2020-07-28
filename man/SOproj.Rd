@@ -27,9 +27,9 @@ Function for reprojecting data.
 }
 \examples{
 \dontrun{
- x <- c(-70, -60,-50, -90)
- y <- c(-50, -75, -45, -60)
- pnts <- SOproj(x = y, y = x)
+ lat <- c(-70, -60,-50, -90)
+ lon <- c(-50, -75, -45, -60)
+ pnts <- SOproj(x = lon, y = lat)
  SOmap2(CCAMLR = TRUE)
  plot(pnts, pch = 19, col = 3, add = TRUE)
 }

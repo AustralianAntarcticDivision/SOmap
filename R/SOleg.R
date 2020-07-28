@@ -35,9 +35,15 @@
 #'         rnd = 1, type = "continuous")
 #' }
 
-SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlabs = NULL, breaks = NULL,
-                 trim = -45, type = "discrete", label = "", ladj = 0.5, lsrt = 0, lcex = 0.75,
-                 tadj = 0.5, tcex = 1, rnd = NULL, border_width = 2) {
+SOleg <- function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlabs = NULL, breaks = NULL,
+                  trim = -45, type = "discrete", label = "", ladj = 0.5, lsrt = 0, lcex = 0.75,
+                  tadj = 0.5, tcex = 1, rnd = NULL, border_width = 2) {
+    ## wrap in `quietly` to suppress unwanted warnings
+    quietly(SOleg_inner(x = x, position = position, col = col, ticks = ticks, tlabs = tlabs, breaks = breaks,
+                        trim = trim, type = type, label = label, ladj = ladj, lsrt = lsrt, lcex = lcex,
+                        tadj = tadj, tcex = tcex, rnd = rnd, border_width = border_width))
+}
+SOleg_inner <-function(x, position, col, ticks, tlabs, breaks, trim, type, label, ladj, lsrt, lcex, tadj, tcex, rnd, border_width) {
 
     if (is.null(col)) col <- c("#440154FF", "#3E4A89FF", "#26828EFF", "#35B779FF", "#B4DE2CFF")
 
