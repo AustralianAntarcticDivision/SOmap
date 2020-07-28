@@ -232,7 +232,7 @@ print.SOmap_legend <- function(x, ...) {
 #   r <- raster::raster(raster::extent(range(lons), range(lats)),
 #                       ncols = length(lons) - 1, nrows = length(lats) - 1)
 #   r[] <- 0
-#   ll_crs <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0"
+#   ll_crs <- "+proj=longlat +datum=WGS84 +no_defs"
 #   out <- sf::as_Spatial(sf::st_segmentize( spex::polygonize(r), dfMaxLength = incr))
 #   sp::proj4string(out) <- sp::CRS(ll_crs)
 #   sp::spTransform(out, proj)

@@ -48,7 +48,7 @@ SOproj_inner <- function(x, y, target, data, ..., source) {
         suppressWarnings(target <- SOcrs())
         if (is.null(target)) {
             message("No CRS provided or available, assuming SOmap default")
-            target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+            target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
         }
     }
 
@@ -61,7 +61,7 @@ SOproj_inner <- function(x, y, target, data, ..., source) {
             source <- raster::projection(x)
             if (is.na(source)) {
                 warning("assuming generic data is in longitude,latitude")
-                source <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+                source <- "+proj=longlat +datum=WGS84 +no_defs"
             }
                                         #browser()
             return(reproj(x, target = target, source = source))
