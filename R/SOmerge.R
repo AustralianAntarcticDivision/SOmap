@@ -52,6 +52,10 @@
 #'
 #' @export
 SOmerge <- function(..., reproject = TRUE) {
+    SOmerge_inner(..., reproject = reproject)
+}
+
+SOmerge_inner <- function(..., reproject) {
     supported_classes <- c("SOmap", "SOmap_management", "SOmap_legend")
     p <- list(...)
     if (length(p) == 1 && is.list(p[[1]]) && !inherits(p[[1]], supported_classes)) {

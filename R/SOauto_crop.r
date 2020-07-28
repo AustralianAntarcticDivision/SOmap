@@ -23,7 +23,7 @@
 SOauto_crop<-function(layer, x, sp = TRUE) {
     assert_that(inherits(x, c("SOmap", "SOmap_auto", "SOmap_gg", "SOmap_auto_gg")))
     layr <- SOproj(layer, target = x$projection)
-    auto_crop(layr, x = x, sp = sp)
+    quietly(auto_crop(layr, x = x, sp = sp))
 }
 
 ## private function to do the cropping
