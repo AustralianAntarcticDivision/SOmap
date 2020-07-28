@@ -33,6 +33,13 @@
 #'
 
 SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = FALSE, straight = FALSE, land = TRUE, land_col = "black", ice = TRUE, ice_col = "black", fronts = FALSE, fronts_col = c("hotpink", "orchid", "plum"), border_col = c("white", "black"), border_width = 2, graticules_col = "grey70") {
+    ## wrap in `quietly` to suppress unwanted warnings
+    quietly(SOmap_inner(bathy_legend = bathy_legend, border = border, trim = trim, graticules =  graticules, straight = straight, land = land, land_col = land_col, ice = ice, ice_col = ice_col, fronts = fronts, fronts_col = fronts_col, border_col = border_col, border_width = border_width, graticules_col = graticules_col))
+
+}
+
+SOmap_inner <- function(bathy_legend, border, trim, graticules, straight, land, land_col, ice, ice_col, fronts, fronts_col, border_col, border_width, graticules_col) {
+
     if (is.character(fronts)) {
         fronts <- match.arg(tolower(fronts), c("park", "orsi"))
     } else {

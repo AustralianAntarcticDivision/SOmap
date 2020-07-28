@@ -55,33 +55,11 @@
 #'   SOmanagement(ccamlr = TRUE, ccamlr_labels = TRUE, basemap = x)
 #' }
 #' @export
-SOmanagement <- function(ccamlr = FALSE,
-                         ccamlr_labels = FALSE,
-                         ssru = FALSE,
-                         ssru_labels = FALSE,
-                         ssmu = FALSE,
-                         ssmu_labels = FALSE,
-                         rb = FALSE,
-                         rb_labels = FALSE,
-                         sprfmorb = FALSE,
-                         trim = -45,
-                         eez = FALSE,
-                         eez_labels = FALSE,
-                         mpa = FALSE,
-                         mpa_labels = FALSE,
-                         iwc = FALSE,
-                         iwc_labels = FALSE,
-                         domains = FALSE,
-                         domains_labels = FALSE,
-                         rb_col = "green",
-                         sprfmo_col = "grey50",
-                         ccamlr_col = "red",
-                         ssru_col = "grey50",
-                         ssmu_col = "grey70",
-                         eez_col = "maroon",
-                         mpa_col = "yellow",
-                         iwc_col = "blue",
-                         domains_col = "magenta",basemap) {
+SOmanagement <- function(ccamlr = FALSE, ccamlr_labels = FALSE, ssru = FALSE, ssru_labels = FALSE, ssmu = FALSE, ssmu_labels = FALSE, rb = FALSE, rb_labels = FALSE, sprfmorb = FALSE, trim = -45, eez = FALSE, eez_labels = FALSE, mpa = FALSE, mpa_labels = FALSE, iwc = FALSE, iwc_labels = FALSE, domains = FALSE, domains_labels = FALSE, rb_col = "green", sprfmo_col = "grey50", ccamlr_col = "red", ssru_col = "grey50", ssmu_col = "grey70", eez_col = "maroon", mpa_col = "yellow", iwc_col = "blue", domains_col = "magenta", basemap) {
+    ## wrap in `quietly` to suppress unwanted warnings
+    quietly(SOmanagement_inner(ccamlr = ccamlr, ccamlr_labels = ccamlr_labels, ssru = ssru, ssru_labels = ssru_labels, ssmu = ssmu, ssmu_labels = ssmu_labels, rb = rb, rb_labels = rb_labels, sprfmorb = sprfmorb, trim = trim, eez = eez, eez_labels = eez_labels, mpa = mpa, mpa_labels = mpa_labels, iwc = iwc, iwc_labels = iwc_labels, domains = domains, domains_labels = domains_labels, rb_col = rb_col, sprfmo_col = sprfmo_col, ccamlr_col = ccamlr_col, ssru_col = ssru_col, ssmu_col = ssmu_col, eez_col = eez_col, mpa_col = mpa_col, iwc_col = iwc_col, domains_col = domains_col, basemap = basemap))
+}
+SOmanagement_inner <- function(ccamlr, ccamlr_labels, ssru, ssru_labels, ssmu, ssmu_labels, rb, rb_labels, sprfmorb, trim, eez, eez_labels, mpa, mpa_labels, iwc, iwc_labels, domains, domains_labels, rb_col, sprfmo_col, ccamlr_col, ssru_col, ssmu_col, eez_col, mpa_col, iwc_col, domains_col, basemap) {
     ## data
     SOmap_data <- NULL
     Bathy <- NULL

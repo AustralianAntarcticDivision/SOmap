@@ -57,6 +57,19 @@ SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "ste
                        contours = FALSE, levels = c(-500, -1000, -2000),
                        ppch = 19, pcol = 2, pcex = 1, bathyleg = FALSE, llty = 1, llwd = 1, lcol = 1,
                        gratlon = NULL, gratlat = NULL, gratpos="all", ...) {
+    ## wrap in `quietly` to suppress unwanted warnings
+    quietly(SOmap_auto_inner(x = x, y = y, centre_lon = centre_lon, centre_lat = centre_lat, target = target, dimXY = dimXY,
+                             bathy = bathy, land = land, land_col = land_col, ice = ice, ice_col = ice_col,
+                             input_points = input_points, input_lines = input_lines,
+                             graticule = graticule, expand = expand,
+                             contours = contours, levels = levels,
+                             ppch = ppch, pcol = pcol, pcex = pcex, bathyleg = bathyleg, llty = llty, llwd = llwd, lcol = lcol,
+                             gratlon = gratlon, gratlat = gratlat, gratpos = gratpos, ...))
+}
+
+SOmap_auto_inner <- function(x, y, centre_lon, centre_lat, target, dimXY, bathy, land, land_col, ice, ice_col,
+                             input_points, input_lines, graticule, expand, contours, levels,
+                             ppch, pcol, pcex, bathyleg, llty, llwd, lcol, gratlon, gratlat, gratpos, ...) {
     ## check inputs
     assert_that(is.flag(contours), !is.na(contours))
     assert_that(is.numeric(levels), length(levels) > 0)

@@ -99,3 +99,12 @@ proj_longlat <- function() {
   "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 }
 
+## function to suppress unwanted warnings
+quietly <- function(expr) {
+    withCallingHandlers(expr, warning = function(w) {
+        if (do_quieten(conditionMessage(w))) invokeRestart("muffleWarning")
+    })
+}
+do_quieten <- function(msg) {
+    is.null(msg) || grepl("Discarded datum WGS_1984", msg)
+}
