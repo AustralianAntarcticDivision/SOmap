@@ -106,5 +106,5 @@ quietly <- function(expr) {
     })
 }
 do_quieten <- function(msg) {
-    is.null(msg) || grepl("Discarded datum WGS_1984", msg)
+    is.null(msg) || grepl("Discarded datum WGS_1984|NULL source CRS comment", msg)
 }
