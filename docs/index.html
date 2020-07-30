@@ -61,10 +61,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/many-automap-examples.html">many-automap-examples</a>
+      <a href="articles/SOmap-introduction.html">SOmap-introduction</a>
     </li>
     <li>
-      <a href="articles/SOmap-introduction.html">SOmap-introduction</a>
+      <a href="articles/many-automap-examples.html">many-automap-examples</a>
     </li>
   </ul>
 </li>
@@ -121,7 +121,7 @@
 
 <span class="fu"><a href="reference/SOmap.html">SOmap</a></span>(<span class="kw">trim</span> <span class="kw">=</span> -<span class="fl">40</span>)
 <span class="co">## add an example sea ice raster, which is bundled with SOmap</span>
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">ice</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">spirited</span>, <span class="kw">add</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">legend</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.95</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">ice</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">spirited</span>, <span class="kw">add</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">legend</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.95</span>)
 <span class="fu"><a href="reference/SOleg.html">SOleg</a></span>(<span class="no">ice</span>, <span class="kw">position</span> <span class="kw">=</span> <span class="st">"topright"</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">spirited</span>, <span class="kw">ticks</span> <span class="kw">=</span> <span class="fl">6</span>,
       <span class="kw">tlabs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"0"</span>, <span class="st">"20"</span>, <span class="st">"40"</span>, <span class="st">"60"</span>, <span class="st">"80"</span>, <span class="st">"100"</span>),
       <span class="kw">trim</span> <span class="kw">=</span> -<span class="fl">40</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Sea Ice"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"continuous"</span>)
@@ -133,7 +133,7 @@
 <div class="sourceCode" id="cb4"><pre class="r"><span class="no">spirited8</span> <span class="kw">&lt;-</span> <span class="fu">spiritedMedium</span>(<span class="fl">8</span>)
 
 <span class="fu"><a href="reference/SOmap.html">SOmap</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">centroids</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">spirited8</span>, <span class="kw">add</span><span class="kw">=</span><span class="fl">TRUE</span>, <span class="kw">pch</span><span class="kw">=</span><span class="fl">19</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">centroids</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">spirited8</span>, <span class="kw">add</span><span class="kw">=</span><span class="fl">TRUE</span>, <span class="kw">pch</span><span class="kw">=</span><span class="fl">19</span>)
 <span class="fu"><a href="reference/SOleg.html">SOleg</a></span>(<span class="no">centroids</span>,<span class="kw">position</span> <span class="kw">=</span> <span class="st">"topright"</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">spirited8</span>, <span class="kw">ticks</span> <span class="kw">=</span> <span class="fl">8</span>,
       <span class="kw">tlabs</span> <span class="kw">=</span><span class="fl">1</span>:<span class="fl">8</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Centroids"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"discrete"</span>)</pre></div>
 <p><img src="reference/figures/README-SOleg-1.png" width="100%"></p>
@@ -164,10 +164,11 @@
 <span class="co">## plot it</span>
 <span class="no">alb_map</span></pre></div>
 <p><img src="reference/figures/README-automap4-1.png" width="100%"></p>
-<p>Objects from <code>sf</code> or <code>sp</code> may also be used. (If a “raster” is given it is used only for its extent.)</p>
+<p>Objects from <code>sf</code>, <code>sp</code>, or <code>raster</code> can also be used, but note that they will be used for their extents only and will not automatically be plotted. But we can plot them easily with <code>SOplot</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="co">## use the bundled fronts data as an example</span>
 <span class="no">mydata</span> <span class="kw">&lt;-</span> <span class="no">SOmap_data</span>$<span class="no">fronts_orsi</span>
-<span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="no">mydata</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="st">"laea"</span>, <span class="kw">centre_lon</span> <span class="kw">=</span> <span class="fl">147</span>, <span class="kw">input_points</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">lcol</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></div>
+<span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="no">mydata</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="st">"laea"</span>, <span class="kw">centre_lon</span> <span class="kw">=</span> <span class="fl">147</span>)
+<span class="fu"><a href="reference/SOplot.html">SOplot</a></span>(<span class="no">mydata</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></div>
 <p><img src="reference/figures/README-automap-spatial-1.png" width="100%"></p>
 </div>
 <div id="easy-projections" class="section level2">
@@ -184,7 +185,7 @@
 <p><img src="reference/figures/README-just-map-it-1.png" width="100%"></p>
 <p><code><a href="reference/SOplot.html">SOplot()</a></code> will add data by default, and can take spatial objects or even raw longitude and latitude values (we like you). When a plot is set up the <em>coordinate reference system</em> used is recorded so that we can use it again. The projection <em>currently in use</em> is always available by running <code><a href="reference/SOcrs.html">SOcrs()</a></code>.</p>
 <div class="sourceCode" id="cb12"><pre class="r"><span class="fu"><a href="reference/SOcrs.html">SOcrs</a></span>()
-<span class="co">#&gt; [1] "+proj=stere +lat_0=-76.5139986297856 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"</span></pre></div>
+<span class="co">#&gt; [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></pre></div>
 <p>Many objects can be reprojected with <code><a href="reference/SOproj.html">SOproj()</a></code>, including the map objects themselves.</p>
 <div class="sourceCode" id="cb13"><pre class="r">
 <span class="no">prj</span> <span class="kw">&lt;-</span> <span class="st">"+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"</span>
@@ -194,7 +195,7 @@
 <span class="co">#&gt; dimensions : 342, 326, 111492  (nrow, ncol, ncell)</span>
 <span class="co">#&gt; resolution : 32837.52, 31606.02  (x, y)</span>
 <span class="co">#&gt; extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; crs        : +proj=laea +lat_0=-90 +lon_0=147 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span>
+<span class="co">#&gt; crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span>
 <span class="co">#&gt; source     : memory</span>
 <span class="co">#&gt; names      : nt_20181015_f18_nrt_s.bin </span>
 <span class="co">#&gt; values     : 1.015509, 100  (min, max)</span>

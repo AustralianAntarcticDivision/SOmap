@@ -171,7 +171,7 @@ running `SOcrs()`.
 
 ``` r
 SOcrs()
-#> [1] "+proj=stere +lat_0=0 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
+#> [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 ```
 
 Many objects can be reprojected with `SOproj()`, including the map
@@ -186,7 +186,7 @@ SOproj(ice, target = prj)
 #> dimensions : 342, 326, 111492  (nrow, ncol, ncell)
 #> resolution : 32837.52, 31606.02  (x, y)
 #> extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)
-#> crs        : +proj=laea +lat_0=-90 +lon_0=147 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
+#> crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
 #> source     : memory
 #> names      : nt_20181015_f18_nrt_s.bin 
 #> values     : 1.015509, 100  (min, max)

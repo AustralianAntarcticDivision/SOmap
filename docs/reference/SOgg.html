@@ -103,10 +103,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/many-automap-examples.html">many-automap-examples</a>
+      <a href="../articles/SOmap-introduction.html">SOmap-introduction</a>
     </li>
     <li>
-      <a href="../articles/SOmap-introduction.html">SOmap-introduction</a>
+      <a href="../articles/many-automap-examples.html">many-automap-examples</a>
     </li>
   </ul>
 </li>
@@ -160,7 +160,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='co'>## generate a SOmap obkect</span>
+  <span class='co'>## generate a SOmap object</span>
   <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmap2.html'>SOmap2</a></span>(<span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>, <span class='kw'>iwc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>iwc_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>graticules</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>fronts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
               <span class='kw'>mpa</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mpa_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
@@ -181,7 +181,7 @@
 
   <span class='co'>## when the print or plot method is called on pg, it creates an actual ggplot2</span>
   <span class='co'>##  object, which we can capture and modify</span>
-  <span class='no'>pg_gg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>pg</span>)
+  <span class='no'>pg_gg</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>pg</span>)
   <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>pg_gg</span>)
 
   <span class='co'>## modifying this is done in the same way any other ggplot object is modified</span>

@@ -103,10 +103,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/many-automap-examples.html">many-automap-examples</a>
+      <a href="../articles/SOmap-introduction.html">SOmap-introduction</a>
     </li>
     <li>
-      <a href="../articles/SOmap-introduction.html">SOmap-introduction</a>
+      <a href="../articles/many-automap-examples.html">many-automap-examples</a>
     </li>
   </ul>
 </li>
@@ -176,7 +176,7 @@
                     <span class='kw'>rnd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"continuous"</span>)
   <span class='no'>mymgmt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmanagement.html'>SOmanagement</a></span>(<span class='kw'>eez</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>basemap</span> <span class='kw'>=</span> <span class='no'>mymap</span>)
   <span class='no'>merged</span> <span class='kw'>&lt;-</span> <span class='fu'>SOmerge</span>(<span class='no'>mymap</span>, <span class='no'>mymgmt</span>, <span class='no'>mylegend</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>merged</span>)
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>merged</span>)
 
   <span class='co'>## note that you need to take some care in constructing the component objects</span>
   <span class='co'>##  to ensure their visual consistency</span>
@@ -184,12 +184,12 @@
   <span class='co'>## e.g. this will work, but the EEZ layers will extend beyond the map bounds</span>
   <span class='no'>mymap</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmap.html'>SOmap</a></span>(<span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>55</span>)
   <span class='no'>mymgmt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmanagement.html'>SOmanagement</a></span>(<span class='kw'>eez</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>45</span>) <span class='co'>## note different trim</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>SOmerge</span>(<span class='no'>mymap</span>, <span class='no'>mymgmt</span>))
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'>SOmerge</span>(<span class='no'>mymap</span>, <span class='no'>mymgmt</span>))
 
   <span class='co'>## better to do</span>
   <span class='no'>mymap</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmap.html'>SOmap</a></span>(<span class='kw'>trim</span> <span class='kw'>=</span> -<span class='fl'>55</span>)
   <span class='no'>mymgmt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SOmanagement.html'>SOmanagement</a></span>(<span class='kw'>eez</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>basemap</span> <span class='kw'>=</span> <span class='no'>mymap</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>SOmerge</span>(<span class='no'>mymap</span>, <span class='no'>mymgmt</span>))
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'>SOmerge</span>(<span class='no'>mymap</span>, <span class='no'>mymgmt</span>))
 
   <span class='co'>## SOmerge will reproject objects on the fly if needed</span>
 
@@ -204,7 +204,7 @@
   <span class='co'>## sw_atlantic_mgmt lies within the bounds of mymap, so we might want to combine them</span>
   <span class='co'>##  even though their projections are different</span>
   <span class='no'>merged</span> <span class='kw'>&lt;-</span> <span class='fu'>SOmerge</span>(<span class='no'>mymap</span>, <span class='no'>sw_atlantic_mgmt</span>)
-  <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>merged</span>)
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>merged</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
