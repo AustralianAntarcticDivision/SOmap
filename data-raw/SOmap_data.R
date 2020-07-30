@@ -83,6 +83,8 @@ files <- get_unzip_data("https://gis.ccamlr.org/geoserver/gis/ows?service=WFS&ve
 planning_domains <- spTransform(raster::shapefile(files[grepl("shp$", files)]), CRS(psproj))
 chk <- sapply(names(planning_domains), function(z) length(tools::showNonASCII(planning_domains[[z]])) > 0)
 if (any(chk)) stop("non-ASCII chars in planning_domains data")
+## simplify to reduce size
+planning_domains <- sf::as_Spatial(rmapshaper::ms_simplify(sf::st_as_sf(planning_domains), 0.1, keep_shapes = TRUE))  ## keep 10% detail
 
 
 ## continent (was land1)
@@ -190,7 +192,7 @@ GSHHS_i_L1 <- shapefile(outfiles[grepl("GSHHS_i_L1\\.shp$", outfiles)])
 GSHHS_i_L1 <- crop(GSHHS_i_L1, extent(c(-180, 180, -90, 0)))
 GSHHS_i_L1 <- spTransform(GSHHS_i_L1, psproj)
 
-ACC_FRONTS <- readRDS("data-raw/ACC_FRONTS.rds")
+fronts_park <- readRDS("data-raw/fronts_park.rds")
 SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR_research_blocks = RB1,
                    CCAMLR_SSRU = SSRU1, CCAMLR_SSMU = SSMU1,
                    CCAMLR_VME_polygons = VME_polygons, CCAMLR_VME_fsr = VME_fsr, CCAMLR_VME_risk_areas = VME_risk_areas,
@@ -201,7 +203,7 @@ SOmap_data <- list(CCAMLR_MPA = MPA1, CCAMLR_statistical_areas = CCAMLR1, CCAMLR
                    EEZ = EEZ1, ##ADD_coastline_med = ADD_coastline_med,
                    GSHHS_i_L1 = GSHHS_i_L1,
                    ant_coast_land = ant_coast_land, ant_coast_ice = ant_coast_ice,
-                   ACC_FRONTS = ACC_FRONTS)
+                   fronts_park = fronts_park)
 
 
 usethis::use_data(SOmap_data, overwrite = TRUE, compress = "xz")

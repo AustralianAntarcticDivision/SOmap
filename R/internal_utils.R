@@ -25,23 +25,28 @@ insert_into_sequence <- function(sequence, ins, after) {
 ## internal plotting routine, called by SOmap and SOmanagement
 ## iterate through the object's plot_sequence vector, running the plotfun with plotargs for each
 plot_all <- function(x) {
-    assert_that(inherits(x, c("SOmap_management", "SOmap", "SOthing", "SOmap_legend")))
+    assert_that(inherits(x, c("SOmap_management", "SOmap", "SOthing", "SOmap_legend", "SOmap_auto")))
     ## interate through each plottable element in turn
     for (toplot in intersect(x$plot_sequence, names(x))) {
         allpf <- x[[toplot]] ## all the stuff to plot for this element
         ## either a SO_plotter object, or a list thereof
         ## if it's just one, put it in a list
         if (inherits(allpf, "SO_plotter")) allpf <- list(allpf)
-        if (!all(vapply(allpf, inherits, "SO_plotter", FUN.VALUE = TRUE))) {
-            warning("plotting behaviour for '", toplot, "' should be specified by an SO_plotter object or list of such objects, ignoring")
+        if (!all(vapply(allpf, inherits, c("SO_plotter", "SOmap_legend"), FUN.VALUE = TRUE))) {
+            warning("plotting behaviour for \"", toplot, "\" should be specified by a list of objects of class SO_plotter or SOmap_legend, ignoring")
             next
         }
         for (thispf in allpf) {
-            thisfun <- thispf$plotfun
-            ##if (is.character(thisfun)) thisfun <- parse(text = thisfun)
-            ##eval(thisfun, envir = x[[toplot]]$plotenv)
-            this_plotargs <- thispf$plotargs
-            if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
+            if (inherits(thispf, "SO_plotter")) {
+                thisfun <- thispf$plotfun
+                this_plotargs <- thispf$plotargs
+                if (is.character(thisfun)) do.call(eval(parse(text = thisfun)), this_plotargs) else do.call(thisfun, this_plotargs)
+            } else if (!is.null(getS3method("plot", class(thispf), optional = TRUE))) {
+                ## this object (e.g. a SOmap_legend object) has a plot method, call that
+                plot(thispf)
+            } else {
+                stop("object in plot list of class \"", class(thispf), "\", don't know what to do with it")
+            }
         }
         if (!is.null(thispf$labels)) {
             ## this should not be needed now: all label stuff should now be in the main list of plotfuns and be handled above
@@ -94,3 +99,12 @@ proj_longlat <- function() {
   "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 }
 
+## function to suppress unwanted warnings
+quietly <- function(expr) {
+    withCallingHandlers(expr, warning = function(w) {
+        if (do_quieten(conditionMessage(w))) invokeRestart("muffleWarning")
+    })
+}
+do_quieten <- function(msg) {
+    is.null(msg) || grepl("Discarded datum WGS_1984|NULL source CRS comment", msg)
+}

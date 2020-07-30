@@ -2,7 +2,7 @@
 % Please edit documentation in R/SOmap_auto.R
 \name{SOmap_auto}
 \alias{SOmap_auto}
-\title{Default Southern Ocean map}
+\title{Custom Southern Ocean map}
 \usage{
 SOmap_auto(
   x,
@@ -36,7 +36,7 @@ SOmap_auto(
 )
 }
 \arguments{
-\item{x}{optional input data longitudes}
+\item{x}{optional input data longitudes. \code{x} can also be a \code{Raster} or \code{Spatial} object, in which case the extent of \code{x} will be used for the map, but note that the contents of \code{x} will not be plotted automatically (use \code{SOplot} to do so)}
 
 \item{y}{optional input data latitudes}
 
@@ -48,7 +48,7 @@ SOmap_auto(
 
 \item{dimXY}{dimensions of background bathmetry (if used) default is 300x300}
 
-\item{bathy}{logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{raster} object}
+\item{bathy}{logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{Raster} object}
 
 \item{land}{logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object}
 
@@ -76,7 +76,7 @@ SOmap_auto(
 
 \item{pcex}{set point cex (default=1)}
 
-\item{bathyleg}{optional bathymetry legend (default=FALSE). Note when \code{bathyleg} is \code{FALSE}, plotting is done with \code{raster::image}, but when \code{bathyleg} is \code{TRUE} plotting uses \code{raster::plot}}
+\item{bathyleg}{optional bathymetry legend (default=FALSE)}
 
 \item{llty}{set line type}
 
@@ -96,11 +96,10 @@ SOmap_auto(
 An object of class SOmap_auto, containing the data and other details required to generate the map. Printing or plotting the object will cause it to be plotted.
 }
 \description{
-Provide minimal input information to get a default map. The simplest case is
-to run the function without any inputs at all and it will use random location data.
+Given some minimal input information, \code{SOmap_auto} will attempt to guess an appropriate extent and projection to use. For demonstration purposes, run the function without any inputs at all and it will use random location data.
 }
 \details{
-To input your data, use input locations as \code{x} (longitude) and \code{y} (latitude) values. There must be at least two locations.
+To input your data, use input locations as \code{x} (longitude) and \code{y} (latitude) values. There must be at least two locations. The \code{x} input object can also be provided as a \code{Raster} or \code{Spatial} object, in which case the extent of \code{x} will be used for the map, but note that the contents of \code{x} will not be plotted automatically (use \code{SOplot} to do so).
 
 Try \code{target} families such as 'lcc', 'laea', 'gnom', 'merc', 'aea' if feeling adventurous.
 }

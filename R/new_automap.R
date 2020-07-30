@@ -1,4 +1,3 @@
-
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
   if (is.null(family)) family <- "stere"
@@ -65,6 +64,12 @@ crunch_raster <- function(source_raster, target_raster) {
                                       stars::st_as_stars(target_raster)))
 
 }
+mid_point <- function (p, fold = FALSE) {
+    gc <- "+proj=geocent +datum=WGS84"
+    lc <- "+proj=longlat +datum=WGS84"
+    reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
+}
+
 #' @noRd
 #' @param x a raster, stars, spatial sf, or numeric vector ('y' must also be present if 'x' is numeric, or NULL if x is a matrix)
 #' @param target defaults to a projection family "stere", if set to NULL uses the projection of 'x'
@@ -118,9 +123,7 @@ automap_maker <-
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
-
         mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(), source = raster::projection(x)))
-
         if (is.null(centre_lon)) centre_lon <- mp[1]
         if (is.null(centre_lat)) centre_lat <- mp[2]
       }
@@ -144,7 +147,6 @@ automap_maker <-
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
         mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(),
                                        source = raster::projection(x)))
-
         if (is.null(centre_lon)) centre_lon <- mp[1]
         if (is.null(centre_lat)) centre_lat <- mp[2]
       }
@@ -158,7 +160,6 @@ automap_maker <-
       src_prj <- llproj
       llxy <- cbind(x, y)
       midp <- mid_point(llxy)
-
       if (is.null(centre_lon)) centre_lon <- midp[1]
       if (is.null(centre_lat)) centre_lat <- midp[2]
       if (!is.null(target) && target == "stere" && !grepl(target, src_prj)) tscale <- -71 * sign(centre_lat)

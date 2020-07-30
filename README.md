@@ -16,11 +16,6 @@ The goal of SOmap is to make publication quality round Southern Ocean
 maps in polar projections with little effort. This package is still very
 much a work in progress contact me with any questions or suggestions.
 
-**Please note: we have just merged SOmap with the Development branch
-taking us to version 0.5. Whilst we have tried to ensure everything is
-working as it should be, however if you think you ahve found a bug
-please lodge and issue with a reproducible example**
-
 ## Installation
 
 The development version from
@@ -54,8 +49,6 @@ spiritedMedium <- colorRampPalette(c("#4D4140", "#596F7E", "#168B98",
 spirited <- spiritedMedium(80)
 
 SOmap(trim = -40)
-#> Warning: st_crs<- : replacing crs does not reproject data; use st_transform for
-#> that
 ## add an example sea ice raster, which is bundled with SOmap
 plot(ice, col = spirited, add = TRUE, legend = FALSE, alpha = 0.95)
 SOleg(ice, position = "topright", col = spirited, ticks = 6,
@@ -74,8 +67,6 @@ Curved legends can be either continuous (as above) or discrete.
 spirited8 <- spiritedMedium(8)
 
 SOmap()
-#> Warning: st_crs<- : replacing crs does not reproject data; use st_transform for
-#> that
 plot(centroids, col=spirited8, add=TRUE, pch=19)
 SOleg(centroids,position = "topright", col = spirited8, ticks = 8,
       tlabs =1:8, label = "Centroids", type = "discrete")
@@ -136,13 +127,15 @@ alb_map
 
 <img src="man/figures/README-automap4-1.png" width="100%" />
 
-Objects from `sf` or `sp` may also be used. (If a “raster” is given it
-is used only for its extent.)
+Objects from `sf`, `sp`, or `raster` can also be used, but note that
+they will be used for their extents only and will not automatically be
+plotted. But we can plot them easily with `SOplot`:
 
 ``` r
 ## use the bundled fronts data as an example
 mydata <- SOmap_data$fronts_orsi
-SOmap_auto(mydata, target = "laea", centre_lon = 147, input_points = FALSE, lcol = 2)
+SOmap_auto(mydata, target = "laea", centre_lon = 147)
+SOplot(mydata, col = 2)
 ```
 
 <img src="man/figures/README-automap-spatial-1.png" width="100%" />
@@ -173,22 +166,12 @@ SOplot(SOmap_data$seaice_oct, lwd = 3, col = "blue", lty = 2)
 `SOplot()` will add data by default, and can take spatial objects or
 even raw longitude and latitude values (we like you). When a plot is set
 up the *coordinate reference system* used is recorded so that we can use
-it again.
-
-``` r
-print(amap)
-SOplot(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat)
-#> No projection provided, assuming longlat
-```
-
-<img src="man/figures/README-add-it-1.png" width="100%" />
-
-The projection *currently in use* is always available by running
-`SOcrs()`.
+it again. The projection *currently in use* is always available by
+running `SOcrs()`.
 
 ``` r
 SOcrs()
-#> [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395982 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+#> [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 ```
 
 Many objects can be reprojected with `SOproj()`, including the map
@@ -210,10 +193,6 @@ SOproj(ice, target = prj)
 
 ## reproject a SOmap
 SOproj(amap, target = prj)
-#> Warning in SOproj(amap, target = prj): assuming generic data is in
-#> longitude,latitude
-#> Warning in reproj.SOmap_auto(x, target = target, source = source): source
-#> ignored, should be NULL for SOmap objects
 ```
 
 <img src="man/figures/README-raster-1.png" width="100%" />

@@ -35,9 +35,15 @@
 #'         rnd = 1, type = "continuous")
 #' }
 
-SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlabs = NULL, breaks = NULL,
-                 trim = -45, type = "discrete", label = "", ladj = 0.5, lsrt = 0, lcex = 0.75,
-                 tadj = 0.5, tcex = 1, rnd = NULL, border_width = 2) {
+SOleg <- function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlabs = NULL, breaks = NULL,
+                  trim = -45, type = "discrete", label = "", ladj = 0.5, lsrt = 0, lcex = 0.75,
+                  tadj = 0.5, tcex = 1, rnd = NULL, border_width = 2) {
+    ## wrap in `quietly` to suppress unwanted warnings
+    quietly(SOleg_inner(x = x, position = position, col = col, ticks = ticks, tlabs = tlabs, breaks = breaks,
+                        trim = trim, type = type, label = label, ladj = ladj, lsrt = lsrt, lcex = lcex,
+                        tadj = tadj, tcex = tcex, rnd = rnd, border_width = border_width))
+}
+SOleg_inner <-function(x, position, col, ticks, tlabs, breaks, trim, type, label, ladj, lsrt, lcex, tadj, tcex, rnd, border_width) {
 
     if (is.null(col)) col <- c("#440154FF", "#3E4A89FF", "#26828EFF", "#35B779FF", "#B4DE2CFF")
 
@@ -165,8 +171,12 @@ SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlab
     bleg  <- graticule::graticule(lons = bllons,lats = c(trim+border_width+1, trim+border_width+3), tiles = TRUE, proj = raster::projection(Bathy))
     ## Graticule for ticks
     btick <- graticule::graticule(lons = btlons ,lats = c(trim+border_width+2, trim+border_width+5),  proj = raster::projection(Bathy), tiles = FALSE)
-    ## Graticule for masks
+    just_ticks <- do.call(rbind, lapply(seq_along(btlons), function(z) {
+        graticule::graticule(lons = btlons[z], lats = c(trim+border_width+3, trim+border_width+5), proj = raster::projection(Bathy), tiles = FALSE, nverts = 2)[1, ]
+    }))
+    ## NB nverts seems to have no effect here
 
+    ## Graticule for masks
     k <- graticule::graticule(lons = jklons, lats = c(trim+border_width+8, trim+border_width+4.75), tiles = TRUE, proj = raster::projection(Bathy))
     j <- graticule::graticule(lons = jklons, lats = c(trim+15, trim+2), tiles = TRUE, proj = raster::projection(Bathy))
 
@@ -183,12 +193,15 @@ SOleg <-function(x = NULL, position = "topright", col = NULL, ticks = NULL, tlab
     lab_pos3 <- sp::spTransform(df3, raster::crs(raster::projection(Bathy)))
 
     structure(list(
-        plot_sequence = c("mask", "ticks", "legend", "mask2", "tick_labels", "legend_labels"),
+        projection = raster::projection(Bathy),
+        plot_sequence = c("mask", "ticks", "legend", ##"mask2",
+                          "tick_labels", "legend_labels"),
         mask = SO_plotter(plotfun = "raster::plot", plotargs = list(x = j, col = "white", border = FALSE, add = TRUE)),
-        ticks = SO_plotter(plotfun = "raster::plot", plotargs = list(x = btick, col = "black", add = TRUE)),
+        ##ticks = SO_plotter(plotfun = "raster::plot", plotargs = list(x = btick, col = "black", add = TRUE)),
+        ticks = SO_plotter(plotfun = "plot", plotargs = list(x = just_ticks, col = "black", add = TRUE)),
         legend = c(SO_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, lwd = 2, add = TRUE)),
                    SO_plotter(plotfun = "raster::plot", plotargs = list(x = bleg, border = FALSE, col = cols, add = TRUE))),
-        mask2 = SO_plotter(plotfun = "raster::plot", plotargs = list(x = k, border = FALSE, col = "white", add = TRUE)),
+        ##mask2 = SO_plotter(plotfun = "raster::plot", plotargs = list(x = k, border = FALSE, col = "white", add = TRUE)),
         tick_labels = SO_plotter(plotfun = "text", plotargs = list(x = lab_pos2, labels = lab_pos2$a, cex = lcex, adj = ladj, srt = lsrt)),
         legend_labels = SO_plotter(plotfun = "text", plotargs = list(x = lab_pos3, labels = lab_pos3$a, cex = tcex, adj = tadj, srt = SRT))
     ), class = "SOmap_legend")
@@ -219,7 +232,7 @@ print.SOmap_legend <- function(x, ...) {
 #   r <- raster::raster(raster::extent(range(lons), range(lats)),
 #                       ncols = length(lons) - 1, nrows = length(lats) - 1)
 #   r[] <- 0
-#   ll_crs <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0"
+#   ll_crs <- "+proj=longlat +datum=WGS84 +no_defs"
 #   out <- sf::as_Spatial(sf::st_segmentize( spex::polygonize(r), dfMaxLength = incr))
 #   sp::proj4string(out) <- sp::CRS(ll_crs)
 #   sp::spTransform(out, proj)

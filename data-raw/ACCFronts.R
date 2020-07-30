@@ -34,7 +34,7 @@ ACC_FRONTS <- sf::st_sf(name = c("Northern Boundary",
                    "Southern Antarctic Circumpolar Current",
                    "Southern Boundary"),
           front = c("NB", "SAF", "PF", "SACCF", "SB"), geometry = l)
-saveRDS(ACC_FRONTS, "data-raw/ACC_FRONTS.rds")
+saveRDS(ACC_FRONTS, "data-raw/fronts_park.rds")
 
 #ggplot(SOproj(ACC_FRONTS), aes(colour = name)) + geom_sf() + coord_sf()
 

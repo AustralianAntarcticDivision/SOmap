@@ -107,7 +107,14 @@ Function for adding management layers to SOmap
   dev.off()
   unlink(tfile)
 
-  SOmap(trim = -45)
-  SOmanagement(ccamlr = TRUE, ccamlr_labels = TRUE, trim = -45)
+  ## map with non-default latitudinal extent
+  SOmap(trim = -55)
+  ## either provide the same extent via 'trim'
+  SOmanagement(ccamlr = TRUE, ccamlr_labels = TRUE, trim = -55)
+
+  ## or equivalently, pass the basemap to SOmanagement
+  x <- SOmap(trim = -55)
+  plot(x)
+  SOmanagement(ccamlr = TRUE, ccamlr_labels = TRUE, basemap = x)
 }
 }

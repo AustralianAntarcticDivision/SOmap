@@ -8,7 +8,7 @@
 #' longitude vector, or object with coordinates
 #'
 #' @param y
-#' lattitude vector
+#' latitude vector
 #'
 #' @param source
 #' starting projection (default = longlat)
@@ -25,9 +25,9 @@
 #'
 #' @examples
 #' \dontrun{
-#'  x <- c(-70, -60,-50, -90)
-#'  y <- c(-50, -75, -45, -60)
-#'  pnts <- SOproj(x = y, y = x)
+#'  lat <- c(-70, -60,-50, -90)
+#'  lon <- c(-50, -75, -45, -60)
+#'  pnts <- SOproj(x = lon, y = lat)
 #'  SOmap2(CCAMLR = TRUE)
 #'  plot(pnts, pch = 19, col = 3, add = TRUE)
 #' }
@@ -35,32 +35,41 @@
 #' @importFrom reproj reproj
 #' @importFrom raster projection<-
 #' @importFrom sp coordinates<-
-SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL){
- if (is.character(y)) stop(sprintf("'y' is character, did you mean? \n\n  SOproj(%s, target = %s)",
-                                   as.character(substitute(x)),
-                                   as.character(substitute(y))))
-  if (is.null(target)) {
-    suppressWarnings(target <-  SOcrs())
+SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL) {
+    ## wrap in `quietly` to suppress unwanted warnings
+    quietly(SOproj_inner(x = x, y = y, target = target, data = data, ..., source = source))
+}
+
+SOproj_inner <- function(x, y, target, data, ..., source) {
+    if (is.character(y)) stop(sprintf("'y' is character, did you mean? \n\n  SOproj(%s, target = %s)",
+                                      as.character(substitute(x)),
+                                      as.character(substitute(y))))
     if (is.null(target)) {
-      message("No CRS provided or available, assuming SOmap default")
-      target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+        suppressWarnings(target <- SOcrs())
+        if (is.null(target)) {
+            message("No CRS provided or available, assuming SOmap default")
+            target <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
+        }
     }
-  }
 
-  ## shortcut out, we have an object
-  if (is.null(y) && !missing(x)) {
-    source <- raster::projection(x)
-    if (is.na(source)) {
-      warning("assuming generic data is in longitude,latitude")
-      source <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    ## shortcut out, we have an object
+    if (is.null(y) && !missing(x)) {
+        if (is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
+            y <- x[[2]]
+            x <- x[[1]]
+        } else {
+            source <- raster::projection(x)
+            if (is.na(source)) {
+                warning("assuming generic data is in longitude,latitude")
+                source <- "+proj=longlat +datum=WGS84 +no_defs"
+            }
+                                        #browser()
+            return(reproj(x, target = target, source = source))
+        }
     }
-    #browser()
-    return(reproj(x, target = target, source = source))
-
-  }
-  if (missing(x) || is.null(y)) {
-      stop("x and y must be provided unless 'x' is an object")
-  }
+    if (missing(x) || is.null(y)) {
+        stop("x and y must be provided unless 'x' is an object")
+    }
 #  should never be needed
 #   if (is.na(projection(x)) && is.null(source)) {
 #     if (is.list(x) && !is.null(x$crs)) {
@@ -134,42 +143,94 @@ projection.SOmap_auto <- function(x, asText = TRUE) {
 #' }
 #' @name reproj
 reproj.SOmap <- function(x, target, ..., source = NULL) {
-  if (missing(target)) stop("'target' projection string required")
-  if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
-  if (!is.null(x$bathy)) {
-   rast <- try(reproj(x$bathy$plotargs$x, target = target), silent = TRUE)
-    if (inherits(rast, "try-error")) {
-     stop("unable to reproject raster sensibly")
-   }
-   x$bathy$plotargs$x <- rast
-   x$target <- raster::raster(rast)
-  }
-  x$coastline$plotargs$x <- reproj(x$coastline$plotargs$x, target)
-  x$projection <- target
-  x
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
 }
 #' @export
 #' @name reproj
 reproj.SOmap_auto <- function(x, target, ..., source = NULL) {
-  if (missing(target)) stop("'target' projection string required")
-  if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
-  if (!is.null(x$bathy)) {
-    rast <- try(reproj(x$bathy, target = target), silent = TRUE)
-   if (inherits(rast, "try-error")) {
-     stop("unable to reproject raster sensibly")
-   }
-   x$bathy <- rast
-   x$target <- raster::raster(rast)
-  }
-  if (!is.null(x$coastline$data)) x$coastline$data <- reproj(x$coastline$data, target)
-  if (!is.null(x$graticule)) x$graticule <- reproj(x$graticule, target)
-
-  if (!is.null(x$lines_data)) x$lines_data <- reproj(x$lines_data, target, source = x$projection)
-  if (!is.null(x$points_data)) x$points_data <- reproj(x$points_data, target, source = x$projection)
-
-  x$projection <- target
-  x
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
 }
+
+#' @export
+#' @name reproj
+reproj.SOmap_management <- function(x, target, ..., source = NULL) {
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
+}
+
+#' @export
+#' @name reproj
+reproj.SOmap_legend <- function(x, target, ..., source = NULL) {
+    if (missing(target)) stop("'target' projection string required")
+    do_SOmap_reproj(x = x, target = target, source = source)
+}
+
+## can use the same code for SOmap, SOmap_auto, and SOmap_management objects
+## note that SOmap_management won't have a bathy component
+do_SOmap_reproj <- function(x, target, source = NULL) {
+  #browser()
+    if (missing(target)) stop("'target' projection string required")
+   # if (!is.null(source)) warning("source ignored, should be NULL for SOmap objects")
+    source0 <- x$projection
+    if (!is.null(x$bathy)) {
+        rast <- try(reproj(x$bathy[[1]]$plotargs$x, target = target), silent = TRUE)
+        if (inherits(rast, "try-error")) {
+            stop("unable to reproject raster sensibly")
+        }
+        x$bathy[[1]]$plotargs$x <- rast
+        x$target <- raster::raster(rast)
+        x$init[[1]]$plotargs$target <- rast  ## why is this duplicated?
+    }
+
+    for (thing in setdiff(names(x), c("init", "plot_sequence", "projection", "target", "straight", "trim", "box", "crs", "lines", "points"))) {
+
+
+        x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target)
+        if (thing == "graticule") {
+          ## we've done the bathy so make that the target
+          ##x[["target"]] <- raster::raster(x[[thing]][[1]]$plotargs$x)
+          athing <- x[[thing]][[1]]$plotargs$x
+         xy <- reproj::reproj(cbind(athing$x_start, athing$y_start), source = source0, target = target)[,1:2, drop = FALSE]
+         x[[thing]][[1]]$plotargs$x$x_start <- xy[,1, drop = TRUE]
+         x[[thing]][[1]]$plotargs$x$y_start <- xy[,2, drop = TRUE]
+         xy <- reproj::reproj(cbind(athing$x_end, athing$y_end), source = source0, target = target)[,1:2, drop = FALSE]
+         x[[thing]][[1]]$plotargs$x$x_end <- xy[,1, drop = TRUE]
+         x[[thing]][[1]]$plotargs$x$y_end <- xy[,2, drop = TRUE]
+
+        }
+
+    }
+    for (thing in intersect(names(x), c("lines", "points"))) {
+        x[[thing]] <- reproj_SO_plotter_list(x[[thing]], target, source = x$projection)
+    }
+    x$projection <- target
+    x
+}
+
+## each plottable element in an SOmap object should be a list of SO_plotter objects
+## doesn't make sense to export this as a public reproj method, because we don't expect users to be
+##  reprojecting SO_plotter objects themselves
+reproj_SO_plotter_list <- function(thing, target, source = NULL) {
+    if (inherits(thing, "SO_plotter")) {
+        ## old code may have had just a single SO_plotter object, not a list of length 1
+        thing <- reproj_SO_plotter(thing, target = target, source = source)
+    } else if (is.list(thing)) {
+        thing <- lapply(thing, reproj_SO_plotter, target = target, source = source)
+    } else {
+        stop("unexpected plotter object format")
+    }
+}
+reproj_SO_plotter <- function(x, target, source) {
+    if (inherits(x, "SOmap_legend")) {
+        x <- reproj(x, target)
+    } else {
+        if (!is.null(x$plotargs$x)) x$plotargs$x <- reproj(x$plotargs$x, target, source = source)
+    }
+    x
+}
+
 #' @name reproj
 #' @export
 reproj.BasicRaster <- function(x, target, ..., source = NULL) {

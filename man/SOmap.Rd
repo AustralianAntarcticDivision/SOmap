@@ -22,7 +22,7 @@ SOmap(
 )
 }
 \arguments{
-\item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend.}
+\item{bathy_legend}{logical: if \code{TRUE}, insert the bathymetry legend. If \code{bathy_legend = NULL} or \code{bathy_legend = "space"}, then space will be left for the legend but no legend will actually be plotted. Use this if you plan to add a legend later.}
 
 \item{border}{logical: if \code{TRUE}, insert longitude border.}
 
@@ -40,7 +40,7 @@ SOmap(
 
 \item{ice_col}{character: colour to use for ice features.}
 
-\item{fronts}{logical: if \code{TRUE}, plot ocean fronts (Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front).}
+\item{fronts}{logical or string: if \code{TRUE} or "Orsi", plot Orsi et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.}
 
 \item{fronts_col}{character: colours for fronts.}
 

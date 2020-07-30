@@ -2,27 +2,34 @@
 % Please edit documentation in R/SOauto_crop.r
 \name{SOauto_crop}
 \alias{SOauto_crop}
-\title{Reproject and crop Spatial Polygons to SOmap objects}
+\title{Reproject and crop Spatial and sf objects to SOmap objects}
 \usage{
-SOauto_crop(layer, x)
+SOauto_crop(layer, x, sp = TRUE)
 }
 \arguments{
-\item{layer}{A SpatialPolygonsDataFrame.}
+\item{layer}{: an \code{sf} or \code{Spatial} (SpatialPolygonsDataFrame, SpatialLinesDataFrame, SpatialPointsDataFrame etc) object to reproject and crop}
 
-\item{x}{A SOmap or SOauto_map object.}
+\item{x}{: a SOmap or SOauto_map object}
+
+\item{sp}{logical: if \code{TRUE}, return the cropped object in \code{Spatial} form, otherwise \code{sf}}
 }
 \value{
-reprojected and cropped version of layer
+If successful, a reprojected and cropped version of \code{layer}. If the reprojection or cropping operations fail, the returned object will be of class \code{try-error}. If the cropping operations return an empty object (i.e. no parts of \code{layer} lie within the bounds of \code{x}) then the returned object will either be \code{NULL} (if \code{sp = TRUE}) or an \code{sf} object with no features if \code{sp = FALSE}.
 }
 \description{
-Reproject and crop Spatial Polygons to SOmap objects
+Reproject and crop Spatial and sf objects to SOmap objects
 }
 \examples{
 \dontrun{
-a<-SOauto_map(c(0, 50), c(-70, -50))
-x<-SOauto_crop(SOmap_data$fronts_orsi,  a)
-a
-plot(x, add = TRUE)
+  a <- SOmap_auto(c(0, 50), c(-70, -50))
+  x <- SOauto_crop(SOmap_data$fronts_orsi, a)
+  plot(a)
+  plot(x, add = TRUE)
+
+  a <- SOmap(trim = -60)
+  x <- SOauto_crop(SOmap_data$EEZ, a)
+  plot(a)
+  plot(x, add = TRUE)
 }
 
 }

@@ -40,7 +40,7 @@
 #' @param land_col character: colour to use for coastline.
 #' @param ice logical: if \code{TRUE}, plot ice features (ice shelves, glacier tongues, and similar).
 #' @param ice_col character: colour to use for ice features.
-#' @param fronts logical: if \code{TRUE}, plot ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front.
+#' @param fronts logical or string: if \code{TRUE} or "Orsi", plot Orsi et al., (1995) ocean fronts: Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front. If "Park" plot the Park & Durand (2019) fronts; Northern boundary, Subantarctic Front, Polar Front, Southern Antarctic Circumpolar Current Front and Southern Boundary.
 #' @param fronts_col character: colours to use for fronts.
 #'
 #' @return An object of class "SOmap", which represents a polar-stereographic map of the southern hemisphere, with the chosen management layers added. Printing or plotting this object will cause it to be displayed in the current graphics device.
@@ -90,4 +90,3 @@ SOmap2 <- function(bathy_legend = TRUE, land = TRUE, ice = TRUE, ccamlr = FALSE,
     out$plot_sequence <- insert_into_sequence(out$plot_sequence, ins = mx$plot_sequence, after = c("bathy", "box", "coastline", "ice", "fronts", "graticule"))
     out
 }
-

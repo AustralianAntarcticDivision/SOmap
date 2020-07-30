@@ -1,6 +1,16 @@
-# dev
+# 0.6
 
-* New data set ACC_FRONTS.
+* new `SOmerge` function that allows multiple objects to be combined into a single map object
+
+* new `SObin` function that will create a raster density layer from longitude-latitude points
+
+* `SOgg` now does a better job of matching colours and text sizes to those specified in the input objects, so ggplot2-based maps should now be more visually consistent with non-ggplot2-based maps
+
+* new data set fronts_park that provides an alternative set of front locations as derived by Park & Durand 2019. Use it with e.g. `SOmap(fronts = "Park")` (or `SOmap(fronts = TRUE)` or `SOmap(fronts = "Orsi")` for the Orsi et al. 1995 front locations)
+
+* simplified (smaller size, faster to plot) layer for CCAMLR planning domains
+
+* various bug fixes and adjustments to cope with updates to package dependencies
 
 # 0.5.1
 
