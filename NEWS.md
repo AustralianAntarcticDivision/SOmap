@@ -10,7 +10,7 @@
 
 * simplified (smaller size, faster to plot) layer for CCAMLR planning domains
 
-* various bug fixes
+* various bug fixes and adjustments to cope with updates to package dependencies
 
 # 0.5.1
 
