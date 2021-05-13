@@ -1,3 +1,4 @@
+
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
   if (is.null(family)) family <- "stere"
@@ -55,13 +56,28 @@ automap_nothing <- function(sample_type = "polar") {
     xy
 }
 crunch_bathy <- function(target_raster) {
-  stars_to_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
-                                                    stars::st_as_stars(target_raster)))
+  out <- stars_to_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
+                                                    stars::st_as_stars(target_raster), method = "bilinear", use_gdal = TRUE))
 
+  oktogetdatadownload <- TRUE
+  .minimum_dimensions <- 640
+  current_dimensions <- dim(out)[1:2]
+  rat <- min(current_dimensions) / .minimum_dimensions
+  target_dimensions <- as.integer(current_dimensions / rat)
+
+  if (any(target_dimensions > current_dimensions)) {
+
+    if (oktogetdatadownload) {
+      dim(out) <- target_dimensions
+     srcdata <- ceramic::cc_location(out, max_tiles = 32, type = "elevation-tiles-prod")
+     out <- crunch_raster(srcdata, out)
+    }
+  }
+ out
 }
 crunch_raster <- function(source_raster, target_raster) {
   stars_to_raster(stars::st_warp(stars::st_as_stars(source_raster),
-                                      stars::st_as_stars(target_raster)))
+                                      stars::st_as_stars(target_raster), method = "bilinear", use_gdal = TRUE))
 
 }
 mid_point <- function (p, fold = FALSE) {
