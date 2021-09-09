@@ -29,7 +29,7 @@ SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE) {
     SObj <- SOproj(x = x, y = y, target = target, source = source, ...)
     everything <- par(no.readonly = TRUE)
     if (add && (is.matrix(x) || (is.numeric(x) && is.numeric(y)))) {
-        points(SObj, ...)
+        plot(SObj, add = TRUE, ...)
     } else {
         if (inherits(SObj, "BasicRaster")) {
             if (raster::nlayers(SObj) == 3) {
