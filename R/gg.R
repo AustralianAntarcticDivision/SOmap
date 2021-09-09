@@ -27,6 +27,10 @@
 #'   ## plot it
 #'   pg
 #'
+#'   ## If we want to change the legend breaks we can add breaks to the plotting arguments.
+#'   pg$scale_fill[[1]]$plotargs$breaks <- c(0,500,1000,4000)
+#'
+#'
 #'   ## when the print or plot method is called on pg, it creates an actual ggplot2
 #'   ##  object, which we can capture and modify
 #'   pg_gg <- plot(pg)
