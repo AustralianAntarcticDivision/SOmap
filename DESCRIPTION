@@ -1,7 +1,7 @@
 Package: SOmap
 Type: Package
 Title: Southern Ocean maps
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: c(person("Dale", "Maschette", email = "dale.maschette@aad.gov.au", role = c("aut", "cre")),
              person("Michael", "Sumner", role = "aut"),
              person("Ben", "Raymond", role = "aut"))
@@ -11,7 +11,8 @@ BugReports: https://github.com/AustralianAntarcticDivision/SOmap/issues
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+LazyDataCompression: xz
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 3.3.0), raster, sp
 Imports:
