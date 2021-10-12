@@ -1,13 +1,10 @@
 #' @importFrom vapour vapour_warp_raster
 .get_raad_gebco <- function(target) {
-
-  print("athing")
-  ## secret squirrel
+## secret squirrel
   src <- "/vsicurl/http://data.raadsync.cloud.edu.au/gebco/GEBCO_2019.tif"
   ext <- c(raster::xmin(target), raster::xmax(target), raster::ymin(target), raster::ymax(target))
   dm <- dim(target)[2:1]
   proj <- raster::projection(target)
-  print(dm)
   raster::setValues(target,
     vapour::vapour_warp_raster(src, extent = ext, dimension = dm, projection = proj, resample = "cubic")[[1L]])
 }
