@@ -4,8 +4,10 @@ output: rmarkdown::html_vignette
 author: "Ben Raymond, Michael Sumner, Dale Maschette, Anton Van de Putte"
 vignette: >
   %\VignetteIndexEntry{SOmap-introduction}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}

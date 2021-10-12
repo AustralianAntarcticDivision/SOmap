@@ -39,7 +39,6 @@ SOmap <- function(bathy_legend = TRUE, border = TRUE, trim = -45, graticules = F
 }
 
 SOmap_inner <- function(bathy_legend, border, trim, graticules, straight, land, land_col, ice, ice_col, fronts, fronts_col, border_col, border_width, graticules_col) {
-
     if (is.character(fronts)) {
         fronts <- match.arg(tolower(fronts), c("park", "orsi"))
     } else {
@@ -98,7 +97,7 @@ SOmap_inner <- function(bathy_legend, border, trim, graticules, straight, land, 
     if (ice) {
       xice <- sf::st_buffer(SOmap::SOmap_data$ant_coast_ice, 0)
       ## make sure the crs are equal because god forbid we wouldn't want to be making things useable ...
-      xice <- sf::st_set_crs(xice, sf::st_crs(buf))
+      suppressWarnings(xice <- sf::st_set_crs(xice, sf::st_crs(buf)))
       out$ice <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xice)$geometry), col = NA, border = ice_col, add = TRUE))
 
       out$plot_sequence <- c(out$plot_sequence, "ice")
