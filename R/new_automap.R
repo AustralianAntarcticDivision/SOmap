@@ -4,7 +4,6 @@
   src <- "/vsicurl/http://data.raadsync.cloud.edu.au/gebco/GEBCO_2019.tif"
   ext <- c(raster::xmin(target), raster::xmax(target), raster::ymin(target), raster::ymax(target))
   dm <- dim(target)[2:1]
-  print(dm)
   proj <- raster::projection(target)
   raster::setValues(target,
     vapour::vapour_warp_raster(src, extent = ext, dimension = dm, projection = proj, resample = "cubic")[[1L]])
