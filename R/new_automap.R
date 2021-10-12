@@ -1,3 +1,13 @@
+#' @importFrom vapour vapour_warp_raster
+.get_raad_gebco <- function(target) {
+## secret squirrel
+  src <- "/vsicurl/http://data.raadsync.cloud.edu.au/gebco/GEBCO_2019.tif"
+  ext <- c(raster::xmin(target), raster::xmax(target), raster::ymin(target), raster::ymax(target))
+  dm <- dim(target)[2:1]
+  proj <- raster::projection(target)
+  raster::setValues(target,
+    vapour::vapour_warp_raster(src, extent = ext, dimension = dm, projection = proj, resample = "cubic")[[1L]])
+}
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
   if (is.null(family)) family <- "stere"
@@ -75,7 +85,14 @@ mid_point <- function (p, fold = FALSE) {
 #' @param target defaults to a projection family "stere", if set to NULL uses the projection of 'x'
 automap_maker <-
   function(x, y = NULL, centre_lon = NULL, centre_lat = NULL, target = "stere",
-           dimXY = c(300, 300), ...) {
+           dimXY = NULL, expand = 0.05, ...) {
+    if (is.null(dimXY)) {
+      if (dev.cur() == 1) {
+        dimXY <- c(1024, 1024)
+      } else {
+        dimXY <- ceiling(dev.size("px") * 0.9)
+      }
+    }
     if (missing(x) && is.null(y)) {
       x <- automap_nothing(sample_type = "polar")
     }
@@ -193,8 +210,26 @@ automap_maker <-
       dim(tgt_raster)<- dimXY
 
     }
+
     if (!is.null(llxy)) xy <- reproj::reproj(llxy, tgt_prj, source = llproj)[, 1:2, drop = FALSE]
-    bathymetry <- crunch_bathy(tgt_raster)
+
+    if (abs(expand) > 0) {
+      xl <- spex::xlim(tgt_raster)
+      yl <- spex::ylim(tgt_raster)
+
+      xl <- xl + c(-1, 1) * expand * diff(xl)
+      yl <- yl + c(-1, 1) * expand * diff(yl)
+      raster::extent(tgt_raster) <- raster::extent(xl, yl)
+      dim(tgt_raster) <- dimXY
+
+    }
+
+
+
+    bathymetry <- try(.get_raad_gebco(tgt_raster), silent = TRUE)
+    if (inherits(bathymetry, "try-error")) {
+      bathymetry <- crunch_bathy(tgt_raster)
+    }
     #bathymetry <- raster::trim(bathymetry)
     SOcrs(raster::projection(bathymetry))
 

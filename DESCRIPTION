@@ -12,7 +12,7 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 3.3.0), raster, sp
 Imports:
@@ -32,6 +32,7 @@ Imports:
     spbabel,
     spex (>= 0.6.0),
     stars,
+    vapour (>= 0.8.5),
     tabularaster,
     tibble,
     uuid,

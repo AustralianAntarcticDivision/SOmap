@@ -50,7 +50,7 @@
 #'                 input_lines = FALSE)
 #' }
 SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "stere",
-                       dimXY = c(300, 300),
+                       dimXY = c(1024, 1024),
                        bathy = TRUE, land = TRUE, land_col = "black", ice = TRUE, ice_col = "black",
                        input_points = TRUE, input_lines = TRUE,
                        graticule = TRUE, expand = 0.05,
@@ -103,23 +103,12 @@ SOmap_auto_inner <- function(x, y, centre_lon, centre_lat, target, dimXY, bathy,
     ## END automap_nothing ----
 
     ## automap_maker ----
-    amap <- automap_maker(x, y = y, centre_lon = centre_lon, centre_lat = centre_lat, target = target, dimXY = dimXY)
+    amap <- automap_maker(x, y = y, centre_lon = centre_lon, centre_lat = centre_lat, target = target, dimXY = dimXY, expand = expand)
     xy <- amap$xy
     target <- amap$target
     prj <- raster::projection(target)
     ## END automap_maker
 
-    if (abs(expand) > 0) {
-      xl <- spex::xlim(target)
-      yl <- spex::ylim(target)
-
-      xl <- xl + c(-1, 1) * expand * diff(xl)
-      yl <- yl + c(-1, 1) * expand * diff(yl)
-      raster::extent(target) <- raster::extent(xl, yl)
-      dim(target) <- dimXY
-      target <- crunch_bathy(target)
-
-    }
 
     ## we have target, and we have performed expansion so xlim and ylim are ready
     xlim <- spex::xlim(target)
