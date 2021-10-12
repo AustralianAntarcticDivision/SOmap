@@ -10,7 +10,7 @@ SOmap_auto(
   centre_lon = NULL,
   centre_lat = NULL,
   target = "stere",
-  dimXY = c(300, 300),
+  dimXY = c(1024, 1024),
   bathy = TRUE,
   land = TRUE,
   land_col = "black",
