@@ -1,12 +1,21 @@
 #' @importFrom vapour vapour_warp_raster
 .get_raad_gebco <- function(target) {
-## secret squirrel
-  src <- "/vsicurl/http://data.raadsync.cloud.edu.au/gebco/GEBCO_2019.tif"
+  src <- getOption("SOmap.auto.topography.source")
+  if (is.null(src)) {
+    ## secret squirrel
+    src <- "/vsicurl/http://data.raadsync.cloud.edu.au/gebco/GEBCO_2019.tif"
+  }
+  ri <- vapour::vapour_raster_info(src)$projection
+  if (nchar(ri) < 1) {
+    source_projection <- "OGC:CRS84"
+  } else {
+    source_projection <- NULL
+  }
   ext <- c(raster::xmin(target), raster::xmax(target), raster::ymin(target), raster::ymax(target))
   dm <- dim(target)[2:1]
   proj <- raster::projection(target)
   raster::setValues(target,
-    vapour::vapour_warp_raster(src, extent = ext, dimension = dm, projection = proj, resample = "cubic")[[1L]])
+    vapour::vapour_warp_raster(src, extent = ext, dimension = dm, projection = proj, resample = "cubic", source_wkt = source_projection)[[1L]])
 }
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
