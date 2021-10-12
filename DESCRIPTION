@@ -32,7 +32,7 @@ Imports:
     spbabel,
     spex (>= 0.6.0),
     stars,
-    vapour (>=0.8.5),
+    vapour (>= 0.8.5),
     tabularaster,
     tibble,
     uuid,
