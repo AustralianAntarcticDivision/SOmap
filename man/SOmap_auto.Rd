@@ -11,6 +11,7 @@ SOmap_auto(
   centre_lat = NULL,
   target = "stere",
   dimXY = c(1024, 1024),
+
   bathy = TRUE,
   land = TRUE,
   land_col = "black",
@@ -46,7 +47,7 @@ SOmap_auto(
 
 \item{target}{optional projection family (default is \code{stere}ographic), or full PROJ string (see Details)}
 
-\item{dimXY}{dimensions of background bathmetry (if used) default is 300x300}
+\item{dimXY}{dimensions of background bathmetry (if used), a default is provided}
 
 \item{bathy}{logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{Raster} object}
 

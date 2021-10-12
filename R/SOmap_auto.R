@@ -11,7 +11,7 @@
 #' @param centre_lon optional centre longitude (of the map projection, also used to for plot range if `expand = TRUE`)
 #' @param centre_lat as per `centre_lon`
 #' @param target optional projection family (default is `stere`ographic), or full PROJ string (see Details)
-#' @param dimXY dimensions of background bathmetry (if used) default is 300x300
+#' @param dimXY dimensions of background bathmetry (if used), a default is provided
 #' @param bathy logical: if \code{TRUE}, plot bathymetry. Alternatively, provide the bathymetry data to use as a \code{Raster} object
 #' @param land logical: if \code{TRUE}, plot coastline. Alternatively, provide the coastline data to use as a \code{Spatial} object
 #' @param land_col character: colour to use for plotting the coastline
@@ -50,7 +50,7 @@
 #'                 input_lines = FALSE)
 #' }
 SOmap_auto <- function(x, y, centre_lon = NULL, centre_lat = NULL, target = "stere",
-                       dimXY = c(1024, 1024),
+                       dimXY = c(512, 512),
                        bathy = TRUE, land = TRUE, land_col = "black", ice = TRUE, ice_col = "black",
                        input_points = TRUE, input_lines = TRUE,
                        graticule = TRUE, expand = 0.05,
