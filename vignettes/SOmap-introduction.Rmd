@@ -1,6 +1,9 @@
 ---
 title: "SOmap-introduction"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    fig_width: 7
+    fig_height: 7
 author: "Ben Raymond, Michael Sumner, Dale Maschette, Anton Van de Putte"
 vignette: >
   %\VignetteIndexEntry{SOmap-introduction}

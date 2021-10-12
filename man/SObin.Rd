@@ -10,7 +10,7 @@ SObin(
   baselayer = NULL,
   ...,
   col = viridisLite::viridis(26),
-  dim = c(300, 300),
+  dim = c(512, 512),
   add = TRUE,
   target = NULL,
   source = NULL,
