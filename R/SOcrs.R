@@ -19,3 +19,15 @@ SOcrs <- function(crs = NULL) {
   if (is.null(crs)) warning("No SOmap.crs.inuse")
   crs
 }
+
+
+SOextent <- function(extent = NULL) {
+  if (!is.null(extent)) {
+    options(SOmap.extent.inuse = extent)
+    return(extent)
+  }
+  extent <- getOption("SOmap.extent.inuse")
+  if (is.null(crs)) warning("No SOmap.extent.inuse")
+  extent
+
+}

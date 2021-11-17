@@ -164,6 +164,7 @@ print.SOmap <- function(x, ...) {
     #on.exit(par(op))
     ## record current CRS
     SOcrs(x$projection)
+    SOextent(c(-180, 180, -90, x$trim))
     ## iterate through plot_sequence
     plot_all(x)
     invisible(x)

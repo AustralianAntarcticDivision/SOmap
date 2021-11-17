@@ -40,13 +40,13 @@ SOplot(sst, col = palr::sstPal(100))
 #SOplot(sst, col = palr::sstPal(100))
 
 SOmap_auto(ice, target = "laea", centre_lon = 147, centre_lat = -42)
-SOplot(ice, col = palr::icePal(100))
+SOplot(ice, col = palr::ice_pal(100))
 
 SOmap_auto(ice, centre_lon = 147, centre_lat = -42)
-SOplot(ice, col = palr::icePal(100))
+SOplot(ice, col = palr::ice_pal(100))
 
 SOmap_auto(ice, target = "merc", centre_lon = 147, centre_lat = -42)
-SOplot(ice, col = palr::icePal(100))
+SOplot(ice, col = palr::ice_pal(100))
 
 ramp2 <- grDevices::colorRampPalette(c("#54A3D1","#60B3EB","#78C8F0","#98D1F5","#B5DCFF","#BDE1F0","#CDEBFA","#D6EFFF","#EBFAFF","grey92","grey94","grey96", "white"))
 bluepal <- ramp2(45)

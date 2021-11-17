@@ -73,19 +73,19 @@ SOmap_auto(ice)
 ```{r examples13, eval=FALSE}
 
 SOmap_auto(ice, target = "laea", centre_lon = 147, centre_lat = -42)
-SOplot(ice, col = palr::icePal(100))
+SOplot(ice, col = palr::ice_pal(100))
 ```
 
 ```{r examples14, eval = TRUE}
 
 SOmap_auto(ice, centre_lon = 147, centre_lat = -42)
-SOplot(ice, col = palr::icePal(100))
+SOplot(ice, col = palr::ice_pal(100))
 ```
 
 ```{r examples15, eval = TRUE}
 
 SOmap_auto(ice, target = "merc", centre_lon = 147, centre_lat = -42)
-SOplot(ice, col = palr::icePal(100))
+SOplot(ice, col = palr::ice_pal(100))
 ```
 
 ```{r examples16, eval = TRUE}

@@ -37,6 +37,7 @@
 #' @importFrom sp coordinates<-
 SOproj <- function(x, y = NULL, target = NULL, data, ..., source = NULL) {
     ## wrap in `quietly` to suppress unwanted warnings
+  if (is.null(source)) source <- "+proj=longlat +datum=WGS84"
     quietly(SOproj_inner(x = x, y = y, target = target, data = data, ..., source = source))
 }
 
@@ -87,6 +88,7 @@ SOproj_inner <- function(x, y, target, data, ..., source) {
       source <- "+proj=longlat +datum=WGS84"
     }
     #browser()
+
     xy0 <- reproj::reproj(cbind(x, y), target = target, source = source)
     out <- data.frame(x = xy0[,1], y = xy0[,2], data = data)
     sp::coordinates(out) <- c("x", "y")
