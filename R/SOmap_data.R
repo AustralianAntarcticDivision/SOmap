@@ -80,10 +80,10 @@
 #'     }
 #'   \item EEZ
 #'     \itemize{
-#'       \item Description: An exclusive economic zone (EEZ) is a sea zone prescribed by the United Nations Convention on the Law of the Sea over which a state has special rights regarding the exploration and use of marine resources. Included are the EEZs that intersect the CCAMLR convention area. Some of these are currently in dispute.
-#'       \item Source: CCAMLR
-#'       \item URL: https://data.ccamlr.org/dataset/exclusive-economic-zones
-#'       \item License: Not specified
+#'       \item Description: An exclusive economic zone (EEZ) is a sea zone prescribed by the United Nations Convention on the Law of the Sea over which a state has special rights regarding the exploration and use of marine resources.
+#'       \item Source: Flanders Marine Institute (2020). Union of the ESRI Country shapefile and the Exclusive Economic Zones (version 3). https://doi.org/10.14284/403
+#'       \item URL: https://www.marineregions.org/
+#'       \item License: CC-BY
 #'     }
 #'   \item fronts_orsi
 #'     \itemize{
