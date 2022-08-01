@@ -2,7 +2,7 @@ context("merging of SOmap objects")
 
 test_that("merging works", {
     mymap <- SOmap(bathy_legend = "space") ## leave space for bathy legend
-    mylegend <- SOleg(x = runif(100), position = "topright", col = viridisLite::viridis(80),
+    mylegend <- SOleg(x = runif(100), position = "topright", col = hcl.colors(80, "Viridis"),
                       breaks = c(0.1, 0.2, 0.5, 0.9), trim = -45, label = "Thing",
                       rnd = 1, type = "continuous")
     mymgmt <- SOmanagement(eez = TRUE, basemap = mymap)

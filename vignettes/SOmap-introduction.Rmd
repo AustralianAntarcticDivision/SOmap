@@ -345,7 +345,7 @@ However, the overlap of the points reduces the utility of the map. One option is
 ```{r sobin2}
 plot(base_map)
 SObin(x = points$lon, y = points$lat, dim = c(100, 100),
-      col = viridisLite::viridis(100), legend = FALSE, add = TRUE)
+      col = hcl.colors(100, "Viridis"), legend = FALSE, add = TRUE)
 ```
 
 
@@ -498,7 +498,7 @@ A new function in SOmap version 0.6 is `SOmerge`, which can take separate object
 
 ```{r somerge1}
 mymap <- SOmap(bathy_legend = "space")
-mylegend <- SOleg(x = runif(100), position = "topright", col = viridisLite::viridis(80),
+mylegend <- SOleg(x = runif(100), position = "topright", col = hcl.colors(80, "Viridis"),
                   breaks = c(0.1, 0.2, 0.5, 0.9), trim = -45, label = "Thing",
                   rnd = 1, type = "continuous")
 mymgmt <- SOmanagement(eez = TRUE, basemap = mymap)

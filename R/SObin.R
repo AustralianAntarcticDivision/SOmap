@@ -20,7 +20,7 @@
 #' SOmap_auto()
 #' pts <- geosphere::randomCoordinates(1e6)
 #' bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
-SObin <- function(x, y = NULL, baselayer = NULL, ..., col = viridisLite::viridis(26), dim = c(512, 512), add = TRUE, target = NULL, source = NULL, data.frame = FALSE) {
+SObin <- function(x, y = NULL, baselayer = NULL, ..., col = hcl.colors(26, "Viridis"), dim = c(512, 512), add = TRUE, target = NULL, source = NULL, data.frame = FALSE) {
     assert_that(is.flag(add), !is.na(add))
     if (dev.cur() == 1L && add) {
         stop("There is no existing plot to add to")

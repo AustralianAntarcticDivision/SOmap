@@ -67,11 +67,11 @@ Rounded legends for SOmap
   SOmap()
 
   ## Discrete Legend
-  SOleg(position = "topleft", col = viridisLite::viridis(5),
+  SOleg(position = "topleft", col = hcl.colors(5, "Viridis"),
         tlabs = c("a", "b", "c", "d", "e"), trim = -45, label = "Species")
 
   ## Continuous Legend
-  SOleg(x = runif(100), position = "topright", col = viridisLite::viridis(80),
+  SOleg(x = runif(100), position = "topright", col = hcl.colors(80, "Viridis"),
         breaks = c(0.1, 0.2, 0.5, 0.9), trim = -45, label = "Species",
         rnd = 1, type = "continuous")
 }

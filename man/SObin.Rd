@@ -9,7 +9,7 @@ SObin(
   y = NULL,
   baselayer = NULL,
   ...,
-  col = viridisLite::viridis(26),
+  col = hcl.colors(26, "Viridis"),
   dim = c(512, 512),
   add = TRUE,
   target = NULL,

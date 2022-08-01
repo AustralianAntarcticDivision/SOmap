@@ -12,9 +12,9 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 3.3.0), raster, sp
+Depends: R (>= 3.6.0), raster, sp
 Imports:
     assertthat,
     dplyr,
@@ -36,8 +36,7 @@ Imports:
     vapour (>= 0.8.5),
     tabularaster,
     tibble,
-    uuid,
-    viridisLite
+    uuid
 Suggests:
     adehabitatLT,
     covr,
