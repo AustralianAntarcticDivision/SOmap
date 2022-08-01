@@ -5,6 +5,8 @@ psproj <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum
 library(sp)
 library(raster)
 require(curl)
+library(sf)
+sf_use_s2(FALSE)
 
 get_unzip_data <- function(this_url, fname = basename(this_url)) {
     working_dir <- tempfile()
@@ -126,36 +128,30 @@ fronts_orsi <- spTransform(orsifronts::orsifronts, CRS(psproj))
 chk <- sapply(names(fronts_orsi), function(z) length(tools::showNonASCII(fronts_orsi[[z]])) > 0)
 if (any(chk)) stop("non-ASCII chars in fronts_orsi data")
 
-## eez and eez_coast (was EEZ1)
-files <- get_unzip_data("https://data.ccamlr.org/sites/default/files/eez-shapefile-WGS84.zip")
-EEZ1 <- spTransform(raster::shapefile(files[grepl("shp$", files)]), CRS(psproj))
-
 if (FALSE) {
-    ## or to derive from the original files from marineregions.org
+    ## eez and eez_coast (was EEZ1)
+    files <- get_unzip_data("https://data.ccamlr.org/sites/default/files/eez-shapefile-WGS84.zip")
+    EEZ1 <- spTransform(raster::shapefile(files[grepl("shp$", files)]), CRS(psproj))
+} else {
+    ## get all EEZs south of 5S, using original files from marineregions.org
     ##devtools::install_github('SymbolixAU/geojsonsf')
     library(geojsonsf)
-    eezlist <- lapply(c(25513, 8383, 8385, 8388, 8387, 8384, 8399), function(id) {
-  key <- if (id %in% c(25513)) "eez_iho" else "eez"
-  this_url <- paste0("http://geo.vliz.be/geoserver/wfs?request=getfeature&service=wfs&version=1.1.0&typename=MarineRegions:", key, "&outputformat=json&filter=%3CPropertyIsEqualTo%3E%3CPropertyName%3Emrgid%3C%2FPropertyName%3E%3CLiteral%3E", id, "%3C%2FLiteral%3E%3C%2FPropertyIsEqualTo%3E") ## geojson
-
-  tf <- tempfile(fileext = ".json")
-  download.file(this_url, destfile = tf)
-  geojson_sf(tf)
-})
-
-    common <- purrr::reduce(purrr::map(eezlist, names), intersect)
-    eez_coast <- st_geometry(sf::st_transform(do.call(rbind, purrr::map(eezlist, ~.x[common])), psproj))
-
-    ## kill the coast
-    library(dplyr)
-    eez <- st_cast(eez_coast, "POLYGON")
-    ##g <- st_geometry(eez)
-    ##eez <- st_set_geometry(eez, sf::st_sfc(lapply(g, function(x) sf::st_polygon(x[1])), crs = st_crs(g))) %>% dplyr::select(territory1, everything())
-    eez <- sf::st_sfc(lapply(eez, function(x) sf::st_polygon(x[1])), crs = st_crs(eez))
-    eez_coast <- as(eez_coast, "Spatial")
-    EEZ1 <- as(eez, "Spatial")
+    sf_use_s2(FALSE)
+    this_url <- "http://geo.vliz.be/geoserver/wfs?request=getfeature&service=wfs&version=1.1.0&typename=MarineRegions:eez_land&outputformat=json"
+    tf <- tempfile(fileext = ".json")
+    curl::curl_download(this_url, destfile = tf)
+    eez0 <- geojson_sf(tf)
+    eez <- st_crop(eez0, c(xmin = -180, xmax = 180, ymin = -90, ymax = -5))
+    eez <- eez[eez$sovereign1 != "Antarctica", ]
+    ## project to polar stereo and then re-merge polygons that were split across the 180E line
+    xfm <- function(x) {
+        x <- st_transform(x, psproj) %>% st_geometry() %>% st_set_precision(10) %>% st_as_binary() %>% st_as_sfc(crs = psproj)
+        st_union(st_cast(x, "POLYGON"))
+    }
+    suppressMessages(EEZ1 <- lapply(seq_len(nrow(eez)), function(i) xfm(eez[i, ])))
+    EEZ1 <- do.call(c, EEZ1)
+    EEZ1 <- as(EEZ1, "Spatial")
 }
-
 
 ## october and february ice extents
 files <- get_unzip_data("ftp://sidads.colorado.edu/DATASETS/NOAA/G02135/south/monthly/shapefiles/shp_median/median_extent_S_10_1981-2010_polyline_v3.0.zip")
