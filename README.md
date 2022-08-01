@@ -1,10 +1,5 @@
 
-[![Travis build
-status](https://travis-ci.org/AustralianAntarcticDivision/SOmap.svg?branch=master)](https://travis-ci.org/AustralianAntarcticDivision/SOmap)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/AustralianAntarcticDivision/SOmap?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/SOmap)
-[![Coverage
-status](https://codecov.io/gh/AustralianAntarcticDivision/SOmap/branch/master/graph/badge.svg)](https://codecov.io/github/AustralianAntarcticDivision/SOmap?branch=master)
+[![R-CMD-check](https://github.com/AustralianAntarcticDivision/SOmap/workflows/R-CMD-check/badge.svg)](https://github.com/AustralianAntarcticDivision/SOmap/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/SOmap)](https://cran.r-project.org/package=SOmap)
 

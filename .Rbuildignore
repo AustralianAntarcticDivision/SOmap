@@ -13,3 +13,4 @@
 ^pkgdown$
 ^.github$
 ^gdalwmscache$
+^\.github$
