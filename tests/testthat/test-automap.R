@@ -22,7 +22,7 @@ test_that("auto map works", {
    expect_true(grepl("laea", rx$projection))
 
    expect_silent(print(rx))
-   expect_message(SOplot(c(102, 105), c(-64, -68)))
+   expect_silent(SOplot(c(102, 105), c(-64, -68)))
    #expect_silent(SOplot(SOmap_data$continent))
    #expect_silent(SOplot(SOmap_data$seaice_oct))
    skip("skipping vdiffr tests temporarily")

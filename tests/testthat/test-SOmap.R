@@ -22,7 +22,7 @@ test_that("SOmap returns a SOmap object", {
 test_that("adding data to a plot is fine", {
     longitudes <- c(-180, -90, 0, 90)
     latitudes <- c(-50, -60, -50,-60)
-    expect_message(SOplot(longitudes, latitudes, pch = 1:4, add = FALSE))
+    expect_silent(SOplot(longitudes, latitudes, pch = 1:4))
     ## expect_silent(SOplot(SOmap_data$seaice_oct))
 
     SOplot(raster::crop(Bathy, raster::extent(1e6, 2e6, 1e6, 3e6)))
