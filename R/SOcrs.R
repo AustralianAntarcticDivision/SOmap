@@ -27,7 +27,7 @@ SOextent <- function(extent = NULL) {
     return(extent)
   }
   extent <- getOption("SOmap.extent.inuse")
-  if (is.null(crs)) warning("No SOmap.extent.inuse")
+  if (is.null(extent)) warning("No SOmap.extent.inuse")
   extent
 
 }
