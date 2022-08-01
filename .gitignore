@@ -8,3 +8,4 @@ R/testing SOleg breaks.r
 *~
 inst/doc
 pkgdown/
+gdalwmscache/

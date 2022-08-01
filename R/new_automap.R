@@ -241,6 +241,6 @@ automap_maker <-
     }
     #bathymetry <- raster::trim(bathymetry)
     SOcrs(raster::projection(bathymetry))
-
+    SOextent(c(raster::xmin(src_extent), raster::xmax(src_extent), raster::ymin(src_extent), raster::ymax(src_extent)))
     return(list(target = bathymetry, xy = xy))
   }
