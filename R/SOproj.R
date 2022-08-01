@@ -235,13 +235,13 @@ reproj_SO_plotter <- function(x, target, source) {
 
 #' @name reproj
 #' @export
+#' @importFrom terra rast project
 reproj.BasicRaster <- function(x, target, ..., source = NULL) {
   targ <- raster::projectExtent(x, target)
   if (raster::nlayers(x) == 3) {
-    out <- raster::projectRaster(x, targ, method = "ngb")
-
+    out <-  raster::raster(terra::project(terra::rast(x), terra::rast(targ), method = "near"))   ## raster::projectRaster(x, targ, method = "ngb")
   } else {
-   out <-  raster::projectRaster(x, targ)
+   out <-  raster::raster(terra::project(terra::rast(x), terra::rast(targ)))   ##raster::projectRaster(x, targ)
   }
   out
 }

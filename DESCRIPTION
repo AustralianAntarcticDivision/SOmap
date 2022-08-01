@@ -32,6 +32,7 @@ Imports:
     spbabel,
     spex (>= 0.6.0),
     stars,
+    terra,
     vapour (>= 0.8.5),
     tabularaster,
     tibble,

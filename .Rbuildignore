@@ -12,3 +12,4 @@
 ^R\Setup_sysdata.R
 ^pkgdown$
 ^.github$
+^gdalwmscache$
