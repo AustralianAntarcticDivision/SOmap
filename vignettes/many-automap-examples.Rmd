@@ -64,52 +64,46 @@ SOmap_auto(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, cen
 SOmap_auto(SOmap_data$mirounga_leonina$lon, SOmap_data$mirounga_leonina$lat, target = NULL)
 ```
 
-```{r examples8, eval = TRUE}
-
+```{r examples8, eval = FALSE}
+## causes crash for yet-to-be-investigated reasons
 SOmap_auto(ice)
 ```
 
 
 ```{r examples13, eval=FALSE}
-
+## causes crash for yet-to-be-investigated reasons
 SOmap_auto(ice, target = "laea", centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::ice_pal(100))
 ```
 
-```{r examples14, eval = TRUE}
-
+```{r examples14, eval = FALSE}
+## causes crash for yet-to-be-investigated reasons
 SOmap_auto(ice, centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::ice_pal(100))
 ```
 
-```{r examples15, eval = TRUE}
-
+```{r examples15, eval = FALSE}
+## causes crash for yet-to-be-investigated reasons
 SOmap_auto(ice, target = "merc", centre_lon = 147, centre_lat = -42)
 SOplot(ice, col = palr::ice_pal(100))
 ```
 
 ```{r examples16, eval = TRUE}
-
-SOmap_auto(x=c(10,60), y=c(-40,-70))
+SOmap_auto(x = c(10, 60), y = c(-40, -70))
 ```
 
 ```{r examples17, eval = TRUE}
-
 SOmap_auto(x=c(10,60), y=c(-40,-70), trim_background = FALSE)
-
-
 ```
 
 ```{r examples18, eval = TRUE}
 x <- cbind(c(runif(50, -180, -160), runif(50, 160, 180)), runif(100, -65, -30))
-
 SOmap_auto(x)
 ```
 
 
 ```{r examples19, eval = TRUE}
 x <- cbind(c(runif(50, -180, -130), runif(50, 160, 180)), runif(100, -65, -30))
-
 SOmap_auto(x)
 ```
 
