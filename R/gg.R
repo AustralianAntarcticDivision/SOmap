@@ -142,7 +142,7 @@ SOgg_notauto <- function(x) {
     out$coord <- SO_plotter(plotfun = "ggplot2::coord_sf", plotargs = list(default = TRUE))
     out$plot_sequence <- c("init", "bathy", "coord")
 
-    out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, na.value = "#FFFFFF00", guide = if (!x$straight) FALSE else "colourbar", limits = c(-9638, 5145)))
+    out$scale_fill <- SO_plotter(plotfun = "ggplot2::scale_fill_gradientn", plotargs = list(colours = x$bathy[[1]]$plotargs$col, na.value = "#FFFFFF00", guide = if (!x$straight) "none" else "colourbar", limits = c(-9638, 5145)))
     out$plot_sequence <- c(out$plot_sequence, "scale_fill")
 
     if (!is.null(x$bathy_legend) && "bathy_legend" %in% x$plot_sequence && !x$straight) {
