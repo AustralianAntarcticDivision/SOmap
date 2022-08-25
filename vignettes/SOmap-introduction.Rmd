@@ -520,7 +520,7 @@ my_ggplot + geom_point(data = as.data.frame(my_points), aes(lon, lat, colour = z
   scale_colour_distiller(palette = "Spectral")
 ```
 
-Multiple rasters or multiple sets of points gets tricky if they are on different scales, because `ggplot2` is only designed to work with a single colour scale per geometry type. You can try your luck with the `ggnewscale` or `relayer` packages, although both are in a fairly experimental stage of development.
+Multiple rasters or multiple sets of points gets tricky if they are on different scales, because `ggplot2` is only designed to work with a single colour scale per geometry type. You can try your luck with the `ggnewscale` or `relayer` packages, although the latter in particular is in a fairly experimental stage of development.
 
 ```{r somap5f, warning = FALSE, message = FALSE}
 ## remotes::install_github("clauswilke/relayer")
@@ -533,7 +533,6 @@ plot(SOgg(SOmap(straight = TRUE))) +
 ```
 
 ```{r somap5g, warning = FALSE, message = FALSE}
-## remotes::install_github("eliocamp/ggnewscale")
 library(ggnewscale)
 plot(SOgg(SOmap(straight = TRUE))) +
   new_scale_fill() +

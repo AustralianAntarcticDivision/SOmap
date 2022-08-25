@@ -50,4 +50,4 @@ Suggests:
     relayer,
     vdiffr
 VignetteBuilder: knitr
-Remotes: clauswilke/relayer, eliocamp/ggnewscale
+Remotes: clauswilke/relayer
