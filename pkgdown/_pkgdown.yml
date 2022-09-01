@@ -1,0 +1,9 @@
+template:
+  bootstrap: 5
+  bootswatch: yeti
+  bslib:
+    base_font: {google: "Open Sans"}
+    heading_font: {google: "Bebas Neue"}
+    fg: "#222"
+    bg: "#FFFFFF"
+    primary: "#222"

@@ -7,5 +7,4 @@ R/Setup_sysdata.R
 R/testing SOleg breaks.r
 *~
 inst/doc
-pkgdown/
 gdalwmscache/

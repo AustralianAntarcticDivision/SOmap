@@ -22,9 +22,15 @@ The goal of SOmap is to make publication quality round Southern Ocean maps in po
 ## Installation
 The development version from [GitHub](https://github.com/AustralianAntarcticDivision/SOmap) with:
 
-``` r
+```{r eval = FALSE}
+install.packages("SOmap", repos = c(SCAR = "https://scar.r-universe.dev",
+                                    CRAN = "https://cloud.r-project.org"))
+
+## or
+
 ## install.packages("remotes") ## if needed
 remotes::install_github("AustralianAntarcticDivision/SOmap")
+
 ```
 ## Example
 

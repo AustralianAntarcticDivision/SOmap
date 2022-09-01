@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,23 +40,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -74,8 +70,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/AustralianAntarcticDivision/SOmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/AustralianAntarcticDivision/SOmap/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -94,118 +90,135 @@
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="somap-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#somap-" class="anchor"></a>SOmap <img src="reference/figures/logo.png" align="right">
+<div class="section level1">
+<div class="page-header"><h1 id="somap-">SOmap <img src="reference/figures/logo.png" align="right"><a class="anchor" aria-label="anchor" href="#somap-"></a>
 </h1></div>
 <p>The goal of SOmap is to make publication quality round Southern Ocean maps in polar projections with little effort. This package is still very much a work in progress contact me with any questions or suggestions.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>The development version from <a href="https://github.com/AustralianAntarcticDivision/SOmap">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co">## install.packages("remotes") ## if needed</span>
-<span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"AustralianAntarcticDivision/SOmap"</span>)</pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>The development version from <a href="https://github.com/AustralianAntarcticDivision/SOmap" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"SOmap"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>SCAR <span class="op">=</span> <span class="st">"https://scar.r-universe.dev"</span>,</span>
+<span>                                    CRAN <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## or</span></span>
+<span></span>
+<span><span class="co">## install.packages("remotes") ## if needed</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"AustralianAntarcticDivision/SOmap"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>To make a simple map you can use the following function; use <code><a href="reference/SOmap.html">? SOmap</a></code> to see all the options for modifying layers.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SOmap</span>)
-<span class="fu"><a href="reference/SOmap.html">SOmap</a></span>()</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/AustralianAntarcticDivision/SOmap" class="external-link">SOmap</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/SOmap.html">SOmap</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-examplemap-1.png" width="100%"></p>
 <p>There is also <code><a href="reference/SOmanagement.html">SOmanagement()</a></code> which provides management layers for the Southern Ocean and <code><a href="reference/SOleg.html">SOleg()</a></code> which gives custom rounded legends for added map layers.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="co">## custom colours</span>
-<span class="no">spiritedMedium</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#4D4140"</span>, <span class="st">"#596F7E"</span>, <span class="st">"#168B98"</span>,
-                                     <span class="st">"#ED5B67"</span>, <span class="st">"#E27766"</span>, <span class="st">"#DAAD50"</span>, <span class="st">"#EAC3A6"</span>))
-<span class="no">spirited</span> <span class="kw">&lt;-</span> <span class="fu">spiritedMedium</span>(<span class="fl">80</span>)
-
-<span class="fu"><a href="reference/SOmap.html">SOmap</a></span>(<span class="kw">trim</span> <span class="kw">=</span> -<span class="fl">40</span>)
-<span class="co">## add an example sea ice raster, which is bundled with SOmap</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">ice</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">spirited</span>, <span class="kw">add</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">legend</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.95</span>)
-<span class="fu"><a href="reference/SOleg.html">SOleg</a></span>(<span class="no">ice</span>, <span class="kw">position</span> <span class="kw">=</span> <span class="st">"topright"</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">spirited</span>, <span class="kw">ticks</span> <span class="kw">=</span> <span class="fl">6</span>,
-      <span class="kw">tlabs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"0"</span>, <span class="st">"20"</span>, <span class="st">"40"</span>, <span class="st">"60"</span>, <span class="st">"80"</span>, <span class="st">"100"</span>),
-      <span class="kw">trim</span> <span class="kw">=</span> -<span class="fl">40</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Sea Ice"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"continuous"</span>)
-
-<span class="co">## add the exclusive economic zones management layer</span>
-<span class="fu"><a href="reference/SOmanagement.html">SOmanagement</a></span>(<span class="kw">eez</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## custom colours</span></span>
+<span><span class="va">spiritedMedium</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4D4140"</span>, <span class="st">"#596F7E"</span>, <span class="st">"#168B98"</span>,</span>
+<span>                                     <span class="st">"#ED5B67"</span>, <span class="st">"#E27766"</span>, <span class="st">"#DAAD50"</span>, <span class="st">"#EAC3A6"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">spirited</span> <span class="op">&lt;-</span> <span class="fu">spiritedMedium</span><span class="op">(</span><span class="fl">80</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/SOmap.html">SOmap</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="op">-</span><span class="fl">40</span><span class="op">)</span></span>
+<span><span class="co">## add an example sea ice raster, which is bundled with SOmap</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ice</span>, col <span class="op">=</span> <span class="va">spirited</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, legend <span class="op">=</span> <span class="cn">FALSE</span>, alpha <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/SOleg.html">SOleg</a></span><span class="op">(</span><span class="va">ice</span>, position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">spirited</span>, ticks <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>      tlabs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"20"</span>, <span class="st">"40"</span>, <span class="st">"60"</span>, <span class="st">"80"</span>, <span class="st">"100"</span><span class="op">)</span>,</span>
+<span>      trim <span class="op">=</span> <span class="op">-</span><span class="fl">40</span>, label <span class="op">=</span> <span class="st">"Sea Ice"</span>, type <span class="op">=</span> <span class="st">"continuous"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## add the exclusive economic zones management layer</span></span>
+<span><span class="fu"><a href="reference/SOmanagement.html">SOmanagement</a></span><span class="op">(</span>eez <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-management-1.png" width="100%"></p>
 <p>Curved legends can be either continuous (as above) or discrete.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">spirited8</span> <span class="kw">&lt;-</span> <span class="fu">spiritedMedium</span>(<span class="fl">8</span>)
-
-<span class="fu"><a href="reference/SOmap.html">SOmap</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">centroids</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">spirited8</span>, <span class="kw">add</span><span class="kw">=</span><span class="fl">TRUE</span>, <span class="kw">pch</span><span class="kw">=</span><span class="fl">19</span>)
-<span class="fu"><a href="reference/SOleg.html">SOleg</a></span>(<span class="no">centroids</span>,<span class="kw">position</span> <span class="kw">=</span> <span class="st">"topright"</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">spirited8</span>, <span class="kw">ticks</span> <span class="kw">=</span> <span class="fl">8</span>,
-      <span class="kw">tlabs</span> <span class="kw">=</span><span class="fl">1</span>:<span class="fl">8</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Centroids"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"discrete"</span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">spirited8</span> <span class="op">&lt;-</span> <span class="fu">spiritedMedium</span><span class="op">(</span><span class="fl">8</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/SOmap.html">SOmap</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">centroids</span>, col<span class="op">=</span><span class="va">spirited8</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="fl">19</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/SOleg.html">SOleg</a></span><span class="op">(</span><span class="va">centroids</span>,position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">spirited8</span>, ticks <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>      tlabs <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>, label <span class="op">=</span> <span class="st">"Centroids"</span>, type <span class="op">=</span> <span class="st">"discrete"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-SOleg-1.png" width="100%"></p>
 <p>An <strong>automatic</strong> plot function <code><a href="reference/SOmap_auto.html">SOmap_auto()</a></code> will take any data in the form of longitude and latitude vectors and create a guess at a map.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">ellie</span> <span class="kw">&lt;-</span> <span class="no">SOmap_data</span>$<span class="no">mirounga_leonina</span>
-
-<span class="co">## construct and plot the map</span>
-<span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="no">ellie</span>$<span class="no">lon</span>, <span class="no">ellie</span>$<span class="no">lat</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ellie</span> <span class="op">&lt;-</span> <span class="va">SOmap_data</span><span class="op">$</span><span class="va">mirounga_leonina</span></span>
+<span></span>
+<span><span class="co">## construct and plot the map</span></span>
+<span><span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">ellie</span><span class="op">$</span><span class="va">lon</span>, <span class="va">ellie</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-automap-1.png" width="100%"></p>
 <p>The <code><a href="reference/SOmap_auto.html">SOmap_auto()</a></code>, <code><a href="reference/SOmap.html">SOmap()</a></code>, and <code><a href="reference/SOmap2.html">SOmap2()</a></code> functions return the data used to make the map so that further customization can be made. Plotting or printing the returned object will cause the map to be displayed in the graphics device.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"albatross"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"adehabitatLT"</span>)
-<span class="co">## convert the albatross data to a single matrix of lon, lat points</span>
-<span class="no">albatrack</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="no">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">albatross</span>, <span class="kw">function</span>(<span class="no">z</span>) <span class="kw pkg">rgdal</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgdal/man/project.html">project</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="no">z</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>, <span class="st">"y"</span>)]), <span class="fl">NA</span>), <span class="st">"+proj=utm +zone=42 +south +datum=WGS84"</span>, <span class="kw">inv</span> <span class="kw">=</span> <span class="fl">TRUE</span>)))
-
-<span class="co">## construct the map and return it, but don't plot it</span>
-<span class="no">alb_map</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="no">albatrack</span>[, <span class="fl">1</span>], <span class="no">albatrack</span>[, <span class="fl">2</span>])</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"albatross"</span>, package <span class="op">=</span> <span class="st">"adehabitatLT"</span><span class="op">)</span></span>
+<span><span class="co">## convert the albatross data to a single matrix of lon, lat points</span></span>
+<span><span class="va">albatrack</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">albatross</span>, <span class="kw">function</span><span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="fu">rgdal</span><span class="fu">::</span><span class="fu"><a href="http://rgdal.r-forge.r-project.org/reference/project.html" class="external-link">project</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">z</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span>, <span class="st">"+proj=utm +zone=42 +south +datum=WGS84"</span>, inv <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## construct the map and return it, but don't plot it</span></span>
+<span><span class="va">alb_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">albatrack</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="va">albatrack</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>Modifying this map object is currently a rather experimental process (proceed at your own risk!) but, for example, if we wished to change the points to be blue rather than red:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">alb_map</span>$<span class="no">pcol</span> <span class="kw">&lt;-</span> <span class="st">"blue"</span>
-<span class="co">## plot it</span>
-<span class="no">alb_map</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">alb_map</span><span class="op">$</span><span class="va">pcol</span> <span class="op">&lt;-</span> <span class="st">"blue"</span></span>
+<span><span class="co">## plot it</span></span>
+<span><span class="va">alb_map</span></span></code></pre></div>
 <p><img src="reference/figures/README-automap3-1.png" width="100%"></p>
 <p>We could also decide we want a reversed bathymetry color and cyan lines between the dots.</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="co"># change the line color </span>
-<span class="no">alb_map</span>$<span class="no">lcol</span> <span class="kw">&lt;-</span> <span class="st">"cyan"</span>
-<span class="co"># reverse the bathymetry</span>
-<span class="no">alb_map</span>$<span class="no">bathy_palette</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span>(<span class="no">alb_map</span>$<span class="no">bathy_palette</span>)
-
-<span class="co">## plot it</span>
-<span class="no">alb_map</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># change the line color </span></span>
+<span><span class="va">alb_map</span><span class="op">$</span><span class="va">lcol</span> <span class="op">&lt;-</span> <span class="st">"cyan"</span></span>
+<span><span class="co"># reverse the bathymetry</span></span>
+<span><span class="va">alb_map</span><span class="op">$</span><span class="va">bathy_palette</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">alb_map</span><span class="op">$</span><span class="va">bathy_palette</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## plot it</span></span>
+<span><span class="va">alb_map</span></span></code></pre></div>
 <p><img src="reference/figures/README-automap4-1.png" width="100%"></p>
 <p>Objects from <code>sf</code>, <code>sp</code>, or <code>raster</code> can also be used, but note that they will be used for their extents only and will not automatically be plotted. But we can plot them easily with <code>SOplot</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="co">## use the bundled fronts data as an example</span>
-<span class="no">mydata</span> <span class="kw">&lt;-</span> <span class="no">SOmap_data</span>$<span class="no">fronts_orsi</span>
-<span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="no">mydata</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="st">"laea"</span>, <span class="kw">centre_lon</span> <span class="kw">=</span> <span class="fl">147</span>)
-<span class="fu"><a href="reference/SOplot.html">SOplot</a></span>(<span class="no">mydata</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## use the bundled fronts data as an example</span></span>
+<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="va">SOmap_data</span><span class="op">$</span><span class="va">fronts_orsi</span></span>
+<span><span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">mydata</span>, target <span class="op">=</span> <span class="st">"laea"</span>, centre_lon <span class="op">=</span> <span class="fl">147</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">mydata</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-automap-spatial-1.png" width="100%"></p>
 </div>
-<div id="easy-projections" class="section level2">
-<h2 class="hasAnchor">
-<a href="#easy-projections" class="anchor"></a>Easy projections</h2>
+<div class="section level2">
+<h2 id="easy-projections">Easy projections<a class="anchor" aria-label="anchor" href="#easy-projections"></a>
+</h2>
 <p><code>SOmap</code> goes with the philosophy “we actually rather like ourselves, and care about our experience” and so there are some easy ways to work with projections, and <quote>just map it!</quote>.</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1</span>)
-<span class="no">amap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span>(<span class="kw">input_points</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">input_lines</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="no">amap</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">amap</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span>input_points <span class="op">=</span> <span class="cn">FALSE</span>, input_lines <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">amap</span></span></code></pre></div>
 <p><img src="reference/figures/README-auto-setup-1.png" width="100%"></p>
 <p>To add data to this plot we can just do so.</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="no">amap</span>
-<span class="fu"><a href="reference/SOplot.html">SOplot</a></span>(<span class="no">SOmap_data</span>$<span class="no">seaice_oct</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"blue"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">amap</span></span>
+<span><span class="fu"><a href="reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">SOmap_data</span><span class="op">$</span><span class="va">seaice_oct</span>, lwd <span class="op">=</span> <span class="fl">3</span>, col <span class="op">=</span> <span class="st">"blue"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-just-map-it-1.png" width="100%"></p>
 <p><code><a href="reference/SOplot.html">SOplot()</a></code> will add data by default, and can take spatial objects or even raw longitude and latitude values (we like you). When a plot is set up the <em>coordinate reference system</em> used is recorded so that we can use it again. The projection <em>currently in use</em> is always available by running <code><a href="reference/SOcrs.html">SOcrs()</a></code>.</p>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="fu"><a href="reference/SOcrs.html">SOcrs</a></span>()
-<span class="co">#&gt; [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/SOcrs.html">SOcrs</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "+proj=stere +lon_0=-36.8427233395983 +lat_0=-76.5139986273002 +lat_ts=71 +datum=WGS84"</span></span></code></pre></div>
 <p>Many objects can be reprojected with <code><a href="reference/SOproj.html">SOproj()</a></code>, including the map objects themselves.</p>
-<div class="sourceCode" id="cb13"><pre class="r">
-<span class="no">prj</span> <span class="kw">&lt;-</span> <span class="st">"+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"</span>
-<span class="co">## reproject a raster</span>
-<span class="fu"><a href="reference/SOproj.html">SOproj</a></span>(<span class="no">ice</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="no">prj</span>)
-<span class="co">#&gt; class      : RasterLayer </span>
-<span class="co">#&gt; dimensions : 342, 326, 111492  (nrow, ncol, ncell)</span>
-<span class="co">#&gt; resolution : 32837.52, 31606.02  (x, y)</span>
-<span class="co">#&gt; extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 </span>
-<span class="co">#&gt; source     : memory</span>
-<span class="co">#&gt; names      : nt_20181015_f18_nrt_s.bin </span>
-<span class="co">#&gt; values     : 1.015509, 100  (min, max)</span>
-
-<span class="co">## reproject a SOmap</span>
-<span class="fu"><a href="reference/SOproj.html">SOproj</a></span>(<span class="no">amap</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="no">prj</span>)</pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">prj</span> <span class="op">&lt;-</span> <span class="st">"+proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84"</span></span>
+<span><span class="co">## reproject a raster</span></span>
+<span><span class="fu"><a href="reference/SOproj.html">SOproj</a></span><span class="op">(</span><span class="va">ice</span>, target <span class="op">=</span> <span class="va">prj</span><span class="op">)</span></span>
+<span><span class="co">#&gt; class      : RasterLayer </span></span>
+<span><span class="co">#&gt; dimensions : 342, 326, 111492  (nrow, ncol, ncell)</span></span>
+<span><span class="co">#&gt; resolution : 32837.52, 31606.02  (x, y)</span></span>
+<span><span class="co">#&gt; extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)</span></span>
+<span><span class="co">#&gt; crs        : +proj=laea +lat_0=-90 +lon_0=147 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs </span></span>
+<span><span class="co">#&gt; source     : memory</span></span>
+<span><span class="co">#&gt; names      : nt_20181015_f18_nrt_s.bin </span></span>
+<span><span class="co">#&gt; values     : 2.059468, 100  (min, max)</span></span>
+<span></span>
+<span><span class="co">## reproject a SOmap</span></span>
+<span><span class="fu"><a href="reference/SOproj.html">SOproj</a></span><span class="op">(</span><span class="va">amap</span>, target <span class="op">=</span> <span class="va">prj</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-raster-1.png" width="100%"></p>
 <p>Note that we must assume raw input is “longitude/latitude”, and the function will issue a warning.</p>
 <hr>
-<p>Please note that the SOmap project is released with a <a href="https://australianantarcticdivision.github.io/SOmap/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the SOmap project is released with a <a href="https://australianantarcticdivision.github.io/SOmap/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 
@@ -213,34 +226,36 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/AustralianAntarcticDivision/SOmap/">https://​github.com/​AustralianAntarcticDivision/​SOmap/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/AustralianAntarcticDivision/SOmap/issues">https://​github.com/​AustralianAntarcticDivision/​SOmap/​issues</a>
-</li>
+<li><a href="https://github.com/AustralianAntarcticDivision/SOmap/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/AustralianAntarcticDivision/SOmap/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL (&gt;= 2)</li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing SOmap</a></li>
+<li><a href="authors.html#citation">Citing SOmap</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Dale Maschette <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Michael Sumner <br><small class="roles"> Author </small>  </li>
@@ -248,25 +263,26 @@
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/AustralianAntarcticDivision/SOmap"><img src="https://travis-ci.org/AustralianAntarcticDivision/SOmap.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://ci.appveyor.com/project/mdsumner/SOmap"><img src="https://ci.appveyor.com/api/projects/status/github/AustralianAntarcticDivision/SOmap?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
-<li><a href="https://codecov.io/github/AustralianAntarcticDivision/SOmap?branch=master"><img src="https://codecov.io/gh/AustralianAntarcticDivision/SOmap/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://cran.r-project.org/package=SOmap"><img src="https://www.r-pkg.org/badges/version/SOmap" alt="CRAN status"></a></li>
+<li><a href="https://github.com/AustralianAntarcticDivision/SOmap/actions" class="external-link"><img src="https://github.com/AustralianAntarcticDivision/SOmap/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://cran.r-project.org/package=SOmap" class="external-link"><img src="https://www.r-pkg.org/badges/version/SOmap" alt="CRAN status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Dale Maschette, Michael Sumner, Ben Raymond.</p>
+  <p></p>
+<p>Developed by Dale Maschette, Michael Sumner, Ben Raymond.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -274,6 +290,8 @@
 
   
 
+
+  
 
   </body>
 </html>

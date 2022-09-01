@@ -17,6 +17,11 @@ The development version from
 [GitHub](https://github.com/AustralianAntarcticDivision/SOmap) with:
 
 ``` r
+install.packages("SOmap", repos = c(SCAR = "https://scar.r-universe.dev",
+                                    CRAN = "https://cloud.r-project.org"))
+
+## or
+
 ## install.packages("remotes") ## if needed
 remotes::install_github("AustralianAntarcticDivision/SOmap")
 ```
@@ -166,7 +171,7 @@ running `SOcrs()`.
 
 ``` r
 SOcrs()
-#> [1] "+proj=stere +lat_0=-76.5139986273002 +lon_0=-36.8427233395983 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+#> [1] "+proj=stere +lon_0=-36.8427233395983 +lat_0=-76.5139986273002 +lat_ts=71 +datum=WGS84"
 ```
 
 Many objects can be reprojected with `SOproj()`, including the map
@@ -181,10 +186,10 @@ SOproj(ice, target = prj)
 #> dimensions : 342, 326, 111492  (nrow, ncol, ncell)
 #> resolution : 32837.52, 31606.02  (x, y)
 #> extent     : -5430639, 5274392, -5534313, 5274946  (xmin, xmax, ymin, ymax)
-#> crs        : +proj=laea +lat_0=-90 +lon_0=147 +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
+#> crs        : +proj=laea +lat_0=-90 +lon_0=147 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs 
 #> source     : memory
 #> names      : nt_20181015_f18_nrt_s.bin 
-#> values     : 1.015509, 100  (min, max)
+#> values     : 2.059468, 100  (min, max)
 
 ## reproject a SOmap
 SOproj(amap, target = prj)
