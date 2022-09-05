@@ -45,7 +45,9 @@ A raster. If \code{add = TRUE}, it is returned invisibly.
 Creates a raster density layer from a set of points.
 }
 \examples{
-SOmap_auto()
-pts <- geosphere::randomCoordinates(1e6)
-bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
+\dontrun{
+  SOmap_auto()
+  pts <- cbind(lon = runif(1e6, min = -180, max = 180), lat = runif(1e6, min = -90, max = 90))
+  bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
+}
 }

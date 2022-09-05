@@ -17,9 +17,11 @@
 #' @return A raster. If `add = TRUE`, it is returned invisibly.
 #' @export
 #' @examples
-#' SOmap_auto()
-#' pts <- geosphere::randomCoordinates(1e6)
-#' bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
+#' \dontrun{
+#'   SOmap_auto()
+#'   pts <- cbind(lon = runif(1e6, min = -180, max = 180), lat = runif(1e6, min = -90, max = 90))
+#'   bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
+#' }
 SObin <- function(x, y = NULL, baselayer = NULL, ..., col = hcl.colors(26, "Viridis"), dim = c(512, 512), add = TRUE, target = NULL, source = NULL, data.frame = FALSE) {
     assert_that(is.flag(add), !is.na(add))
     if (dev.cur() == 1L && add) {

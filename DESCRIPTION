@@ -18,7 +18,6 @@ Depends: R (>= 3.6.0), raster, sp
 Imports:
     assertthat,
     dplyr,
-    geosphere,
     ggplot2,
     glue,
     graticule,
@@ -26,7 +25,6 @@ Imports:
     proj4,
     reproj (>= 0.4.0),
     rgdal,
-    rgeos,
     rlang,
     sf (>= 0.7-3),
     spbabel,
@@ -44,6 +42,7 @@ Suggests:
     knitr,
     maps,
     maptools,
+    rgeos,
     rmarkdown,
     testthat (>= 2.1.0),
     palr,
