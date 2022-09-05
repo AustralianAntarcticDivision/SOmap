@@ -16,7 +16,7 @@
 #' @param target
 #' target projection (default = stereo)
 #'
-#' @param ... arguments passed to [reproj::reproj() function](reproj::reproj())
+#' @param ... arguments passed to [reproj::reproj()]
 #' @param data
 #' optional data to be included
 #'

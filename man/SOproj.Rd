@@ -15,7 +15,7 @@ SOproj(x, y = NULL, target = NULL, data, ..., source = NULL)
 
 \item{data}{optional data to be included}
 
-\item{...}{arguments passed to \href{reproj::reproj()}{reproj::reproj() function}}
+\item{...}{arguments passed to \code{\link[reproj:reproj]{reproj::reproj()}}}
 
 \item{source}{starting projection (default = longlat)}
 }
