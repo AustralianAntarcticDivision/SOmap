@@ -161,10 +161,12 @@ SOleg_inner <-function(x, position, col, ticks, tlabs, breaks, trim, type, label
            }
            )
 
-    if (type == "continuous" && !is.null(breaks) && is.null(tlabs)) {
+    if (type == "continuous" && !is.null(breaks)) {
+      lmins <- min(breaks)
+        lmax <- max(breaks)
         nms <- (breaks-lmins)/(lmax-lmins)
         btlons <- round(nms*80, 2) + strt
-        tlabs <- as.character(breaks)
+        if(is.null(tlabs)){tlabs <- as.character(breaks)}
     }
 
     ## Graticule for colors
