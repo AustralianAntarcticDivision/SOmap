@@ -103,18 +103,14 @@ SOleg_inner <-function(x, position, col, ticks, tlabs, breaks, trim, type, label
             lmins <- min(x)
             lmax <- max(x)
             lbs <- seq(from = lmins, to = lmax, length.out = ticks)
-            if (!is.null(rnd)) {
-                lbs<-base::round(lbs, digits = rnd)
-            }
+            if (!is.null(rnd)) lbs <- base::round(lbs, digits = rnd)
             tlabs <- as.character(lbs)
         }
         if (!is.null(x) && is.null(tlabs) && inherits(x, c("BasicRaster", "RasterLayer"))) {
             lmins <- raster::cellStats(x, stat = "min", na.rm = TRUE)
             lmax <- raster::cellStats(x, stat = "max", na.rm = TRUE)
             lbs <- seq(from = lmins, to = lmax, length.out = ticks)
-            if (!is.null(rnd)) {
-                lbs<-base::round(lbs, digits = rnd)
-            }
+            if (!is.null(rnd)) lbs <- base::round(lbs, digits = rnd)
             tlabs <- as.character(lbs)
         }
         if (is.null(x) && is.null(tlabs) && !is.null(breaks)) {
@@ -162,9 +158,12 @@ SOleg_inner <-function(x, position, col, ticks, tlabs, breaks, trim, type, label
            )
 
     if (type == "continuous" && !is.null(breaks)) {
-        nms <- (breaks-lmins)/(lmax-lmins)
-        btlons <- round(nms*80, 2) + strt
-        tlabs <- as.character(breaks)
+        ## breaks has been specified, so change btlons to match
+        lmins <- min(breaks)
+        lmax <- max(breaks)
+        btlons <- round((breaks - lmins) / (lmax - lmins) * 80, 2) + strt
+        ## and now also tlabs if it hasn't already been provided by the user
+        if (is.null(tlabs)) tlabs <- as.character(breaks)
     }
 
     ## Graticule for colors
@@ -187,7 +186,7 @@ SOleg_inner <-function(x, position, col, ticks, tlabs, breaks, trim, type, label
     lab_pos2 <- sp::spTransform(df2, raster::crs(raster::projection(Bathy))) ## Reproject to the polar map coordinates.
 
     ## Legend label
-    df3 <- data.frame(a = label,lon = lablon, lat = rep(trim+12.5))
+    df3 <- data.frame(a = label, lon = lablon, lat = rep(trim+12.5))
     sp::coordinates(df3) <- c("lon", "lat")
     raster::projection(df3) <- proj_longlat()
     lab_pos3 <- sp::spTransform(df3, raster::crs(raster::projection(Bathy)))
