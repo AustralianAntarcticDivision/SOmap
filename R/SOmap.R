@@ -74,6 +74,8 @@ SOmap_inner <- function(bathy_legend, border, trim, graticules, straight, land, 
     yy <- c(seq(from = -90, to = trim-1, by = 15), trim)
     grat <- suppressWarnings(graticule::graticule(xx, yy, proj = raster::projection(Bathy)))
     gratlab <- suppressWarnings(graticule::graticule_labels(lons = 180,lats = c(-45, -30, -60, -75), xline = 180, yline = -15, proj = raster::projection(Bathy)))
+    ## use Unicode degree symbols instead of relying on "*degree*" to be parsed into the appropriate symbol
+    if (nrow(gratlab) > 0) gratlab$lab <- gsub("\\*degree\\*?", "\u00b0", gratlab$lab)
 
     ## crop bathy raster depending on whether we are leaving space for a legend or not
     q <- ifelse(bathy_legend_space, trim+border_width+11, trim+border_width)
@@ -118,8 +120,10 @@ SOmap_inner <- function(bathy_legend, border, trim, graticules, straight, land, 
 
     ## Graticule grid
     if (graticules) {
+        ## note that if we are not using unicode degree symbols, the the label text needs to have parse() around it (old behaviour)
+        lfun <- if (nrow(gratlab) > 0 && any(grepl("*degree", gratlab$lab, fixed = TRUE))) parse else function(text) text
         out$graticule <- c(SO_plotter(plotfun = "plot", plotargs = list(x = grat, col = graticules_col, lty = 3, add = TRUE), name = "main"),
-                           SO_plotter(plotfun = "text", plotargs = list(x = gratlab, labels = parse(text = gratlab$lab), col = graticules_col, cex = 0.5), name = "labels"))
+                           SO_plotter(plotfun = "text", plotargs = list(x = gratlab, labels = lfun(text = gratlab$lab), col = graticules_col, cex = 0.5), name = "labels"))
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
 

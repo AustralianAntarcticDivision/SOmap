@@ -162,6 +162,13 @@ SOmap_auto_inner <- function(x, y, centre_lon, centre_lat, target, dimXY, bathy,
 
     grat <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
                              crs = raster::projection(target), lon = gratlon, lat = gratlat)
+    ## use Unicode degree symbols instead of relying on "*degree*" to be parsed into the appropriate symbol
+    if (nrow(grat) > 0) {
+        grat$degree_label <- gsub("\\*degree\\*?", "\u00b0", grat$degree_label)
+        ## sf also inserts quotes, which we don't want
+        grat$degree_label <- gsub("\"", "", grat$degree_label, fixed = TRUE)
+    }
+
     if (graticule) {
         graticule <- grat
     } else {
@@ -388,25 +395,27 @@ plot_graticule <- function(x, GratPos) {
                                         # points(x$x_start, x$y_start, col = 'red')
                                         #points(x$x_end, x$y_end, col = 'blue')
     op <- par(xpd = NA)
+    ## note that if we are not using unicode degree symbols, the the label text needs to have parse() around it (old behaviour)
+    lfun <- if (nrow(x) > 0 && any(grepl("*degree", x$degree_label, fixed = TRUE))) parse else function(text) text
     invisible(lapply(seq_len(nrow(x)), function(i) {
         if (GratPos=="all" || "left" %in% GratPos){
             if (x$type[i] == "N" && x$x_start[i] - min(x$x_start) < 1000) {
-                text(x[i,"x_start"], x[i,"y_start"], labels = parse(text = x[i,"degree_label"]),
+                text(x[i,"x_start"], x[i,"y_start"], labels = lfun(text = x[i,"degree_label"]),
                      srt = x$angle_start[i], pos = 2, cex = .7)}} #left
 
         if (GratPos=="all" || "bottom" %in% GratPos) {
             if (x$type[i] == "E" && x$y_start[i] - min(x$y_start) < 1000) {
-                text(x[i,"x_start"], x[i,"y_start"], labels = parse(text = x[i,"degree_label"]),
+                text(x[i,"x_start"], x[i,"y_start"], labels = lfun(text = x[i,"degree_label"]),
                      srt = x$angle_start[i] - 90, pos = 1, cex = .7)}} #bottom
 
         if (GratPos=="all" || "right" %in% GratPos ) {
             if (x$type[i] == "N" && x$x_end[i] - max(x$x_end) > -1000) {
-                text(x[i,"x_end"], x[i,"y_end"], labels = parse(text = x[i,"degree_label"]),
+                text(x[i,"x_end"], x[i,"y_end"], labels = lfun(text = x[i,"degree_label"]),
                      srt = x$angle_end[i], pos = 4, cex = .7)}} #right
 
         if (GratPos=="all" || "top" %in% GratPos ) {
             if (x$type[i] == "E" && x$y_end[i] - max(x$y_end) > -1000) {
-                text(x[i,"x_end"], x[i,"y_end"], labels = parse(text = x[i,"degree_label"]),
+                text(x[i,"x_end"], x[i,"y_end"], labels = lfun(text = x[i,"degree_label"]),
                      srt = x$angle_end[i] - 90, pos = 3, cex = .7)}} #top
     }))
     par(op)
