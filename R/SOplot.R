@@ -25,17 +25,16 @@ SOplot<-function(x, y = NULL, target = NULL, ..., source = NULL, add=TRUE) {
     if (is.null(y) && is.data.frame(x) && !inherits(x, c("sf", "Spatial", "RasterLayer"))) {
         y <- x[[2]]
         x <- x[[1]]
+    }
+    if (!inherits(x, c("sf", "Spatial", "RasterLayer"))) {
         ## check extent #98
         ext <- SOextent()
-
         if (!all(x >= ext[1] & x <= ext[2])) {
           message(sprintf('some longitudes outside the existing plot range (? %.3f,%.3f', ext[1], ext[2]))
         }
         if (!all(y >= ext[3] & y <= ext[4])) {
           message(sprintf('some latitudes outside the existing plot range (? %.3f,%.f)', ext[3], ext[4]))
         }
-
-
     }
 
     SObj <- SOproj(x = x, y = y, target = target, source = source, ...)
