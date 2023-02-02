@@ -11,6 +11,7 @@ SObin(
   ...,
   col = hcl.colors(26, "Viridis"),
   dim = c(512, 512),
+  res,
   add = TRUE,
   target = NULL,
   source = NULL,
@@ -28,7 +29,9 @@ SObin(
 
 \item{col}{colours to use if \code{add = TRUE}}
 
-\item{dim}{dimensions of raster to bin to}
+\item{dim}{dimensions of raster to bin to. Alternatively provide \code{res}}
+
+\item{res}{the resolution (a one- or two-element numeric vector) giving the resolution of the raster to bin to. Ignored if \code{dim} is provided}
 
 \item{add}{if \code{TRUE}, the raster is added to the current plot. An error is thrown if there is no existing plot}
 
@@ -49,5 +52,8 @@ Creates a raster density layer from a set of points.
   SOmap_auto()
   pts <- cbind(lon = runif(1e6, min = -180, max = 180), lat = runif(1e6, min = -90, max = 90))
   bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
+
+  ## or provide the resolution of the raster to bin to
+  bin2 <- SObin(pts[, 1], pts[, 2], res = c(8e3, 12e3), add = TRUE)
 }
 }

@@ -8,7 +8,8 @@
 #' @param baselayer optional spatial layer to get extent from
 #' @param ... passed to plot if `add = TRUE`
 #' @param col colours to use if `add = TRUE`
-#' @param dim dimensions of raster to bin to
+#' @param dim dimensions of raster to bin to. Alternatively provide `res`
+#' @param res the resolution (a one- or two-element numeric vector) giving the resolution of the raster to bin to. Ignored if `dim` is provided
 #' @param add if `TRUE`, the raster is added to the current plot. An error is thrown if there is no existing plot
 #' @param target target projection passed to SOproj
 #' @param source source projection of data projection passed to SOproj
@@ -21,8 +22,11 @@
 #'   SOmap_auto()
 #'   pts <- cbind(lon = runif(1e6, min = -180, max = 180), lat = runif(1e6, min = -90, max = 90))
 #'   bin <- SObin(pts[, 1], pts[, 2], add = TRUE)
+#'
+#'   ## or provide the resolution of the raster to bin to
+#'   bin2 <- SObin(pts[, 1], pts[, 2], res = c(8e3, 12e3), add = TRUE)
 #' }
-SObin <- function(x, y = NULL, baselayer = NULL, ..., col = hcl.colors(26, "Viridis"), dim = c(512, 512), add = TRUE, target = NULL, source = NULL, data.frame = FALSE) {
+SObin <- function(x, y = NULL, baselayer = NULL, ..., col = hcl.colors(26, "Viridis"), dim = c(512, 512), res, add = TRUE, target = NULL, source = NULL, data.frame = FALSE) {
     assert_that(is.flag(add), !is.na(add))
     if (dev.cur() == 1L && add) {
         stop("There is no existing plot to add to")
@@ -42,8 +46,7 @@ SObin <- function(x, y = NULL, baselayer = NULL, ..., col = hcl.colors(26, "Viri
     if (missing(baselayer) && !add) {
         ex <- spex::spex(x=SObj,crs = crs)
     }
-
-    r <- raster::raster(ex, nrows = dim[1], ncols = dim[2])
+    r <- if (missing(dim)) raster::raster(ex, res = res) else raster::raster(ex, nrows = dim[1], ncols = dim[2])
     r <- raster::setValues(r, NA_integer_)
     tib <- tibble::tibble(cell = raster::cellFromXY(r, sp::coordinates(SObj)))
     summ <- dplyr::summarize(dplyr::group_by(tib, .data$cell), count = dplyr::n())
