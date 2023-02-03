@@ -7,18 +7,15 @@
 SOmerge(..., reproject = TRUE)
 }
 \arguments{
-\item{...}{: one or more objects of class \code{SOmap}, \code{SOmap_management}, or \code{SOmap_legend}, or a list of such objects}
+\item{...}{: one or more objects of class \code{SOmap}, \code{SOmap_auto}, \code{SOmap_management}, or \code{SOmap_legend}, or a list of such objects}
 
-\item{reproject}{logical: if \code{TRUE} (the default), and any of the input objects are in a different projection to the input \code{SOmap} object, an attempt will be made to reproject them. If you run into problems with \code{SOmerge}, try setting this to \code{FALSE}}
+\item{reproject}{logical: if \code{TRUE} (the default), and any of the input objects are in a different projection to the input \code{SOmap} or \code{SOmap_auto} object, an attempt will be made to reproject them. If you run into problems with \code{SOmerge}, try setting this to \code{FALSE}}
 }
 \value{
-A single object of class \code{SOmap}.
+A single object of class \code{SOmap} or \code{SOmap_auto}.
 }
 \description{
-The inputs must contain exactly one object of class \code{SOmap}.
-}
-\details{
-Note that objects of class \code{SOmap_auto} are not yet supported.
+The inputs must contain exactly one object of class \code{SOmap} or \code{SOmap_auto}. Objects of class \code{SOmap_auto} cannot be merged with objects of class \code{SOmap_legend}.
 }
 \examples{
 \dontrun{
@@ -61,5 +58,5 @@ Note that objects of class \code{SOmap_auto} are not yet supported.
 
 }
 \seealso{
-\code{\link{SOmap}}
+\code{\link[=SOmap]{SOmap()}}, \code{\link[=SOmap_auto]{SOmap_auto()}}
 }

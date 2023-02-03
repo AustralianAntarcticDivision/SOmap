@@ -29,3 +29,18 @@ test_that("merging works", {
     ## unless we ask for it
     merged <- SOmerge(mymap, mymgmt_auto, reproject = TRUE)
 })
+
+test_that("automap merging works", {
+    mymap <- SOmap_auto(c(20, 160), c(-30, -60), input_points = FALSE, input_lines = FALSE)
+    mylegend <- SOleg(x = runif(100), position = "topright", col = hcl.colors(80, "Viridis"),
+                      breaks = c(0.1, 0.2, 0.5, 0.9), trim = -45, label = "Thing",
+                      rnd = 1, type = "continuous")
+    mymgmt <- SOmanagement(eez = TRUE, basemap = mymap)
+    expect_warning(merged <- SOmerge(mymap, mymgmt, mylegend), "cannot be merged with SOmap_legend")
+    merged2 <- SOmerge(mymap, mymgmt)
+    expect_identical(merged, merged2)
+
+    ## with different projections
+    mymgmt2 <- SOmanagement(eez = TRUE) ## full polar stereo projection, trimmed at 45S
+    merged <- SOmerge(mymap, mymgmt, mymgmt2) ## will work, though we'll have stuff outside of the original map bounds
+})

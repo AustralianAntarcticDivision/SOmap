@@ -1,15 +1,13 @@
 #' Merge multiple SOmap or related objects
 #'
-#' The inputs must contain exactly one object of class `SOmap`.
+#' The inputs must contain exactly one object of class `SOmap` or `SOmap_auto`. Objects of class `SOmap_auto` cannot be merged with objects of class `SOmap_legend`.
 #'
-#' Note that objects of class `SOmap_auto` are not yet supported.
+#' @param ... : one or more objects of class `SOmap`, `SOmap_auto`, `SOmap_management`, or `SOmap_legend`, or a list of such objects
+#' @param reproject logical: if `TRUE` (the default), and any of the input objects are in a different projection to the input `SOmap` or `SOmap_auto` object, an attempt will be made to reproject them. If you run into problems with `SOmerge`, try setting this to `FALSE`
 #'
-#' @param ... : one or more objects of class `SOmap`, `SOmap_management`, or `SOmap_legend`, or a list of such objects
-#' @param reproject logical: if `TRUE` (the default), and any of the input objects are in a different projection to the input `SOmap` object, an attempt will be made to reproject them. If you run into problems with `SOmerge`, try setting this to `FALSE`
+#' @return A single object of class `SOmap` or `SOmap_auto`.
 #'
-#' @return A single object of class `SOmap`.
-#'
-#' @seealso \code{\link{SOmap}}
+#' @seealso [SOmap()], [SOmap_auto()]
 #'
 #' @examples
 #' \dontrun{
@@ -56,7 +54,7 @@ SOmerge <- function(..., reproject = TRUE) {
 }
 
 SOmerge_inner <- function(..., reproject) {
-    supported_classes <- c("SOmap", "SOmap_management", "SOmap_legend")
+    supported_classes <- c("SOmap", "SOmap_auto", "SOmap_management", "SOmap_legend")
     p <- list(...)
     if (length(p) == 1 && is.list(p[[1]]) && !inherits(p[[1]], supported_classes)) {
         ## we've been given a list of objects?
@@ -65,11 +63,19 @@ SOmerge_inner <- function(..., reproject) {
     if (!all(vapply(p, inherits, supported_classes, FUN.VALUE = TRUE))) {
         stop("SOmerge is expecting one or more objects (of class\"", paste0(supported_classes, collapse = ", "), "\") or a list of such objects")
     }
-    somap_idx <- vapply(p, inherits, "SOmap", FUN.VALUE = TRUE)
-    if (sum(somap_idx) != 1) {
-        stop("The inputs to SOmerge must include exactly one object of class \"SOmap\"")
+    objclasses <- vapply(p, class, FUN.VALUE = "")
+    somap_idx <- objclasses %in% c("SOmap", "SOmap_auto")
+    if (sum(somap_idx, na.rm = TRUE) != 1) {
+        stop("The inputs to SOmerge must include exactly one object of class \"SOmap\" or \"SOmap_auto\"")
     }
     out <- p[[which(somap_idx)]]
+    is_auto <- inherits(out, "SOmap_auto")
+    if (is_auto && any(objclasses %in% c("SOmap_legend"))) {
+        warning("SOmap_auto objects cannot be merged with SOmap_legend objects, ignoring the SOmap_legend objects")
+        p <- p[!objclasses %in% c("SOmap_legend")]
+        objclasses <- vapply(p, class, FUN.VALUE = "")
+        somap_idx <- objclasses %in% c("SOmap", "SOmap_auto")
+    }
     p <- p[!somap_idx]
     for (pnum in seq_along(p)) {
         thisp <- p[[pnum]]
@@ -101,6 +107,6 @@ SOmerge_inner <- function(..., reproject) {
             out <- c(out, thisp)
         }
     }
-    structure(out, class = "SOmap")
+    structure(out, class = if (is_auto) "SOmap_auto" else "SOmap")
 }
 
