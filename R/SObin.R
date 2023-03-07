@@ -49,7 +49,7 @@ SObin <- function(x, y = NULL, baselayer = NULL, ..., col = hcl.colors(26, "Viri
     summ <- dplyr::summarize(dplyr::group_by(tib, .data$cell), count = dplyr::n())
     summ <- dplyr::filter(summ, !is.na(.data$cell))
     r[summ$cell] <- summ$count
-    if (add && dev.cur() != 1L) plot(r, add = TRUE, ..., col = col)
+    if (add && dev.cur() != 1L) terra::image(terra::rast(r), add = TRUE, ..., col = col)
     if (data.frame) r <- raster::as.data.frame(r, xy = TRUE)
     if (add) invisible(r) else r
 }
