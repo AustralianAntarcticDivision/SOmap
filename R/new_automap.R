@@ -14,8 +14,14 @@
   ext <- c(raster::xmin(target), raster::xmax(target), raster::ymin(target), raster::ymax(target))
   dm <- dim(target)[2:1]
   proj <- raster::projection(target)
+
+  ## change from vapour_warp_raster to gdal_raster_data
+  if (!is.null(source_projection)) src <- vapour::vapour_vrt(src, projection = source_projection)
+
+  op <- options(warn = -1)
+  on.exit(options(op), add = TRUE)
   raster::setValues(target,
-    vapour::vapour_warp_raster(src, extent = ext, dimension = dm, projection = proj, resample = "cubic", source_wkt = source_projection)[[1L]])
+    vapour::gdal_raster_data(src, target_ext = ext, target_dim = dm, target_crs = proj, resample = "cubic")[[1L]])
 }
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
@@ -236,6 +242,7 @@ automap_maker <-
 
 
     bathymetry <- try(.get_raad_gebco(tgt_raster), silent = TRUE)
+
     if (inherits(bathymetry, "try-error")) {
       bathymetry <- crunch_bathy(tgt_raster)
     }

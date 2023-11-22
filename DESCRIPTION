@@ -1,7 +1,7 @@
 Package: SOmap
 Type: Package
 Title: Southern Ocean maps
-Version: 0.6.2
+Version: 0.6.2.9002
 Authors@R: c(person("Dale", "Maschette", email = "dale.maschette@aad.gov.au", role = c("aut", "cre")),
              person("Michael", "Sumner", role = "aut"),
              person("Ben", "Raymond", role = "aut"))
@@ -31,7 +31,7 @@ Imports:
     spex (>= 0.6.0),
     stars,
     terra,
-    vapour (>= 0.8.5),
+    vapour (>= 0.9.5),
     tabularaster,
     tibble,
     uuid

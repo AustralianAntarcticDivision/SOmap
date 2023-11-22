@@ -104,6 +104,7 @@ SOmap_auto_inner <- function(x, y, centre_lon, centre_lat, target, dimXY, bathy,
 
     ## automap_maker ----
     amap <- automap_maker(x, y = y, centre_lon = centre_lon, centre_lat = centre_lat, target = target, dimXY = dimXY, expand = expand)
+
     xy <- amap$xy
     target <- amap$target
     prj <- raster::projection(target)

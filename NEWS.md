@@ -1,3 +1,9 @@
+# dev
+
+* Changed underlying method of getting background bathymetry for SOmap_auto(). 
+
+* GEBCO COG updated from 2019 local workaround to more permanent GEBCO 2023 (we should dep on hypertidy/dsn to keep this up to date). 
+
 # 0.6
 
 * new `SOmerge` function that allows multiple objects to be combined into a single map object
