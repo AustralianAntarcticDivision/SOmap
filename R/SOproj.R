@@ -55,10 +55,12 @@ SOproj_inner <- function(x, y, target, data, ..., source) {
 
     ## shortcut out, we have an object
     if (is.null(y) && !missing(x)) {
-        if (is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
+        if (is.data.frame(x) && !inherits(x, c("sf", "Spatial", "SpatVector"))) {
             y <- x[[2]]
             x <- x[[1]]
         } else {
+            if (inherits(x, "SpatRaster")) x <- raster::raster(x)
+            if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
             source <- raster::projection(x)
             if (is.na(source)) {
                 warning("assuming generic data is in longitude,latitude")
@@ -260,3 +262,6 @@ reproj.sf <- function(x, target, ..., source = NULL) {
 reproj.sfc <- function(x, target, ..., source = NULL) {
   sf::st_transform(x, target)
 }
+
+
+

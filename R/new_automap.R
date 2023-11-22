@@ -137,6 +137,13 @@ automap_maker <-
       target <- "notanyknownprojection"
     }
 
+    if (inherits(x, "SpatRaster")) {
+      x <- raster::raster(x)
+    }
+
+    if (inherits(x, "SpatVector")) {
+      x <- sf::st_as_sf(x)
+    }
     if (inherits(x, "BasicRaster")) {
 
       src_extent <- raster::extent(x)

@@ -1,5 +1,7 @@
 # dev
 
+* Now handles terra vector and raster objects for SOmap_auto(), SOplot() and SOproj(). 
+
 * Changed underlying method of getting background bathymetry for SOmap_auto(). 
 
 * GEBCO COG updated from 2019 local workaround to more permanent GEBCO 2023 (we should dep on hypertidy/dsn to keep this up to date). 
