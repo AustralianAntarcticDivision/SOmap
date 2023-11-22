@@ -2,8 +2,8 @@
 .get_raad_gebco <- function(target) {
   src <- getOption("SOmap.auto.topography.source")
   if (is.null(src)) {
-    ## secret squirrel
-    src <- "/vsicurl/http://data.raadsync.cloud.edu.au/gebco/GEBCO_2019.tif"
+
+    src <- "/vsicurl/https://gebco2023.s3.valeria.science/gebco_2023_land_cog.tif"
   }
   ri <- vapour::vapour_raster_info(src)$projection
   if (nchar(ri) < 1) {
