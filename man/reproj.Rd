@@ -12,21 +12,21 @@
 \alias{reproj.sfc}
 \title{Reproject SOmap}
 \usage{
-\method{reproj}{SOmap}(x, target, ..., source = NULL)
+reproj.SOmap(x, target, ..., source = NULL)
 
-\method{reproj}{SOmap_auto}(x, target, ..., source = NULL)
+reproj.SOmap_auto(x, target, ..., source = NULL)
 
-\method{reproj}{SOmap_management}(x, target, ..., source = NULL)
+reproj.SOmap_management(x, target, ..., source = NULL)
 
-\method{reproj}{SOmap_legend}(x, target, ..., source = NULL)
+reproj.SOmap_legend(x, target, ..., source = NULL)
 
-\method{reproj}{BasicRaster}(x, target, ..., source = NULL)
+reproj.BasicRaster(x, target, ..., source = NULL)
 
-\method{reproj}{Spatial}(x, target, ..., source = NULL)
+reproj.Spatial(x, target, ..., source = NULL)
 
-\method{reproj}{sf}(x, target, ..., source = NULL)
+reproj.sf(x, target, ..., source = NULL)
 
-\method{reproj}{sfc}(x, target, ..., source = NULL)
+reproj.sfc(x, target, ..., source = NULL)
 }
 \arguments{
 \item{x}{coordinates}

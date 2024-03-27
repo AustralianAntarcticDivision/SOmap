@@ -12,7 +12,7 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 3.6.0), raster, sp
 Imports:
@@ -49,5 +49,3 @@ Suggests:
     vdiffr
 VignetteBuilder: knitr
 Remotes: cran/rgdal
-
-

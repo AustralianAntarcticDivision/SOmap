@@ -7,3 +7,21 @@
 \description{
 Create publication-quality Southern Ocean maps in a simple manner with multiple management layer options.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/AustralianAntarcticDivision/SOmap}
+  \item Report bugs at \url{https://github.com/AustralianAntarcticDivision/SOmap/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Dale Maschette \email{dale.maschette@aad.gov.au}
+
+Authors:
+\itemize{
+  \item Michael Sumner
+  \item Ben Raymond
+}
+
+}

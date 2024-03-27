@@ -14,5 +14,5 @@
 #' @importFrom sp plot
 #' @importFrom stats runif setNames
 #' @importFrom utils data getS3method head packageVersion tail
-NULL
+"_PACKAGE"
 
