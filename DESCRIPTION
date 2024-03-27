@@ -1,7 +1,7 @@
 Package: SOmap
 Type: Package
 Title: Southern Ocean maps
-Version: 0.6.2.9002
+Version: 0.6.2.9003
 Authors@R: c(person("Dale", "Maschette", email = "dale.maschette@aad.gov.au", role = c("aut", "cre")),
              person("Michael", "Sumner", role = "aut"),
              person("Ben", "Raymond", role = "aut"))
@@ -12,7 +12,7 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 3.6.0), raster, sp
 Imports:
@@ -24,7 +24,6 @@ Imports:
     methods,
     proj4,
     reproj (>= 0.4.0),
-    rgdal,
     rlang,
     sf (>= 0.7-3),
     spbabel,
@@ -48,6 +47,3 @@ Suggests:
     palr,
     vdiffr
 VignetteBuilder: knitr
-Remotes: cran/rgdal
-
-

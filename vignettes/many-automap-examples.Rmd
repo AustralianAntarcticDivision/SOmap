@@ -151,7 +151,7 @@ temporarily turn this off ...
 ```{r examples26, eval = FALSE}
 data("albatross", package = "adehabitatLT")
 ## convert the albatross data to a single matrix of lon, lat points
-albatrack <- do.call(rbind, lapply(albatross, function(z) rgdal::project(rbind(as.matrix(z[, c("x", "y")]), NA), "+proj=utm +zone=42 +south +datum=WGS84", inv = TRUE)))
+albatrack <- do.call(rbind, lapply(albatross, function(z) gdal_project(rbind(as.matrix(z[, c("x", "y")]), NA), "+proj=utm +zone=42 +south +datum=WGS84", inv = TRUE)))
 
 ## construct the map and return it, but don't plot it
 alb_map <- SOmap_auto(albatrack[, 1], albatrack[, 2])

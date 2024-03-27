@@ -103,13 +103,13 @@ SOmanagement_inner <- function(ccamlr, ccamlr_labels, ssru, ssru_labels, ssmu, s
 
     if (iwc) {
         ## TODO: northern extent limits need defining, and norther boundary lines added
-        temp <- c(if (trim > -78.40) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-170, trim), c(-170, -78.40)), out$projection), col = iwc_col)),
-                  if (trim > -73.844137) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-120, trim), c(-120, -73.844137)), out$projection), col = iwc_col)),
-                  if (trim > -75.146206) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-60, min(trim, -65.168)), c(-60, -75.146206)), out$projection), col = iwc_col)),
-                  if (trim > -62.4505) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(-60, trim), c(-60, -62.4505)), out$projection), col = iwc_col)),
-                  if (trim > -69.596701) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(0, trim), c(0, -69.596701)), out$projection), col = iwc_col)),
-                  if (trim > -68.366691) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(70, trim), c(70, -68.366691)), out$projection), col = iwc_col)),
-                  if (trim > -66.295027) SO_plotter(plotfun = "lines", plotargs = list(x = rgdal::project(rbind(c(130, trim), c(130, -66.295027)), out$projection), col = iwc_col)))
+        temp <- c(if (trim > -78.40) SO_plotter(plotfun = "lines", plotargs = list(x = gdal_project(rbind(c(-170, trim), c(-170, -78.40)), out$projection), col = iwc_col)),
+                  if (trim > -73.844137) SO_plotter(plotfun = "lines", plotargs = list(x = gdal_project(rbind(c(-120, trim), c(-120, -73.844137)), out$projection), col = iwc_col)),
+                  if (trim > -75.146206) SO_plotter(plotfun = "lines", plotargs = list(x = gdal_project(rbind(c(-60, min(trim, -65.168)), c(-60, -75.146206)), out$projection), col = iwc_col)),
+                  if (trim > -62.4505) SO_plotter(plotfun = "lines", plotargs = list(x = gdal_project(rbind(c(-60, trim), c(-60, -62.4505)), out$projection), col = iwc_col)),
+                  if (trim > -69.596701) SO_plotter(plotfun = "lines", plotargs = list(x = gdal_project(rbind(c(0, trim), c(0, -69.596701)), out$projection), col = iwc_col)),
+                  if (trim > -68.366691) SO_plotter(plotfun = "lines", plotargs = list(x = gdal_project(rbind(c(70, trim), c(70, -68.366691)), out$projection), col = iwc_col)),
+                  if (trim > -66.295027) SO_plotter(plotfun = "lines", plotargs = list(x = gdal_project(rbind(c(130, trim), c(130, -66.295027)), out$projection), col = iwc_col)))
         if (length(temp) > 0) {
             out$iwc <- temp
             if (iwc_labels) {
