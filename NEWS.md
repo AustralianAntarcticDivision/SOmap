@@ -1,6 +1,6 @@
 # dev
 
-* add rgdal to Remotes so it can install from github
+* Removed rgdal. 
 
 * Changed underlying method of getting background bathymetry for SOmap_auto(). 
 
