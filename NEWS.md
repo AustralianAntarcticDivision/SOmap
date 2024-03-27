@@ -2,6 +2,9 @@
 
 * add rgdal to Remotes so it can install from github
 
+* Changed underlying method of getting background bathymetry for SOmap_auto(). 
+
+* GEBCO COG updated from 2019 local workaround to more permanent GEBCO 2023 (we should dep on hypertidy/dsn to keep this up to date). 
 
 # 0.6
 
