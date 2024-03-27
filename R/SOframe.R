@@ -14,6 +14,7 @@ SOmask <- function(x, mask, ...) {
   UseMethod("SOmask")
 }
 
+#' @keywords internal
 SOmask.BasicRaster <- function(x, mask, ...)  {
   assertthat::assert_that(class(mask) == "SpatialPolygonsDataFrame")
   ## find width
