@@ -1,3 +1,8 @@
+# dev
+
+* add rgdal to Remotes so it can install from github
+
+
 # 0.6
 
 * new `SOmerge` function that allows multiple objects to be combined into a single map object
