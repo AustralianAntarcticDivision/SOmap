@@ -62,8 +62,8 @@ automap_nothing <- function(sample_type = "polar") {
 
       rr <- raster(Bathy)
       raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
-      xy <- rgdal::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)),
-                           raster::projection(rr), inv = TRUE)
+      xy <- gdal_project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)), "EPSG:4326",
+                           source = raster::projection(rr))
       xy <- xy[xy[,2] < -40, ]
       if (length(xy) == 2) xy <- jitter(rbind(xy, xy), amount = 10)
     }

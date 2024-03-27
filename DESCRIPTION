@@ -24,7 +24,6 @@ Imports:
     methods,
     proj4,
     reproj (>= 0.4.0),
-    rgdal,
     rlang,
     sf (>= 0.7-3),
     spbabel,
@@ -48,4 +47,3 @@ Suggests:
     palr,
     vdiffr
 VignetteBuilder: knitr
-Remotes: cran/rgdal

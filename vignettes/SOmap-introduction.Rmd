@@ -94,7 +94,7 @@ One reason for this is that if we choose a projection where the east and west ed
 ```{r laea}
 ## scale factor
 f <- 3e6
-plot(rgdal::project(lonlat, "+proj=laea +lat_0=-90 +datum=WGS84"), asp = 1, type = "l",
+plot(gdal_project(lonlat, "+proj=laea +lat_0=-90 +datum=WGS84"), asp = 1, type = "l",
      xlim = c(-1, 1) * f, ylim = c(-1, 1) * f, xlab = "", ylab = "")
 
 ```
@@ -118,7 +118,7 @@ In `m` we have the maps data structure, and this looks promising.
 str(m)
 
 mp <- m
-pxy <- rgdal::project(lonlat, "+proj=laea +lat_0=-90 +datum=WGS84")
+pxy <- gdal_project(lonlat, "+proj=laea +lat_0=-90 +datum=WGS84")
 mp$x <- pxy[,1]
 mp$y <- pxy[,2]
 mp$range <- c(range(mp$x,na.rm = TRUE), range(mp$y, na.rm = TRUE))
@@ -149,7 +149,7 @@ maps::map(col = "grey", fill = TRUE)
 
 
 mpmerc <- m
-pxy <- rgdal::project(lonlat, "+proj=merc +datum=WGS84")
+pxy <- gdal_project(lonlat, "+proj=merc +datum=WGS84")
 mpmerc$x <- pxy[,1]
 mpmerc$y <- pxy[,2]
 mpmerc$range <- c(range(mpmerc$x,na.rm = TRUE), range(mpmerc$y, na.rm = TRUE))
