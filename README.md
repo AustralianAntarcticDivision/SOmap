@@ -1,7 +1,5 @@
 
-[![R-CMD-check](https://github.com/AustralianAntarcticDivision/SOmap/workflows/R-CMD-check/badge.svg)](https://github.com/AustralianAntarcticDivision/SOmap/actions)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/SOmap)](https://cran.r-project.org/package=SOmap)
+[![R-CMD-check](https://github.com/AustralianAntarcticDivision/SOmap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AustralianAntarcticDivision/SOmap/actions/workflows/R-CMD-check.yaml)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
