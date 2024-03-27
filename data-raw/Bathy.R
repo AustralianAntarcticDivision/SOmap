@@ -9,7 +9,7 @@ Bathy <- projectRaster(src, r)
 dataType(Bathy) <- "INT2S"
 Bathy <- setValues(Bathy, as.integer(values(Bathy)))
 
-devtools::use_data(Bathy, overwrite = TRUE)
+usethis::use_data(Bathy, overwrite = TRUE)
 
 
 if (FALSE) {
