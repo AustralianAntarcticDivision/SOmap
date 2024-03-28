@@ -160,7 +160,8 @@ SOgg_notauto <- function(x) {
             out$bathy_legend <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)),
                                   SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)))
             out$bathy_legend <- c(out$bathy_legend, unlist(lapply(seq_along(x$bathy_legend[[1]]$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend[[1]]$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
-            out$bathy_legend <- c(out$bathy_legend, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = SOgg_cex(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$cex))))
+            temp <- as.data.frame(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$x)
+            out$bathy_legend <- c(out$bathy_legend, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes_string(x = if ("lon" %in% names(temp)) "lon" else "coords.x1", y = if ("lat" %in% names(temp)) "lat" else "coords.x2", label = "a"), size = SOgg_cex(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$cex))))
         }
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
@@ -280,11 +281,13 @@ SOgg_legend <- function(x) {
             out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
         }
         if ("tick_labels" %in% x$plot_sequence) {
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$tick_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), size = SOgg_cex(x$tick_labels[[1]]$plotargs$cex))))
+            temp <- as.data.frame(x$tick_labels[[1]]$plotargs$x)
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes_string(x = if ("lon" %in% names(temp)) "lon" else "coords.x1", y = if ("lat" %in% names(temp)) "lat" else "coords.x2", label = "a"), size = SOgg_cex(x$tick_labels[[1]]$plotargs$cex))))
         }
         if ("legend_labels" %in% x$plot_sequence) {
             tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = as.data.frame(x$legend_labels[[1]]$plotargs$x), mapping = aes_string(x = "lon", y = "lat", label = "a"), angle = tang, size = SOgg_cex(x$legend_labels[[1]]$plotargs$cex))))
+            temp <- as.data.frame(x$legend_labels[[1]]$plotargs$x)
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes_string(x = if ("lon" %in% names(temp)) "lon" else "coords.x1", y = if ("lat" %in% names(temp)) "lat" else "coords.x2", label = "a"), angle = tang, size = SOgg_cex(x$legend_labels[[1]]$plotargs$cex))))
         }
     }
     out

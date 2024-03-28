@@ -48,31 +48,15 @@ abline(h = c(-90, 90), v = c(-180, 180))
 
 ```
 
-A very similar and more modern data set is available in the `maptools` package.
-
-```{r wrld-simpl}
-data("wrld_simpl", package = "maptools")
-library(sp)
-plot(wrld_simpl)
-```
-
-This data set aligns exactly to the  conventional -180/180 -90/90 extent of the longitude/latitude projection.
-
-```{r lon180-lat90}
-plot(0, type = "n", axes = FALSE, xlab = "", ylab = "", xlim = c(-180, 180), ylim = c(-90, 90))
-rect(xleft = -180, ybottom = -90, xright = 180, ytop = 90, border = "darkred", lwd = 4, lty = 2)
-plot(wrld_simpl, add = TRUE)
-```
-
 ### Exercises
 
-1. How can we find the longitude and latitude ranges of the maps data `m` and the maptools data `wrld_simpl`?
+1. How can we find the longitude and latitude ranges of the maps data `m`?
 2. Can we draw polygons with a fill colour with the maps package? 
 
 
 Answer 1: `range(m$x, na.rm = TRUE)` `range(m$y, na.rm = TRUE`) also `m$range`
 
-Answer 2: `polygon(lonlat, col = "grey")` does not work, and `map(mp, fill = TRUE, col = "grey")` does not work, but `maps::map(fill = TRUE, col = "grey")` does seem to work.
+Answer 2: `polygon(lonlat, col = "grey")` does not work, but `maps::map(fill = TRUE, col = "grey")` does seem to work.
 
 
 What's going on? Look at the very south-eastern corner of the map. The "coastline" has been extended to the very south boundary of the available area.
@@ -81,13 +65,12 @@ What's going on? Look at the very south-eastern corner of the map. The "coastlin
 
 ```{r south-east}
 plot(0, type = "n", axes = FALSE, xlab = "", ylab = "", xlim = c(-150, 180), ylim = c(-90, -60))
-plot(wrld_simpl, add = TRUE, col = "grey")
 rect(xleft = -180, ybottom = -90, xright = 180, ytop = 90, border = "darkred", lwd = 4, lty = 2)
 
 maps::map(add = TRUE, col = "dodgerblue", lwd = 3)
 ```
 
-When we add the old maps coastline see that it does not extend to 90S and it does not traverse the southern boundary.
+The old maps coastline does not extend to 90S and it does not traverse the southern boundary.
 
 One reason for this is that if we choose a projection where the east and west edges of the Antarctic coastline meet then we get what looks a fairly clean join.
 
@@ -99,17 +82,6 @@ plot(terra::project(lonlat, to = "+proj=laea +lat_0=-90 +datum=WGS84", from = "E
 
 ```
 
-If we try the same with `wrld_simpl` it's not as neat.  We have a strange "seam" that points exactly to the south pole (our projection is centred on longitude = 0, and latitude = -90. 
-
-
-
-```{r wrld}
-plot(sp::spTransform(wrld_simpl, "+proj=laea +lat_0=-90 +datum=WGS84"), asp = 1,
-     xlim = c(-1, 1) * f, ylim = c(-1, 1) * f, xlab = "", ylab = "", lwd = 3)
-abline(v = 0, h = 0, lty = 2, col = "grey")
-```
-
-
 ### Let's use the maps data!
 
 In `m` we have the maps data structure, and this looks promising.
@@ -118,7 +90,7 @@ In `m` we have the maps data structure, and this looks promising.
 str(m)
 
 mp <- m
-pxy <- terra::project(lonlat, to = "+proj=laea +lat_0=-90 +datum=WGS84", from  "EPSG:4326")
+pxy <- terra::project(lonlat, to = "+proj=laea +lat_0=-90 +datum=WGS84", from = "EPSG:4326")
 mp$x <- pxy[,1]
 mp$y <- pxy[,2]
 mp$range <- c(range(mp$x,na.rm = TRUE), range(mp$y, na.rm = TRUE))
@@ -133,7 +105,7 @@ maps::map(mp, add = TRUE, fill = TRUE, col = "grey")
 
 ```
 
-The problem is that the maps database has enough internal structure to join lines correctly, with `NA` gaps between different connected linestrings, but not enough to draw these things as polygons. A similar problem occurs in the default projection. While `wrld_simpl` has been extend by placing two dummy coordinates at the east and west versions of the south pole, this data set does not have those.
+The problem is that the maps database has enough internal structure to join lines correctly, with `NA` gaps between different connected linestrings, but not enough to draw these things as polygons. A similar problem occurs in the default projection.
 
 We have to look quite carefully to understand what is happening, but this is wrapping around overlapping itself and so close to the southern bound we barely notice.
 
@@ -516,7 +488,7 @@ Remember that printing or plotting a `SOmap_gg` object produces a `ggplot` objec
 
 ```{r somap6, message = FALSE, warning = FALSE}
 library(ggplot2)
-my_ggplot + geom_point(data = as.data.frame(my_points), aes(lon, lat, colour = z), size = 3) +
+my_ggplot + geom_point(data = as.data.frame(my_points), aes(coords.x1, coords.x2, colour = z), size = 3) +
   scale_colour_distiller(palette = "Spectral")
 ```
 
