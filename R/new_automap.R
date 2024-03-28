@@ -21,7 +21,7 @@
   op <- options(warn = -1)
   on.exit(options(op), add = TRUE)
   raster::setValues(target,
-    vapour::gdal_raster_data(src, target_ext = ext, target_dim = dm, target_crs = proj, resample = "cubic")[[1L]])
+                    vapour::gdal_raster_data(src, target_ext = ext, target_dim = dm, target_crs = proj, resample = "cubic")[[1L]])
 }
 family_proj <- function(family = NULL, clon = NULL, clat = NULL, true_scale = NULL,
                         secant_range = NULL) {
@@ -53,63 +53,48 @@ mesh_points <- function(x) {
 #' @param sample_type create random input data from a 'polar' or 'lonlat' domain
 automap_nothing <- function(sample_type = "polar") {
   stopifnot(sample_type %in% c("lonlat", "polar"))
-    nsample <- runif(1, 15, 35)
-    if (sample_type == "polar") {
-      ## sample from Bathy
+  nsample <- runif(1, 15, 35)
+  if (sample_type == "polar") {
+    ## sample from Bathy
 
-      Bathy <- NULL
-      data("Bathy", package = "SOmap", envir = environment())
+    Bathy <- NULL
+    data("Bathy", package = "SOmap", envir = environment())
 
-      rr <- raster(Bathy)
-      raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
-      xy <- terra::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)), to = "EPSG:4326",
-                           from = raster::projection(rr))
-      xy <- xy[xy[,2] < -40, ]
-      if (length(xy) == 2) xy <- jitter(rbind(xy, xy), amount = 10)
-    }
-    if (sample_type == "lonlat") {
-      xlim <- sort(runif(2, -359, 359))
-      ylim <- sort(runif(2, -89, -20))
+    rr <- raster(Bathy)
+    raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
+    xy <- terra::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)), to = "EPSG:4326",
+                         from = raster::projection(rr))
+    xy <- xy[xy[,2] < -40, ]
+    if (length(xy) == 2) xy <- jitter(rbind(xy, xy), amount = 10)
+  }
+  if (sample_type == "lonlat") {
+    xlim <- sort(runif(2, -359, 359))
+    ylim <- sort(runif(2, -89, -20))
 
-      x <- runif(nsample, xlim[1], xlim[2])
-      y <- runif(nsample, ylim[1], ylim[2])
-      xy <- cbind(x, y)
+    x <- runif(nsample, xlim[1], xlim[2])
+    y <- runif(nsample, ylim[1], ylim[2])
+    xy <- cbind(x, y)
 
-    }
-    xy <- xy[order(xy[, 1], xy[,2]), ]
-    xy
+  }
+  xy <- xy[order(xy[, 1], xy[,2]), ]
+  xy
 }
 crunch_bathy <- function(target_raster) {
   stars_to_raster(stars::st_warp(stars::st_as_stars(SOmap::Bathy),
-                                                    stars::st_as_stars(target_raster)))
+                                 stars::st_as_stars(target_raster)))
 
 }
 crunch_raster <- function(source_raster, target_raster) {
   stars_to_raster(stars::st_warp(stars::st_as_stars(source_raster),
-                                      stars::st_as_stars(target_raster)))
+                                 stars::st_as_stars(target_raster)))
 
 }
 mid_point <- function (p, fold = FALSE) {
-  #  gc <- "+proj=geocent +datum=WGS84"
-  #  lc <- "+proj=longlat +datum=WGS84"
-  #  reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
+  gc <- "+proj=geocent +datum=WGS84"
+  lc <- "+proj=longlat +datum=WGS84"
+  reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
 
-  n <- nrow(p)
-  rad <- pi/180
-  p <- rad * p
-  dlon <- diff(p[, 1L])
-  lon1 <- p[-n, 1L]
-  lat1 <- p[-n, 2L]
-  lat2 <- p[-1L, 2L]
-  bx <- cos(lat2) * cos(dlon)
-  by <- cos(lat2) * sin(dlon)
-  lat <- atan2(sin(lat1) + sin(lat2), sqrt((cos(lat1) + bx)^2 +
-                                             by^2))/rad
-  lon <- (lon1 + atan2(by, cos(lat1) + bx))/rad
-  if (fold)
-    lon <- wrapLon(lon)
-  cbind(lon, lat)
-  }
+}
 
 #' @noRd
 #' @param x a raster, stars, spatial sf, or numeric vector ('y' must also be present if 'x' is numeric, or NULL if x is a matrix)
@@ -209,6 +194,7 @@ automap_maker <-
     if (is.numeric(x)) {
       src_prj <- llproj
       llxy <- cbind(x, y)
+
       midp <- mid_point(llxy)
       if (is.null(centre_lon)) centre_lon <- midp[1]
       if (is.null(centre_lat)) centre_lat <- midp[2]
