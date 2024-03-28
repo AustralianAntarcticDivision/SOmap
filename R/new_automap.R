@@ -1,4 +1,4 @@
-#' @importFrom vapour vapour_warp_raster
+#' @importFrom vapour gdal_raster_data vapour_vrt
 .get_raad_gebco <- function(target) {
   src <- getOption("SOmap.auto.topography.source")
   if (is.null(src)) {
@@ -62,8 +62,8 @@ automap_nothing <- function(sample_type = "polar") {
 
       rr <- raster(Bathy)
       raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
-      xy <- rgdal::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)),
-                           raster::projection(rr), inv = TRUE)
+      xy <- reproj::reproj_xy(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)), "OGC:CRS84",
+                           source = raster::projection(rr))
       xy <- xy[xy[,2] < -40, ]
       if (length(xy) == 2) xy <- jitter(rbind(xy, xy), amount = 10)
     }

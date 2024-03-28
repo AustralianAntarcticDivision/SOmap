@@ -98,7 +98,7 @@ The `SOmap_auto()`, `SOmap()`, and `SOmap2()` functions return the data used to 
 ```{r automap2, fig.height = 5, fig.width = 5} 
 data("albatross", package = "adehabitatLT")
 ## convert the albatross data to a single matrix of lon, lat points
-albatrack <- do.call(rbind, lapply(albatross, function(z) rgdal::project(rbind(as.matrix(z[, c("x", "y")]), NA), "+proj=utm +zone=42 +south +datum=WGS84", inv = TRUE)))
+albatrack <- do.call(rbind, lapply(albatross, function(z) terra::project(rbind(as.matrix(z[, c("x", "y")]), NA), to = "OGC:CRS84", from = "+proj=utm +zone=42 +south +datum=WGS84")))
 
 ## construct the map and return it, but don't plot it
 alb_map <- SOmap_auto(albatrack[, 1], albatrack[, 2])
