@@ -62,8 +62,8 @@ automap_nothing <- function(sample_type = "polar") {
 
       rr <- raster(Bathy)
       raster::res(rr) <- c(runif(1, 16000, 1e6), runif(1, 16000, 1e6))
-      xy <- gdal_project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)), "EPSG:4326",
-                           source = raster::projection(rr))
+      xy <- terra::project(raster::xyFromCell(rr, sample(raster::ncell(rr), nsample)), to = "EPSG:4326",
+                           from = raster::projection(rr))
       xy <- xy[xy[,2] < -40, ]
       if (length(xy) == 2) xy <- jitter(rbind(xy, xy), amount = 10)
     }
@@ -90,10 +90,26 @@ crunch_raster <- function(source_raster, target_raster) {
 
 }
 mid_point <- function (p, fold = FALSE) {
-    gc <- "+proj=geocent +datum=WGS84"
-    lc <- "+proj=longlat +datum=WGS84"
-    reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
-}
+  #  gc <- "+proj=geocent +datum=WGS84"
+  #  lc <- "+proj=longlat +datum=WGS84"
+  #  reproj::reproj(matrix(colMeans(reproj::reproj(p, target = gc, source  = lc), na.rm = TRUE), 1L),target = lc, source = gc)[1L, 1:2, drop = FALSE]
+
+  n <- nrow(p)
+  rad <- pi/180
+  p <- rad * p
+  dlon <- diff(p[, 1L])
+  lon1 <- p[-n, 1L]
+  lat1 <- p[-n, 2L]
+  lat2 <- p[-1L, 2L]
+  bx <- cos(lat2) * cos(dlon)
+  by <- cos(lat2) * sin(dlon)
+  lat <- atan2(sin(lat1) + sin(lat2), sqrt((cos(lat1) + bx)^2 +
+                                             by^2))/rad
+  lon <- (lon1 + atan2(by, cos(lat1) + bx))/rad
+  if (fold)
+    lon <- wrapLon(lon)
+  cbind(lon, lat)
+  }
 
 #' @noRd
 #' @param x a raster, stars, spatial sf, or numeric vector ('y' must also be present if 'x' is numeric, or NULL if x is a matrix)
@@ -155,6 +171,7 @@ automap_maker <-
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
+
         mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(), source = raster::projection(x)))
         if (is.null(centre_lon)) centre_lon <- mp[1]
         if (is.null(centre_lat)) centre_lat <- mp[2]
@@ -177,6 +194,7 @@ automap_maker <-
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
+
         mp <- mid_point(reproj::reproj(as.matrix(cpts), target = proj_longlat(),
                                        source = raster::projection(x)))
         if (is.null(centre_lon)) centre_lon <- mp[1]
