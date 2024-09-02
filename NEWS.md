@@ -1,5 +1,6 @@
 # dev
 
+* Fixed bug in crs detection (#115) .
 * Removed rgdal. 
 
 * Changed underlying method of getting background bathymetry for SOmap_auto(). 
