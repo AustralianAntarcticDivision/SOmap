@@ -1,8 +1,7 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  SOmap-introduction: SOmap-introduction.html
   many-automap-examples: many-automap-examples.html
-last_built: 2024-03-28T08:13Z
-
+  SOmap-introduction: SOmap-introduction.html
+last_built: 2024-09-02T10:22Z
