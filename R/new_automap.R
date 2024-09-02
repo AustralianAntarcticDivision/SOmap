@@ -128,8 +128,13 @@ automap_maker <-
     tgt_prj <- NULL
     xy <- NULL
     llxy <- NULL
-    if (!is.null(target) && substr(trimws(target, which = "left"), 1, 1) == "+") {
-      ## whoa we have an actual PROJ.4 string
+    is_a_crs <- function(x) {
+      test <- try(sf::st_crs(x), silent = TRUE)
+      !inherits(test, "try-error")
+    }
+    if (!is.null(target) && is_a_crs(target)){
+
+      ## whoa we have an actual crs string
       if (!is.null(centre_lon) || !is.null(centre_lat)) {
         warning("'target' provided looks like a PROJ so centre_lon/centre_lat ignored")
         centre_lon <- centre_lat <- NULL
@@ -152,7 +157,7 @@ automap_maker <-
       }
 
       ## we gave it a grid, but also a target family
-      if (!is.null(target) && !grepl("^\\+", target) && (length(c(centre_lon, centre_lat)) < 2)) {
+      if (!is.null(target) && !is_a_crs(target) && (length(c(centre_lon, centre_lat)) < 2)) {
         ## get the centre lon and lat from the input
 
         cpts <- spbabel::sptable(spex::spex(x))[-1, c("x_", "y_")]
