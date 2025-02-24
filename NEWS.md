@@ -1,5 +1,7 @@
 # dev
 
+* Fixed bug in graticule text, by using a non-sf dataframe #117. 
+
 * Source of GEBCO updated to 2024, and added some documentation. 
 
 * Fixed bug in crs detection (#115) .
