@@ -389,7 +389,9 @@ plot_graticule <- function(x, GratPos) {
                                         # points(x$x_start, x$y_start, col = 'red')
                                         #points(x$x_end, x$y_end, col = 'blue')
     op <- par(xpd = NA)
+    x <- as.data.frame(x) ## Seems to fix
     invisible(lapply(seq_len(nrow(x)), function(i) {
+
         if (GratPos=="all" || "left" %in% GratPos){
             if (x$type[i] == "N" && x$x_start[i] - min(x$x_start) < 1000) {
                 text(x[i,"x_start"], x[i,"y_start"], labels = parse(text = x[i,"degree_label"]),
