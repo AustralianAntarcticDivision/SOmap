@@ -3,7 +3,7 @@
   src <- getOption("SOmap.auto.topography.source")
   if (is.null(src)) {
 
-    src <- "/vsicurl/https://gebco2023.s3.valeria.science/gebco_2023_land_cog.tif"
+    src <- "/vsicurl/https://projects.pawsey.org.au/idea-gebco-tif/GEBCO_2024.tif"
   }
   ri <- vapour::vapour_raster_info(src)$projection
   if (nchar(ri) < 1) {

@@ -1,14 +1,11 @@
 prj <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
-#src <- readAll(raadtools::readtopo("gebco_14"))  ##, xylim = extent(-180, 180, -90, 0))
-src <- "/vsicurl/https://gebco2023.s3.valeria.science/gebco_2023_land_cog.tif"
-r <- raster(projectExtent(raster(extent(-180, 180, -90, -5), crs  = "EPSG:4326"), prj))
-## cleanup and rebuild
-r <- raster(spex::buffer_extent(r, 16000), crs = prj)
-res(r) <- 16000
-Bathy <- raster(terra::project(terra::rast(src), terra::rast(r), by_util = TRUE))
-
-dataType(Bathy) <- "INT2S"
-Bathy <- setValues(Bathy, as.integer(values(Bathy)))
+ex <- c(-11344000, 11344000, -11344000, 10800000 )
+res <- c(16000, 16000)
+src <- "/vsicurl/https://projects.pawsey.org.au/idea-gebco-tif/GEBCO_2024.tif"
+library(terra)
+r <- rast(ext(ex), crs = prj, res = res)
+Bathy <- project(rast(src), r, method = "bilinear", by_util = TRUE)
+Bathy <- raster::raster(Bathy) * 1
 
 usethis::use_data(Bathy, overwrite = TRUE)
 

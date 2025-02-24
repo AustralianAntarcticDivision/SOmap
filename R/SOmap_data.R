@@ -148,8 +148,13 @@ NULL
 
 #' Bathymetric data for maps
 #'
-#' Bathymetric data reprocessed from the GEBCO_2014 Grid data set.
+#' Bathymetric data reprocessed from the General Bathymetric Chart of the Ocean.
 #'
+#' These data providers don't publish the data in cloud-ready form, so we have a few versions convert to Cloud-Optimized GeoTIFF, always using the
+#' 'ice surface elevation' form. See [R package sds](https://github.com/hypertidy/sds) which records the latest available source in `sds::gebco()` and
+#' has some time-stamped versions of that function for older copies.
+#'
+#' The process for creating a COG is recorded here: [derived GEBCO reformat](https://github.com/AustralianAntarcticDivision/raad-deriv/issues/3).
 #' @docType data
 #'
 #' @usage data(Bathy)
@@ -158,7 +163,8 @@ NULL
 #'
 #' @keywords datasets
 #'
-#' @references The GEBCO_2014 Grid, version 20150318
+#' @references GEBCO - The General Bathymetric Chart of the Oceans, latest version at time of writing was 2024, with attribution
+#' "GEBCO Compilation Group (2024) GEBCO 2024 Grid (doi:10.5285/1c44ce99-0a0d-5f4f-e063-7086abc0ea0f)".
 #'
 #' @source \href{https://www.gebco.net/data_and_products/gridded_bathymetry_data/}{GEBCO}
 "Bathy"

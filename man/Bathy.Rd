@@ -14,9 +14,17 @@ An object of class \code{"RasterLayer"}
 data(Bathy)
 }
 \description{
-Bathymetric data reprocessed from the GEBCO_2014 Grid data set.
+Bathymetric data reprocessed from the General Bathymetric Chart of the Ocean.
+}
+\details{
+These data providers don't publish the data in cloud-ready form, so we have a few versions convert to Cloud-Optimized GeoTIFF, always using the
+'ice surface elevation' form. See \href{https://github.com/hypertidy/sds}{R package sds} which records the latest available source in \code{sds::gebco()} and
+has some time-stamped versions of that function for older copies.
+
+The process for creating a COG is recorded here: \href{https://github.com/AustralianAntarcticDivision/raad-deriv/issues/3}{derived GEBCO reformat}.
 }
 \references{
-The GEBCO_2014 Grid, version 20150318
+GEBCO - The General Bathymetric Chart of the Oceans, latest version at time of writing was 2024, with attribution
+"GEBCO Compilation Group (2024) GEBCO 2024 Grid (doi:10.5285/1c44ce99-0a0d-5f4f-e063-7086abc0ea0f)".
 }
 \keyword{datasets}

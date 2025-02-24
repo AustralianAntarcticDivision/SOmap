@@ -1,6 +1,9 @@
 # dev
 
+* Source of GEBCO updated to 2024, and added some documentation. 
+
 * Fixed bug in crs detection (#115) .
+
 * Removed rgdal. 
 
 * Changed underlying method of getting background bathymetry for SOmap_auto(). 
