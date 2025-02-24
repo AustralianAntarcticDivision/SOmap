@@ -389,7 +389,7 @@ plot_graticule <- function(x, GratPos) {
                                         # points(x$x_start, x$y_start, col = 'red')
                                         #points(x$x_end, x$y_end, col = 'blue')
     op <- par(xpd = NA)
-    x <- as.data.frame(x) ## Seems to fix
+    x <- as.data.frame(x) ## Seems to fix #117
     invisible(lapply(seq_len(nrow(x)), function(i) {
 
         if (GratPos=="all" || "left" %in% GratPos){
