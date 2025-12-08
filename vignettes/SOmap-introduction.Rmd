@@ -546,7 +546,7 @@ names(ice_raster_as_df)[3] <- "ice"
 ## add this to our object in place of bathy
 temp$bathy <- SO_plotter(plotfun = "ggplot2::geom_raster",
                          plotargs = list(data = ice_raster_as_df,
-                                         mapping = aes_string(fill = "ice")))
+                                         mapping = aes(fill = ice)))
 ## change the colour scale
 temp$scale_fill[[1]]$plotargs <- list(colours = my_cmap, na.value = "#FFFFFF00", guide = "none")
 ## remove the bathy legend

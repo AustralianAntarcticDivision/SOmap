@@ -137,8 +137,8 @@ SOgg_notauto <- function(x) {
     names(bdf)[3] <- "Depth"
 
     out <- x[intersect(names(x), c("projection", "target", "straight", "trim"))]
-    out$init <- SO_plotter(plotfun = "ggplot2::ggplot", plotargs = list(data = bdf, mapping = aes_string(x = "x", y = "y")))
-    out$bathy <- SO_plotter(plotfun = "ggplot2::geom_raster", plotargs = list(mapping = aes_string(fill = "Depth")))
+    out$init <- SO_plotter(plotfun = "ggplot2::ggplot", plotargs = list(data = bdf, mapping = aes(x = .data[["x"]], y = .data[["y"]])))
+    out$bathy <- SO_plotter(plotfun = "ggplot2::geom_raster", plotargs = list(mapping = aes(fill = .data[["Depth"]])))
     out$coord <- SO_plotter(plotfun = "ggplot2::coord_sf", plotargs = list(default = TRUE))
     out$plot_sequence <- c("init", "bathy", "coord")
 
@@ -157,11 +157,11 @@ SOgg_notauto <- function(x) {
             suppressMessages(theticks <- fortify(theticks))
             ##suppressMessages(themask <- fortify(x$bathy_legend$graticules$plotargs$x))
             thecolors$cols <- as.numeric(thecolors$id)
-            out$bathy_legend <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)),
-                                  SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)))
-            out$bathy_legend <- c(out$bathy_legend, unlist(lapply(seq_along(x$bathy_legend[[1]]$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$bathy_legend[[1]]$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
+            out$bathy_legend <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)),
+                                  SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]),  fill = NA, col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)))
+            out$bathy_legend <- c(out$bathy_legend, unlist(lapply(seq_along(x$bathy_legend[[1]]$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), fill = x$bathy_legend[[1]]$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
             temp <- as.data.frame(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$x)
-            out$bathy_legend <- c(out$bathy_legend, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes_string(x = if ("lon" %in% names(temp)) "lon" else "coords.x1", y = if ("lat" %in% names(temp)) "lat" else "coords.x2", label = "a"), size = SOgg_cex(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$cex))))
+            out$bathy_legend <- c(out$bathy_legend, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes(x = .data[[if ("lon" %in% names(temp)) "lon" else "coords.x1"]], y = .data[[if ("lat" %in% names(temp)) "lat" else "coords.x2"]], label = .data[["a"]]), size = SOgg_cex(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$cex))))
         }
         out$plot_sequence <- c(out$plot_sequence, "bathy_legend")
     }
@@ -209,11 +209,11 @@ SOgg_notauto <- function(x) {
     if (!is.null(x$graticule) && "graticule" %in% x$plot_sequence) {
         this <- fortify(x$graticule$main$plotargs$x)
         this <- this[this$long >= myext[1] & this$long <= myext[2] & this$lat >= myext[3] & this$lat <= myext[4], ]
-        out$graticule <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = this, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$graticule$main$plotargs$col, linetype = x$graticule$main$plotargs$lty))
+        out$graticule <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = this, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), col = x$graticule$main$plotargs$col, linetype = x$graticule$main$plotargs$lty))
         if (!is.null(x$graticule$labels)) {
             this <- as.data.frame(x$graticule$labels$plotargs$x)
             this <- this[this$x >= myext[1] & this$x <= myext[2] & this$y >= myext[3] & this$y <= myext[4], ]
-            out$graticule <- c(out$graticule, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = this, mapping = aes_string(label = "lab"), parse = TRUE, col = x$graticule$labels$plotargs$col, size = SOgg_cex(x$graticule$labels$plotargs$cex))))
+            out$graticule <- c(out$graticule, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = this, mapping = aes(label = .data[["lab"]]), parse = TRUE, col = x$graticule$labels$plotargs$col, size = SOgg_cex(x$graticule$labels$plotargs$cex))))
         }
         out$plot_sequence <- c(out$plot_sequence, "graticule")
     }
@@ -238,7 +238,7 @@ SOgg_notauto <- function(x) {
         this$col <- (as.numeric(this$id) %% length(x$border[[1]]$plotargs$col)) + 1
         out$border <- NULL
         for (ii in seq_along(x$border[[1]]$plotargs$col)) {
-            out$border <- c(out$border, SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = this[this$col == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$border[[1]]$plotargs$col[ii], col = "black")))
+            out$border <- c(out$border, SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = this[this$col == ii, ], mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), fill = x$border[[1]]$plotargs$col[ii], col = "black")))
         }
         out$plot_sequence <- c(out$plot_sequence, "border")
     }
@@ -275,19 +275,19 @@ SOgg_legend <- function(x) {
     } else {
         out <- c()
         if ("ticks" %in% x$plot_sequence) {
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes_string(x = "long", y = "lat", group = "group"), col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes_string(x = "long", y = "lat", group = "group"),  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]),  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
         }
         if ("legend" %in% x$plot_sequence) {
-            out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes_string(x = "long", y = "lat", group = "group"), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
+            out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
         }
         if ("tick_labels" %in% x$plot_sequence) {
             temp <- as.data.frame(x$tick_labels[[1]]$plotargs$x)
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes_string(x = if ("lon" %in% names(temp)) "lon" else "coords.x1", y = if ("lat" %in% names(temp)) "lat" else "coords.x2", label = "a"), size = SOgg_cex(x$tick_labels[[1]]$plotargs$cex))))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes(x = .data[[if ("lon" %in% names(temp)) "lon" else "coords.x1"]], y = .data[[if ("lat" %in% names(temp)) "lat" else "coords.x2"]], label = .data[["a"]]), size = SOgg_cex(x$tick_labels[[1]]$plotargs$cex))))
         }
         if ("legend_labels" %in% x$plot_sequence) {
             tang <- if (is.null(x$legend_labels[[1]]$plotargs$srt)) 0 else x$legend_labels[[1]]$plotargs$srt
             temp <- as.data.frame(x$legend_labels[[1]]$plotargs$x)
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes_string(x = if ("lon" %in% names(temp)) "lon" else "coords.x1", y = if ("lat" %in% names(temp)) "lat" else "coords.x2", label = "a"), angle = tang, size = SOgg_cex(x$legend_labels[[1]]$plotargs$cex))))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes(x = .data[[if ("lon" %in% names(temp)) "lon" else "coords.x1"]], y = .data[[if ("lat" %in% names(temp)) "lat" else "coords.x2"]], label = .data[["a"]]), angle = tang, size = SOgg_cex(x$legend_labels[[1]]$plotargs$cex))))
         }
     }
     out
@@ -347,7 +347,7 @@ SOgg_management <- function(x, basemap) {
             for (templab in temp) {
                 this <- templab$plotargs$x
                 this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "LongLabel"), parse = FALSE, col = templab$plotargs$col, size = SOgg_cex(templab$plotargs$cex), inherit.aes = FALSE)))
+                out$ccamlr_statistical_areas <- c(out$ccamlr_statistical_areas, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes(label = .data[["LongLabel"]]), parse = FALSE, col = templab$plotargs$col, size = SOgg_cex(templab$plotargs$cex), inherit.aes = FALSE)))
             }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_statistical_areas")
@@ -360,7 +360,7 @@ SOgg_management <- function(x, basemap) {
         out$ccamlr_ssru <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssru$main$plotargs$border, fill = x$ccamlr_ssru$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$ccamlr_ssru$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssru$labels$plotargs$x)))
-            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("Name")), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = SOgg_cex(x$ccamlr_ssru$labels$plotargs$cex), inherit.aes = FALSE)))##, pos = x$ccamlr_ssru$labels$pos, offset = x$ccamlr_ssru$labels$offset)
+            out$ccamlr_ssru <- c(out$ccamlr_ssru, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes(label = .data[["Name"]]), parse = FALSE, col = x$ccamlr_ssru$labels$plotargs$col, size = SOgg_cex(x$ccamlr_ssru$labels$plotargs$cex), inherit.aes = FALSE)))##, pos = x$ccamlr_ssru$labels$pos, offset = x$ccamlr_ssru$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssru")
     }
@@ -371,7 +371,7 @@ SOgg_management <- function(x, basemap) {
         out$ccamlr_ssmu <- SO_plotter(plotfun = "ggplot2::geom_sf", plotargs = list(data = this, col = x$ccamlr_ssmu$main$plotargs$border, fill = x$ccamlr_ssmu$main$plotargs$col, inherit.aes = FALSE))
         if (!is.null(x$ccamlr_ssmu$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$ccamlr_ssmu$labels$plotargs$x)))
-            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("ShortLabel")), parse = FALSE, col = x$ccamlr_ssmu$labels$plotargs$col, size = SOgg_cex(x$ccamlr_ssmu$labels$plotargs$cex), inherit.aes = FALSE)))##, pos = x$ccamlr_ssmu$labels$pos, offset = x$ccamlr_ssmu$labels$offset)
+            out$ccamlr_ssmu <- c(out$ccamlr_ssmu, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes(label = .data[["ShortLabel"]]), parse = FALSE, col = x$ccamlr_ssmu$labels$plotargs$col, size = SOgg_cex(x$ccamlr_ssmu$labels$plotargs$cex), inherit.aes = FALSE)))##, pos = x$ccamlr_ssmu$labels$pos, offset = x$ccamlr_ssmu$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_ssmu")
     }
@@ -382,11 +382,11 @@ SOgg_management <- function(x, basemap) {
         if (length(pidx) > 0) {
             this <- do.call(rbind, lapply(pidx, function(z) { out <- as.data.frame(x$iwc[[z]]$plotargs$x); out$id <- z; out}))
             names(this) <- c("x", "y", "id")
-            out$iwc <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = this, mapping = aes_string(x = "x", y = "y", group = "id"), col = x$iwc[[pidx[1]]]$plotargs$col, inherit.aes = FALSE))
+            out$iwc <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = this, mapping = aes(x = .data[["x"]], y = .data[["y"]], group = .data[["id"]]), col = x$iwc[[pidx[1]]]$plotargs$col, inherit.aes = FALSE))
         }
         if (!is.null(x$iwc$labels)) {
             this <- suppressWarnings(apply_buf(sf::st_as_sf(x$iwc$labels$plotargs$x)))
-            out$iwc <- c(out$iwc, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "a.1"), parse = FALSE, col = x$iwc$labels$plotargs$col, size = SOgg_cex(x$iwc$labels$plotargs$cex), inherit.aes = FALSE)))
+            out$iwc <- c(out$iwc, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes(label = .data[["a.1"]]), parse = FALSE, col = x$iwc$labels$plotargs$col, size = SOgg_cex(x$iwc$labels$plotargs$cex), inherit.aes = FALSE)))
         }
         out$plot_sequence <- c(out$plot_sequence, "iwc")
     }
@@ -398,7 +398,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$research_blocks$labels)) {
             this <- x$research_blocks$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = as.character("GAR_Short_")), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = SOgg_cex(x$research_blocks$labels$plotargs$cex), inherit.aes = FALSE)))
+            out$research_blocks <- c(out$research_blocks, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes(label = .data[["GAR_Short_"]]), parse = FALSE, col = x$research_blocks$labels$plotargs$col, size = SOgg_cex(x$research_blocks$labels$plotargs$cex), inherit.aes = FALSE)))
         }
         out$plot_sequence <- c(out$plot_sequence, "research_blocks")
     }
@@ -418,7 +418,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$eez$labels)) {
             this <- x$eez$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$eez <- c(out$eez, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "ShortLabel"), parse = FALSE,size = SOgg_cex(x$eez$labels$plotargs$cex), col = x$eez$labels$plotargs$col, inherit.aes = FALSE)))##, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
+            out$eez <- c(out$eez, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes(label = .data[["ShortLabel"]]), parse = FALSE,size = SOgg_cex(x$eez$labels$plotargs$cex), col = x$eez$labels$plotargs$col, inherit.aes = FALSE)))##, pos = x$eez$labels$pos, offset = x$eez$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "eez")
     }
@@ -429,7 +429,7 @@ SOgg_management <- function(x, basemap) {
         if (!is.null(x$mpa$labels)) {
             this <- x$mpa$labels$plotargs$x
             this <- suppressWarnings(apply_buf(sf::st_as_sf(this)))
-            out$mpa <- c(out$mpa, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes_string(label = "ShortLabel"), parse = TRUE, col = x$mpa$labels$plotargs$col, size = SOgg_cex(x$mpa$labels$plotargs$cex), inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
+            out$mpa <- c(out$mpa, SO_plotter(plotfun = "ggplot2::geom_sf_text", plotargs = list(data = this, mapping = aes(label = .data[["ShortLabel"]]), parse = TRUE, col = x$mpa$labels$plotargs$col, size = SOgg_cex(x$mpa$labels$plotargs$cex), inherit.aes = FALSE)))##, cex = x$mpa$labels$cex, pos = x$mpa$labels$pos, offset = x$mpa$labels$offset)
         }
         out$plot_sequence <- c(out$plot_sequence, "mpa")
     }
@@ -461,7 +461,7 @@ SOgg_management <- function(x, basemap) {
                     ## right
                     hj <- 0; vj = 0.5
                 }
-                out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, mapping = aes_string(x = "x", y = "y", label = "lab"), parse = FALSE, col = lb$plotargs$col, inherit.aes = FALSE, hjust = hj, vjust = vj)))
+                out$ccamlr_planning_domains <- c(out$ccamlr_planning_domains, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = crds, mapping = aes(x = .data[["x"]], y = .data[["y"]], label = .data[["lab"]]), parse = FALSE, col = lb$plotargs$col, inherit.aes = FALSE, hjust = hj, vjust = vj)))
             }
         }
         out$plot_sequence <- c(out$plot_sequence, "ccamlr_planning_domains")
@@ -478,8 +478,8 @@ SOgg_auto <- function(x) {
     names(bdf) <- c("Longitude", "Latitude", "Depth")
 
     out <- x[intersect(names(x), c("projection", "target", "crs"))]
-    out$init <- SO_plotter(plotfun = "ggplot2::ggplot", plotargs = list(data = bdf, mapping = aes_string(x = "Longitude", y = "Latitude")))
-    out$bathy <- SO_plotter(plotfun = "ggplot2::geom_raster", plotargs = list(mapping = aes_string(fill = "Depth")))
+    out$init <- SO_plotter(plotfun = "ggplot2::ggplot", plotargs = list(data = bdf, mapping = aes(x = .data[["Longitude"]], y = .data[["Latitude"]])))
+    out$bathy <- SO_plotter(plotfun = "ggplot2::geom_raster", plotargs = list(mapping = aes(fill = .data[["Depth"]])))
     out$coord <- SO_plotter(plotfun = "ggplot2::coord_sf", plotargs = list(default = TRUE))
     out$plot_sequence <- c("init", "bathy", "coord")
 
@@ -499,7 +499,7 @@ SOgg_auto <- function(x) {
         out$plot_sequence <- c(out$plot_sequence, "ice")
     }
     if (!is.null(x$contours) && "contours" %in% x$plot_sequence) {
-        out$contours <- SO_plotter(plotfun = "ggplot2::geom_contour", plotargs = list(mapping = aes_string(z = "Depth"), breaks = x$contours[[1]]$plotargs$levels, col = x$contours[[1]]$plotargs$col))
+        out$contours <- SO_plotter(plotfun = "ggplot2::geom_contour", plotargs = list(mapping = aes(z = .data[["Depth"]]), breaks = x$contours[[1]]$plotargs$levels, col = x$contours[[1]]$plotargs$col))
         out$plot_sequence <- c(out$plot_sequence, "contours")
     }
 
@@ -509,12 +509,12 @@ SOgg_auto <- function(x) {
     }
 ## TODO These should iterate through multiple SO_plotters?
     if(!is.null(x$lines) && "lines" %in% x$plot_sequence) {
-        out$lines <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines[[1]]$plotargs$x), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$lines[[1]]$plotargs$col, linetype = x$lines[[1]]$plotargs$lty, size = x$lines[[1]]$plotargs$lwd))
+        out$lines <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines[[1]]$plotargs$x), c("x", "y")), mapping = aes(x = .data[["x"]], y = .data[["y"]]), col = x$lines[[1]]$plotargs$col, linetype = x$lines[[1]]$plotargs$lty, size = x$lines[[1]]$plotargs$lwd))
         out$plot_sequence <- c(out$plot_sequence, "lines")
     }
 
     if(!is.null(x$points) && "points" %in% x$plot_sequence) {
-        out$points <- SO_plotter(plotfun = "ggplot2::geom_point", plotargs = list(data = setNames(as.data.frame(x$points[[1]]$plotargs$x), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$points[[1]]$plotargs$col, shape = x$points[[1]]$plotargs$pch, size = x$points[[1]]$plotargs$cex))
+        out$points <- SO_plotter(plotfun = "ggplot2::geom_point", plotargs = list(data = setNames(as.data.frame(x$points[[1]]$plotargs$x), c("x", "y")), mapping = aes(x = .data[["x"]], y = .data[["y"]]), col = x$points[[1]]$plotargs$col, shape = x$points[[1]]$plotargs$pch, size = x$points[[1]]$plotargs$cex))
         out$plot_sequence <- c(out$plot_sequence, "points")
     }
 

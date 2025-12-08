@@ -58,6 +58,9 @@ SOproj_inner <- function(x, y, target, data, ..., source) {
         if (is.data.frame(x) && !inherits(x, c("sf", "Spatial"))) {
             y <- x[[2]]
             x <- x[[1]]
+#        } else if (is.matrix(x)) {
+#            y <- x[, 2]
+#            x <- x[, 1]
         } else {
             source <- raster::projection(x)
             if (is.na(source)) {
@@ -65,7 +68,9 @@ SOproj_inner <- function(x, y, target, data, ..., source) {
                 source <- "+proj=longlat +datum=WGS84 +no_defs"
             }
                                         #browser()
-            return(reproj(x, target = target, source = source))
+            out <- reproj(x, target = target, source = source)
+            if (is.matrix(out) && ncol(out) > 2) out <- out[, 1:2]
+            return(out)
         }
     }
     if (missing(x) || is.null(y)) {
