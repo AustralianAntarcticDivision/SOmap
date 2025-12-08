@@ -88,7 +88,7 @@ SOmap_inner <- function(bathy_legend, border, trim, graticules, straight, land, 
     if (land) {
       xland <-sf::st_as_sf(SOmap::SOmap_data$continent)
       xland <- sf::st_buffer(xland, 0)
-      xland <- sf::st_set_crs(xland, sf::st_crs(buf))
+      suppressWarnings(xland <- sf::st_set_crs(xland, sf::st_crs(buf)))
       out$coastline <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xland)$geometry), col = NA, border = land_col, add = TRUE))
 
       out$plot_sequence <- c(out$plot_sequence, "coastline")
@@ -106,12 +106,12 @@ SOmap_inner <- function(bathy_legend, border, trim, graticules, straight, land, 
     ## fronts
     if (isTRUE(fronts) || fronts == "orsi") {
       xfront <-sf::st_as_sf(SOmap::SOmap_data$fronts_orsi)
-      xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
+      suppressWarnings(xfront <- sf::st_set_crs(xfront, sf::st_crs(buf)))
       out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
     } else if (fronts == "park") {
       xfront <-suppressWarnings(SOproj(SOmap::SOmap_data$fronts_park, target = out$projection))
-      #xfront <- sf::st_set_crs(xfront, sf::st_crs(buf))
+      ## suppressWarnings(xfront <- sf::st_set_crs(xfront, sf::st_crs(buf)))
       out$fronts <- SO_plotter(plotfun = "plot", plotargs = list(x = suppressWarnings(sf::st_intersection(buf, xfront)$geometry), col = fronts_col, add = TRUE))
       out$plot_sequence <- c(out$plot_sequence, "fronts")
     }

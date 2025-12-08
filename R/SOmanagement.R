@@ -92,7 +92,7 @@ SOmanagement_inner <- function(ccamlr, ccamlr_labels, ssru, ssru_labels, ssmu, s
                 if (inherits(thing, "Spatial")) {
                     thing <- sf::st_as_sf(thing)
                     thing <- sf::st_buffer(thing, 0)
-                    thing <- sf::st_set_crs(thing, sf::st_crs(croptarget))
+                    suppressWarnings(thing <- sf::st_set_crs(thing, sf::st_crs(croptarget)))
                 }
                 out <- suppressWarnings(sf::st_intersection(croptarget, thing))
                 if (geometry_only) out$geometry else out

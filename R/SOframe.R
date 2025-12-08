@@ -29,7 +29,7 @@ SOmask.BasicRaster <- function(x, mask, ...)  {
 
   dx <- max(c(dy, dx)) * 1000 / 24
   raster::projection(mask) <- "+proj=longlat +datum=WGS84"
-  mask <- sf::st_set_crs(sf::st_segmentize(sf::st_set_crs(sf::st_as_sf(mask), NA), dx), sf::st_crs(mask))
+  suppressWarnings(mask <- sf::st_set_crs(sf::st_segmentize(sf::st_set_crs(sf::st_as_sf(mask), NA), dx), sf::st_crs(mask)))
 
   raster::mask(x, SOproj(mask, target = raster::projection(x)))
 }
