@@ -108,3 +108,11 @@ quietly <- function(expr) {
 do_quieten <- function(msg) {
     is.null(msg) || grepl("Discarded datum WGS_1984|NULL source CRS comment", msg)
 }
+
+## replacement for the deprecated ggplot2::fortify function
+fortifylike <- function(z) {
+    out <- as.data.frame(sf::st_coordinates(sf::st_as_sf(z)))
+    out <- setNames(out, c("long", "lat", "piece", "id")[seq_len(ncol(out))])
+    out$group <- as.factor(paste0(out$id, ".", out$piece))
+    out
+}
