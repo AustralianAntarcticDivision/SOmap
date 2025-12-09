@@ -156,8 +156,8 @@ SOgg_notauto <- function(x) {
             theticks <- theticks[seq_len(nrow(theticks)-2), ]
             theticks <- fortifylike(theticks)
             thecolors$cols <- as.numeric(thecolors$id)
-            out$bathy_legend <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)),
-                                  SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]),  fill = NA, col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, size = 1)))
+            out$bathy_legend <- c(SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, linewidth = 1)),
+                                  SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]),  fill = NA, col = x$bathy_legend[[1]]$ticks[[1]]$plotargs$col, linewidth = 1)))
             out$bathy_legend <- c(out$bathy_legend, unlist(lapply(seq_along(x$bathy_legend[[1]]$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), fill = x$bathy_legend[[1]]$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
             temp <- as.data.frame(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$x)
             out$bathy_legend <- c(out$bathy_legend, SO_plotter(plotfun = "ggplot2::geom_text", plotargs = list(data = temp, mapping = aes(x = .data[[if ("lon" %in% names(temp)) "lon" else "coords.x1"]], y = .data[[if ("lat" %in% names(temp)) "lat" else "coords.x2"]], label = .data[["a"]]), size = SOgg_cex(x$bathy_legend[[1]]$tick_labels[[1]]$plotargs$cex))))
@@ -257,7 +257,7 @@ SOgg_legend <- function(x) {
         ## experimental, not yet used
         out <- c()
         if ("ticks" %in% x$plot_sequence) {
-            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "path", x = theticks$long, y = theticks$lat, group = theticks$group, col = x$ticks[[1]]$plotargs$col, linewidth = 1)), SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long, y = thecolors$lat, group = thecolors$group,  fill = NA, col = x$ticks[[1]]$plotargs$col, linewidth = 1)))
         }
         if ("legend" %in% x$plot_sequence) {
             out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::annotate", plotargs = list(geom = "polygon", x = thecolors$long[thecolors$cols == ii], y = thecolors$lat[thecolors$cols == ii], fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
@@ -274,7 +274,7 @@ SOgg_legend <- function(x) {
     } else {
         out <- c()
         if ("ticks" %in% x$plot_sequence) {
-            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), col = x$ticks[[1]]$plotargs$col, size = 1)), SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]),  fill = NA, col = x$ticks[[1]]$plotargs$col, size = 1)))
+            out <- c(out, SO_plotter(plotfun = "ggplot2::geom_line", plotargs = list(data = theticks, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), col = x$ticks[[1]]$plotargs$col, linewidth = 1)), SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors, mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]),  fill = NA, col = x$ticks[[1]]$plotargs$col, linewidth = 1)))
         }
         if ("legend" %in% x$plot_sequence) {
             out <- c(out, unlist(lapply(seq_along(x$legend[[2]]$plotargs$col), function(ii) SO_plotter(plotfun = "ggplot2::geom_polygon", plotargs = list(data = thecolors[thecolors$cols == ii, ], mapping = aes(x = .data[["long"]], y = .data[["lat"]], group = .data[["group"]]), fill = x$legend[[2]]$plotargs$col[ii], col = NA))), recursive = FALSE))
@@ -508,7 +508,7 @@ SOgg_auto <- function(x) {
     }
 ## TODO These should iterate through multiple SO_plotters?
     if(!is.null(x$lines) && "lines" %in% x$plot_sequence) {
-        out$lines <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines[[1]]$plotargs$x), c("x", "y")), mapping = aes(x = .data[["x"]], y = .data[["y"]]), col = x$lines[[1]]$plotargs$col, linetype = x$lines[[1]]$plotargs$lty, size = x$lines[[1]]$plotargs$lwd))
+        out$lines <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines[[1]]$plotargs$x), c("x", "y")), mapping = aes(x = .data[["x"]], y = .data[["y"]]), col = x$lines[[1]]$plotargs$col, linetype = x$lines[[1]]$plotargs$lty, linewidth = x$lines[[1]]$plotargs$lwd))
         out$plot_sequence <- c(out$plot_sequence, "lines")
     }
 
@@ -566,7 +566,7 @@ SOgg_auto <- function(x) {
 ##    }
 ##
 ##    if(!is.null(x$lines_data)) {
-##        out$lines_data <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines_data), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$lcol, linetype = x$llty, size = x$llwd))
+##        out$lines_data <- SO_plotter(plotfun = "ggplot2::geom_path", plotargs = list(data = setNames(as.data.frame(x$lines_data), c("x", "y")), mapping = aes_string(x = "x", y = "y"), col = x$lcol, linetype = x$llty, linewidth = x$llwd))
 ##        out$plot_sequence <- c(out$plot_sequence, "lines_data")
 ##    }
 ##
