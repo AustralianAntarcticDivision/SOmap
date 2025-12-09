@@ -1,11 +1,11 @@
 Package: SOmap
 Type: Package
 Title: Southern Ocean maps
-Version: 0.6.2.9007
+Version: 0.6.3
 Authors@R: c(person("Dale", "Maschette", email = "dale.maschette@aad.gov.au", role = c("aut", "cre")),
              person("Michael", "Sumner", role = "aut"),
              person("Ben", "Raymond", role = "aut"))
-Description: Create publication-quality Southern Ocean maps in a simple manner with multiple management layer options. Future versions will have the option of adding extra rounded legends for other layers. 
+Description: Create publication-quality Southern Ocean maps in a simple manner with multiple management layer options.
 URL: https://github.com/AustralianAntarcticDivision/SOmap
 BugReports: https://github.com/AustralianAntarcticDivision/SOmap/issues
 License: GPL (>= 2)
