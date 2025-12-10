@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOmap-introduction • SOmap</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="48x48" href="../favicon-48x48.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -38,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SOmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.2.9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.3</span>
       </span>
     </div>
 
@@ -116,7 +115,7 @@ workshop.</p>
 set for immediate use.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">maps</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maps/man/map.html" class="external-link">map</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/maps-package-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/maps-package-1.png" class="r-plt" width="700"></p>
 <p>The data underlying this live map is available by capturing the
 output as an actual object. Notice that the coastline for Antarctica
 does not extend to the south pole, and that parts of Russia that are
@@ -130,7 +129,7 @@ east of 180 longitude are not in the western part of the map.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">lonlat</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">90</span>, <span class="fl">90</span><span class="op">)</span>, v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/maps-assign-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/maps-assign-1.png" class="r-plt" width="700"></p>
 <div class="section level4">
 <h4 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>
 </h4>
@@ -152,7 +151,7 @@ available area.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">rect</a></span><span class="op">(</span>xleft <span class="op">=</span> <span class="op">-</span><span class="fl">180</span>, ybottom <span class="op">=</span> <span class="op">-</span><span class="fl">90</span>, xright <span class="op">=</span> <span class="fl">180</span>, ytop <span class="op">=</span> <span class="fl">90</span>, border <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">4</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">maps</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maps/man/map.html" class="external-link">map</a></span><span class="op">(</span>add <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"dodgerblue"</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/south-east-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/south-east-1.png" class="r-plt" width="700"></p>
 <p>The old maps coastline does not extend to 90S and it does not
 traverse the southern boundary.</p>
 <p>One reason for this is that if we choose a projection where the east
@@ -163,7 +162,7 @@ fairly clean join.</p>
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fl">3e6</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/project.html" class="external-link">project</a></span><span class="op">(</span><span class="va">lonlat</span>, to <span class="op">=</span> <span class="st">"+proj=laea +lat_0=-90 +datum=WGS84"</span>, from <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span>, asp <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"l"</span>,</span>
 <span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">f</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">f</span>, xlab <span class="op">=</span> <span class="st">""</span>, ylab <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/laea-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/laea-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="lets-use-the-maps-data">Let’s use the maps data!<a class="anchor" aria-label="anchor" href="#lets-use-the-maps-data"></a>
@@ -188,14 +187,14 @@ promising.</p>
 <span><span class="co">#&gt; [1] -12709814  12704237 -12576156  12470787</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">f</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">f</span>, type <span class="op">=</span> <span class="st">"n"</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu">maps</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maps/man/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">mp</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/maps-data-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/maps-data-1.png" class="r-plt" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span></span>
 <span><span class="co">## but it doesn't take much to go awry</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">f</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">f</span>, type <span class="op">=</span> <span class="st">"n"</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu">maps</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maps/man/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">mp</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, fill <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/maps-data-2.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/maps-data-2.png" class="r-plt" width="700"></p>
 <p>The problem is that the maps database has enough internal structure
 to join lines correctly, with <code>NA</code> gaps between different
 connected linestrings, but not enough to draw these things as polygons.
@@ -209,11 +208,11 @@ bound we barely notice.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">rect</a></span><span class="op">(</span>xleft <span class="op">=</span> <span class="op">-</span><span class="fl">180</span>, ybottom <span class="op">=</span> <span class="op">-</span><span class="fl">90</span>, xright <span class="op">=</span> <span class="fl">180</span>, ytop <span class="op">=</span> <span class="fl">90</span>, border <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">4</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">maps</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maps/man/map.html" class="external-link">map</a></span><span class="op">(</span>add <span class="op">=</span> <span class="cn">TRUE</span>,col <span class="op">=</span> <span class="st">"grey"</span>, fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/no-pole-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/no-pole-1.png" class="r-plt" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">maps</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maps/man/map.html" class="external-link">map</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"grey"</span>, fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/no-pole-2.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/no-pole-2.png" class="r-plt" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span></span>
@@ -228,7 +227,7 @@ bound we barely notice.</p>
 <span><span class="co">## the catastrophe made a little clearer </span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">0</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">mpmerc</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mpmerc</span><span class="op">$</span><span class="va">range</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">maps</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maps/man/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">mpmerc</span>,  fill <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"grey"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/no-pole-3.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/no-pole-3.png" class="r-plt" width="700"></p>
 </div>
 </div>
 </div>
@@ -271,14 +270,14 @@ it again later without re-generating the map from scratch each time:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">base_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SOmap.html">SOmap</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap1-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap1-1.png" class="r-plt" width="700"></p>
 <p><code><a href="../reference/SOmanagement.html">SOmanagement()</a></code> provides a number of contextual layers
 such as MPA boundaries and management zones.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap.html">SOmap</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="op">-</span><span class="fl">40</span><span class="op">)</span> <span class="co">## plot to 40S</span></span>
 <span><span class="co">## add the exclusive economic zones management layer</span></span>
 <span><span class="fu"><a href="../reference/SOmanagement.html">SOmanagement</a></span><span class="op">(</span>eez <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap2-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap2-1.png" class="r-plt" width="700"></p>
 <div class="section level5">
 <h5 id="adding-points">Adding points<a class="anchor" aria-label="anchor" href="#adding-points"></a>
 </h5>
@@ -296,12 +295,12 @@ such as MPA boundaries and management zones.</p>
 <span><span class="co">## and plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">my_points</span>, col <span class="op">=</span> <span class="st">"blue"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_pts2-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_pts2-1.png" class="r-plt" width="700"></p>
 <p>Or use <code>SOplot</code> to reproject and plot in one step:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">my_points_ll</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_pts3-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_pts3-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="adding-raster-layers">Adding raster layers<a class="anchor" aria-label="anchor" href="#adding-raster-layers"></a>
@@ -320,7 +319,7 @@ longitude-latitude space) for demonstration purposes:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">xr</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_raster2-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_raster2-1.png" class="r-plt" width="700"></p>
 <p>The legend is out of character with the rest of the map. We can use
 <code>SOleg</code> to fix that:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -331,7 +330,7 @@ longitude-latitude space) for demonstration purposes:</p>
 <span><span class="co">## add the legend</span></span>
 <span><span class="fu"><a href="../reference/SOleg.html">SOleg</a></span><span class="op">(</span><span class="va">xr</span>, position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">my_cmap</span>, ticks <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>      type <span class="op">=</span> <span class="st">"continuous"</span>, label <span class="op">=</span> <span class="st">"My variable"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_raster3-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_raster3-1.png" class="r-plt" width="700"></p>
 <p>OK, well that worked but clearly the labels need tidying up. The
 easiest way is probably to set the number of decimal places in the label
 values via the <code>rnd</code> parameter:</p>
@@ -340,7 +339,7 @@ values via the <code>rnd</code> parameter:</p>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">xr</span>, legend <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="va">my_cmap</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOleg.html">SOleg</a></span><span class="op">(</span><span class="va">xr</span>, position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">my_cmap</span>, ticks <span class="op">=</span> <span class="fl">6</span>, rnd <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>      type <span class="op">=</span> <span class="st">"continuous"</span>, label <span class="op">=</span> <span class="st">"My variable"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_raster4rnd-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_raster4rnd-1.png" class="r-plt" width="700"></p>
 <p>Alternatively, we could explicitly set the colour range and
 labels.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -353,14 +352,14 @@ labels.</p>
 <span><span class="va">label_breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">30</span>, length.out <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOleg.html">SOleg</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">my_cmap</span>, breaks <span class="op">=</span> <span class="va">label_breaks</span>,</span>
 <span>      type <span class="op">=</span> <span class="st">"continuous"</span>, label <span class="op">=</span> <span class="st">"My variable"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_raster4-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_raster4-1.png" class="r-plt" width="700"></p>
 <p>Note that if we <em>don’t</em> want to show the bathymetric legend,
 we may run into problems:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap.html">SOmap</a></span><span class="op">(</span>bathy_legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co">## suppress the bathy legend</span></span>
 <span><span class="fu"><a href="../reference/SOleg.html">SOleg</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">my_cmap</span>, breaks <span class="op">=</span> <span class="va">label_breaks</span>,</span>
 <span>      type <span class="op">=</span> <span class="st">"continuous"</span>, label <span class="op">=</span> <span class="st">"My variable"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_legend1-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_legend1-1.png" class="r-plt" width="700"></p>
 <p>The legend has been chopped off because the layout has not left
 enough space around the map for the curved legend. There are a couple of
 ways around this. The elegant way is to specify
@@ -371,7 +370,7 @@ the effect of leaving adequate space for other legends:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap.html">SOmap</a></span><span class="op">(</span>bathy_legend <span class="op">=</span> <span class="st">"space"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOleg.html">SOleg</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">my_cmap</span>, breaks <span class="op">=</span> <span class="va">label_breaks</span>,</span>
 <span>      type <span class="op">=</span> <span class="st">"continuous"</span>, label <span class="op">=</span> <span class="st">"My variable"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_legend2-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_legend2-1.png" class="r-plt" width="700"></p>
 <p>The second, rather hackier way is to generate the <code>SOmap</code>
 object <em>with</em> the bathymetric legend, but then remove the
 bathymetric legend before plotting:</p>
@@ -381,7 +380,7 @@ bathymetric legend before plotting:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOleg.html">SOleg</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"topright"</span>, col <span class="op">=</span> <span class="va">my_cmap</span>, breaks <span class="op">=</span> <span class="va">label_breaks</span>,</span>
 <span>      type <span class="op">=</span> <span class="st">"continuous"</span>, label <span class="op">=</span> <span class="st">"My variable"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_legend3-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_legend3-1.png" class="r-plt" width="700"></p>
 <p>See the <a href="#modifying-map-objects-advanced-usage">Modifying map
 objects</a> section below for more details on modifying map objects.</p>
 <p>Multiple rasters:</p>
@@ -390,7 +389,7 @@ objects</a> section below for more details on modifying map objects.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">xr</span>, legend <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="va">my_cmap</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">xr2</span>, legend <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="va">my_cmap</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap_raster5-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap_raster5-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="create-a-raster-from-points">Create a raster from points<a class="anchor" aria-label="anchor" href="#create-a-raster-from-points"></a>
@@ -401,7 +400,7 @@ to the map. We could simply add them:</p>
 <code class="sourceCode R"><span><span class="va">points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1000</span>, min <span class="op">=</span> <span class="fl">30</span>, max <span class="op">=</span> <span class="fl">90</span><span class="op">)</span>, lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1000</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">70</span>, max <span class="op">=</span> <span class="op">-</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">points</span><span class="op">$</span><span class="va">lon</span>, y <span class="op">=</span> <span class="va">points</span><span class="op">$</span><span class="va">lat</span>, pch <span class="op">=</span> <span class="fl">19</span>, col <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/sobin1-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/sobin1-1.png" class="r-plt" width="700"></p>
 <p>However, the overlap of the points reduces the utility of the map.
 One option is to create a density layer, showing the number of points
 that fall into each cell of a raster grid. The <code>SObin</code>
@@ -410,7 +409,7 @@ function can do this for us:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SObin.html">SObin</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">points</span><span class="op">$</span><span class="va">lon</span>, y <span class="op">=</span> <span class="va">points</span><span class="op">$</span><span class="va">lat</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">100</span><span class="op">)</span>,</span>
 <span>      col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">100</span>, <span class="st">"Viridis"</span><span class="op">)</span>, legend <span class="op">=</span> <span class="cn">FALSE</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/sobin2-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/sobin2-1.png" class="r-plt" width="700"></p>
 </div>
 </div>
 <div class="section level4">
@@ -426,32 +425,32 @@ generate a map to your exact requirements.</p>
 <code class="sourceCode R"><span><span class="va">ellie</span> <span class="op">&lt;-</span> <span class="va">SOmap_data</span><span class="op">$</span><span class="va">mirounga_leonina</span></span>
 <span><span class="co">## construct and plot the map</span></span>
 <span><span class="fu"><a href="../reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">ellie</span><span class="op">$</span><span class="va">lon</span>, <span class="va">ellie</span><span class="op">$</span><span class="va">lat</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/soauto1-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/soauto1-1.png" class="r-plt" width="700"></p>
 <p>Just a blank map to which you could add other things:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">ellie</span><span class="op">$</span><span class="va">lon</span>, <span class="va">ellie</span><span class="op">$</span><span class="va">lat</span>, input_points <span class="op">=</span> <span class="cn">FALSE</span>, input_lines <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/soauto2-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/soauto2-1.png" class="r-plt" width="700"></p>
 <p>You can pass a raster as input data, but note that it won’t plot the
 raster (it uses its extent to infer an appropriate extent for the
 map):</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">xr</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/soauto3-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/soauto3-1.png" class="r-plt" width="700"></p>
 <p>But we can add the raster if we wish:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">xr</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">xr</span>, col <span class="op">=</span> <span class="va">my_cmap</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/soauto4-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/soauto4-1.png" class="r-plt" width="700"></p>
 <p>We can force a particular projection:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">xr</span>, target <span class="op">=</span> <span class="st">"laea"</span>, centre_lon <span class="op">=</span> <span class="fl">147</span>, centre_lat <span class="op">=</span> <span class="op">-</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">xr</span>, col <span class="op">=</span> <span class="va">my_cmap</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/soauto5-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/soauto5-1.png" class="r-plt" width="700"></p>
 <p>Same but by supplying a full proj4 string to <code>target</code>:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOmap_auto.html">SOmap_auto</a></span><span class="op">(</span><span class="va">xr</span>, target <span class="op">=</span> <span class="st">"+proj=laea +lat_0=-42 +lon_0=147"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/SOplot.html">SOplot</a></span><span class="op">(</span><span class="va">xr</span>, col <span class="op">=</span> <span class="va">my_cmap</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/soauto6-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/soauto6-1.png" class="r-plt" width="700"></p>
 <p>See <a href="https://australianantarcticdivision.github.io/SOmap/articles/many-automap-examples.html" class="external-link">the
 SOmap_auto vignette</a> for more examples.</p>
 </div>
@@ -475,15 +474,16 @@ the graphics device, just like any other <code>ggplot</code> object.</p>
 <span><span class="co">#&gt; [1] "SOmap_gg"</span></span>
 <span><span class="va">my_ggplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myplotgg</span><span class="op">)</span> <span class="co">## creates a ggplot object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">my_ggplot</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "gg"     "ggplot"</span></span>
+<span><span class="co">#&gt; [1] "ggplot2::ggplot" "ggplot"          "ggplot2::gg"     "S7_object"      </span></span>
+<span><span class="co">#&gt; [5] "gg"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">my_ggplot</span><span class="op">)</span> <span class="co">## plot it</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap3-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap3-1.png" class="r-plt" width="700"></p>
 <p>Or in one step (this will cause myplot to be converted to SOmap’s
 internal gg format, then a ggplot object constructed from that, then
 that object will be plotted):</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/SOgg.html">SOgg</a></span><span class="op">(</span><span class="va">base_map</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap4-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap4-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="modifying-map-objects-advanced-usage">Modifying map objects (advanced usage)<a class="anchor" aria-label="anchor" href="#modifying-map-objects-advanced-usage"></a>
@@ -551,7 +551,7 @@ arguments to pass to it:</p>
 <code class="sourceCode R"><span><span class="va">mymap</span><span class="op">$</span><span class="va">ice</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plotargs</span><span class="op">$</span><span class="va">col</span> <span class="op">&lt;-</span> <span class="st">"green"</span></span></code></pre></div>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mymap</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap2d-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap2d-1.png" class="r-plt" width="700"></p>
 <p>We can remove entire components, either by setting the component to
 <code>NULL</code> or removing its name from the
 <code>plot_sequence</code>:</p>
@@ -560,7 +560,7 @@ arguments to pass to it:</p>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">coastline</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co">## set the coastline object to NULL</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">plot_sequence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">temp</span><span class="op">$</span><span class="va">plot_sequence</span>, <span class="st">"ice"</span><span class="op">)</span> <span class="co">## remove "ice" from plot_sequence</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="co">## map without coastline or ice shown</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap2e-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap2e-1.png" class="r-plt" width="700"></p>
 <p>But note that some elements are required. In particular, the
 bathymetry layer can’t currently be removed because the code that draws
 this is also the code that creates the plot page via
@@ -584,7 +584,7 @@ plot, but no data would be shown:</p>
 <span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/values.html" class="external-link">values</a></span><span class="op">(</span><span class="va">temp</span><span class="op">$</span><span class="va">bathy</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plotargs</span><span class="op">$</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NA_real_</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy_legend</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap2h2-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap2h2-1.png" class="r-plt" width="700"></p>
 <p>We could also replace the bathymetry data with another raster object.
 Note that we do need to be careful about the extent and projection of
 this raster. For example, replacing the bathymetry raster with the ice
@@ -595,7 +595,7 @@ extent) gives:</p>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plotargs</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">ice</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy_legend</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap2g-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap2g-1.png" class="r-plt" width="700"></p>
 <p>It’s chopped off because the extent of the ice raster is being used
 to set the plot extent. But if we extend the ice raster to match the map
 extent:</p>
@@ -604,7 +604,7 @@ extent:</p>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plotargs</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/extend.html" class="external-link">extend</a></span><span class="op">(</span><span class="va">ice</span>, <span class="va">mymap</span><span class="op">$</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy_legend</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap2h-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap2h-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="combining-map-objects">Combining map objects<a class="anchor" aria-label="anchor" href="#combining-map-objects"></a>
@@ -620,7 +620,7 @@ example:</p>
 <span><span class="va">mymgmt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SOmanagement.html">SOmanagement</a></span><span class="op">(</span>eez <span class="op">=</span> <span class="cn">TRUE</span>, basemap <span class="op">=</span> <span class="va">mymap</span><span class="op">)</span></span>
 <span><span class="va">merged</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SOmerge.html">SOmerge</a></span><span class="op">(</span><span class="va">mymap</span>, <span class="va">mymgmt</span>, <span class="va">mylegend</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">merged</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somerge1-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somerge1-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level5">
 <h5 id="modifying-ggplot-maps">Modifying ggplot maps<a class="anchor" aria-label="anchor" href="#modifying-ggplot-maps"></a>
@@ -638,7 +638,7 @@ to load the <code>ggplot2</code> library now that we are using
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">my_ggplot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">my_points</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">coords.x1</span>, <span class="va">coords.x2</span>, colour <span class="op">=</span> <span class="va">z</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Spectral"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap6-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap6-1.png" class="r-plt" width="700"></p>
 <p>Multiple rasters or multiple sets of points gets tricky if they are
 on different scales, because <code>ggplot2</code> is only designed to
 work with a single colour scale per geometry type. However, the
@@ -651,7 +651,7 @@ colour scales.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/SOproj.html">SOproj</a></span><span class="op">(</span><span class="va">xr</span><span class="op">)</span>, xy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>                  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, fill <span class="op">=</span> <span class="va">val</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradientn</a></span><span class="op">(</span>colors <span class="op">=</span> <span class="va">my_cmap</span>, na.value <span class="op">=</span> <span class="cn">NA</span>, name <span class="op">=</span> <span class="st">"My variable"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap5g-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap5g-1.png" class="r-plt" width="700"></p>
 </div>
 <div class="section level6">
 <h6 id="modifying-the-somap_gg-object">Modifying the <code>SOmap_gg</code> object<a class="anchor" aria-label="anchor" href="#modifying-the-somap_gg-object"></a>
@@ -676,14 +676,14 @@ objects use <code>ggplot2</code> function calls, e.g.:</p>
 <code class="sourceCode R"><span><span class="va">myplotgg</span><span class="op">$</span><span class="va">ice</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plotargs</span><span class="op">$</span><span class="va">fill</span> <span class="op">&lt;-</span> <span class="st">"green"</span></span></code></pre></div>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myplotgg</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap5c-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap5c-1.png" class="r-plt" width="700"></p>
 <p>Or remove the bathymetric raster layer:</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">myplotgg</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy_legend</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap5d-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap5d-1.png" class="r-plt" width="700"></p>
 <p>Or replace it with a different raster (use the <code>ice</code>
 raster as an example):</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
@@ -694,13 +694,13 @@ raster as an example):</p>
 <span><span class="co">## add this to our object in place of bathy</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SO_plotter.html">SO_plotter</a></span><span class="op">(</span>plotfun <span class="op">=</span> <span class="st">"ggplot2::geom_raster"</span>,</span>
 <span>                         plotargs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ice_raster_as_df</span>,</span>
-<span>                                         mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_.html" class="external-link">aes_string</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"ice"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                         mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">ice</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">## change the colour scale</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">scale_fill</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plotargs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>colours <span class="op">=</span> <span class="va">my_cmap</span>, na.value <span class="op">=</span> <span class="st">"#FFFFFF00"</span>, guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="co">## remove the bathy legend</span></span>
 <span><span class="va">temp</span><span class="op">$</span><span class="va">bathy_legend</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span></span></code></pre></div>
-<p><img src="SOmap-introduction_files/figure-html/somap5e-1.png" width="700"></p>
+<p><img src="SOmap-introduction_files/figure-html/somap5e-1.png" class="r-plt" width="700"></p>
 </div>
 </div>
 </div>
@@ -766,7 +766,7 @@ package provides access to <a href="http://quantarctica.npolar.no/" class="exter
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
