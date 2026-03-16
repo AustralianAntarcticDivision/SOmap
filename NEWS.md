@@ -1,5 +1,7 @@
 # dev
 
+* Fixed SOmap_auto for new sf datum requirement. 
+
 * Fixed bug in graticule text, by using a non-sf dataframe #117. 
 
 * Source of GEBCO updated to 2024, and added some documentation. 

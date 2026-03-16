@@ -160,9 +160,8 @@ SOmap_auto_inner <- function(x, y, centre_lon, centre_lat, target, dimXY, bathy,
             }
         })
     }
-
     grat <- sf::st_graticule(c(raster::xmin(target), raster::ymin(target), raster::xmax(target), raster::ymax(target)),
-                             crs = raster::projection(target), lon = gratlon, lat = gratlat)
+                             crs = sf::st_crs(raster::projection(target)), lon = gratlon, lat = gratlat)
     if (graticule) {
         graticule <- grat
     } else {
